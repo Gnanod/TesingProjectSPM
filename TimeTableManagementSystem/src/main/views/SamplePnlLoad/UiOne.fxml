@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SampleController.UiOne">
+   <children>
+      <Pane prefHeight="444.0" prefWidth="745.0" style="-fx-background-color: #000099;">
+         <children>
+            <Label layoutX="241.0" layoutY="97.0" prefHeight="112.0" prefWidth="150.0" text="Label One" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

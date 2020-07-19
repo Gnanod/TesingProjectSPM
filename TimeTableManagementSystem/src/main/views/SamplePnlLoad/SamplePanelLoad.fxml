@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="644.0" prefWidth="947.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.SampleController.Controller">
+    <children>
+        <VBox prefHeight="647.0" prefWidth="222.0" style="-fx-background-color: #3f2863;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Pane prefHeight="91.0" prefWidth="225.0">
+                    <children>
+                        <FontAwesomeIconView fill="#eeeaea" glyphName="XING" layoutX="14.0" layoutY="71.0" size="75" />
+                        <Label layoutX="91.0" layoutY="21.0" prefHeight="50.0" prefWidth="120.0" text="Test UI" textFill="#f5eeee">
+                            <font>
+                                <Font size="32.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <Button fx:id="btnStudent" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="225.0" stylesheets="@../../css/sampleStyle.css" text="Students" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f2ecec" glyphName="USER" size="25" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnTeacher" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="225.0" stylesheets="@../../css/sampleStyle.css" text="Teachers" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#fffdfd" glyphName="USER" size="25" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnFees" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="225.0" stylesheets="@../../css/sampleStyle.css" text="Fees" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f5eeee" glyphName="CASH" size="25.0" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnUsers" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="225.0" stylesheets="@../../css/sampleStyle.css" text="Users" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f5eeee" glyphName="GROUP" size="25.0" />
+                    </graphic>
+                </Button>
+                <Button fx:id="btnSettings" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="225.0" stylesheets="@../../css/sampleStyle.css" text="Settings" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f5eeee" glyphName="GEAR" size="25.0" text="" />
+                    </graphic>
+                </Button>
+            </children>
+        </VBox>
+        <Pane fx:id="pnlStatus" layoutX="222.0" layoutY="92.0" prefHeight="122.0" prefWidth="725.0" style="-fx-background-color: #7151DD;" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label fx:id="lblStatus" layoutX="22.0" layoutY="50.0" prefHeight="50.0" prefWidth="178.0" text="Students" textFill="#f5eeee">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblStatusMin" layoutX="22.0" layoutY="11.0" prefHeight="50.0" prefWidth="178.0" text="/home/students" textFill="#f5eeee">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
+         </children></Pane>
+      <FontAwesomeIconView fx:id="btnClose" fill="#868383" glyphName="CLOSE" layoutX="927.0" layoutY="18.0" onMouseClicked="#btnHandleClose" size="16" />
+      <BorderPane fx:id="pnlMain" layoutX="222.0" layoutY="214.0" prefHeight="430.0" prefWidth="725.0" />
+    </children>
+</AnchorPane>
