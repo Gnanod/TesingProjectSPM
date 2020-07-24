@@ -11,12 +11,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("views/SamplePnlLoad/SamplePanelLoad.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/Main.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Time Table Management System");
         primaryStage.initStyle(StageStyle.UNDECORATED);
-//        primaryStage.initStyle(StageStyle.TRANSPARENT);
-//        primaryStage.setScene(new Scene(root, 800, 600));
+
 
         primaryStage.show();
     }
