@@ -48,11 +48,11 @@ public class PanelStudentsController implements Initializable {
 //                new MainController().changeUrl();
             } else if (event.getSource() == btnMainGroup) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/MainGroup.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NewMainGroup.fxml"));
                 pnlStudent.setCenter(root);
             } else if (event.getSource() == btnSubGroup) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/SubGroup.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NewSubGroup.fxml"));
                 pnlStudent.setCenter(root);
             } else if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();

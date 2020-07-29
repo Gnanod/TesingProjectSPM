@@ -21,10 +21,11 @@
          </font>
       </Label>
       <Label fx:id="lblYearSemName" layoutX="378.0" layoutY="85.0" prefHeight="31.0" prefWidth="129.0" />
-      <TableView fx:id="tblSemester" layoutX="78.0" layoutY="256.0" prefHeight="200.0" prefWidth="357.0" stylesheets="@../../css/Student.css">
+      <TableView fx:id="tblSemester" layoutX="78.0" layoutY="256.0" prefHeight="200.0" prefWidth="428.0" stylesheets="@../../css/Student.css">
         <columns>
-          <TableColumn prefWidth="157.0" text="Year" />
-            <TableColumn prefWidth="198.0" />
+          <TableColumn prefWidth="157.0" text="Programme" />
+            <TableColumn prefWidth="198.0" text="TagName" />
+            <TableColumn prefWidth="72.0" />
         </columns>
       </TableView>
        <Button fx:id="btnSave" layoutX="221.0" layoutY="130.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
