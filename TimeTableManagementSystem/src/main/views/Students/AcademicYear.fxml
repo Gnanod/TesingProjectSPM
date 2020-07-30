@@ -45,13 +45,14 @@
                </FXCollections>
            </items>
        </ComboBox>
-      <TableView fx:id="tblSemester" layoutX="83.0" layoutY="258.0" prefHeight="200.0" prefWidth="526.0" stylesheets="@../../css/Student.css">
+      <TableView fx:id="tblSemester" layoutX="83.0" layoutY="258.0" prefHeight="349.0" prefWidth="526.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0">
         <columns>
           <TableColumn prefWidth="48.0" text="Id" />
-          <TableColumn prefWidth="141.0" text="Year" />
-            <TableColumn prefWidth="145.0" text="Semester" />
-            <TableColumn prefWidth="164.0" text="Name" />
-            <TableColumn fx:id="colEdit" prefWidth="26.0" />
+          <TableColumn prefWidth="109.0" text="Year" />
+            <TableColumn prefWidth="134.0" text="Semester" />
+            <TableColumn prefWidth="126.0" text="Name" />
+            <TableColumn fx:id="colEdit" prefWidth="54.0" />
+            <TableColumn fx:id="colDelete" prefWidth="54.0" />
         </columns>
       </TableView>
        <Button fx:id="btnSave" layoutX="239.0" layoutY="172.0" mnemonicParsing="false" onAction="#saveDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">

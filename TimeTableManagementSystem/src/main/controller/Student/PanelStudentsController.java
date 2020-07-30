@@ -36,6 +36,9 @@ public class PanelStudentsController implements Initializable {
     private BorderPane pnlStudent;
 
     @FXML
+    private Button btnProgramme;
+
+    @FXML
     void handleEvents(ActionEvent event) {
         try {
             if (event.getSource() == btnAcademicYear) {
@@ -57,6 +60,10 @@ public class PanelStudentsController implements Initializable {
             } else if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NotAvailableGroup.fxml"));
+                pnlStudent.setCenter(root);
+            } else if(event.getSource()==btnProgramme){
+                pnlStudent.getChildren().removeAll();
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/Programme.fxml"));
                 pnlStudent.setCenter(root);
             }
 

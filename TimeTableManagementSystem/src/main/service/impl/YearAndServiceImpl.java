@@ -56,4 +56,19 @@ public class YearAndServiceImpl implements YearandSemesterService {
         }
         return yearAndSemesterList;
     }
+
+
+    @Override
+    public boolean updateYearAndSemester(YearAndSemester semester) throws SQLException {
+        String SQL="Update academicYearAndSemester set yearName='"+semester.getYearName()+"',semesterName='"+semester.getSemesterName()+"',fullName='"+semester.getFullName()+"'  where id='"+semester.getId()+"'";
+        Statement stm=connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
+
+    @Override
+    public boolean deleteYearAndSemester(int key) throws SQLException {
+        String SQL = "Delete From academicYearAndSemester where id = '"+key+"'";
+        Statement stm = connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
 }

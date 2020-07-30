@@ -9,8 +9,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 import main.model.YearAndSemester;
 import main.service.YearandSemesterService;
@@ -40,59 +38,55 @@ public class AcademicYearController implements Initializable {
     private Label lblName;
     @FXML
     private TableColumn<YearAndSemester, Boolean> colEdit;
+    @FXML
+    private TableColumn<YearAndSemester, Boolean> colDelete;
+
     private YearandSemesterService yearandSemesterService;
+    private boolean updateStatus;
+    private int academicYearId;
 
     public AcademicYearController() {
-
         this.yearandSemesterService = new YearAndServiceImpl();
-
     }
 
-    private void getAllDetails() {
+    public void getAllDetails() {
         try {
             ArrayList<YearAndSemester> list = this.yearandSemesterService.getAllDetails();
-            for (YearAndSemester y1 : list
-            ) {
-                System.out.println(y1.getId());
-            }
-            tblSemester.getSelectionModel().getTableView().getItems().clear();
-            tblSemester.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
-            tblSemester.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("yearName"));
-            tblSemester.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("semesterName"));
-            tblSemester.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("fullName"));
-            colEdit.setCellFactory(cellFactory);
-
-
             tblSemester.setItems(FXCollections.observableArrayList(list));
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>> cellFactory =
-            new Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>>()
-            {
+    public void setTableProperties() {
+        tblSemester.getSelectionModel().getTableView().getItems().clear();
+        tblSemester.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
+        tblSemester.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("yearName"));
+        tblSemester.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("semesterName"));
+        tblSemester.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        colEdit.setCellFactory(cellFactoryBtnEdit);
+        colDelete.setCellFactory(cellFactoryBtnDelete);
+    }
+
+    Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>> cellFactoryBtnEdit =
+            new Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>>() {
                 @Override
                 public TableCell<YearAndSemester, Boolean> call(TableColumn<YearAndSemester, Boolean> param) {
-                    final TableCell<YearAndSemester, Boolean> cell = new TableCell<YearAndSemester, Boolean>(){
+                    final TableCell<YearAndSemester, Boolean> cell = new TableCell<YearAndSemester, Boolean>() {
                         FontAwesomeIconView iconView = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
                         final Button btnEdit = new Button();
+
                         @Override
-                        public void updateItem(Boolean check, boolean empty)
-                        {
+                        public void updateItem(Boolean check, boolean empty) {
                             super.updateItem(check, empty);
-                            if(empty)
-                            {
+                            if (empty) {
                                 setGraphic(null);
                                 setText(null);
-                            }
-                            else{
-                                btnEdit.setOnAction(e ->{
+                            } else {
+                                btnEdit.setOnAction(e -> {
                                     YearAndSemester andSemester = getTableView().getItems().get(getIndex());
                                     setAcademicYearSemesterDetailsToFiled(andSemester);
                                 });
-
-
                                 btnEdit.setStyle("-fx-background-color: transparent;");
                                 btnEdit.setGraphic(iconView);
                                 setGraphic(btnEdit);
@@ -100,15 +94,58 @@ public class AcademicYearController implements Initializable {
                                 setText(null);
                             }
                         }
-
                         private void setAcademicYearSemesterDetailsToFiled(YearAndSemester yearSemester) {
                             cmbSemester.setValue(yearSemester.getSemesterName());
                             cmbYear.setValue(yearSemester.getYearName());
+                            updateStatus = true;
+                            academicYearId = yearSemester.getId();
                         }
                     };
                     return cell;
                 }
             };
+    Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>> cellFactoryBtnDelete =
+            new Callback<TableColumn<YearAndSemester, Boolean>, TableCell<YearAndSemester, Boolean>>() {
+                @Override
+                public TableCell<YearAndSemester, Boolean> call(TableColumn<YearAndSemester, Boolean> param) {
+                    final TableCell<YearAndSemester, Boolean> cell = new TableCell<YearAndSemester, Boolean>() {
+                        FontAwesomeIconView iconViewDelete = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                        final Button btnDelete = new Button();
+
+                        @Override
+                        public void updateItem(Boolean check, boolean empty) {
+                            super.updateItem(check, empty);
+                            if (empty) {
+                                setGraphic(null);
+                                setText(null);
+                            } else {
+                                btnDelete.setOnAction(e -> {
+                                    YearAndSemester semester = getTableView().getItems().get(getIndex());
+                                    Alert a2 = new Alert(Alert.AlertType.CONFIRMATION);
+                                    a2.setTitle(null);
+                                    a2.setHeaderText("Are You Okay To Delete This Row !!!");
+                                    a2.setContentText(null);
+                                    Optional<ButtonType> result = a2.showAndWait();
+                                    if (result.get() == ButtonType.OK) {
+                                        deleteYearSemester(semester.getId());
+                                    } else {
+
+                                    }
+                                });
+                                btnDelete.setStyle("-fx-background-color: transparent;");
+                                btnDelete.setGraphic(iconViewDelete);
+                                setGraphic(btnDelete);
+                                setAlignment(Pos.CENTER);
+                                setText(null);
+
+                            }
+                        }
+                    };
+                    return cell;
+                }
+            };
+
+
     public void saveDetails(ActionEvent actionEvent) {
         String year = (String) cmbYear.getValue();
         String semester = (String) cmbSemester.getValue();
@@ -119,35 +156,46 @@ public class AcademicYearController implements Initializable {
         yearAndSemester.setYearName(year);
         boolean isAdded = false;
         boolean status = false;
+        boolean isUpdated = false;
         try {
             if (year != null) {
                 if (semester != null) {
                     status = this.yearandSemesterService.searchYearAndSemester(year, semester);
                     if (!status) {
-                        isAdded = this.yearandSemesterService.saveAcademiceYear(yearAndSemester);
-                        if (isAdded) {
-                            Alert al = new Alert(Alert.AlertType.INFORMATION);
-                            al.setTitle(null);
-                            al.setContentText("Added Successfully ");
-                            al.setHeaderText(null);
-                            al.showAndWait();
-                            //COnfirmation Dialog
-//            Alert a2 = new Alert(Alert.AlertType.CONFIRMATION);
-//            a2.setTitle("confirmation");
-//            a2.setHeaderText("Are u okay");
-//            a2.setContentText("Are u okay?");
-//            Optional<ButtonType> result = a2.showAndWait();
-//            if(result.get() == ButtonType.OK){
-//                System.out.println("OKAy");
-//            }else{
-//                System.out.println("Cancel");
-//            }
+                        if (!updateStatus) {
+                            isAdded = this.yearandSemesterService.saveAcademiceYear(yearAndSemester);
+                            if (isAdded) {
+                                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                                al.setTitle(null);
+                                al.setContentText("Added Successfully ");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                                this.getAllDetails();
+                            } else {
+                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                al.setTitle(null);
+                                al.setContentText("Added Fail ");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                            }
                         } else {
-                            Alert al = new Alert(Alert.AlertType.ERROR);
-                            al.setTitle(null);
-                            al.setContentText("Added Fail ");
-                            al.setHeaderText(null);
-                            al.showAndWait();
+                            yearAndSemester.setId(academicYearId);
+                            isUpdated = this.yearandSemesterService.updateYearAndSemester(yearAndSemester);
+                            if (isUpdated) {
+                                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                                al.setTitle(null);
+                                al.setContentText("Updated Successfully ");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                                this.getAllDetails();
+                                this.updateStatus=false;
+                            } else {
+                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                al.setTitle(null);
+                                al.setContentText("Updated Fail ");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                            }
                         }
                     } else {
                         Alert al = new Alert(Alert.AlertType.ERROR);
@@ -202,8 +250,32 @@ public class AcademicYearController implements Initializable {
 
     }
 
+    private void deleteYearSemester(int id) {
+        try {
+            boolean staus = yearandSemesterService.deleteYearAndSemester(id);
+            if (staus) {
+                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                al.setTitle(null);
+                al.setContentText("Deleted SuccessFully ");
+                al.setHeaderText(null);
+                al.showAndWait();
+                getAllDetails();
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Deleted Fail ");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        getAllDetails();
+        this.setTableProperties();
+        this.getAllDetails();
+        this.updateStatus = false;
     }
 }

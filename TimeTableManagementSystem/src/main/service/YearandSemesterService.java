@@ -11,4 +11,10 @@ public interface YearandSemesterService {
     boolean searchYearAndSemester(String year, String semester) throws SQLException;
 
     ArrayList<YearAndSemester> getAllDetails() throws SQLException;
+
+    boolean updateYearAndSemester(YearAndSemester semester) throws SQLException;
+
+    public boolean deleteYearAndSemester(int key) throws SQLException;
+
+
 }

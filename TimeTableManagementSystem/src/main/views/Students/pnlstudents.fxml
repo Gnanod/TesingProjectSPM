@@ -34,17 +34,22 @@
                   <FontAwesomeIconView glyphName="SITEMAP" size="35.0" />
                </graphic>
             </Button>
-            <Button layoutX="1.0" layoutY="270.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available                        ">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
             <Button fx:id="btnNotAvailable" alignment="CENTER" contentDisplay="TOP" layoutY="277.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" size="35.0" />
+               </graphic>
             </Button>
-            <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" layoutX="86.0" layoutY="307.0" size="35.0" />
+            <Button fx:id="btnProgramme" alignment="CENTER" contentDisplay="TOP" layoutX="1.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Programme">
+               <font>
+                  <Font name="System Bold" size="13.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="MAP" size="35.0" />
+               </graphic>
+            </Button>
          </children>
       </Pane>
       <BorderPane fx:id="pnlStudent" layoutX="225.0" layoutY="11.0" prefHeight="591.0" prefWidth="769.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" />
