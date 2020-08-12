@@ -37,8 +37,10 @@
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="TAG" size="35.0" />
+               </graphic>
             </Button>
-            <FontAwesomeIconView glyphName="TAG" layoutX="84.0" layoutY="300.0" size="35.0" />
          </children>
       </Pane>
       <BorderPane fx:id="pnlSubject" layoutX="225.0" layoutY="11.0" prefHeight="591.0" prefWidth="769.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" />

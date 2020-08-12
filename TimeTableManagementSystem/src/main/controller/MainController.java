@@ -110,6 +110,8 @@ public class MainController implements Initializable {
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnLocation) {
                 chageLableStatus("/home/location", "Location");
+                Parent root = FXMLLoader.load(getClass().getResource("../views/Location/pnlLocation.fxml"));
+                pnlMain.setCenter(root);
             } else if (event.getSource() == btnStudent) {
                 chageLableStatus("/home/student", "Student");
                 Parent root = FXMLLoader.load(getClass().getResource("../views/Students/pnlstudents.fxml"));

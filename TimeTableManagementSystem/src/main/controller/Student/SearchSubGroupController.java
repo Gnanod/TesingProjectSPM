@@ -55,6 +55,9 @@ public class SearchSubGroupController implements Initializable {
         }
         if(groupCount!=0){
             this.getAllGroupCount(mId);
+        }else{
+            this.getAllGroupCount(0);
+
         }
     }
 

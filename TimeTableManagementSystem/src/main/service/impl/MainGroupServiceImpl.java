@@ -61,12 +61,15 @@ public class MainGroupServiceImpl implements MainGroupService {
         }
         String SQL = "select count(m.id),a.fullName,p.programmeName " +
                      "from maingroup m,programme p,academicYearAndSemester a " +
-                     "where m.programmeid=p.programmeid and m.semid=a.id "+yearSemSql+" "+programmeSql +" group by mgroupName";
+                     "where m.programmeid=p.programmeid and m.semid=a.id "+yearSemSql+" "+programmeSql +" " +
+                     "group by mgroupName";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<MainGroupCount> main = new ArrayList<>();
         while(rst.next()){
-            MainGroupCount mainGroupCount = new MainGroupCount(rst.getString("fullName"),rst.getString("programmeName"),rst.getString("count(m.id)"));
+            MainGroupCount mainGroupCount = new MainGroupCount(rst.getString("fullName"),
+                                                               rst.getString("programmeName"),
+                                                               rst.getString("count(m.id)"));
             main.add(mainGroupCount);
         }
         return main;
@@ -110,7 +113,8 @@ public class MainGroupServiceImpl implements MainGroupService {
 
     @Override
     public boolean updateGroupNumber(MainGroup m) throws SQLException {
-        String SQL="Update maingroup set groupNumber='"+m.getGroupNumber()+"',groupid='"+m.getGroupid()+"' where id='"+m.getId()+"'";
+        String SQL="Update maingroup set groupNumber='"+m.getGroupNumber()+"',groupid='"+m.getGroupid()+"' " +
+                   "where id='"+m.getId()+"'";
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
