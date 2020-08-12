@@ -10,6 +10,12 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 
 public class PnlLecturerController {
+    @FXML
+    private Button btnLecturer;
+
+    @FXML
+    private Button btnDepartment;
+
 
     @FXML
     private Button btnNotAvailable;
@@ -23,6 +29,11 @@ public class PnlLecturerController {
             if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/NotAvailableLecturer.fxml"));
+                pnlStudent.setCenter(root);
+            }
+            if (event.getSource() == btnLecturer) {
+                pnlStudent.getChildren().removeAll();
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/MainLecturer.fxml"));
                 pnlStudent.setCenter(root);
             }
         } catch (IOException e) {
