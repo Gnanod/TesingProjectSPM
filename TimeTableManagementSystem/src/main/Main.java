@@ -6,7 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.dbconnection.DBConnection;
 
 public class Main extends Application {
 
@@ -16,10 +15,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Time Table Management System");
         primaryStage.initStyle(StageStyle.UNDECORATED);
-
-
         primaryStage.show();
-        DBConnection.getInstance();
+
     }
 
 

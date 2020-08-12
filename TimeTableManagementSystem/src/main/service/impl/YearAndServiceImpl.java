@@ -30,7 +30,8 @@ public class YearAndServiceImpl implements YearandSemesterService {
 
     @Override
     public boolean searchYearAndSemester(String year, String semester) throws SQLException {
-        String SQL = "select id from academicYearAndSemester where yearName = '" + year + "' && semesterName='" + semester + "'";
+        String SQL = "select id from academicYearAndSemester where yearName = '" + year + "' " +
+                     "&& semesterName='" + semester + "'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         boolean result = false;
@@ -51,7 +52,10 @@ public class YearAndServiceImpl implements YearandSemesterService {
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<YearAndSemester> yearAndSemesterList = new ArrayList<>();
         while(rst.next()){
-            YearAndSemester yearAndSemester = new YearAndSemester(Integer.parseInt(rst.getString("id")),rst.getString("yearName"),rst.getString("semesterName"),rst.getString("fullName"));
+            YearAndSemester yearAndSemester = new YearAndSemester(Integer.parseInt(rst.getString("id")),
+                                                                 rst.getString("yearName"),
+                                                                 rst.getString("semesterName"),
+                                                                 rst.getString("fullName"));
             yearAndSemesterList.add(yearAndSemester);
         }
         return yearAndSemesterList;
@@ -60,7 +64,9 @@ public class YearAndServiceImpl implements YearandSemesterService {
 
     @Override
     public boolean updateYearAndSemester(YearAndSemester semester) throws SQLException {
-        String SQL="Update academicYearAndSemester set yearName='"+semester.getYearName()+"',semesterName='"+semester.getSemesterName()+"',fullName='"+semester.getFullName()+"'  where id='"+semester.getId()+"'";
+        String SQL="Update academicYearAndSemester set yearName='"+semester.getYearName()+"'," +
+                   "semesterName='"+semester.getSemesterName()+"',fullName='"+semester.getFullName()+"'  " +
+                   "where id='"+semester.getId()+"'";
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }

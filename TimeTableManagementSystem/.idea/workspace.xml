@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/main/controller/Student/AcademicYearController.java" line="227" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="tag Details Add,Update,Delete,GetAll Functions are fully completed">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/controlsfx_samples_11_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/javafx_controls_11_0_2.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/libraries/javafx-controls-11.0.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/model/MainGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/model/MainGroupCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/model/SubGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/model/SubGroupCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/service/MainGroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/service/SubGroupService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/service/impl/SubGroupServiceImpl.java" afterDir="false" />
+    <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/controlsfx_8_40_14_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/constants/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/libraries/controlsfx-8.40.14 .jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/8e6bf4b2-64cf-46b1-af08-7cfa87fcb335.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/charm_glisten_4_4_1_javadoc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/controlsfx_samples_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/fontawesomefx_8_9.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/fontawesomefx_8_9.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/javafx_controls_11_0_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TimeTableManagementSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TimeTableManagementSystem.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AddMainGroupController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AddMainGroupController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AddSubGroupDetails.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/SearchMainGroupController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/SearchMainGroupController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/ViewMainGroupController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/ViewMainGroupController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Subject/TagController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Subject/TagController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/dbconnection/database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/dbconnection/database.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddSubGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddSubGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchSubGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchSubGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/ViewMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/ViewMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Subject/Tag.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Subject/Tag.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/AddMainGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/AddMainGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/AddSubGroupDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/AddSubGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/SearchMainGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/SearchMainGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/SearchSubGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/SearchSubGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/ViewMainGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/ViewMainGroupController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/controller/Student/ViewSubGroupController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/controller/Student/ViewSubGroupController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeTableManagementSystem.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/dbSettings.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Lecturer/NotAvailableLecturerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Lecturer/PnlLecturerController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/LoginController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/MainController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AcademicYearController$1$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AcademicYearController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AcademicYearController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/AddMainGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/MainGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/NotAvailableGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/PanelStudentsController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/SearchMainGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/SearchSubGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/SubGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/ViewMainGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Student/ViewSubGroupController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Subject/PnlSubjectController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/controller/Subject/TagController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/css/Student.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/css/main.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/css/sampleStyle.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/dbconnection/DBConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/dbconnection/database.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/libraries/charm-glisten-4.4.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/libraries/fontawesomefx-8.9.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/libraries/jfoenix-8.0.10.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/libraries/mysql-connector-java-8.0.21.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/model/YearAndSemester.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/service/YearandSemesterService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/service/impl/YearAndServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Lecturer/NotAvailableLecturer.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Lecturer/pnlLecturer.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Login.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Main.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AcademicYear.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddMainGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/AddSubGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/NewMainGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/NewSubGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/NotAvailableGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchMainGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/SearchSubGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/ViewMainGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/ViewSubGroup.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Students/pnlstudents.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Subject/Tag.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TimeTableManagementSystem/main/views/Subject/pnlsubject.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/dbconnection/database.sql" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/dbconnection/database.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/AddMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/AddMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/AddSubGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/AddSubGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/SearchMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/SearchMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/SearchSubGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/SearchSubGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/ViewMainGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/ViewMainGroup.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/views/Students/ViewSubGroup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Students/ViewSubGroup.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/libraries/javafx-controls-11.0.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/service/impl/YearAndServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/service/impl/YearAndServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/views/Subject/pnlsubject.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/views/Subject/pnlsubject.fxml" afterDir="false" />
     </list>
     <ignored path="JavaFxApplication.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -55,36 +83,6 @@
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
-  </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mysqltest@localhost" type="feb32156:DbDataSourceImpl" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mysqltest@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="mysqltest@localhost" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="mysqltest: schema" type="c314c289:MysqlImplModel$Schema" />
-      </path>
-    </expand>
-    <select />
   </component>
   <component name="DebuggerManager">
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true" converted="true">
@@ -125,68 +123,56 @@
     <breakpoint_rules converted="true" />
   </component>
   <component name="FUSProjectUsageTrigger">
-    <session id="1841223484">
+    <session id="-1934484514">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="10" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.17" value="1" />
-          <entry key="project.open.time.19" value="1" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.24" value="1" />
-          <entry key="project.open.time.26" value="1" />
-          <entry key="project.open.time.30" value="1" />
-          <entry key="project.open.time.34" value="1" />
-          <entry key="project.open.time.35" value="1" />
-          <entry key="project.open.time.39" value="1" />
-          <entry key="project.open.time.41" value="1" />
-          <entry key="project.open.time.5" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.62" value="1" />
-          <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="16" />
+          <entry key="project.open.time.7" value="1" />
+          <entry key="project.opened" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="css" value="12" />
-          <entry key="fxml" value="78" />
-          <entry key="java" value="197" />
-          <entry key="properties" value="3" />
-          <entry key="sql" value="17" />
+          <entry key="css" value="1" />
+          <entry key="properties" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="CSS" value="12" />
-          <entry key="JAVA" value="197" />
-          <entry key="Properties" value="3" />
-          <entry key="SQL" value="14" />
-          <entry key="Scratch" value="3" />
-          <entry key="XML" value="78" />
+          <entry key="CSS" value="1" />
+          <entry key="Properties" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="1841223484">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.open.time.47" value="1" />
+          <entry key="project.opened" value="2" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="4" />
+          <entry key="properties" value="1" />
+          <entry key="sql" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="4" />
+          <entry key="Properties" value="1" />
+          <entry key="SQL" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="css" value="172" />
-          <entry key="dummy" value="51" />
-          <entry key="fxml" value="239" />
-          <entry key="java" value="12723" />
-          <entry key="properties" value="20" />
-          <entry key="sql" value="671" />
-          <entry key="txt" value="89" />
+          <entry key="sql" value="164" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CSS" value="172" />
-          <entry key="JAVA" value="12718" />
-          <entry key="PLAIN_TEXT" value="140" />
-          <entry key="Properties" value="20" />
-          <entry key="SQL" value="664" />
-          <entry key="Scratch" value="12" />
-          <entry key="XML" value="239" />
+          <entry key="SQL" value="164" />
         </counts>
       </usages-collector>
     </session>
@@ -197,27 +183,42 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/controller/Student/ViewMainGroupController.java">
+        <entry file="file://$PROJECT_DIR$/src/main/css/main.css">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
-              <caret line="85" column="33" selection-start-line="85" selection-start-column="33" selection-end-line="85" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1271#1272#0" expanded="true" />
-                <element signature="e#1332#1333#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="68">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/controller/Student/ViewSubGroupController.java">
+        <entry file="file://$PROJECT_DIR$/src/main/service/impl/YearAndServiceImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="595">
-              <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="357">
+              <caret line="28" column="5" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/constants/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="60" selection-start-line="4" selection-start-column="54" selection-end-line="4" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/Test.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-74">
+              <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -225,28 +226,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/dbconnection/database.sql">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="37" selection-start-line="37" selection-end-line="45" />
+            <state relative-caret-position="-316">
+              <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="62" selection-end-column="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dbSettings.properties">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="CSS File" />
-        <option value="FxmlFile" />
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>getAllGroupDetails</find>
-    </findStrings>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -259,57 +254,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/controller/Subject/PnlSubjectController.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Lecturer/PnlLecturerController.java" />
-        <option value="$PROJECT_DIR$/src/main/views/Lecturer/pnlLecturer.fxml" />
-        <option value="$PROJECT_DIR$/src/Application.properties" />
-        <option value="$PROJECT_DIR$/src/main/Main.java" />
-        <option value="$APPLICATION_CONFIG_DIR$/consoles/db/8e6bf4b2-64cf-46b1-af08-7cfa87fcb335/console.sql" />
-        <option value="$PROJECT_DIR$/src/main/model/Semester.java" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/AcademicYear.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/ViewMainGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/AddMainGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/SearchMainGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/NewMainGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/NewSubGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/SearchSubGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/ViewSubGroup.fxml" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/SubGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/service.java" />
-        <option value="$PROJECT_DIR$/src/main/dbconnection/DBConnection.java" />
-        <option value="$PROJECT_DIR$/src/dbSettings.properties" />
-        <option value="$PROJECT_DIR$/src/main/model/YearAndSemester.java" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/Programme.fxml" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/PanelStudentsController.java" />
-        <option value="$PROJECT_DIR$/src/main/model/Programme.java" />
-        <option value="$PROJECT_DIR$/src/main/service/YearandSemesterService.java" />
-        <option value="$PROJECT_DIR$/src/main/service/ProgrammeService.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/AcademicYearController.java" />
-        <option value="$PROJECT_DIR$/src/main/service/impl/ProgrammeServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/ProgrammeController.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/MainController.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/MainGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/model/Tag.java" />
-        <option value="$PROJECT_DIR$/src/main/service/TagService.java" />
-        <option value="$PROJECT_DIR$/src/main/service/impl/YearAndServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/service/impl/TagServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Subject/TagController.java" />
-        <option value="$PROJECT_DIR$/src/main/model/MainGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/model/MainGroupCount.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/AddMainGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/views/Students/AddSubGroup.fxml" />
+        <option value="$PROJECT_DIR$/src/main/Test.java" />
         <option value="$PROJECT_DIR$/src/main/dbconnection/database.sql" />
-        <option value="$PROJECT_DIR$/src/main/service/MainGroupService.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/SearchMainGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/AddSubGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/model/SubGroupCount.java" />
-        <option value="$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/SearchSubGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/model/SubGroup.java" />
-        <option value="$PROJECT_DIR$/src/main/service/SubGroupService.java" />
-        <option value="$PROJECT_DIR$/src/main/service/impl/SubGroupServiceImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/ViewMainGroupController.java" />
-        <option value="$PROJECT_DIR$/src/main/controller/Student/ViewSubGroupController.java" />
       </list>
     </option>
   </component>
@@ -319,17 +265,11 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand />
-      <select />
-    </treeState>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="y" value="2" />
-    <option name="width" value="1374" />
-    <option name="height" value="733" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1380" />
+    <option name="height" value="788" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectReloadState">
@@ -341,6 +281,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -352,35 +293,13 @@
               <item name="TimeTableManagementSystem" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
-            <path>
-              <item name="TimeTableManagementSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-            </path>
-            <path>
-              <item name="TimeTableManagementSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Database Consoles" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-            </path>
-            <path>
-              <item name="TimeTableManagementSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-            </path>
-            <path>
-              <item name="TimeTableManagementSystem" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
-              <item name="Extensions" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
-              <item name="com.intellij.database" type="1e004dc1:ScratchProjectViewPane$MyRootNode$1$1" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="DatabaseDriversLRU" value="mysql" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -390,34 +309,17 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1596520010749" />
-    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="SQL" />
-    <property name="database.console.LAST_STATE" value="false" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1597222944804" />
     <property name="dynamic.classpath" value="false" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/TurismoNew/FrontEnd" />
-    <property name="list.type.of.created.stylesheet" value="CSS" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.23333333" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2835249" />
     <property name="recentsLimit" value="5" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\libraries" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\views\Subject" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\views\Students" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\Libraries" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\views\Lecturer" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="main.controller" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\libraries" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\views\Students" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main\views" />
-      <recent name="D:\Projects\TimeTableManagementSystem\TimeTableManagementSystem\src\main" />
+      <recent name="D:\Projects\newTimeTableManagementSystem\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -432,7 +334,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Main (1)">
     <configuration default="true" type="DartUnitRunConfigurationType" factoryName="DartUnit">
       <option name="VMOptions" />
       <option name="arguments" />
@@ -451,13 +353,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application">
+    <configuration name="Main (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
-      <module name="TimeTableManagementSystem" />
+      <module name="newTimeTableManagementSystem" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="main.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="sample.Main" />
+      <module name="newTimeTableManagementSystem" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="sample.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -502,6 +418,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.Main (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main (1)" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -514,54 +439,19 @@
       <option name="presentableId" value="Default" />
       <updated>1359379246138</updated>
       <workItem from="1359379250712" duration="1302000" />
-      <workItem from="1595174958867" duration="5807000" />
-      <workItem from="1595223842779" duration="1202000" />
-      <workItem from="1595392230279" duration="37965000" />
-      <workItem from="1595561105980" duration="1803000" />
-      <workItem from="1595562953206" duration="9400000" />
-      <workItem from="1595589995722" duration="12738000" />
-      <workItem from="1595609922104" duration="20151000" />
-      <workItem from="1595841602131" duration="12522000" />
-      <workItem from="1595872563151" duration="5734000" />
-      <workItem from="1595954691856" duration="1189000" />
-      <workItem from="1595998290646" duration="15623000" />
-      <workItem from="1596032802559" duration="6430000" />
-      <workItem from="1596121478259" duration="4542000" />
-      <workItem from="1596202732695" duration="25725000" />
-      <workItem from="1596368494314" duration="18282000" />
-      <workItem from="1596426433907" duration="32029000" />
+      <workItem from="1597181394264" duration="810000" />
+      <workItem from="1597182499331" duration="1091000" />
+      <workItem from="1597205739949" duration="4888000" />
     </task>
-    <task id="LOCAL-00001" summary="tag Details Add,Update,Delete,GetAll Functions are fully completed">
-      <created>1596139219295</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1596139219296</updated>
-    </task>
-    <task id="LOCAL-00002" summary="tag Details Add,Update,Delete,GetAll Functions are fully completed">
-      <created>1596139246378</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1596139246378</updated>
-    </task>
-    <task id="LOCAL-00003" summary="tag Details Add,Update,Delete,GetAll Functions are fully completed">
-      <created>1596139286000</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1596139286000</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="212444000" />
+    <option name="totallyTimeSpent" value="8091000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1380" height="788" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.25835866" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.20833333" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -569,29 +459,28 @@
       <window_info id="UI Designer" order="5" />
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.14262295" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28593272" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Application Servers" order="7" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3295082" />
+      <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Problems" order="9" />
       <window_info anchor="bottom" id="Changes" order="10" />
       <window_info anchor="bottom" id="Profiler" order="11" />
-      <window_info anchor="bottom" id="Event Log" order="12" weight="0.3295082" />
-      <window_info anchor="bottom" id="Messages" order="13" weight="0.3295082" />
-      <window_info anchor="bottom" id="Database Changes" order="14" />
+      <window_info anchor="bottom" id="Event Log" order="12" />
+      <window_info anchor="bottom" id="Messages" order="13" />
+      <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="15" />
-      <window_info anchor="bottom" id="Database Console" order="16" weight="0.3295082" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="JetGradle" order="3" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32980332" />
+      <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="right" id="Maven Projects" order="6" weight="0.32980332" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Palette&#9;" order="8" />
       <window_info anchor="right" id="Theme Preview" order="9" />
@@ -606,405 +495,72 @@
   <component name="VcsManagerConfiguration">
     <option name="OFFER_MOVE_TO_ANOTHER_CHANGELIST_ON_PARTIAL_COMMIT" value="true" />
     <option name="INCLUDE_TEXT_INTO_SHELF" value="false" />
-    <MESSAGE value="tag Details Add,Update,Delete,GetAll Functions are fully completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="tag Details Add,Update,Delete,GetAll Functions are fully completed" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/Test.java</url>
+          <line>52</line>
+          <properties />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/NotAvailableGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="40" selection-start-line="2" selection-start-column="40" selection-end-line="2" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/ViewMainGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="226" selection-start-line="12" selection-start-column="163" selection-end-line="12" selection-end-column="226" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/SearchSubGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="226" selection-start-line="10" selection-start-column="226" selection-end-line="10" selection-end-column="226" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/SubGroup.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/MainGroup.fxml" />
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/AcademicYear.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="87" selection-start-line="39" selection-start-column="87" selection-end-line="39" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/dbconnection/DBConnection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="45" column="45" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/YearAndSemester.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="19" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="21" column="35" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Main.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="97" column="52" lean-forward="true" selection-start-line="97" selection-start-column="52" selection-end-line="97" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/pnlstudents.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java" />
+    <entry file="file://$PROJECT_DIR$/src/sample/sample.fxml" />
+    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/css/main.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/NewMainGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="169">
-          <caret line="26" column="35" lean-forward="true" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/YearandSemesterService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/dbSettings.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="34" selection-start-line="2" selection-start-column="34" selection-end-line="2" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/AddMainGroup.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="224" selection-start-line="9" selection-start-column="163" selection-end-line="9" selection-end-column="224" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/NewSubGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="111" selection-start-line="25" selection-start-column="111" selection-end-line="25" selection-end-column="111" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/TagService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="56" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/Tag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="16" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/Programme.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="24" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Subject/TagController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="106" column="17" selection-start-line="106" selection-start-column="17" selection-end-line="106" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <marker date="1596138417166" expanded="true" signature="4717:4817" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/ProgrammeController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="128" column="4" selection-start-line="128" selection-start-column="4" selection-end-line="135" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/ProgrammeService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="4" selection-start-line="9" selection-end-line="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/Programme.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="30" column="18" selection-start-line="30" selection-start-column="18" selection-end-line="30" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/SearchMainGroup.fxml">
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="209" selection-start-line="10" selection-start-column="209" selection-end-line="10" selection-end-column="209" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/MainGroup.java">
+    <entry file="file://$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="18" />
-          <folding>
-            <element signature="e#427#428#0" expanded="true" />
-            <element signature="e#461#462#0" expanded="true" />
-            <element signature="e#512#513#0" expanded="true" />
-            <element signature="e#558#559#0" expanded="true" />
-          </folding>
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/service/impl/YearAndServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="64" column="40" lean-forward="true" selection-start-line="62" selection-start-column="6" selection-end-line="64" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="357">
+          <caret line="28" column="5" selection-start-line="28" selection-start-column="5" selection-end-line="28" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/PanelStudentsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="57" selection-start-line="57" selection-end-line="57" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/SubGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/AddSubGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="14" lean-forward="true" selection-start-line="14" selection-start-column="14" selection-end-line="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/MainGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="33" column="112" selection-start-line="33" selection-start-column="14" selection-end-line="33" selection-end-column="112" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Lecturer/NotAvailableLecturerController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/MainGroupCount.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-25">
-          <caret line="8" column="29" selection-start-line="8" selection-start-column="29" selection-end-line="8" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/SubGroupCount.java">
+    <entry file="file://$PROJECT_DIR$/src/main/constants/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="4" column="26" selection-start-line="4" selection-start-column="19" selection-end-line="4" selection-end-column="26" />
+          <caret line="4" column="60" selection-start-line="4" selection-start-column="54" selection-end-line="4" selection-end-column="60" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/AcademicYearController.java">
+    <entry file="file://$PROJECT_DIR$/src/dbSettings.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-790">
-          <caret line="212" column="17" lean-forward="true" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="68">
+          <caret line="4" column="14" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/AddMainGroupController.java">
+    <entry file="file://$PROJECT_DIR$/src/main/Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="96" column="8" selection-start-line="96" selection-start-column="8" selection-end-line="102" selection-end-column="9" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-74">
+          <caret line="39" column="36" lean-forward="true" selection-start-line="39" selection-start-column="36" selection-end-line="39" selection-end-column="36" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/MainGroupService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="256">
-          <caret line="16" column="43" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/SearchMainGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2193">
-          <caret line="129" column="4" selection-start-line="129" selection-start-column="4" selection-end-line="134" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/views/Students/ViewSubGroup.fxml">
-      <provider editor-type-id="JavaFX-Scene-Builder" />
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="224" selection-start-line="10" selection-start-column="224" selection-end-line="10" selection-end-column="224" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/impl/TagServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="53" column="23" lean-forward="true" selection-start-line="45" selection-start-column="7" selection-end-line="53" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/model/SubGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-144">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/SearchSubGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="88" column="12" selection-start-line="88" selection-start-column="12" selection-end-line="88" selection-end-column="12" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/impl/ProgrammeServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-470">
-          <caret line="29" column="30" selection-start-line="29" selection-start-column="8" selection-end-line="40" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/SubGroupService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="19" column="62" lean-forward="true" selection-start-line="19" selection-start-column="62" selection-end-line="19" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/impl/MainGroupServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="112" column="8" selection-start-line="112" selection-start-column="8" selection-end-line="114" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/service/impl/SubGroupServiceImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="106" column="23" lean-forward="true" selection-start-line="106" selection-start-column="23" selection-end-line="106" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/AddSubGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="72" column="78" selection-start-line="72" selection-start-column="78" selection-end-line="72" selection-end-column="78" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/ViewMainGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="85" column="33" selection-start-line="85" selection-start-column="33" selection-end-line="85" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1271#1272#0" expanded="true" />
-            <element signature="e#1332#1333#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/controller/Student/ViewSubGroupController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="54" column="5" lean-forward="true" selection-start-line="54" selection-start-column="5" selection-end-line="54" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/out/production/newTimeTableManagementSystem/dbSettings.properties">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/dbconnection/database.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="37" selection-start-line="37" selection-end-line="45" />
+        <state relative-caret-position="-316">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="62" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -1018,7 +574,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2835249" />
               </list>
             </option>
           </splitter-proportions>
@@ -1030,7 +586,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2835249" />
               </list>
             </option>
           </splitter-proportions>
@@ -1038,11 +594,10 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>mysql-connector-java-8.0.21</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2" />
               </list>
             </option>
           </splitter-proportions>
@@ -1054,7 +609,7 @@
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2" />
               </list>
             </option>
           </splitter-proportions>
@@ -1062,11 +617,11 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>TimeTableManagementSystem</last-edited>
+          <last-edited>newTimeTableManagementSystem</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2835249" />
               </list>
             </option>
           </splitter-proportions>
@@ -1074,11 +629,11 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>charm-glisten-4.4.1-javadoc</last-edited>
+          <last-edited>mysql-connector-java-8.0.21</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
-                <option value="0.23333333" />
+                <option value="0.2835249" />
               </list>
             </option>
           </splitter-proportions>
