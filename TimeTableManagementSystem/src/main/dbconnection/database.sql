@@ -44,6 +44,22 @@ create table subgroup(
   FOREIGN KEY (maingroupid) REFERENCES maingroup(id)
 );
 
+create table building(
+	bid int not null auto_increment,
+	building varchar(100) not null,
+	center varchar(100) not null,
+	constraint primary key(bid)
+);
+
+create table room(
+	rid int not null auto_increment,
+	buildingid int not null,
+	room varchar(100) not null,
+	capacity int not null,
+	constraint primary key(rid),
+	FOREIGN KEY (buildingid) REFERENCES building(bid)
+);
+
 
 
 create table building(
@@ -66,7 +82,7 @@ create table department(
   dId int not null auto_increment,
   departmentName  varchar (30) not null,
   constraint primary key(dId)
-)
+);
 
 CREATE TABLE Lecturer (
 employeeId INT(6) UNSIGNED PRIMARY KEY,
@@ -79,6 +95,6 @@ level INT(1) NOT NULL ,
 ranks VARCHAR(8) NOT NULL,
 FOREIGN KEY (buildingId) REFERENCES building(bid),
 FOREIGN KEY (departmentId) REFERENCES department(dId)
-)
+);
 
 
