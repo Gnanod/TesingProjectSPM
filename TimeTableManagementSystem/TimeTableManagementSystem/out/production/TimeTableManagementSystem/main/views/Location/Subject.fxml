@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="497.0" prefWidth="840.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.SubjectController">
+
+    <children>
+        <TableView fx:id="tblSubOpt" layoutX="106.0" layoutY="202.0" prefHeight="248.0" prefWidth="613.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="47.0">
+            <columns>
+                <TableColumn minWidth="0.0" prefWidth="110.0" text="Tag" />
+                <TableColumn prefWidth="109.0" text="Room" />
+                <TableColumn fx:id="editTag" prefWidth="121.0" text="Building" />
+                <TableColumn fx:id="removeTag" prefWidth="110.0" text="Room" />
+            <TableColumn fx:id="editSubOpt" minWidth="0.0" text="Edit" />
+            <TableColumn fx:id="removeSubOpt" minWidth="0.0" prefWidth="81.0" text="Remove" />
+            </columns>
+        </TableView>
+        <TextField fx:id="txtSubOpt" layoutX="291.0" layoutY="23.0" prefHeight="31.0" prefWidth="151.0" />
+        <TextField fx:id="txtSubTagOpt" layoutX="291.0" layoutY="66.0" prefHeight="31.0" prefWidth="151.0" />
+        <TextField layoutX="106.0" layoutY="23.0" prefHeight="31.0" prefWidth="169.0" text="Subject" />
+        <TextField layoutX="106.0" layoutY="66.0" prefHeight="31.0" prefWidth="169.0" text="Tag" />
+        <Button fx:id="btnTagAdd" contentDisplay="TOP" layoutX="457.0" layoutY="145.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="43.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css">
+            <font>
+                <Font name="System Bold" size="13.0" />
+            </font>
+        </Button>
+        <FontAwesomeIconView fx:id="btnAddSubOpt" glyphName="PLUS_CIRCLE" layoutX="462.0" layoutY="178.0" size="35" text="" wrappingWidth="33.2857141494751" />
+        <Button fx:id="btnSubjectOptions" layoutX="725.0" layoutY="411.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </Button>
+      <TextField fx:id="txtSubBuildingOpt" layoutX="291.0" layoutY="110.0" prefHeight="31.0" prefWidth="151.0" />
+      <TextField fx:id="txtSubRoomOpt" layoutX="291.0" layoutY="153.0" prefHeight="31.0" prefWidth="151.0" />
+      <TextField layoutX="106.0" layoutY="110.0" prefHeight="31.0" prefWidth="169.0" text="Building" />
+      <TextField layoutX="106.0" layoutY="153.0" prefHeight="31.0" prefWidth="169.0" text="Room" />
+    </children>
+
+</AnchorPane>
