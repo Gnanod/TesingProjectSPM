@@ -14,7 +14,7 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("views/Main.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Time Table Management System");
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+//        primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.show();
 
     }

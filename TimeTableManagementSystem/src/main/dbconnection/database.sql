@@ -1,7 +1,7 @@
 drop database timetableManagementSystem;
 
-create database timetableManagementSystem;
-use timetableManagementSystem;
+  create database timetableManagementSystem;
+  use timetableManagementSystem;
 
 create table academicYearAndSemester(
 	id int not null auto_increment,
@@ -46,8 +46,8 @@ create table subgroup(
 
 create table building(
 	bid int not null auto_increment,
-	building varchar(100) not null,
 	center varchar(100) not null,
+	building varchar(100) not null,
 	constraint primary key(bid)
 );
 
@@ -85,16 +85,16 @@ create table department(
 );
 
 CREATE TABLE Lecturer (
-employeeId INT(6) UNSIGNED PRIMARY KEY,
-employeeName VARCHAR(30) NOT NULL,
-faculty VARCHAR(30),
-departmentId int,
-center VARCHAR(50),
-buildingId int ,
-level INT(1) NOT NULL ,
-ranks VARCHAR(8) NOT NULL,
-FOREIGN KEY (buildingId) REFERENCES building(bid),
-FOREIGN KEY (departmentId) REFERENCES department(dId)
+  employeeId INT(6) UNSIGNED PRIMARY KEY,
+  employeeName VARCHAR(30) NOT NULL,
+  faculty VARCHAR(30),
+  departmentId int,
+  center VARCHAR(50),
+  buildingId int ,
+  level INT(1) NOT NULL ,
+  ranks VARCHAR(8) NOT NULL,
+  FOREIGN KEY (buildingId) REFERENCES building(bid),
+  FOREIGN KEY (departmentId) REFERENCES department(dId)
 );
 
 

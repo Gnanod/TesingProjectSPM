@@ -26,9 +26,9 @@ public class PnlLecturerController {
     @FXML
     void handleEvents(ActionEvent event) {
         try {
-            if (event.getSource() == btnNotAvailable) {
+            if (event.getSource() == btnDepartment) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/NotAvailableLecturer.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/Department.fxml"));
                 pnlStudent.setCenter(root);
             }
             if (event.getSource() == btnLecturer) {

@@ -67,6 +67,6 @@
          </toggles>
       </ToggleButtonGroup>
       <JFXTimePicker defaultColor="#7151dd" layoutX="206.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
-      <JFXTimePicker defaultColor="#7151dd" layoutX="209.0" layoutY="154.0" prefHeight="26.0" prefWidth="270.0" />
+      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="209.0" layoutY="154.0" prefHeight="26.0" prefWidth="270.0" />
    </children>
 </AnchorPane>
