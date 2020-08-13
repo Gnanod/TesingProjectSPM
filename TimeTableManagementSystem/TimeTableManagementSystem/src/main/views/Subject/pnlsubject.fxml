@@ -11,7 +11,7 @@
    <children>
       <Pane layoutX="13.0" layoutY="10.0" prefHeight="591.0" prefWidth="201.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;">
          <children>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Academic Year &amp; Semester">
+            <Button fx:id="btnSubject" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Subject">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

@@ -7,6 +7,8 @@ public class Lecturer {
     String department;
     String center;
     String building;
+    int level;
+    String rank;
 
     public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level) {
         this.empId = empId;
@@ -18,8 +20,7 @@ public class Lecturer {
         this.level = level;
     }
 
-    int level;
-    String rank;
+
 
     public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level, String rank) {
         this.empId = empId;
