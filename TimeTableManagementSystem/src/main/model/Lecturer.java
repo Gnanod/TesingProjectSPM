@@ -7,10 +7,21 @@ public class Lecturer {
     String department;
     String center;
     String building;
-    String level;
+
+    public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level) {
+        this.empId = empId;
+        this.empName = empName;
+        Faculty = faculty;
+        this.department = department;
+        this.center = center;
+        this.building = building;
+        this.level = level;
+    }
+
+    int level;
     String rank;
 
-    public Lecturer(int empId, String empName, String faculty, String department, String center, String building, String level, String rank) {
+    public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level, String rank) {
         this.empId = empId;
         this.empName = empName;
         Faculty = faculty;
@@ -72,11 +83,11 @@ public class Lecturer {
         this.building = building;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 

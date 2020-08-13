@@ -55,7 +55,7 @@ public class AddLecturerController {
             String department=txtDepartment.getText();
             String center=txtCenter.getText();
             String building=txtBuilding.getText();
-            String level=txtlevel.getText();
+            int level=Integer.parseInt(txtlevel.getText());
             txtrank.setText(level+"."+empId);
             String rank=level+"."+empId;
         Lecturer lecturer=new Lecturer(empId, Name, Faculty,department,center, building, level, rank);
