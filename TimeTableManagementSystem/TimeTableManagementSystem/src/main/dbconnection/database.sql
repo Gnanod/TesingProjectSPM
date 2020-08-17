@@ -96,5 +96,14 @@ CREATE TABLE Lecturer (
   FOREIGN KEY (buildingId) REFERENCES building(bid),
   FOREIGN KEY (departmentId) REFERENCES department(dId)
 );
+CREATE TABLE Subject (
+  subId VARCHAR(10)  PRIMARY KEY,
+  subName VARCHAR(30) NOT NULL,
+  offeredYearSemId INT NOT NULL,
+  noLecHrs INT NOT NULL,
+  noTutHrs INT NOT NULL,
+  noEvalHrs INT NOT NULL,
 
+  FOREIGN KEY (offeredYearSemId) REFERENCES academicYearAndSemester(id)
+);
 
