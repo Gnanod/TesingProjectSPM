@@ -18,7 +18,7 @@
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Label layoutX="125.0" layoutY="104.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Offered Year">
+      <Label layoutX="125.0" layoutY="104.0" prefHeight="31.0" prefWidth="157.0" stylesheets="@../../css/Student.css" text="Offered Year &amp; Semester">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
@@ -28,32 +28,26 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <TextField fx:id="txtSem" layoutX="279.0" layoutY="144.0" prefHeight="25.0" prefWidth="176.0" />
-      <TextField fx:id="txtSubName" layoutX="279.0" layoutY="59.0" prefHeight="25.0" prefWidth="176.0" />
-      <TextField fx:id="txtSubID" layoutX="279.0" layoutY="16.0" prefHeight="25.0" prefWidth="176.0" />
-      <Label layoutX="125.0" layoutY="144.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Offered Semester">
+      <TextField fx:id="txtSubName" layoutX="300.0" layoutY="59.0" prefHeight="25.0" prefWidth="176.0" />
+      <TextField fx:id="txtSubID" layoutX="300.0" layoutY="16.0" prefHeight="25.0" prefWidth="176.0" />
+      <TextField fx:id="txtLecHours" layoutX="300.0" layoutY="154.0" prefHeight="26.0" prefWidth="176.0" />
+      <Label layoutX="125.0" layoutY="154.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="No of Lecture Hours">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <TextField fx:id="txtLecHours" layoutX="279.0" layoutY="185.0" prefHeight="26.0" prefWidth="176.0" />
-      <Label layoutX="125.0" layoutY="185.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="No of Lecture Hours">
+      <Label layoutX="125.0" layoutY="200.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="No of Tutorial Hours">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Label layoutX="125.0" layoutY="223.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="No of Tutorial Hours">
+      <Label layoutX="116.0" layoutY="249.0" prefHeight="31.0" prefWidth="147.0" stylesheets="@../../css/Student.css" text="No of Evaluation Hours">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Label layoutX="125.0" layoutY="264.0" prefHeight="31.0" prefWidth="147.0" stylesheets="@../../css/Student.css" text="No of Evaluation Hours">
-         <font>
-            <Font name="System Bold" size="13.0 " />
-         </font>
-      </Label>
-      <TextField fx:id="txtEvalHours" layoutX="280.0" layoutY="264.0" prefHeight="26.0" prefWidth="176.0" />
-      <TextField fx:id="txtYear" layoutX="280.0" layoutY="104.0" prefHeight="25.0" prefWidth="176.0" />
-      <TextField fx:id="txtTutHours" layoutX="280.0" layoutY="223.0" prefHeight="26.0" prefWidth="176.0" />
+      <TextField fx:id="txtEvalHours" layoutX="300.0" layoutY="257.0" prefHeight="26.0" prefWidth="176.0" />
+      <TextField fx:id="txtYear" layoutX="300.0" layoutY="104.0" prefHeight="25.0" prefWidth="176.0" />
+      <TextField fx:id="txtTutHours" layoutX="300.0" layoutY="200.0" prefHeight="26.0" prefWidth="176.0" />
    </children>
 </AnchorPane>
