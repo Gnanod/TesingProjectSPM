@@ -61,11 +61,10 @@ create table room(
 );
 
 
-
 create table building(
 	bid int not null auto_increment,
-	building varchar(100) not null,
 	center varchar(100) not null,
+	building varchar(100) not null,
 	constraint primary key(bid)
 );
 
