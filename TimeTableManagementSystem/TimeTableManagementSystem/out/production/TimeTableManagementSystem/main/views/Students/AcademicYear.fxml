@@ -45,13 +45,13 @@
                </FXCollections>
            </items>
        </ComboBox>
-      <TableView fx:id="tblSemester" layoutX="83.0" layoutY="258.0" prefHeight="349.0" prefWidth="526.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0">
+      <TableView fx:id="tblSemester" layoutX="83.0" layoutY="217.0" prefHeight="383.0" prefWidth="608.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="217.0">
         <columns>
           <TableColumn prefWidth="48.0" text="Id" />
-          <TableColumn prefWidth="109.0" text="Year" />
-            <TableColumn prefWidth="134.0" text="Semester" />
-            <TableColumn prefWidth="126.0" text="Name" />
-            <TableColumn fx:id="colEdit" prefWidth="54.0" />
+          <TableColumn prefWidth="121.0" text="Year" />
+            <TableColumn prefWidth="147.0" text="Semester" />
+            <TableColumn prefWidth="184.0" text="Name" />
+            <TableColumn fx:id="colEdit" prefWidth="53.0" />
             <TableColumn fx:id="colDelete" prefWidth="54.0" />
         </columns>
       </TableView>
