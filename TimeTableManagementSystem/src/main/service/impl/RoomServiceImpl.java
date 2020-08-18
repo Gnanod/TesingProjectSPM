@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
 
 //    @Override
 //    public ArrayList<Room> getAllDetails() throws SQLException {
-//        String SQL ="Select b.center, r.building, r.room, r.capacity  from building b , room r where b.bid = r.rid";
+//        String SQL ="Select b.center, r.building, r.room, r.capacity  from building b , room r where b.bid = r.buildingid";
 //        Statement stm = connection.createStatement();
 //        ResultSet rst = stm.executeQuery(SQL);
 //        ArrayList<Room> roomList = new ArrayList<>();
