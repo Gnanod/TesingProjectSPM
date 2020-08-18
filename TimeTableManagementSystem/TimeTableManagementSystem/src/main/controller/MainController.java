@@ -71,6 +71,13 @@ public class MainController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         lblUrl.setText(urlName);
         this.dragabled();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../views/Dashboard/Dashboard.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pnlMain.setCenter(root);
     }
 
     private void dragabled() {
@@ -97,7 +104,8 @@ public class MainController implements Initializable {
         try {
             if (event.getSource() == btnDashboard) {
                 chageLableStatus("/home/dashboard", "Dashboard");
-
+                Parent root = FXMLLoader.load(getClass().getResource("../views/Dashboard/Dashboard.fxml"));
+                pnlMain.setCenter(root);
             } else if (event.getSource() == btnWorkingDays) {
                 chageLableStatus("/home/Students&hours", "Working Days & Hours");
             } else if (event.getSource() == btnSubject) {

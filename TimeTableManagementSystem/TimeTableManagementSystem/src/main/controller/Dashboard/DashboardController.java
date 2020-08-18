@@ -1,5 +1,7 @@
 package main.controller.Dashboard;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -18,7 +20,7 @@ import java.util.ResourceBundle;
 public class DashboardController implements Initializable {
 
     @FXML
-    private BarChart<String, Integer> buildingChart;
+    private BarChart<String, Double> buildingChart;
 
     @FXML
     private CategoryAxis x;
@@ -35,13 +37,21 @@ public class DashboardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        this.loadBuidlingCounts();
+    }
+
+    private void loadBuidlingCounts(){
+
         try {
             ArrayList<Dashboard> list = this.dashboardService.getBuildingCount();
-            XYChart.Series<String,Integer> series = new XYChart.Series<>();
-            while(list.size()>0){
-                series.getData().add(new XYChart.Data<>());
+            ObservableList<XYChart.Series<String,Double>> data = FXCollections.observableArrayList();
+            XYChart.Series<String,Double> series = new XYChart.Series<>();
+            for (Dashboard d1:list
+            ) {
+                series.getData().add(new XYChart.Data(d1.getCenter(),d1.getNoOfBuildings()));
             }
-
+            data.add(series);
+            buildingChart.setData(data);
         } catch (SQLException e) {
             e.printStackTrace();
         }
