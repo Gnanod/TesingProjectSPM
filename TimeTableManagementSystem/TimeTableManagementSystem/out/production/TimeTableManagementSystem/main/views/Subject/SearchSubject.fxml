@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Subject.SearchSubjectController">
+   <children>
+      <TableView fx:id="tblSubjectCount" layoutX="12.0" layoutY="65.0" prefHeight="303.0" prefWidth="650.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="32.0">
+         <columns>
+            <TableColumn minWidth="0.0" prefWidth="120.0" text="subjectCode" />
+            <TableColumn prefWidth="120.0" text="subjectName" />
+            <TableColumn prefWidth="160.0" text="year and semester" />
+            <TableColumn prefWidth="80.0" text="lectureHrs" />
+            <TableColumn prefWidth="80.0" text="tuteHrs" />
+            <TableColumn prefWidth="90.0" text="evalHrs" />
+         </columns>
+      </TableView>
+      <TextField fx:id="txtSubject" layoutX="97.0" layoutY="22.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="219.0" promptText="Enter Lecturer Name" text="Enter Subject Code" />
+      <Button fx:id="btnSearch" layoutX="411.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Search" textFill="#f5f0f0">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

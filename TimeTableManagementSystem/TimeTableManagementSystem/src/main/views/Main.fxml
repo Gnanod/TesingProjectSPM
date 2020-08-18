@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="mainPnl" maxHeight="-Infinity" maxWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.MainController">
+
+    <children>
+        <VBox prefHeight="692.0" prefWidth="258.0" style="-fx-background-color: #3f2863;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.40178585052490234">
+            <children>
+                <Pane prefHeight="91.0" prefWidth="225.0">
+                    <children>
+                        <FontAwesomeIconView fill="#eeeaea" glyphName="XING" layoutX="64.0" layoutY="71.0" size="75" />
+                    </children>
+                </Pane>
+                <Button fx:id="btnDashboard" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="258.0" stylesheets="@../css/main.css" text="Dashboard" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f2ecec" glyphName="ALIGN_LEFT" size="25" />
+                    </graphic>
+                    <contextMenu>
+                        <ContextMenu>
+                            <items>
+                                <MenuItem mnemonicParsing="false" text="Menu One" />
+                                <MenuItem mnemonicParsing="false" text="Menu One" />
+                                <MenuItem mnemonicParsing="false" text="Menu One" />
+                                <MenuItem mnemonicParsing="false" text="Menu One" />
+                                <MenuItem mnemonicParsing="false" text="Menu One" />
+                            </items>
+                        </ContextMenu>
+                    </contextMenu>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </Button>
+                <Button fx:id="btnWorkingDays" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="258.0" stylesheets="@../css/main.css" text="Working Days &amp; Hours" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#f2e6e6" glyphName="CLOCK_ALT" size="25.0" />
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </Button>
+                <Button fx:id="btnSubject" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="257.0" stylesheets="@../css/main.css" text="Subject" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#ebe5e5" glyphName="BOOK" size="25.0" />
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </Button>
+                <Button fx:id="btnLecturer" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="256.0" stylesheets="@../css/main.css" text="Lecturer" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+                    <graphic>
+                        <FontAwesomeIconView fill="#f5eeee" glyphName="GROUP" size="25.0" />
+                    </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </Button>
+                <Button fx:id="btnLocation" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="262.0" stylesheets="@../css/main.css" text="Location" textFill="#fcf7f7">
+                    <padding>
+                        <Insets left="50.0" />
+                    </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#e8e3e3" glyphName="LOCATION_ARROW" size="25" />
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+                </Button>
+            <Button fx:id="btnStudent" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="261.0" stylesheets="@../css/main.css" text="Student" textFill="#fcf7f7">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#f2ebeb" glyphName="USER" size="25.0" />
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnSession" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="258.0" stylesheets="@../css/main.css" text="Session" textFill="#fcf7f7">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#f5eeee" glyphName="GEAR" size="25.0" text="" />
+               </graphic>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnlogout" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="257.0" stylesheets="@../css/main.css" text="LogOut" textFill="#fcf7f7">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#f2eaea" glyphName="POWER_OFF" size="25" />
+               </graphic>
+            </Button>
+            </children>
+        </VBox>
+        <Pane layoutX="258.0" prefHeight="69.0" prefWidth="969.0" style="-fx-background-color: #7151DD;" AnchorPane.bottomAnchor="623.4017858505249" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label fx:id="lblStatus" layoutX="22.0" layoutY="30.0" prefHeight="40.0" prefWidth="320.0" text="Dashboard" textFill="#f5eeee">
+                    <font>
+                        <Font size="28.0" />
+                    </font>
+                </Label>
+                <Label fx:id="lblUrl" layoutX="22.0" layoutY="6.0" prefHeight="29.0" prefWidth="258.0" text="/home/dashboard" textFill="#f5eeee">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+            </children></Pane>
+        <BorderPane fx:id="pnlMain" layoutX="258.0" layoutY="69.0" prefHeight="623.0" prefWidth="969.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0" />
+    </children>
+</AnchorPane>
