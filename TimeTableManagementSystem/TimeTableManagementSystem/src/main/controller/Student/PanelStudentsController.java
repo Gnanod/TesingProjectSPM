@@ -52,15 +52,6 @@ public class PanelStudentsController implements Initializable {
             } else if (event.getSource() == btnMainGroup) {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NewMainGroup.fxml"));
-//                root.setScaleX(pnlStudent.getScaleX());
-//                root.setScaleY(pnlStudent.getScaleY());
-//                root.setScaleZ(pnlStudent.getScaleZ());
-//                root.setLayoutX(pnlStudent.getLayoutX());
-//                root.setLayoutY(pnlStudent.getLayoutY());
-                root.setTranslateX(pnlStudent.getTranslateX());
-                root.setTranslateY(pnlStudent.getTranslateY());
-                root.setTranslateZ(pnlStudent.getTranslateZ());
-
                 pnlStudent.setCenter(root);
             } else if (event.getSource() == btnSubGroup) {
                 pnlStudent.getChildren().removeAll();
@@ -70,7 +61,6 @@ public class PanelStudentsController implements Initializable {
             } else if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NotAvailableGroup.fxml"));
-
                 pnlStudent.setCenter(root);
             } else if(event.getSource()==btnProgramme){
                 pnlStudent.getChildren().removeAll();

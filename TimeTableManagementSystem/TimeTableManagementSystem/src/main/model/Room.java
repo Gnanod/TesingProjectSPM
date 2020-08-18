@@ -6,6 +6,7 @@ public class Room {
     int buildingid;
     String room;
     int capacity;
+    String center;
 
     public Room(){}
 
@@ -14,6 +15,22 @@ public class Room {
         this.buildingid = buildingid;
         this.room = room;
         this.capacity = capacity;
+    }
+
+    public Room(int rid, int buildingid, String room, int capacity, String center) {
+        this.rid = rid;
+        this.buildingid = buildingid;
+        this.room = room;
+        this.capacity = capacity;
+        this.center = center;
+    }
+
+    public String getCenter() {
+        return center;
+    }
+
+    public void setCenter(String center) {
+        this.center = center;
     }
 
     public int getRid() {
