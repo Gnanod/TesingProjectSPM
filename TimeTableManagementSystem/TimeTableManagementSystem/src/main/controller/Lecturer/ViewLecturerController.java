@@ -5,6 +5,7 @@ import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -48,7 +49,7 @@ public class ViewLecturerController implements Initializable {
     private TextField txtCenter;
 
     @FXML
-    private TextField txtLevel;
+    private ComboBox<String> txtDesignation;
 
     @FXML
     private TextField txtFaculty;
@@ -56,6 +57,36 @@ public class ViewLecturerController implements Initializable {
     @FXML
     private TextField txtBuilding;
     static int empId;
+    static int level;
+    static String rank;
+    private ObservableList<String> designationList= FXCollections.observableArrayList("Professor","Assistant Professor","Senior Lecturer(HG)","Senior Lecturer","Lecturer","Assistant Lecturer","Instructors");
+
+
+    @FXML
+    void getDesignation(ActionEvent event) {
+
+        String designation=txtDesignation.getValue();
+        System.out.println(designation);
+        if(designation.equalsIgnoreCase("Professor")){
+            level=1;
+        }else if(designation.equalsIgnoreCase("Assistant Professor")){
+            level=2;
+        }else if(designation.equalsIgnoreCase("Senior Lecturer(HG)")){
+            level=3;
+        }else if(designation.equalsIgnoreCase("Senior Lecturer")){
+            level=4;
+        }else if(designation.equalsIgnoreCase("Lecturer")){
+            level=5;
+        }else if(designation.equalsIgnoreCase("Assistant Lecturer")){
+            level=6;
+        }else if(designation.equalsIgnoreCase("Instructors")){
+            level=7;
+        }else{
+
+        }
+        rank=level+"."+empId;
+    }
+
 
     @FXML
     void updateLecturer(ActionEvent event) {
@@ -65,8 +96,9 @@ public class ViewLecturerController implements Initializable {
             String department=txtDepartment.getText();
             String center=txtCenter.getText();
             String building=txtBuilding.getText();
-            int level=Integer.parseInt(txtLevel.getText());
-            Lecturer lecturer=new Lecturer(empId,empName,faculty,department,center,building,level);
+            String designation=txtDesignation.getValue();
+            System.out.println(designation);
+            Lecturer lecturer=new Lecturer(empId,empName,faculty,department,center,designation,building,level,rank);
             try{
                 LecturerService lecturerService=new LectureServiceImpl();
                 lecturerService.updateLecturer(lecturer);
@@ -90,6 +122,7 @@ public class ViewLecturerController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.setTableProperties();
         getAllLecturers();
+        setDesignation();
     }
     public void getAllLecturers(){
 
@@ -137,9 +170,9 @@ public class ViewLecturerController implements Initializable {
                             empId=m.getEmpId();
                             txtName.setText(m.getEmpName());
                             txtFaculty.setText(m.getFaculty());
-                            txtDepartment.setText(m.getEmpName());
+                            txtDepartment.setText(m.getDepartment());
                             txtCenter.setText(m.getCenter());
-                            txtLevel.setText(Integer.toString(m.getLevel()));
+                            txtDesignation.setValue(m.getDesignation());
                             txtBuilding.setText(m.getBuilding());
                         }
                     };
@@ -198,5 +231,10 @@ public class ViewLecturerController implements Initializable {
         }catch (SQLException ex){
             ex.printStackTrace();
         }
+    }
+    public void setDesignation(){
+
+        txtDesignation.setItems(designationList);
+
     }
 }

@@ -14,4 +14,5 @@ public interface DepartmentService {
     boolean updateDepartment(Department department) throws SQLException;
 
     ArrayList<Department> getAllDetails() throws SQLException;
+
 }

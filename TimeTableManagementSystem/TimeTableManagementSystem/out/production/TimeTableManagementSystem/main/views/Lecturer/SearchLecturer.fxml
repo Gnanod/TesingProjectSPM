@@ -9,15 +9,16 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Lecturer.SearchLecturerController">
    <children>
-      <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" prefHeight="303.0" prefWidth="660.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="32.0">
+      <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" prefHeight="303.0" prefWidth="680.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="32.0">
          <columns>
-            <TableColumn minWidth="0.0" prefWidth="80.0" text="employeeId" />
-            <TableColumn prefWidth="80.0" text="employeeName" />
+            <TableColumn minWidth="0.0" prefWidth="60.0" text="Id" />
+            <TableColumn prefWidth="60.0" text="Name" />
             <TableColumn prefWidth="80.0" text="Faculty" />
-            <TableColumn prefWidth="80.0" text="Department" />
+            <TableColumn prefWidth="60.0" text="Department" />
             <TableColumn prefWidth="80.0" text="Center" />
-            <TableColumn prefWidth="80.0" text="Building" />
-            <TableColumn prefWidth="80.0" text="Level" />
+            <TableColumn prefWidth="60.0" text="Building" />
+            <TableColumn prefWidth="80.0" text="Designation" />
+            <TableColumn prefWidth="60.0" text="Level" />
             <TableColumn prefWidth="100.0" text="Rank" />
          </columns>
       </TableView>

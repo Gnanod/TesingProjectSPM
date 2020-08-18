@@ -89,6 +89,7 @@ CREATE TABLE Lecturer (
   employeeName VARCHAR(30) NOT NULL,
   faculty VARCHAR(30),
   departmentId int,
+  designation VARCHAR(100) NOT NULL,
   center VARCHAR(50),
   buildingId int ,
   level INT(1) NOT NULL ,
