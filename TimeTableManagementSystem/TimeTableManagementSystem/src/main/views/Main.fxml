@@ -120,7 +120,7 @@
             </Button>
             </children>
         </VBox>
-        <Pane layoutX="258.0" layoutY="21.0" style="-fx-background-color: #7151DD;" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="21.0">
+        <Pane layoutX="258.0" prefHeight="69.0" prefWidth="969.0" style="-fx-background-color: #7151DD;" AnchorPane.bottomAnchor="623.4017858505249" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Label fx:id="lblStatus" layoutX="22.0" layoutY="30.0" prefHeight="40.0" prefWidth="320.0" text="Dashboard" textFill="#f5eeee">
                     <font>
@@ -133,7 +133,6 @@
                     </font>
                 </Label>
             </children></Pane>
-        <FontAwesomeIconView fx:id="btnClose" fill="#eb0808" glyphName="CLOSE" layoutX="1205.0" layoutY="20.0" onMouseClicked="#btnHandleClose" size="16" styleClass="btnClose" AnchorPane.bottomAnchor="670.4017858505249" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
-        <BorderPane fx:id="pnlMain" layoutX="258.0" layoutY="92.4017858505249" prefHeight="600.0" prefWidth="969.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="92.4017858505249" />
+        <BorderPane fx:id="pnlMain" layoutX="258.0" layoutY="69.0" prefHeight="623.0" prefWidth="969.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0" />
     </children>
 </AnchorPane>
