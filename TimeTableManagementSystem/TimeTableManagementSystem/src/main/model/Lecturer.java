@@ -6,28 +6,27 @@ public class Lecturer {
     String Faculty;
     String department;
     String center;
+    String designation;
     String building;
     int level;
     String rank;
 
-    public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level) {
-        this.empId = empId;
-        this.empName = empName;
-        Faculty = faculty;
-        this.department = department;
-        this.center = center;
-        this.building = building;
-        this.level = level;
+
+    public String getDesignation() {
+        return designation;
     }
 
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
 
-
-    public Lecturer(int empId, String empName, String faculty, String department, String center, String building, int level, String rank) {
+    public Lecturer(int empId, String empName, String faculty, String department, String center, String designation, String building, int level, String rank) {
         this.empId = empId;
         this.empName = empName;
         Faculty = faculty;
         this.department = department;
         this.center = center;
+        this.designation = designation;
         this.building = building;
         this.level = level;
         this.rank = rank;

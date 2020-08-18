@@ -5,6 +5,7 @@ import main.model.MainGroup;
 import main.service.LecturerService;
 import main.dbconnection.DBConnection;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -16,16 +17,17 @@ public class LectureServiceImpl implements LecturerService {
     }
     @Override
     public boolean saveLecturer(Lecturer lecturer) throws SQLException {
-        String SQL = "Insert into Lecturer  Values(?,?,?,?,?,?,?,?)";
+        String SQL = "Insert into Lecturer  Values(?,?,?,?,?,?,?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
         stm.setObject(1, lecturer.getEmpId());
         stm.setObject(2, lecturer.getEmpName());
         stm.setObject(3, lecturer.getFaculty());
         stm.setObject(4, 1);
-        stm.setObject(5, lecturer.getCenter());
-        stm.setObject(6, 1);
-        stm.setObject(7, lecturer.getLevel());
-        stm.setObject(8, lecturer.getRank());
+        stm.setObject(5, lecturer.getDesignation());
+        stm.setObject(6, lecturer.getCenter());
+        stm.setObject(7, 1);
+        stm.setObject(8, lecturer.getLevel());
+        stm.setObject(9, lecturer.getRank());
         int res = stm.executeUpdate();
         return res > 0;
     }
@@ -44,6 +46,7 @@ public class LectureServiceImpl implements LecturerService {
             lecturer.setDepartment(rst.getString("departmentId"));
             lecturer.setCenter(rst.getString("center"));
             lecturer.setBuilding(rst.getString("buildingId"));
+            lecturer.setDesignation(rst.getString("designation"));
             lecturer.setLevel(Integer.parseInt(rst.getString("level")));
             lecturer.setRank(rst.getString("ranks"));
             lecturers.add(lecturer);
@@ -64,6 +67,7 @@ public class LectureServiceImpl implements LecturerService {
             lecturer.setEmpName(rst.getString("employeeName"));
             lecturer.setFaculty(rst.getString("faculty"));
             lecturer.setDepartment(rst.getString("departmentId"));
+            lecturer.setDesignation(rst.getString("designation"));
             lecturer.setCenter(rst.getString("center"));
             lecturer.setBuilding(rst.getString("buildingId"));
             lecturer.setLevel(Integer.parseInt(rst.getString("level")));
@@ -84,7 +88,8 @@ public class LectureServiceImpl implements LecturerService {
     public boolean updateLecturer(Lecturer lecturer) throws SQLException {
         lecturer.setBuilding("1");
         lecturer.setDepartment("1");
-        String SQL="Update lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',level='"+lecturer.getLevel()+"'" +
+        System.out.print(lecturer.getDesignation());
+        String SQL="Update lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
                 "where employeeId='"+lecturer.getEmpId()+"'";
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;

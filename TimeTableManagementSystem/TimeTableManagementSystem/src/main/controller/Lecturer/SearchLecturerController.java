@@ -56,8 +56,9 @@ public class SearchLecturerController implements Initializable {
         tblGroupCount.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("Department"));
         tblGroupCount.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("Center"));
         tblGroupCount.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("Building"));
-        tblGroupCount.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("Level"));
-        tblGroupCount.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("rank"));
+        tblGroupCount.getColumns().get(6).setCellValueFactory(new PropertyValueFactory<>("designation"));
+        tblGroupCount.getColumns().get(7).setCellValueFactory(new PropertyValueFactory<>("Level"));
+        tblGroupCount.getColumns().get(8).setCellValueFactory(new PropertyValueFactory<>("rank"));
     }
     public void getAllLecturers(){
 
