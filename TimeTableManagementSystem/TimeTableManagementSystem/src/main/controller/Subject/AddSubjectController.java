@@ -17,6 +17,7 @@ import main.service.impl.SubjectServiceImpl;
 import main.service.impl.YearAndServiceImpl;
 import org.controlsfx.control.textfield.TextFields;
 
+import javax.swing.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -45,27 +46,41 @@ public class AddSubjectController implements Initializable {
     private TextField txtTutHours;
     private ArrayList<YearAndSemester> yearAndSemesters = new ArrayList<>();
     private ArrayList<String> yearSemName = new ArrayList<>();
-
+    static int yId;
     @FXML
     void saveDetails(ActionEvent event) {
-       try {
+
            String subId = txtSubID.getText();
            String subName = txtSubName.getText();
 
            String offeredYearSem =txtYear.getText();
+
+           int yearCount=0;
+        for (YearAndSemester y : this.yearAndSemesters) {
+            if (offeredYearSem.equals(y.getFullName())) {
+                yId = y.getId();
+                yearCount++;
+            }
+        }
+        System.out.print("hi"+yId);
            try{
                int noLecHrs = Integer.parseInt(txtLecHours.getText());
                try{
                    int noTutHrs = Integer.parseInt(txtTutHours.getText());
                    try{
                        int noEvalHrs = Integer.parseInt(txtEvalHours.getText());
+
                        if(subId !=null){
                            if(subName!=null){
                                if(offeredYearSem !=null){
                                    if(noLecHrs!=0){
-                                       Subject subject = new Subject(subId, subName, 1, noLecHrs, noTutHrs, noEvalHrs);
+                                       try {
+                                       Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs);
                                        SubjectService subjectService = new SubjectServiceImpl();
                                        subjectService.saveSubject(subject);
+                                       }catch (SQLException ex){
+                                           ex.printStackTrace();
+                                       }
                                    }else{
                                        Alert al = new Alert(Alert.AlertType.ERROR);
                                        al.setTitle(null);
@@ -98,6 +113,7 @@ public class AddSubjectController implements Initializable {
                            al.showAndWait();
                        }
 
+
                    }catch(NumberFormatException ex){
                        Alert al = new Alert(Alert.AlertType.ERROR);
                        al.setTitle(null);
@@ -120,9 +136,7 @@ public class AddSubjectController implements Initializable {
                al.showAndWait();
            }
 
-       }catch (SQLException ex){
-           ex.printStackTrace();
-       }
+
 
     }
 

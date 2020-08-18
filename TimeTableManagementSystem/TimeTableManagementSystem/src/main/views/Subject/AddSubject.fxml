@@ -47,7 +47,7 @@
          </font>
       </Label>
       <TextField fx:id="txtEvalHours" layoutX="300.0" layoutY="257.0" prefHeight="26.0" prefWidth="176.0" />
-      <TextField fx:id="txtYear" layoutX="300.0" layoutY="104.0" onAction="#getYearSem" prefHeight="25.0" prefWidth="176.0" />
+      <TextField fx:id="txtYear" layoutX="300.0" layoutY="104.0" prefHeight="25.0" prefWidth="176.0" />
       <TextField fx:id="txtTutHours" layoutX="300.0" layoutY="200.0" prefHeight="26.0" prefWidth="176.0" />
    </children>
 </AnchorPane>
