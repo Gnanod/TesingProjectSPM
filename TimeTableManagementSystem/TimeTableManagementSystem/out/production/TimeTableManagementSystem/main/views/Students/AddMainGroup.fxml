@@ -28,8 +28,8 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <TextField fx:id="txtGroupCount" layoutX="267.0" layoutY="147.0" prefHeight="25.0" prefWidth="176.0" />
-      <TextField fx:id="txtAProgramme" layoutX="267.0" layoutY="102.0" prefHeight="25.0" prefWidth="176.0" />
-      <TextField fx:id="txtAYear" layoutX="267.0" layoutY="59.0" prefHeight="25.0" prefWidth="176.0" />
+      <TextField fx:id="txtGroupCount" layoutX="267.0" layoutY="147.0" prefHeight="25.0" prefWidth="258.0" />
+      <TextField fx:id="txtAProgramme" layoutX="267.0" layoutY="102.0" prefHeight="25.0" prefWidth="258.0" />
+      <TextField fx:id="txtAYear" layoutX="267.0" layoutY="59.0" prefHeight="25.0" prefWidth="258.0" />
    </children>
 </AnchorPane>

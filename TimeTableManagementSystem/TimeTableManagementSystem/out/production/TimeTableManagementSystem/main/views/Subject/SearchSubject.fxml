@@ -19,8 +19,8 @@
             <TableColumn prefWidth="90.0" text="evalHrs" />
          </columns>
       </TableView>
-      <TextField fx:id="txtSubject" layoutX="97.0" layoutY="22.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="219.0" promptText="Enter Lecturer Name" text="Enter Subject Code" />
-      <Button fx:id="btnSearch" layoutX="411.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Search" textFill="#f5f0f0">
+      <TextField fx:id="txtSubject" layoutX="97.0" layoutY="22.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="219.0" promptText="Enter Subject Code" />
+      <Button fx:id="btnSearch" layoutX="343.0" layoutY="22.0" mnemonicParsing="false" onAction="#searchDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Search" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
