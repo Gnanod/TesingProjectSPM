@@ -35,7 +35,7 @@
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Button>
-                <BorderPane fx:id="pnlMainBuilding" layoutX="14.0" layoutY="196.0" prefHeight="403.0" prefWidth="706.0" style="-fx-background-color: #A569BD;" />
+                <BorderPane fx:id="pnlMainBuilding" layoutX="14.0" layoutY="196.0" prefHeight="403.0" prefWidth="706.0" style="-fx-background-color: FFFFFF;" />
             </children></AnchorPane>
     </content>
 
