@@ -100,7 +100,7 @@ CREATE TABLE Lecturer (
 CREATE TABLE Subject (
   subId VARCHAR(10)  PRIMARY KEY,
   subName VARCHAR(30) NOT NULL,
-  offeredYearSemId INT NOT NULL,
+  offeredYearSemId VARCHAR NOT NULL,
   noLecHrs INT NOT NULL,
   noTutHrs INT NOT NULL,
   noEvalHrs INT NOT NULL,
