@@ -7,8 +7,8 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Student.SearchSubGroupController">
    <children>
-      <TextField fx:id="txtMainGroup" layoutX="101.0" layoutY="71.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="244.0" promptText="Enter Main Group Id" />
-      <TableView fx:id="tblMainGroup" layoutX="101.0" layoutY="108.0" prefHeight="237.0" prefWidth="393.0" stylesheets="@../../css/Student.css">
+      <TextField fx:id="txtMainGroup" layoutX="101.0" layoutY="71.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="244.0" promptText="Enter Main Group Id" AnchorPane.topAnchor="71.0" />
+      <TableView fx:id="tblMainGroup" layoutX="101.0" layoutY="108.0" prefHeight="237.0" prefWidth="393.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="108.0">
          <columns>
             <TableColumn prefWidth="240.0" text="Main Group Id" />
             <TableColumn prefWidth="152.0" text="Sub Group Count" />

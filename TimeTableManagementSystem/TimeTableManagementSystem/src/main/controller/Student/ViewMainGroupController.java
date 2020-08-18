@@ -58,7 +58,16 @@ public class ViewMainGroupController implements Initializable {
 
         System.out.println("GGG" + txtSearch.getText().length());
         if (txtSearch.getText().length() != 0) {
-            getAllGroupDetails(Integer.parseInt(txtSearch.getText()));
+
+            try{
+                getAllGroupDetails(Integer.parseInt(txtSearch.getText()));
+            }catch(NumberFormatException e){
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Please Enter Number");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
         } else {
             getAllGroupDetails(0);
         }

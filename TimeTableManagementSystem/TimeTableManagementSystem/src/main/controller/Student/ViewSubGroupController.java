@@ -149,7 +149,16 @@ public class ViewSubGroupController implements Initializable {
     void searchGroupId(ActionEvent event) {
         String groupNumber = txtSearchGroupNumber.getText();
         if (groupNumber.length() != 0) {
-            getAllSubgroupDetails(Integer.parseInt(groupNumber));
+            try{
+                getAllSubgroupDetails(Integer.parseInt(groupNumber));
+            }catch(NumberFormatException e){
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText(" Please Enter Number");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+
         } else {
             getAllSubgroupDetails(0);
 
