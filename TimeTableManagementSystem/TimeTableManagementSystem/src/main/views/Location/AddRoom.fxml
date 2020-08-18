@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -11,7 +14,7 @@
 <AnchorPane prefHeight="441.0" prefWidth="638.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.AddRoomController">
 
     <children>
-        <TableView fx:id="tblRoomAdd" layoutX="108.0" layoutY="156.0" prefHeight="271.0" prefWidth="405.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="14.0">
+        <TableView fx:id="tblRoomAdd" layoutX="106.0" layoutY="189.0" prefHeight="206.0" prefWidth="405.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="46.0">
             <columns>
                 <TableColumn minWidth="0.0" prefWidth="113.0" text="Center" />
                 <TableColumn prefWidth="102.0" text="Building" />
@@ -19,23 +22,35 @@
                 <TableColumn fx:id="removeRoomAdd" prefWidth="94.0" text="Remove" />
             </columns>
         </TableView>
-        <TextField fx:id="txtSelectBuilding" layoutX="291.0" layoutY="23.0" prefHeight="31.0" prefWidth="119.0" />
-        <TextField fx:id="txtRoomAdd" layoutX="291.0" layoutY="66.0" prefHeight="31.0" prefWidth="119.0" />
-        <TextField layoutX="106.0" layoutY="23.0" prefHeight="31.0" prefWidth="169.0" text="Building" />
-        <TextField layoutX="106.0" layoutY="66.0" prefHeight="31.0" prefWidth="169.0" text="Room" />
-        <Button fx:id="btnRoomAdd" contentDisplay="TOP" layoutX="423.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="43.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css">
+        <TextField fx:id="txtRoomAdd" layoutX="293.0" layoutY="101.0" prefHeight="31.0" prefWidth="119.0" />
+        <TextField layoutX="107.0" layoutY="61.0" prefHeight="31.0" prefWidth="169.0" text="Building" />
+        <TextField layoutX="108.0" layoutY="101.0" prefHeight="31.0" prefWidth="169.0" text="Room" />
+        <Button fx:id="btnRoomAdd" contentDisplay="TOP" layoutX="424.0" layoutY="131.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="43.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css">
             <font>
                 <Font name="System Bold" size="13.0" />
             </font>
         </Button>
-        <FontAwesomeIconView glyphName="PLUS_CIRCLE" layoutX="429.0" layoutY="133.0" size="35" text="" wrappingWidth="33.2857141494751" />
-        <Button fx:id="btnRoomSave" layoutX="518.0" layoutY="386.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+        <FontAwesomeIconView glyphName="PLUS_CIRCLE" layoutX="430.0" layoutY="163.0" size="35" text="" wrappingWidth="33.2857141494751" />
+        <Button fx:id="btnRoomSave" layoutX="519.0" layoutY="356.0" mnemonicParsing="false" onAction="#saveRoomDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Button>
-      <TextField fx:id="txtCapacities" layoutX="293.0" layoutY="109.0" prefHeight="31.0" prefWidth="119.0" />
-      <TextField layoutX="108.0" layoutY="109.0" prefHeight="31.0" prefWidth="169.0" text="Capacities" />
+      <TextField fx:id="txtCapacities" layoutX="293.0" layoutY="141.0" prefHeight="31.0" prefWidth="119.0" />
+      <TextField layoutX="108.0" layoutY="141.0" prefHeight="31.0" prefWidth="169.0" text="Capacities" />
+      <TextField layoutX="108.0" layoutY="21.0" prefHeight="31.0" prefWidth="169.0" text="Center" />
+        <ComboBox fx:id="cmbCenter" layoutX="293.0" layoutY="21.0" prefHeight="31.0" prefWidth="119.0">
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    <String fx:value="Malabe" />
+                    <String fx:value="Kandy" />
+                    <String fx:value="Kurunegala" />
+                    <String fx:value="Matara" />
+                    <String fx:value="Jaffna" />
+                </FXCollections>
+            </items>
+        </ComboBox>
+      <ComboBox fx:id="cmbBuilding" layoutX="293.0" layoutY="61.0" prefHeight="31.0" prefWidth="119.0" />
     </children>
 
 
