@@ -63,7 +63,7 @@ public class AddSubjectController implements Initializable {
                            if(subName!=null){
                                if(offeredYearSem !=null){
                                    if(noLecHrs!=0){
-                                       Subject subject = new Subject(subId, subName, offeredYearSem, noLecHrs, noTutHrs, noEvalHrs);
+                                       Subject subject = new Subject(subId, subName, 1, noLecHrs, noTutHrs, noEvalHrs);
                                        SubjectService subjectService = new SubjectServiceImpl();
                                        subjectService.saveSubject(subject);
                                    }else{

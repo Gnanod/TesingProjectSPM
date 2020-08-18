@@ -3,12 +3,12 @@ package main.model;
 public class Subject {
     String subId;
     String subName;
-    String offeredYearSem;
+    int offeredYearSem;
     int noLecHrs;
     int noTutHrs;
     int noEvalHrs;
 
-    public Subject(String subId, String subName, String offeredYearSem, int noLecHrs, int noTutHrs, int noEvalHrs) {
+    public Subject(String subId, String subName, int offeredYearSem, int noLecHrs, int noTutHrs, int noEvalHrs) {
         this.subId = subId;
         this.subName = subName;
         this.offeredYearSem = offeredYearSem;
@@ -36,11 +36,11 @@ public class Subject {
         this.subName = subName;
     }
 
-    public String getOfferedYearSem() {
+    public int getOfferedYearSem() {
         return offeredYearSem;
     }
 
-    public void setOfferedYearSem(String offeredYearSem) {
+    public void setOfferedYearSem(int offeredYearSem) {
         this.offeredYearSem = offeredYearSem;
     }
 
