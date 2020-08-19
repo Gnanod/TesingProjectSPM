@@ -4,13 +4,44 @@ public class Lecturer {
     int empId;
     String empName;
     String Faculty;
-    String department;
+    int  department;
     String center;
     String designation;
-    String building;
+    int building;
     int level;
     String rank;
+    String departmentName;
+    String buildingName;
 
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public Lecturer(int empId, String empName, String faculty, int department, String center, String designation, int building, int level, String rank, String departmentName, String buildingName) {
+        this.empId = empId;
+        this.empName = empName;
+        Faculty = faculty;
+        this.department = department;
+        this.center = center;
+        this.designation = designation;
+        this.building = building;
+        this.level = level;
+        this.rank = rank;
+        this.departmentName = departmentName;
+        this.buildingName = buildingName;
+    }
 
     public String getDesignation() {
         return designation;
@@ -20,7 +51,8 @@ public class Lecturer {
         this.designation = designation;
     }
 
-    public Lecturer(int empId, String empName, String faculty, String department, String center, String designation, String building, int level, String rank) {
+
+    public Lecturer(int empId, String empName, String faculty, int department, String center, String designation, int building, int level, String rank) {
         this.empId = empId;
         this.empName = empName;
         Faculty = faculty;
@@ -59,12 +91,20 @@ public class Lecturer {
         Faculty = faculty;
     }
 
-    public String getDepartment() {
+    public int getDepartment() {
         return department;
     }
 
-    public void setDepartment(String department) {
+    public void setDepartment(int department) {
         this.department = department;
+    }
+
+    public int getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(int building) {
+        this.building = building;
     }
 
     public String getCenter() {
@@ -75,13 +115,7 @@ public class Lecturer {
         this.center = center;
     }
 
-    public String getBuilding() {
-        return building;
-    }
 
-    public void setBuilding(String building) {
-        this.building = building;
-    }
 
     public int getLevel() {
         return level;

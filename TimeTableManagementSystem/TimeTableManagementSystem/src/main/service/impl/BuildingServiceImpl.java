@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class BuildingServiceImpl implements BuildingService {
     private Connection connection;
+    static String buldingName;
     public BuildingServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
@@ -26,6 +27,20 @@ public class BuildingServiceImpl implements BuildingService {
             buildingsList.add(building);
         }
         return buildingsList;
+    }
+
+    @Override
+    public String searchBuildingName(int id) throws SQLException {
+        String SQL = "select building  from building where bId = '" + id + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+
+        while(rst.next()) {
+
+            buldingName=rst.getString("building");
+            System.out.println(buldingName);
+        }
+        return buldingName;
     }
 
 

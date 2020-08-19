@@ -93,9 +93,9 @@ public class ViewLecturerController implements Initializable {
 
             String empName=txtName.getText();
             String faculty=txtFaculty.getText();
-            String department=txtDepartment.getText();
+            int department=Integer.parseInt(txtDepartment.getText());
             String center=txtCenter.getText();
-            String building=txtBuilding.getText();
+            int building=Integer.parseInt(txtBuilding.getText());
             String designation=txtDesignation.getValue();
             System.out.println(designation);
             Lecturer lecturer=new Lecturer(empId,empName,faculty,department,center,designation,building,level,rank);
@@ -170,10 +170,10 @@ public class ViewLecturerController implements Initializable {
                             empId=m.getEmpId();
                             txtName.setText(m.getEmpName());
                             txtFaculty.setText(m.getFaculty());
-                            txtDepartment.setText(m.getDepartment());
+                            txtDepartment.setText(Integer.toString(m.getDepartment()));
                             txtCenter.setText(m.getCenter());
                             txtDesignation.setValue(m.getDesignation());
-                            txtBuilding.setText(m.getBuilding());
+                            txtBuilding.setText(Integer.toString(m.getBuilding()));
                         }
                     };
                     return cell;

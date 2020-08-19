@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private Connection connection;
+    static String departmentName;
     public DepartmentServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
@@ -61,5 +62,19 @@ public class DepartmentServiceImpl implements DepartmentService {
             dptList.add(t);
         }
         return dptList;
+    }
+
+    @Override
+    public String searchDepartmentName(int id) throws SQLException {
+        String SQL = "select departmentName  from department where dId = '" + id + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+
+        while(rst.next()) {
+
+            departmentName=rst.getString("departmentName");
+        }
+       return departmentName;
+
     }
 }

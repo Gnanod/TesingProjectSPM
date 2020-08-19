@@ -15,4 +15,6 @@ public interface DepartmentService {
 
     ArrayList<Department> getAllDetails() throws SQLException;
 
+    String searchDepartmentName(int id) throws SQLException;
+
 }
