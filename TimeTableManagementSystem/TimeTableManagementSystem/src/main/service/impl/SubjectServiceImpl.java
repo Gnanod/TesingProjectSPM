@@ -64,6 +64,20 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public ArrayList<Subject> searchSubjectDetails(String name) throws SQLException {
-        return null;
+        String SQL = "Select * from Subject where subId LIKE '%" + name + "%'";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Subject>  subjects = new ArrayList<>();
+        while(rst.next()){
+            Subject subject=new Subject();
+            subject.setSubId(rst.getString("subId"));
+            subject.setSubName(rst.getString("subName"));
+            subject.setOfferedYearSem(Integer.parseInt(rst.getString("offeredYearSemId")));
+            subject.setNoLecHrs(Integer.parseInt(rst.getString("noLecHrs")));
+            subject.setNoTutHrs(Integer.parseInt(rst.getString("noTutHrs")));
+            subject.setNoEvalHrs(Integer.parseInt(rst.getString("noEvalHrs")));
+            subjects.add(subject);
+        }
+        return subjects;
     }
 }
