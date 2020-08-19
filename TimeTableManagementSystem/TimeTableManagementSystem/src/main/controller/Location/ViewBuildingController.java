@@ -84,7 +84,7 @@ public class ViewBuildingController implements Initializable {
                                 cmbCenterEdit.setValue(null);
                                 txtBuildingEdit.setText(null);
                                 buildingId = 0;
-//                                this.getAllDetails();
+                                this.getAllDetails();
                             } else {
                                 Alert al = new Alert(Alert.AlertType.ERROR);
                                 al.setTitle(null);

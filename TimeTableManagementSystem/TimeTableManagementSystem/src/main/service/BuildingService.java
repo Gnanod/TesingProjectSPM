@@ -20,6 +20,7 @@ public interface BuildingService {
     boolean updateBuildingDetails(Building building12) throws SQLException;
 
 
+    ArrayList<Building> searchBuildingDetailsByUsingCenter(String center) throws SQLException;
 }
 
 

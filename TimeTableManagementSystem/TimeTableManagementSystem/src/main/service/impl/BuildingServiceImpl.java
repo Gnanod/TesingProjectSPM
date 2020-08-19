@@ -94,4 +94,21 @@ public class BuildingServiceImpl implements BuildingService {
         return stm.executeUpdate(SQL)>0;
     }
 
+    @Override
+    public ArrayList<Building> searchBuildingDetailsByUsingCenter(String center) throws SQLException {
+        String SQL = "Select * from building where center LIKE '%" + center + "%'";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+
+        ArrayList<Building> buildingsList = new ArrayList<>();
+
+        while(rst.next()){
+            Building building= new Building(Integer.parseInt(rst.getString("bid")),
+                    rst.getString("building"),
+                    rst.getString("center"));
+            buildingsList.add(building);
+        }
+        return buildingsList;
+    }
+
 }
