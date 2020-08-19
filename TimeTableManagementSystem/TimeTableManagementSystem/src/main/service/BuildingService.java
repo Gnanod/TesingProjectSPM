@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface BuildingService {
 
+
     public ArrayList<Building> searchBuildingDetailsByCenter(String name) throws SQLException;
     public String searchBuildingName(int id) throws SQLException;
 
@@ -22,6 +23,7 @@ public interface BuildingService {
     boolean updateBuildingDetails(Building building12) throws SQLException;
 
 
+    ArrayList<Building> searchBuildingDetailsByUsingCenter(String center) throws SQLException;
 }
 
 

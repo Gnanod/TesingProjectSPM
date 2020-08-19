@@ -7,6 +7,7 @@ public class Room {
     String room;
     int capacity;
     String center;
+    String building;
 
     public Room(){}
 
@@ -17,12 +18,21 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public Room(int rid, int buildingid, String room, int capacity, String center) {
+    public Room(int rid, int buildingid, String room, int capacity, String center, String building) {
         this.rid = rid;
         this.buildingid = buildingid;
         this.room = room;
         this.capacity = capacity;
         this.center = center;
+        this.building = building;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(String building) {
+        this.building = building;
     }
 
     public String getCenter() {

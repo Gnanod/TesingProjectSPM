@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
@@ -8,17 +10,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.collections.FXCollections?>
-<?import java.lang.String?>
-<AnchorPane prefHeight="465.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.ViewRoomController">
+<AnchorPane prefHeight="467.0" prefWidth="617.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.ViewRoomController">
 
     <children>
-        <TableView fx:id="tblRoomView" layoutX="106.0" layoutY="212.0" prefHeight="239.0" prefWidth="405.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="14.0">
+        <TableView fx:id="tblRoomView" layoutX="95.0" layoutY="257.0" prefHeight="239.0" prefWidth="499.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="-29.0">
             <columns>
-                <TableColumn minWidth="0.0" prefWidth="113.0" text="Center" />
-                <TableColumn prefWidth="102.0" text="Building" />
-                <TableColumn fx:id="editBuildingView" prefWidth="93.0" text="Edit" />
-                <TableColumn fx:id="removeBuildingView" prefWidth="95.0" text="Remove" />
+                <TableColumn minWidth="0.0" prefWidth="72.0" text="Center" />
+                <TableColumn text="Building" />
+            <TableColumn minWidth="0.0" prefWidth="99.0" text="Room" />
+            <TableColumn minWidth="0.0" prefWidth="89.0" text="Capacity" />
+                <TableColumn fx:id="editBuildingView" prefWidth="79.0" text="Edit" />
+                <TableColumn fx:id="removeBuildingView" prefWidth="78.0" text="Remove" />
             </columns>
         </TableView>
         <TextField fx:id="txtBuildingEdit1" layoutX="291.0" layoutY="71.0" prefHeight="31.0" prefWidth="119.0" />
@@ -33,7 +35,7 @@
       <TextField layoutX="106.0" layoutY="28.0" prefHeight="31.0" prefWidth="169.0" text="Center" />
       <TextField fx:id="txtCapacitiesEdit1" layoutX="291.0" layoutY="152.0" prefHeight="31.0" prefWidth="119.0" />
       <TextField layoutX="106.0" layoutY="152.0" prefHeight="31.0" prefWidth="169.0" text="Capacities" />
-        <ComboBox fx:id="cmbCenterEdit" layoutX="291.0" layoutY="28.0" prefHeight="31.0" prefWidth="119.0" >
+        <ComboBox fx:id="cmbCenterEdit" layoutX="291.0" layoutY="28.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="119.0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Malabe" />
