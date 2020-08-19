@@ -7,6 +7,7 @@ public class Subject {
     int noLecHrs;
     int noTutHrs;
     int noEvalHrs;
+    String yearSem;
 
     public Subject(String subId, String subName, int offeredYearSem, int noLecHrs, int noTutHrs, int noEvalHrs) {
         this.subId = subId;
@@ -18,6 +19,14 @@ public class Subject {
     }
 
     public Subject() {
+    }
+
+    public String getYearSem() {
+        return yearSem;
+    }
+
+    public void setYearSem(String yearSem) {
+        this.yearSem = yearSem;
     }
 
     public String getSubId() {

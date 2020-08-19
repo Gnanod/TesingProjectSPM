@@ -42,7 +42,6 @@
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <TextField fx:id="txtCenter" layoutX="275.0" layoutY="144.0" prefHeight="26.0" prefWidth="176.0" />
       <Label layoutX="135.0" layoutY="144.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Center">
          <font>
             <Font name="System Bold" size="13.0 " />
@@ -61,5 +60,6 @@
       <TextField fx:id="txtFaculty" layoutX="275.0" layoutY="60.0" prefHeight="25.0" prefWidth="176.0" />
       <TextField fx:id="txtBuilding" layoutX="275.0" layoutY="182.0" prefHeight="26.0" prefWidth="176.0" />
       <ComboBox fx:id="txtDesignation" layoutX="275.0" layoutY="227.0" onAction="#getDesignation" prefHeight="31.0" prefWidth="176.0" />
+      <ComboBox fx:id="txtCenter" layoutX="275.0" layoutY="144.0" onAction="#getCenter" prefHeight="31.0" prefWidth="176.0" />
    </children>
 </AnchorPane>

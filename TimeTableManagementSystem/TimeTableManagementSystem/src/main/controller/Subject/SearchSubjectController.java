@@ -11,8 +11,10 @@ import main.model.Lecturer;
 import main.model.Subject;
 import main.service.LecturerService;
 import main.service.SubjectService;
+import main.service.YearandSemesterService;
 import main.service.impl.LectureServiceImpl;
 import main.service.impl.SubjectServiceImpl;
+import main.service.impl.YearAndServiceImpl;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,13 +32,26 @@ public class SearchSubjectController implements Initializable {
 
     @FXML
     void searchDetails(ActionEvent event) {
-
+        try {
+            SubjectService subjectService=new SubjectServiceImpl();
+            ArrayList<Subject> list = subjectService.searchSubjectDetails(txtSubject.getText());
+            for (Subject str : list)
+            {
+                System.out.println(str.getSubId());
+                System.out.println(str.getSubName());
+                YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
+                str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
+            }
+            tblSubjectCount.setItems(FXCollections.observableArrayList(list));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public void setTableProperties() {
         tblSubjectCount.getSelectionModel().getTableView().getItems().clear();
         tblSubjectCount.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("subId"));
         tblSubjectCount.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("subName"));
-        tblSubjectCount.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("offeredYearSem"));
+        tblSubjectCount.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("yearSem"));
         tblSubjectCount.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("noLecHrs"));
         tblSubjectCount.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("noTutHrs"));
         tblSubjectCount.getColumns().get(5).setCellValueFactory(new PropertyValueFactory<>("noEvalHrs"));
@@ -50,6 +65,8 @@ public class SearchSubjectController implements Initializable {
             {
                 System.out.println(str.getSubId());
                 System.out.println(str.getSubName());
+                YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
+                str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
             }
             tblSubjectCount.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {

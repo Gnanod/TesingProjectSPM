@@ -215,6 +215,8 @@ public class AddLecturerController implements Initializable{
         txtrank.setText(level+"."+empId);
     }
     private void getAllDepartmentDetails() {
+        departmentName.clear();
+        departmentsId.clear();
         try {
             DepartmentService departmentService=new DepartmentServiceImpl();
             ArrayList<Department> list = departmentService.getAllDetails();
@@ -276,6 +278,8 @@ public class AddLecturerController implements Initializable{
 
     @FXML
     void getCenter(ActionEvent event) {
+        buildingsId.clear();
+        buildingName.clear();
         String center=txtCenter.getValue();
         System.out.print(center);
         try{
