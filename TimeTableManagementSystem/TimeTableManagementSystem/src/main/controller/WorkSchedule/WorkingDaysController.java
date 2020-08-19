@@ -68,6 +68,13 @@ public class WorkingDaysController implements Initializable {
         this.workingDaysService = new WorkingDaysServiceImpl();
     }
 
+
+//    @FXML
+//    void handleEvents(ActionEvent event) {
+//
+//    }
+
+
     @FXML
     void addDetails(ActionEvent event) {
         String noDays = (String) cmbNoDays.getValue();
