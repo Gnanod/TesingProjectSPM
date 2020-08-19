@@ -34,7 +34,7 @@ public class LectureServiceImpl implements LecturerService {
 
     @Override
     public ArrayList<Lecturer> getAllLecturerDetails() throws SQLException {
-        String SQL = "Select * from lecturer";
+        String SQL = "Select * from Lecturer";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Lecturer> lecturers = new ArrayList<>();
@@ -57,7 +57,7 @@ public class LectureServiceImpl implements LecturerService {
     @Override
     public ArrayList<Lecturer> searchLecturerDetails(String name) throws SQLException {
         String empName=name;
-        String SQL = "Select * from lecturer where employeeName LIKE '%" + empName + "%'";
+        String SQL = "Select * from Lecturer where employeeName LIKE '%" + empName + "%'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Lecturer> lecturers = new ArrayList<>();
@@ -79,7 +79,7 @@ public class LectureServiceImpl implements LecturerService {
 
     @Override
     public void deleteLecturerDetails(int id) throws SQLException {
-        String sql = "delete from lecturer where employeeId LIKE '%" + id + "%'";
+        String sql = "delete from Lecturer where employeeId LIKE '%" + id + "%'";
         Statement stmt = connection.createStatement();
         stmt.executeUpdate(sql);
     }
@@ -89,7 +89,7 @@ public class LectureServiceImpl implements LecturerService {
         lecturer.setBuilding(1);
         lecturer.setDepartment(1);
         System.out.print(lecturer.getDesignation());
-        String SQL="Update lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
+        String SQL="Update Lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
                 "where employeeId='"+lecturer.getEmpId()+"'";
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
