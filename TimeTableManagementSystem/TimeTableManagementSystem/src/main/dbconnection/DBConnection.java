@@ -20,7 +20,6 @@ public class DBConnection {
             String jdbcurl = "jdbc:mysql://" + "spmproject.calqnpocpi57.us-east-1.rds.amazonaws.com:" + 3306 +
                     "/timetableManagementSystem";
             conn = (Connection) DriverManager.getConnection(jdbcurl, "root", "mysql123");
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
