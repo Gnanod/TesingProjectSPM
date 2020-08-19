@@ -7,7 +7,9 @@ import java.util.ArrayList;
 
 public interface BuildingService {
 
+
     public ArrayList<Building> searchBuildingDetailsByCenter(String name) throws SQLException;
+    public String searchBuildingName(int id) throws SQLException;
 
     public boolean saveBuildings(Building building) throws SQLException;
 

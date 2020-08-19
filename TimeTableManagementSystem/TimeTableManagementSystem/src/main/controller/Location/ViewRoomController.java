@@ -120,6 +120,7 @@ public class ViewRoomController implements Initializable {
                             r1.setRoom(updateRoom);
                             r1.setBuildingid(buildid);
                             r1.setCapacity(updateCapacity);
+                            r1.setRid(roomId);
 
                             boolean isUpdated = false;
                             try {
@@ -229,9 +230,10 @@ public class ViewRoomController implements Initializable {
                         }
                         private void setRoomDetailsToFiled(Room room2) {
                             cmbCenterEdit.setValue(room2.getCenter());
-                            System.out.println("ddddddddddddddddd"+cmbCenterEdit);
+
                             txtBuildingEdit1.setText(room2.getBuilding());
                             txtRoomEdit1.setText(room2.getRoom());
+
                             txtCapacitiesEdit1.setText(Integer.toString(room2.getCapacity()));
 //                            updateStatus = true;
                             roomId = room2.getRid();

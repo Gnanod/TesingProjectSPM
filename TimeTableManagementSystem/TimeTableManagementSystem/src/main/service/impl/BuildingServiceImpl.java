@@ -10,13 +10,14 @@ import java.util.ArrayList;
 
 public class BuildingServiceImpl implements BuildingService {
     private Connection connection;
+    static String buldingName;
     public BuildingServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
 
     @Override
     public ArrayList<Building> searchBuildingDetailsByCenter(String name) throws SQLException {
-        String SQL = "Select * from building where center LIKE '%" + name + "%'";
+        String SQL = "Select *  from building where center LIKE '%" + name + "%'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Building> buildingsList = new ArrayList<>();
@@ -29,6 +30,19 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
 
+    @Override
+    public String searchBuildingName(int id) throws SQLException {
+        String SQL = "select building  from building where bId = '" + id + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+
+        while(rst.next()) {
+
+            buldingName=rst.getString("building");
+            System.out.println(buldingName);
+        }
+        return buldingName;
+    }
 
     @Override
     public boolean saveBuildings(Building building) throws SQLException {
@@ -96,7 +110,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public ArrayList<Building> searchBuildingDetailsByUsingCenter(String center) throws SQLException {
-        String SQL = "Select * from building where center LIKE '%" + center + "%'";
+        String SQL = " Select * from building where center LIKE '%" + center + "%'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
 

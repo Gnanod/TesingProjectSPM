@@ -56,11 +56,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public boolean updateRoomDetails(Room room12) throws SQLException {
-        String SQL="Update room set center='"+room12.getCenter()+"'," +
-                "buildingid='"+room12.getBuildingid()+"'  " +
-                "room='"+room12.getRoom()+"'  " +
+        String SQL="Update room set "+
+                "buildingid='"+room12.getBuildingid()+"', " +
+                "room='"+room12.getRoom()+"',  " +
                 "capacity='"+room12.getCapacity()+"'  " +
                 "where rid='"+room12.getRid()+"'";
+
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
