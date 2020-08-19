@@ -106,3 +106,10 @@ create table WorkingDaysSub(
   FOREIGN KEY (workingId) REFERENCES WorkingDaysMain(workingId) ON DELETE CASCADE,
   constraint primary key(subId)
 );
+
+create table workingHoursPerDay(
+     whpId int not null auto_increment,
+     workingTime varchar(20),
+     timeSlot varchar (20),
+     constraint primary key (whpId)
+);
