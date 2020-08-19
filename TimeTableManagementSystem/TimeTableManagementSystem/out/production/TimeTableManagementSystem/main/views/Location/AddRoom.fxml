@@ -39,7 +39,7 @@
       <TextField fx:id="txtCapacities" layoutX="293.0" layoutY="141.0" prefHeight="31.0" prefWidth="119.0" />
       <TextField layoutX="108.0" layoutY="141.0" prefHeight="31.0" prefWidth="169.0" text="Capacities" />
       <TextField layoutX="108.0" layoutY="21.0" prefHeight="31.0" prefWidth="169.0" text="Center" />
-        <ComboBox fx:id="cmbCenter" layoutX="293.0" layoutY="21.0" prefHeight="31.0" prefWidth="119.0">
+        <ComboBox fx:id="cmbCenter" layoutX="293.0" layoutY="21.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="119.0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
                     <String fx:value="Malabe" />
@@ -50,7 +50,7 @@
                 </FXCollections>
             </items>
         </ComboBox>
-      <ComboBox fx:id="cmbBuilding" layoutX="293.0" layoutY="61.0" prefHeight="31.0" prefWidth="119.0" />
+      <TextField fx:id="txtBuilding" layoutX="293.0" layoutY="61.0" prefHeight="31.0" prefWidth="119.0" />
     </children>
 
 
