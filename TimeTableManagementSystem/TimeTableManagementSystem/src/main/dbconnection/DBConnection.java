@@ -17,29 +17,12 @@ public class DBConnection {
     private DBConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-
-            System.out.println(System.getProperty("user.dir")+"/src/dbSettings.properties");
-        File file=new File(System.getProperty("user.dir")+"/src/dbSettings.properties");
-
-
-        FileReader fileReader=new FileReader(file);
-        Properties properties=new Properties();
-        properties.load(fileReader);
-        String ip=properties.getProperty("ip");
-        String port=properties.getProperty("port");
-        String db=properties.getProperty("database");
-        String user=properties.getProperty("user");
-        String password=properties.getProperty("password");
-        String jdbcurl="jdbc:mysql://"+ip+":"+port+"/"+db;
-        conn=(Connection) DriverManager.getConnection(jdbcurl,user,password);
+        String jdbcurl="jdbc:mysql://"+"spmproject.calqnpocpi57.us-east-1.rds.amazonaws.com:"+3306+"/timetableManagementSystem";
+        conn=(Connection) DriverManager.getConnection(jdbcurl,"root","mysql123");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -49,7 +32,6 @@ public class DBConnection {
             dbConnection=new DBConnection();
         }
         return dbConnection;
-
     }
     public Connection getConnection(){
         return this.conn;

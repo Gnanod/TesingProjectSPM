@@ -16,14 +16,15 @@ public class Main extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("views/Main.fxml"));
         primaryStage.setScene(new Scene(root));
         primaryStage.setTitle("Time Table Management System");
-//        primaryStage.initStyle(StageStyle.UNDECORATED);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double width = screenSize.getWidth();
         double height = screenSize.getHeight();
         primaryStage.setWidth(width);
         primaryStage.setHeight(height);
         primaryStage.show();
+
     }
+
 
 
     public static void main(String[] args) {
