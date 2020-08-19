@@ -36,6 +36,6 @@
             <TableColumn fx:id="colDelete" prefWidth="41.0" />
          </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="95.0" layoutY="164.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="212.0" promptText="Enter Group Number" AnchorPane.leftAnchor="95.0" AnchorPane.rightAnchor="513.0" AnchorPane.topAnchor="164.0" />
+      <TextField fx:id="txtSearch" layoutX="95.0" layoutY="164.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="212.0" promptText="Enter Group Number" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="164.0" />
    </children>
 </AnchorPane>

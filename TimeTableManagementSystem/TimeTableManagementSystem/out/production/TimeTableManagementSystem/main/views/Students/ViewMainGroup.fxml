@@ -31,11 +31,11 @@
          <columns>
             <TableColumn prefWidth="60.0" text="Id" />
             <TableColumn prefWidth="230.0" text="Group Number" />
-            <TableColumn prefWidth="235.0" text="Group Id" />
-            <TableColumn fx:id="colEdit" prefWidth="41.0" />
-            <TableColumn fx:id="colDelete" prefWidth="42.0" />
+            <TableColumn prefWidth="229.0" text="Group Id" />
+            <TableColumn fx:id="colEdit" prefWidth="48.0" />
+            <TableColumn fx:id="colDelete" prefWidth="41.0" />
          </columns>
       </TableView>
-      <TextField fx:id="txtSearch" layoutX="95.0" layoutY="164.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="212.0" promptText="Enter Group Number" AnchorPane.topAnchor="164.0" />
+      <TextField fx:id="txtSearch" layoutX="95.0" layoutY="164.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="212.0" promptText="Enter Group Number" AnchorPane.leftAnchor="95.0" AnchorPane.topAnchor="164.0" />
    </children>
 </AnchorPane>
