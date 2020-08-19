@@ -92,3 +92,17 @@ CREATE TABLE Subject (
   FOREIGN KEY (offeredYearSemId) REFERENCES academicYearAndSemester(id)
 );
 
+create table WorkingDaysMain(
+  workingId  int not null auto_increment,
+  type varchar (30) NOT NULL,
+  noOfDays int NOT null,
+  constraint primary key(workingId)
+);
+
+create table WorkingDaysSub(
+  subId int not null auto_increment,
+  workingId int not null,
+  workingday varchar (30) NOT NULL ,
+  FOREIGN KEY (workingId) REFERENCES WorkingDaysMain(workingId) ON DELETE CASCADE,
+  constraint primary key(subId)
+);
