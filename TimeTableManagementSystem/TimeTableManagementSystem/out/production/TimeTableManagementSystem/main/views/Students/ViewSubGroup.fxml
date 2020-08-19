@@ -10,19 +10,19 @@
 
 <AnchorPane prefHeight="479.0" prefWidth="873.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Student.ViewSubGroupController">
    <children>
-      <Label layoutX="58.0" layoutY="8.0" prefHeight="31.0" prefWidth="110.0" stylesheets="@../../css/Student.css" text="Group Number" AnchorPane.topAnchor="8.0">
+      <Label layoutX="58.0" layoutY="18.0" prefHeight="31.0" prefWidth="110.0" stylesheets="@../../css/Student.css" text="Group Number" AnchorPane.topAnchor="18.0">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Label layoutX="58.0" layoutY="44.0" prefHeight="31.0" prefWidth="95.0" stylesheets="@../../css/Student.css" text="Group Id" AnchorPane.topAnchor="44.0">
+      <Label layoutX="58.0" layoutY="59.0" prefHeight="31.0" prefWidth="95.0" stylesheets="@../../css/Student.css" text="Group Id" AnchorPane.topAnchor="59.0">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <TextField fx:id="txtGroupId" layoutX="227.0" layoutY="44.0" prefHeight="25.0" prefWidth="344.0" AnchorPane.topAnchor="44.0" />
-      <TextField fx:id="txtGroupNumber" layoutX="227.0" layoutY="8.0" onAction="#editSubGroupId" prefHeight="25.0" prefWidth="344.0" AnchorPane.topAnchor="8.0" />
-      <Button fx:id="btnUpdate" layoutX="227.0" layoutY="82.0" mnemonicParsing="false" onAction="#updateGroupNumber" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Update" textFill="#f5f0f0" AnchorPane.topAnchor="82.0">
+      <TextField fx:id="txtGroupId" layoutX="227.0" layoutY="59.0" prefHeight="25.0" prefWidth="344.0" AnchorPane.topAnchor="59.0" />
+      <TextField fx:id="txtGroupNumber" layoutX="227.0" layoutY="18.0" onAction="#editSubGroupId" prefHeight="25.0" prefWidth="344.0" AnchorPane.topAnchor="18.0" />
+      <Button fx:id="btnUpdate" layoutX="227.0" layoutY="101.0" mnemonicParsing="false" onAction="#updateGroupNumber" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Update" textFill="#f5f0f0" AnchorPane.topAnchor="101.0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
