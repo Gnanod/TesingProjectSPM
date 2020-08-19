@@ -17,8 +17,9 @@ public class DBConnection {
     private DBConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-        String jdbcurl="jdbc:mysql://"+"spmproject.calqnpocpi57.us-east-1.rds.amazonaws.com:"+3306+"/timetableManagementSystem";
-        conn=(Connection) DriverManager.getConnection(jdbcurl,"root","mysql123");
+            String jdbcurl = "jdbc:mysql://" + "spmproject.calqnpocpi57.us-east-1.rds.amazonaws.com:" + 3306 +
+                    "/timetableManagementSystem";
+            conn = (Connection) DriverManager.getConnection(jdbcurl, "root", "mysql123");
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -28,12 +29,13 @@ public class DBConnection {
     }
 
     public static DBConnection getInstance() {
-        if(dbConnection==null){
-            dbConnection=new DBConnection();
+        if (dbConnection == null) {
+            dbConnection = new DBConnection();
         }
         return dbConnection;
     }
-    public Connection getConnection(){
+
+    public Connection getConnection() {
         return this.conn;
     }
 
