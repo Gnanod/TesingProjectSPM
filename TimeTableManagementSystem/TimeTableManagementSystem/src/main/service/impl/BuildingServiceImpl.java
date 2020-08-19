@@ -17,6 +17,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public ArrayList<Building> searchBuildingDetailsByCenter(String name) throws SQLException {
+        System.out.println(name);
         String SQL = "Select * from building where center LIKE '%" + name + "%'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
