@@ -133,6 +133,6 @@
                     </font>
                 </Label>
             </children></Pane>
-        <BorderPane fx:id="pnlMain" layoutX="258.0" layoutY="69.0" prefHeight="623.0" prefWidth="969.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0" />
+        <BorderPane fx:id="pnlMain" layoutX="258.0" layoutY="69.0" prefHeight="623.0" prefWidth="969.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="258.0" AnchorPane.rightAnchor="-2.0" AnchorPane.topAnchor="69.0" />
     </children>
 </AnchorPane>

@@ -22,10 +22,10 @@ public class LectureServiceImpl implements LecturerService {
         stm.setObject(1, lecturer.getEmpId());
         stm.setObject(2, lecturer.getEmpName());
         stm.setObject(3, lecturer.getFaculty());
-        stm.setObject(4, 1);
+        stm.setObject(4, lecturer.getDepartment());
         stm.setObject(5, lecturer.getDesignation());
         stm.setObject(6, lecturer.getCenter());
-        stm.setObject(7, 1);
+        stm.setObject(7, lecturer.getBuilding());
         stm.setObject(8, lecturer.getLevel());
         stm.setObject(9, lecturer.getRank());
         int res = stm.executeUpdate();
@@ -43,9 +43,9 @@ public class LectureServiceImpl implements LecturerService {
             lecturer.setEmpId(Integer.parseInt(rst.getString("employeeId")));
             lecturer.setEmpName(rst.getString("employeeName"));
             lecturer.setFaculty(rst.getString("faculty"));
-            lecturer.setDepartment(rst.getString("departmentId"));
+            lecturer.setDepartment(Integer.parseInt(rst.getString("departmentId")));
             lecturer.setCenter(rst.getString("center"));
-            lecturer.setBuilding(rst.getString("buildingId"));
+            lecturer.setBuilding(Integer.parseInt(rst.getString("buildingId")));
             lecturer.setDesignation(rst.getString("designation"));
             lecturer.setLevel(Integer.parseInt(rst.getString("level")));
             lecturer.setRank(rst.getString("ranks"));
@@ -66,10 +66,10 @@ public class LectureServiceImpl implements LecturerService {
             lecturer.setEmpId(Integer.parseInt(rst.getString("employeeId")));
             lecturer.setEmpName(rst.getString("employeeName"));
             lecturer.setFaculty(rst.getString("faculty"));
-            lecturer.setDepartment(rst.getString("departmentId"));
+            lecturer.setDepartment(Integer.parseInt(rst.getString("departmentId")));
             lecturer.setDesignation(rst.getString("designation"));
             lecturer.setCenter(rst.getString("center"));
-            lecturer.setBuilding(rst.getString("buildingId"));
+            lecturer.setBuilding(Integer.parseInt(rst.getString("buildingId")));
             lecturer.setLevel(Integer.parseInt(rst.getString("level")));
             lecturer.setRank(rst.getString("ranks"));
             lecturers.add(lecturer);
@@ -86,8 +86,8 @@ public class LectureServiceImpl implements LecturerService {
 
     @Override
     public boolean updateLecturer(Lecturer lecturer) throws SQLException {
-        lecturer.setBuilding("1");
-        lecturer.setDepartment("1");
+        lecturer.setBuilding(1);
+        lecturer.setDepartment(1);
         System.out.print(lecturer.getDesignation());
         String SQL="Update lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
                 "where employeeId='"+lecturer.getEmpId()+"'";

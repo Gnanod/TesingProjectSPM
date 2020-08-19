@@ -57,6 +57,8 @@ public class AddLecturerController implements Initializable{
     @FXML
     private ComboBox<String> txtDesignation;
     static int level;
+    static int dId;
+    static int bId;
     @FXML
     private TextField txtrank;
     private ArrayList<Department> departmentsId = new ArrayList<>();
@@ -80,14 +82,31 @@ public class AddLecturerController implements Initializable{
             txtrank.setText(level+"."+empId);
             String rank=level+"."+empId;
         System.out.println(String.valueOf(empId).length());
-        if (empId != 0 && String.valueOf(empId).length()==6) {
+
+            int dCount=0;
+            int bCount=0;
+            for (Department department1 : this.departmentsId) {
+                if (department.equals(department1.getDepartmentName())) {
+                    dId = department1.getDepartmentId();
+                    dCount++;
+                }
+            }
+            for (Building building1 : this.buildingsId) {
+                if (building.equals(building1.getBuilding())) {
+                    bId = building1.getBid();
+                    bCount++;
+                }
+            }
+
+
+            if (empId != 0 && String.valueOf(empId).length()==6) {
             if(Name!=null){
                 if(Faculty!=null){
                     if(department!=null){
                         if(center!=null){
                             if(building!=null){
                                 if(designation!=null){
-                                    Lecturer lecturer = new Lecturer(empId, Name, Faculty, department, center, designation, building, level, rank);
+                                    Lecturer lecturer = new Lecturer(empId, Name, Faculty, dId, center, designation, bId, level, rank);
                                     LecturerService lecturerService = new LectureServiceImpl();
 
                                     boolean res = lecturerService.saveLecturer(lecturer);

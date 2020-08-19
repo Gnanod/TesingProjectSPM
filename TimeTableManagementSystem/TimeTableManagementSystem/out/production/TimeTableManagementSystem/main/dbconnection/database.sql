@@ -61,21 +61,6 @@ create table room(
 );
 
 
-create table building(
-	bid int not null auto_increment,
-	center varchar(100) not null,
-	building varchar(100) not null,
-	constraint primary key(bid)
-);
-
-create table room(
-	rid int not null auto_increment,
-	buildingid int not null,
-	room varchar(100) not null,
-	capacity int not null,
-	constraint primary key(rid),
-	FOREIGN KEY (buildingid) REFERENCES building(bid)
-);
 
 create table department(
   dId int not null auto_increment,

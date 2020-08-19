@@ -28,7 +28,7 @@ public class DashboardServiceImpl implements DashboardService {
         while (rst.next()) {
             Dashboard dashboard = new Dashboard();
             dashboard.setCenter(rst.getString("center"));
-            dashboard.setNoOfBuildings(Integer.parseInt(rst.getString("count(building)")));
+            dashboard.setNoOfBuildings(Integer.parseInt(rst.getString("NoOfBuildings")));
             NoBuildingList.add(dashboard);
         }
         return NoBuildingList;
