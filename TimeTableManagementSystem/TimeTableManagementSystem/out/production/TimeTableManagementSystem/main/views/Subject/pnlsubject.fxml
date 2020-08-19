@@ -14,26 +14,13 @@
             <Button fx:id="btnSubject" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Subject">
                <font>
                   <Font name="System Bold" size="13.0" />
-               </font>
-               <graphic>
-                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
-               </graphic></Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutY="90.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Main Group">
+               </font></Button>
+            <Button layoutX="-13.0" layoutY="82.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available                        ">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" contentDisplay="TOP" layoutX="1.0" layoutY="180.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Sub Group">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button layoutX="1.0" layoutY="270.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available                        ">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <Button fx:id="btnTag" alignment="CENTER" contentDisplay="TOP" layoutY="270.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Tag">
+            <Button fx:id="btnTag" alignment="CENTER" contentDisplay="TOP" layoutX="1.0" layoutY="82.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Tag">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
@@ -41,6 +28,7 @@
                   <FontAwesomeIconView glyphName="TAG" size="35.0" />
                </graphic>
             </Button>
+            <FontAwesomeIconView glyphName="BOOK" layoutX="85.0" layoutY="33.0" size="35.0" text="" />
          </children>
       </Pane>
       <BorderPane fx:id="pnlSubject" layoutX="225.0" layoutY="11.0" prefHeight="591.0" prefWidth="769.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" />

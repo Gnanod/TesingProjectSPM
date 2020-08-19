@@ -89,7 +89,7 @@ public class LectureServiceImpl implements LecturerService {
         lecturer.setBuilding(1);
         lecturer.setDepartment(1);
         System.out.print(lecturer.getDesignation());
-        String SQL="Update Lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',buildingId='"+lecturer.getBuilding()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
+        String SQL="Update Lecturer set employeeName='"+lecturer.getEmpName()+"',faculty='"+lecturer.getFaculty()+"',departmentId='"+lecturer.getDepartment()+"' ,center='"+lecturer.getCenter()+"',designation='"+lecturer.getDesignation()+"',level='"+lecturer.getLevel()+"'" +
                 "where employeeId='"+lecturer.getEmpId()+"'";
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
