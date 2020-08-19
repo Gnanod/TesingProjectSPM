@@ -97,4 +97,26 @@ public class WorkingDaysServiceImpl implements WorkingDaysService {
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
+
+    @Override
+    public ArrayList<WorkingDaysSub> getAllSubDetails() throws SQLException {
+        String SQL ="Select * from WorkingDaysSub";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<WorkingDaysSub> list = new ArrayList<>();
+        while(rst.next()){
+            WorkingDaysSub  m1 = new WorkingDaysSub();
+            m1.setSubId(Integer.parseInt(rst.getString("subId")));
+            m1.setWorkingday(rst.getString("workingday"));
+            list.add(m1);
+        }
+        return list;
+    }
+
+    @Override
+    public boolean deleteWorkingDaysSub(int id) throws SQLException {
+        String SQL = "Delete From WorkingDaysSub where subId = '"+id+"'";
+        Statement stm = connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
 }

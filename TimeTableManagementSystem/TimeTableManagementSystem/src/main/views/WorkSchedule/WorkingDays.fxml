@@ -11,35 +11,32 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="501.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.WorkSchedule.WorkingDaysController">
+<AnchorPane prefHeight="501.0" prefWidth="704.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.WorkSchedule.WorkingDaysController">
    <children>
-      <Label layoutX="66.0" layoutY="48.0" lineSpacing="10.0" text="Select" />
-      <Label layoutX="65.0" layoutY="110.0" lineSpacing="10.0" text="No of working days" />
-      <Label layoutX="67.0" layoutY="195.0" lineSpacing="10.0" text="Working days" />
-      <Button fx:id="btnAdd" layoutX="440.0" layoutY="256.0" mnemonicParsing="false" onAction="#addDetails" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Add" textFill="#f5f0f0">
+      <Label layoutX="63.0" layoutY="29.0" lineSpacing="10.0" text="Select" />
+      <Label layoutX="63.0" layoutY="81.0" lineSpacing="10.0" text="No of working days" />
+      <Label layoutX="63.0" layoutY="134.0" lineSpacing="10.0" text="Working days" />
+      <Button fx:id="btnAdd" layoutX="248.0" layoutY="168.0" mnemonicParsing="false" onAction="#addDetails" prefHeight="42.0" prefWidth="117.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Add" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Button>
-      <ComboBox fx:id="cmbNoDays" layoutX="254.0" layoutY="109.0" prefWidth="150.0" />
-      <TableView fx:id="tblWorkingDays" layoutX="80.0" layoutY="324.0" prefHeight="158.0" prefWidth="478.0" stylesheets="@../../css/Student.css">
+      <ComboBox fx:id="cmbNoDays" layoutX="248.0" layoutY="77.0" prefWidth="150.0" />
+      <TableView fx:id="tblWorkingDays" layoutX="50.0" layoutY="214.0" prefHeight="268.0" prefWidth="606.0" stylesheets="@../../css/Student.css">
          <columns>
             <TableColumn prefWidth="43.0" text="ID" />
-            <TableColumn prefWidth="135.0" text="Select" />
-            <TableColumn prefWidth="223.0" text="No of Days" />
-            <TableColumn fx:id="colEdit" minWidth="7.0" prefWidth="39.0" />
-            <TableColumn fx:id="colDelete" minWidth="8.0" prefWidth="37.0" />
+            <TableColumn prefWidth="206.0" text="Select" />
+            <TableColumn prefWidth="255.0" text="No of Days" />
+            <TableColumn fx:id="colEdit" minWidth="7.0" prefWidth="54.0" />
+            <TableColumn fx:id="colDelete" minWidth="8.0" prefWidth="47.0" />
          </columns>
       </TableView>
-      <AnchorPane layoutX="233.0" layoutY="178.0" prefHeight="42.0" prefWidth="380.0">
-         <children>
-            <BorderPane fx:id="pnlWorkingDays" layoutX="13.0" prefHeight="42.0" prefWidth="200.0" />
-         </children></AnchorPane>
-      <ToggleButtonGroup fx:id="togglebtnDays" layoutX="251.0" layoutY="44.0" prefHeight="31.0" prefWidth="306.0" selectionType="SINGLE">
+      <ToggleButtonGroup fx:id="togglebtnDays" layoutX="248.0" layoutY="25.0" prefHeight="31.0" prefWidth="306.0" selectionType="SINGLE">
          <toggles>
             <RadioButton fx:id="btnRadioWeekday" mnemonicParsing="false" onAction="#changePanel" prefHeight="32.0" prefWidth="121.0" text="Weekdays" />
             <RadioButton fx:id="btnRadioWeekEnd" mnemonicParsing="false" onAction="#changePanel" prefHeight="32.0" prefWidth="123.0" text="Weekends" />
          </toggles>
       </ToggleButtonGroup>
+      <BorderPane fx:id="pnlWorkingDays" layoutX="248.0" layoutY="102.0" prefHeight="32.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

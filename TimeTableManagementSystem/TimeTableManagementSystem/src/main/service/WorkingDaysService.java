@@ -21,4 +21,8 @@ public interface WorkingDaysService {
     boolean deleteWorkingDaysfromSub(int updateId) throws SQLException;
 
     boolean updateNoOfWorkingDays(WorkingDaysMain workingDaysMain) throws SQLException;
+
+    ArrayList<WorkingDaysSub> getAllSubDetails() throws SQLException;
+
+    boolean deleteWorkingDaysSub(int id)throws SQLException;
 }

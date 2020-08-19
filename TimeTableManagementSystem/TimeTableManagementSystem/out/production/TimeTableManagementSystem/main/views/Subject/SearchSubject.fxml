@@ -7,16 +7,16 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Subject.SearchSubjectController">
+<AnchorPane prefHeight="400.0" prefWidth="744.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Subject.SearchSubjectController">
    <children>
-      <TableView fx:id="tblSubjectCount" layoutX="12.0" layoutY="65.0" prefHeight="303.0" prefWidth="650.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="32.0">
+      <TableView fx:id="tblSubjectCount" layoutX="12.0" layoutY="65.0" prefHeight="335.0" prefWidth="724.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0">
          <columns>
-            <TableColumn minWidth="0.0" prefWidth="120.0" text="subjectCode" />
-            <TableColumn prefWidth="120.0" text="subjectName" />
-            <TableColumn prefWidth="160.0" text="year and semester" />
-            <TableColumn prefWidth="80.0" text="lectureHrs" />
-            <TableColumn prefWidth="80.0" text="tuteHrs" />
-            <TableColumn prefWidth="90.0" text="evalHrs" />
+            <TableColumn minWidth="0.0" prefWidth="127.0" text="subjectCode" />
+            <TableColumn prefWidth="139.0" text="subjectName" />
+            <TableColumn prefWidth="169.0" text="year and semester" />
+            <TableColumn prefWidth="99.0" text="lectureHrs" />
+            <TableColumn prefWidth="93.0" text="tuteHrs" />
+            <TableColumn prefWidth="96.0" text="evalHrs" />
          </columns>
       </TableView>
       <TextField fx:id="txtSubject" layoutX="97.0" layoutY="22.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="219.0" promptText="Enter Subject Code" />
