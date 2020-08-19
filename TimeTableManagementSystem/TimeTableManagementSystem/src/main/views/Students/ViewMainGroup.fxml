@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Student.ViewMainGroupController">
+<AnchorPane prefHeight="481.0" prefWidth="820.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Student.ViewMainGroupController">
    <children>
       <Label layoutX="106.0" layoutY="37.0" prefHeight="31.0" prefWidth="91.0" stylesheets="@../../css/Student.css" text="Goup Number" AnchorPane.topAnchor="40.0">
          <font>
@@ -27,13 +27,13 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <TableView fx:id="tblMainGroup" layoutX="95.0" layoutY="197.0" prefHeight="212.0" prefWidth="473.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="197.0">
+      <TableView fx:id="tblMainGroup" layoutX="95.0" layoutY="197.0" prefHeight="284.0" prefWidth="609.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="197.0">
          <columns>
             <TableColumn prefWidth="60.0" text="Id" />
-            <TableColumn prefWidth="108.0" text="Group Number" />
-            <TableColumn prefWidth="208.0" text="Group Id" />
-            <TableColumn fx:id="colEdit" prefWidth="53.0" />
-            <TableColumn fx:id="colDelete" prefWidth="43.0" />
+            <TableColumn prefWidth="230.0" text="Group Number" />
+            <TableColumn prefWidth="235.0" text="Group Id" />
+            <TableColumn fx:id="colEdit" prefWidth="41.0" />
+            <TableColumn fx:id="colDelete" prefWidth="42.0" />
          </columns>
       </TableView>
       <TextField fx:id="txtSearch" layoutX="95.0" layoutY="164.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="212.0" promptText="Enter Group Number" AnchorPane.topAnchor="164.0" />
