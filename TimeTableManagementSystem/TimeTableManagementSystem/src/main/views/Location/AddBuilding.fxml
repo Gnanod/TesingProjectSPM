@@ -15,7 +15,7 @@
 <AnchorPane prefHeight="434.0" prefWidth="723.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.AddBuildingController">
 
     <children>
-        <TableView fx:id="tblBuilding" layoutX="89.0" layoutY="139.0" prefHeight="248.0" prefWidth="447.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="14.0" AnchorPane.topAnchor="139.0">
+        <TableView fx:id="tblBuilding" layoutX="89.0" layoutY="139.0" prefHeight="248.0" prefWidth="447.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="28.0" AnchorPane.topAnchor="139.0">
             <columns>
                 <TableColumn minWidth="0.0" prefWidth="150.0" text="Center" />
                 <TableColumn prefWidth="150.0" text="Building" />
@@ -29,7 +29,7 @@
             </font>
         </Button>
         <FontAwesomeIconView glyphName="PLUS_CIRCLE" layoutX="428.0" layoutY="89.0" size="35" text="" wrappingWidth="33.2857141494751" />
-        <Button fx:id="btnBuildingSave" layoutX="553.0" layoutY="375.0" mnemonicParsing="false" onAction="#saveBuildingDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0" AnchorPane.bottomAnchor="28.0">
+        <Button fx:id="btnBuildingSave" layoutX="553.0" layoutY="375.0" mnemonicParsing="false" onAction="#saveBuildingDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0" AnchorPane.bottomAnchor="32.0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
