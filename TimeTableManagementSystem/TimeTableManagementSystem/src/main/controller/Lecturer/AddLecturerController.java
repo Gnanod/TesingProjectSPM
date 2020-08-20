@@ -284,11 +284,12 @@ public class AddLecturerController implements Initializable{
         System.out.print(center);
         try{
             BuildingService buildingService=new BuildingServiceImpl();
-            ArrayList<Building> list =buildingService.searchBuildingDetailsByCenter(center);
+            ArrayList<Building> list =buildingService.searchBuildingDetailsByUsingCenter(center);
             for (Building building : list
             ) {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
+                System.out.println(building.getBuilding());
             }
             TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
