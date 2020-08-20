@@ -127,4 +127,66 @@ public class BuildingServiceImpl implements BuildingService {
         return buildingsList;
     }
 
+    @Override
+    public ArrayList<Building> getAllAllRoomDetails() throws SQLException {
+        String SQL ="Select * from building";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Building> buildings = new ArrayList<>();
+        while(rst.next()){
+            Building r1 = new Building(Integer.parseInt(rst.getString("bid")),
+                    rst.getString("building"),
+                    rst.getString("center"));
+            buildings.add(r1);
+        }
+        return buildings;
+    }
+
+    @Override
+    public ArrayList<Building> getAllDetailsForSearch(String bcenter, String bbuilding) throws SQLException {
+        String buildingsql = "";
+        String centerSql = "";
+
+        Statement stm = null;
+        String SQL = "";
+
+
+        ArrayList<Building> buildingA = new ArrayList<>();
+        try {
+            stm = connection.createStatement();
+
+            if(bbuilding == null && bcenter == null ) {
+                 SQL = "select * " +
+                        "from building ";
+            }
+
+            if (bbuilding != null) {
+                buildingsql = " building LIKE '%" + bbuilding + "%'";
+                SQL = "select * " +
+                        "from building "+
+                "where "+buildingsql;
+            }
+            if (bcenter != null) {
+                centerSql = " center LIKE '%" + bcenter + "%'";
+                SQL = "select * " +
+                        "from building "+
+                        "where "+centerSql;
+            }
+
+
+            ResultSet rst = stm.executeQuery(SQL);
+            while(rst.next()){
+                Building building = new Building(Integer.parseInt(rst.getString("bid")),
+                        rst.getString("building"),
+                        rst.getString("center"));
+                buildingA.add(building);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return buildingA;
+    }
+
 }
