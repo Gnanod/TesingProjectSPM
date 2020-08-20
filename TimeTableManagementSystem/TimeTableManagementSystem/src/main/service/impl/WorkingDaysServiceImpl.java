@@ -118,11 +118,19 @@ public class WorkingDaysServiceImpl implements WorkingDaysService {
     public boolean deleteWorkingDaysSub(int id,int workingId) throws SQLException {
         String SQL = "Delete From WorkingDaysSub where subId = '"+id+"'";
         Statement stm = connection.createStatement();
-
-//        String SQL2 = "Update WorkingDaysMain set type='"+workingDaysMain.getNoOfDays()+"'," +
-//                "noOfDays='"+workingDaysMain.getNoOfDays()+"' " +
-//                "where workingId='"+workingDaysMain.getWorkingId()+"'";
-
-        return stm.executeUpdate(SQL)>0;
+        int delete = stm.executeUpdate(SQL);
+        int count=0;
+        int update =0;
+        if(delete>0){
+            String sqlCount = "select count(workingday) from WorkingDaysSub where workingId ='"+workingId+"' ";
+            Statement stm1 = connection.createStatement();
+            ResultSet rst = stm1.executeQuery(sqlCount);
+            if (rst.next()) {
+                count = Integer.parseInt(rst.getString("count(workingday)"));
+            }
+            String sqlUpdate="update WorkingDaysMain set noOfDays = '"+count+"' where workingId ='"+workingId+"'";
+            update= stm1.executeUpdate(sqlUpdate);
+        }
+        return update>0;
     }
 }
