@@ -18,4 +18,6 @@ public interface SubGroupService {
     boolean searchSubGroup(String updateGroupId) throws SQLException;
 
     boolean updateGroupNumber(SubGroup m) throws SQLException;
+
+    boolean deleteSubGroup(int id) throws SQLException;
 }

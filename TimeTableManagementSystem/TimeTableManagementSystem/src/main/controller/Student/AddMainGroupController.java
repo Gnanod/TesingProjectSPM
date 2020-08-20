@@ -3,9 +3,11 @@ package main.controller.Student;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -93,28 +95,28 @@ public class AddMainGroupController implements Initializable {
         int yearCount = 0;
         int programmeCount = 0;
         String yName = txtAYear.getText();
-        int groupCount = Integer.parseInt(txtGroupCount.getText());
-        for (Programme p : this.pId
-        ) {
-            if (pName.equals(p.getProgrammeName())) {
-                pId = p.getProgrammeId();
-                programmeCount++;
-            }
-        }
-        for (YearAndSemester y : this.yearSemId) {
-            if (yName.equals(y.getFullName())) {
-                yId = y.getId();
-                yearCount++;
-            }
-        }
         try {
+            int groupCount = Integer.parseInt(txtGroupCount.getText());
+            for (Programme p : this.pId
+            ) {
+                if (pName.equals(p.getProgrammeName())) {
+                    pId = p.getProgrammeId();
+                    programmeCount++;
+                }
+            }
+            for (YearAndSemester y : this.yearSemId) {
+                if (yName.equals(y.getFullName())) {
+                    yId = y.getId();
+                    yearCount++;
+                }
+            }
+
             if (pName != null) {
                 if (yName != null) {
                     if (programmeCount != 0) {
                         if (yearCount != 0) {
                             boolean isAdded = false;
                             int count = this.mainGroupService.getCountAccordingToName(yName + "." + pName);
-                            System.out.println("Count :"+count);
                             for (int i = 0; i < groupCount; i++) {
                                 MainGroup m = new MainGroup();
                                 String generateId = null;
@@ -128,7 +130,7 @@ public class AddMainGroupController implements Initializable {
                                 m.setProgrammeid(pId);
                                 m.setSemid(yId);
                                 m.setMgroupName(yName + "." + pName);
-                                m.setGroupNumber(count+1);
+                                m.setGroupNumber(count + 1);
                                 isAdded = this.mainGroupService.saveMainGroupId(m);
                                 count++;
                             }
@@ -138,7 +140,7 @@ public class AddMainGroupController implements Initializable {
                                 al.setContentText("Added Successfully ");
                                 al.setHeaderText(null);
                                 al.showAndWait();
-                                count=0;
+                                count = 0;
                                 txtAProgramme.setText(null);
                                 txtAYear.setText(null);
                                 txtGroupCount.setText(null);
@@ -177,9 +179,17 @@ public class AddMainGroupController implements Initializable {
                 al.setHeaderText(null);
                 al.showAndWait();
             }
+
+        } catch (NumberFormatException e) {
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Please Enter Numeric Value To This Field");
+            al.setHeaderText(null);
+            al.showAndWait();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
 }
