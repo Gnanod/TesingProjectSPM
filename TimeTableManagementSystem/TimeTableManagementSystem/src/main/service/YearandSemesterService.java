@@ -16,5 +16,6 @@ public interface YearandSemesterService {
 
     public boolean deleteYearAndSemester(int key) throws SQLException;
 
+    public String searchYearAndSemesterName(int id) throws SQLException;
 
 }

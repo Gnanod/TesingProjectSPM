@@ -28,6 +28,7 @@ public interface BuildingService {
     ArrayList<Building> getAllAllRoomDetails() throws SQLException;
 
     public ArrayList<Building> getAllDetailsForSearch(String bcenter, String bbuilding) throws SQLException;
+
 }
 
 

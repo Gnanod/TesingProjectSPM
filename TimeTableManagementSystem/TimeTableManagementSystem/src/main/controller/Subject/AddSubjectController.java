@@ -50,12 +50,12 @@ public class AddSubjectController implements Initializable {
     @FXML
     void saveDetails(ActionEvent event) {
 
-           String subId = txtSubID.getText();
-           String subName = txtSubName.getText();
+        String subId = txtSubID.getText();
+        String subName = txtSubName.getText();
 
-           String offeredYearSem =txtYear.getText();
+        String offeredYearSem =txtYear.getText();
 
-           int yearCount=0;
+        int yearCount=0;
         for (YearAndSemester y : this.yearAndSemesters) {
             if (offeredYearSem.equals(y.getFullName())) {
                 yId = y.getId();
@@ -63,85 +63,105 @@ public class AddSubjectController implements Initializable {
             }
         }
         System.out.print("hi"+yId);
-           try{
-               int noLecHrs = Integer.parseInt(txtLecHours.getText());
-               try{
-                   int noTutHrs = Integer.parseInt(txtTutHours.getText());
-                   try{
-                       int noEvalHrs = Integer.parseInt(txtEvalHours.getText());
+        try{
+            int noLecHrs = Integer.parseInt(txtLecHours.getText());
+            try{
+                int noTutHrs = Integer.parseInt(txtTutHours.getText());
+                try{
+                    int noEvalHrs = Integer.parseInt(txtEvalHours.getText());
 
-                       if(subId !=null){
-                           if(subName!=null){
-                               if(offeredYearSem !=null){
-                                   if(noLecHrs!=0){
-                                       try {
-                                       Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs);
-                                       SubjectService subjectService = new SubjectServiceImpl();
-                                       subjectService.saveSubject(subject);
-                                       }catch (SQLException ex){
-                                           ex.printStackTrace();
-                                       }
-                                   }else{
-                                       Alert al = new Alert(Alert.AlertType.ERROR);
-                                       al.setTitle(null);
-                                       al.setContentText("Number of Lecture Hours Empty!");
-                                       al.setHeaderText(null);
-                                       al.showAndWait();
-                                   }
+                    if(!subId.equalsIgnoreCase("") ){
+                        if(!subName.equalsIgnoreCase("")){
+                            if(!offeredYearSem.equalsIgnoreCase("")){
+                                if(noLecHrs!=0){
+                                    try {
+                                        Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs);
+                                        SubjectService subjectService = new SubjectServiceImpl();
+                                        boolean res=subjectService.saveSubject(subject);
+                                        if(res==true){
+                                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                            alert.setTitle(null);
+                                            alert.setHeaderText(null);
+                                            alert.setContentText("Success Adding Subject!");
 
-                               }else{
-                                   Alert al = new Alert(Alert.AlertType.ERROR);
-                                   al.setTitle(null);
-                                   al.setContentText("Offered Year and Semester Empty!");
-                                   al.setHeaderText(null);
-                                   al.showAndWait();
-                               }
+                                            alert.showAndWait();
+                                            txtSubID.setText(" ");
+                                            txtSubName.setText(" ");
+                                            txtYear.setText(" ");
+                                            txtLecHours.setText(" ");
+                                            txtTutHours.setText(" ");
+                                            txtEvalHours.setText(" ");
+                                        }else{
+                                            Alert al = new Alert(Alert.AlertType.ERROR);
+                                            al.setTitle(null);
+                                            al.setContentText("Error Adding Subject!");
+                                            al.setHeaderText(null);
+                                            al.showAndWait();
+                                        }
+                                    }catch (SQLException ex){
+                                        ex.printStackTrace();
+                                    }
+                                }else{
+                                    Alert al = new Alert(Alert.AlertType.ERROR);
+                                    al.setTitle(null);
+                                    al.setContentText("Number of Lecture Hours Empty!");
+                                    al.setHeaderText(null);
+                                    al.showAndWait();
+                                }
 
-                           }else{
-                               Alert al = new Alert(Alert.AlertType.ERROR);
-                               al.setTitle(null);
-                               al.setContentText("Subject Name is Empty!");
-                               al.setHeaderText(null);
-                               al.showAndWait();
-                           }
+                            }else{
+                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                al.setTitle(null);
+                                al.setContentText("Offered Year and Semester Empty!");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                            }
 
-                       }else{
-                           Alert al = new Alert(Alert.AlertType.ERROR);
-                           al.setTitle(null);
-                           al.setContentText("Subject Code is Empty!");
-                           al.setHeaderText(null);
-                           al.showAndWait();
-                       }
+                        }else{
+                            Alert al = new Alert(Alert.AlertType.ERROR);
+                            al.setTitle(null);
+                            al.setContentText("Subject Name is Empty!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+                        }
+
+                    }else{
+                        Alert al = new Alert(Alert.AlertType.ERROR);
+                        al.setTitle(null);
+                        al.setContentText("Subject Code is Empty!");
+                        al.setHeaderText(null);
+                        al.showAndWait();
+                    }
 
 
-                   }catch(NumberFormatException ex){
-                       Alert al = new Alert(Alert.AlertType.ERROR);
-                       al.setTitle(null);
-                       al.setContentText("Enter in Correct Format for Evaluation of Lecturer hours!");
-                       al.setHeaderText(null);
-                       al.showAndWait();
-                   }
-               }catch(NumberFormatException ex){
-                   Alert al = new Alert(Alert.AlertType.ERROR);
-                   al.setTitle(null);
-                   al.setContentText("Enter in Correct Format for Tute of Lecturer hours!");
-                   al.setHeaderText(null);
-                   al.showAndWait();
-               }
-           }catch(NumberFormatException ex){
-               Alert al = new Alert(Alert.AlertType.ERROR);
-               al.setTitle(null);
-               al.setContentText("Enter in Correct Format for Number of Lecturer hours!");
-               al.setHeaderText(null);
-               al.showAndWait();
-           }
+                }catch(NumberFormatException ex){
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Enter in Correct Format for Evaluation of Lecturer hours!");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            }catch(NumberFormatException ex){
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Enter in Correct Format for Tute of Lecturer hours!");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        }catch(NumberFormatException ex){
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Enter in Correct Format for Number of Lecturer hours!");
+            al.setHeaderText(null);
+            al.showAndWait();
+        }
 
 
 
     }
 
 
-   public  void getYearSem() {
+    public  void getYearSem() {
         try{
             YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
             ArrayList<YearAndSemester> list =yearandSemesterService.getAllDetails();

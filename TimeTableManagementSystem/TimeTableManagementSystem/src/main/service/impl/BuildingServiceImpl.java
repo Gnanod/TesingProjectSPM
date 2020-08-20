@@ -16,8 +16,9 @@ public class BuildingServiceImpl implements BuildingService {
     }
 
     @Override
-    public ArrayList<Building> searchBuildingDetailsByCenter(String name) throws SQLException {
-        String SQL = "Select *  from building where center LIKE '%" + name + "%'";
+    public ArrayList<Building> searchBuildingDetailsByCenter(String center) throws SQLException {
+        System.out.println(center);
+        String SQL = "Select * from building where center LIKE '%" + center + "%'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Building> buildingsList = new ArrayList<>();
@@ -28,8 +29,6 @@ public class BuildingServiceImpl implements BuildingService {
         }
         return buildingsList;
     }
-
-
 
     @Override
     public String searchBuildingName(int id) throws SQLException {
@@ -44,6 +43,8 @@ public class BuildingServiceImpl implements BuildingService {
         }
         return buldingName;
     }
+
+
 
     @Override
     public boolean saveBuildings(Building building) throws SQLException {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="501.0" prefWidth="616.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.WorkSchedule.WorkingDaysDeleteController">
+   <children>
+      <TableView fx:id="tblWorkingDays" layoutX="69.0" layoutY="85.0" prefHeight="418.0" prefWidth="531.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="83.0">
+         <columns>
+            <TableColumn prefWidth="76.0" text="ID" />
+            <TableColumn prefWidth="381.0" text="Day" />
+            <TableColumn fx:id="colDelete" prefWidth="73.0" text="Action" />
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

@@ -108,6 +108,8 @@ public class MainController implements Initializable {
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnWorkingDays) {
                 chageLableStatus("/home/Students&hours", "Working Days & Hours");
+                Parent root = FXMLLoader.load(getClass().getResource("../views/WorkSchedule/pnlWorkingDays.fxml"));
+                pnlMain.setCenter(root);
             } else if (event.getSource() == btnSubject) {
                 chageLableStatus("/home/subject", "Subject");
                 Parent root = FXMLLoader.load(getClass().getResource("../views/Subject/pnlsubject.fxml"));

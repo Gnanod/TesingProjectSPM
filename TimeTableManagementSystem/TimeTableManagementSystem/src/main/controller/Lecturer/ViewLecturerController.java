@@ -13,10 +13,17 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import main.model.Building;
+import main.model.Department;
 import main.model.Lecturer;
 import main.model.MainGroup;
+import main.service.BuildingService;
+import main.service.DepartmentService;
 import main.service.LecturerService;
+import main.service.impl.BuildingServiceImpl;
+import main.service.impl.DepartmentServiceImpl;
 import main.service.impl.LectureServiceImpl;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -45,8 +52,9 @@ public class ViewLecturerController implements Initializable {
     private TextField txtName;
 
 
+
     @FXML
-    private TextField txtCenter;
+    private ComboBox<String> txtCenter;
 
     @FXML
     private ComboBox<String> txtDesignation;
@@ -58,9 +66,16 @@ public class ViewLecturerController implements Initializable {
     private TextField txtBuilding;
     static int empId;
     static int level;
+    static String center;
     static String rank;
+    static int dId;
+    static int bId;
+    private ArrayList<Department> departmentsId = new ArrayList<>();
+    private ArrayList<String> departmentName = new ArrayList<>();
+    private ArrayList<Building> buildingsId = new ArrayList<>();
+    private ArrayList<String> buildingName = new ArrayList<>();
     private ObservableList<String> designationList= FXCollections.observableArrayList("Professor","Assistant Professor","Senior Lecturer(HG)","Senior Lecturer","Lecturer","Assistant Lecturer","Instructors");
-
+    private ObservableList<String> centerList= FXCollections.observableArrayList("Malabe","Metro","Kurunegala","Kandy","Matara","SLIIT Academy","Jaffna");
 
     @FXML
     void getDesignation(ActionEvent event) {
@@ -90,23 +105,114 @@ public class ViewLecturerController implements Initializable {
 
     @FXML
     void updateLecturer(ActionEvent event) {
+        try{
 
             String empName=txtName.getText();
             String faculty=txtFaculty.getText();
-            int department=Integer.parseInt(txtDepartment.getText());
-            String center=txtCenter.getText();
-            int building=Integer.parseInt(txtBuilding.getText());
+            String department=txtDepartment.getText();
+            String center=txtCenter.getValue();
+            String building=txtBuilding.getText();
             String designation=txtDesignation.getValue();
             System.out.println(designation);
-            Lecturer lecturer=new Lecturer(empId,empName,faculty,department,center,designation,building,level,rank);
-            try{
-                LecturerService lecturerService=new LectureServiceImpl();
-                lecturerService.updateLecturer(lecturer);
-                this.setTableProperties();
-                getAllLecturers();
-            }catch (SQLException ex){
-                ex.printStackTrace();
+            int dCount=0;
+            int bCount=0;
+            for (Department department1 : this.departmentsId) {
+                if (department.equals(department1.getDepartmentName())) {
+                    dId = department1.getDepartmentId();
+                    dCount++;
+                }
             }
+            for (Building building1 : this.buildingsId) {
+                if (building.equals(building1.getBuilding())) {
+                    bId = building1.getBid();
+                    bCount++;
+                }
+            }
+            System.out.println(bId);
+
+            if(!empName.equalsIgnoreCase("")){
+                if(!faculty.equalsIgnoreCase("")){
+                    if(!department.equalsIgnoreCase("")){
+                        if(!center.equalsIgnoreCase("")){
+                            if(!building.equalsIgnoreCase("")){
+                                if(!designation.equalsIgnoreCase("")){
+                                    Lecturer lecturer=new Lecturer(empId,empName,faculty,dId,center,designation,bId,level,rank);
+
+                                    LecturerService lecturerService=new LectureServiceImpl();
+                                    boolean res =lecturerService.updateLecturer(lecturer);
+                                    if(res==true){
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle(null);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Success Updating Lecturer!");
+
+                                        alert.showAndWait();
+                                        txtName.setText(" ");
+                                        txtFaculty.setText(" ");
+                                        txtDepartment.setText(" ");
+                                        txtDesignation.setValue(" ");
+                                        txtDepartment.setText(" ");
+                                        txtCenter.setValue(" ");
+                                        txtBuilding.setText(" ");
+                                    }else{
+                                        Alert al = new Alert(Alert.AlertType.ERROR);
+                                        al.setTitle(null);
+                                        al.setContentText("Error Updating Lecturer!");
+                                        al.setHeaderText(null);
+                                        al.showAndWait();
+                                    }
+                                    this.setTableProperties();
+                                    getAllLecturers();
+
+                                }else{
+                                    Alert al = new Alert(Alert.AlertType.ERROR);
+                                    al.setTitle(null);
+                                    al.setContentText("Employee Designation is Empty!");
+                                    al.setHeaderText(null);
+                                    al.showAndWait();
+                                }
+                            }else{
+                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                al.setTitle(null);
+                                al.setContentText("Building is Empty!");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                            }
+
+                        }else{
+                            Alert al = new Alert(Alert.AlertType.ERROR);
+                            al.setTitle(null);
+                            al.setContentText("Employee Center is Empty!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+                        }
+
+                    }else{
+                        Alert al = new Alert(Alert.AlertType.ERROR);
+                        al.setTitle(null);
+                        al.setContentText("Employee Department is Empty!");
+                        al.setHeaderText(null);
+                        al.showAndWait();
+                    }
+
+                }else{
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Employee Faculty is Empty!");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+
+            }else{
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Employee Name is Empty!");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        }catch (SQLException ex){
+            ex.printStackTrace();
+        }
 
     }
     public void setTableProperties() {
@@ -123,6 +229,9 @@ public class ViewLecturerController implements Initializable {
         this.setTableProperties();
         getAllLecturers();
         setDesignation();
+        getAllDepartmentDetails();
+        setCenter();
+
     }
     public void getAllLecturers(){
 
@@ -170,15 +279,25 @@ public class ViewLecturerController implements Initializable {
                             empId=m.getEmpId();
                             txtName.setText(m.getEmpName());
                             txtFaculty.setText(m.getFaculty());
-                            txtDepartment.setText(Integer.toString(m.getDepartment()));
-                            txtCenter.setText(m.getCenter());
+                            try{
+                                DepartmentService departmentService=new DepartmentServiceImpl();
+                                m.setDepartmentName(departmentService.searchDepartmentName(m.getDepartment()));
+                                BuildingService buildingService=new BuildingServiceImpl();
+                                m.setBuildingName(buildingService.searchBuildingName(m.getBuilding()));
+                                System.out.println(m.getDepartmentName());
+                            }catch (SQLException ex){
+                                ex.printStackTrace();
+                            }
+                            txtDepartment.setText(m.getDepartmentName());
+                            txtCenter.setValue(m.getCenter());
+                            center=m.getCenter();
                             txtDesignation.setValue(m.getDesignation());
-                            txtBuilding.setText(Integer.toString(m.getBuilding()));
+                            txtBuilding.setText(m.getBuildingName());
                         }
                     };
                     return cell;
                 }
-    };
+            };
 
     Callback<TableColumn<Lecturer, Boolean>, TableCell<Lecturer, Boolean>> cellFactoryBtnDelete =
             new Callback<TableColumn<Lecturer, Boolean>, TableCell<Lecturer, Boolean>>() {
@@ -235,6 +354,47 @@ public class ViewLecturerController implements Initializable {
     public void setDesignation(){
 
         txtDesignation.setItems(designationList);
+
+    }
+    private void getAllDepartmentDetails() {
+        try {
+            DepartmentService departmentService=new DepartmentServiceImpl();
+            ArrayList<Department> list = departmentService.getAllDetails();
+            for (Department department : list
+            ) {
+                departmentsId.add(department);
+                departmentName.add(department.getDepartmentName());
+            }
+            TextFields.bindAutoCompletion(txtDepartment, departmentName);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void getCenter(ActionEvent event) {
+        buildingName.clear();
+        buildingsId.clear();
+        String center1=txtCenter.getValue();
+        System.out.print(center1);
+        try{
+            BuildingService buildingService=new BuildingServiceImpl();
+            ArrayList<Building> list =buildingService.searchBuildingDetailsByCenter(center1);
+            for (Building building : list
+            ) {
+                buildingsId.add(building);
+                buildingName.add(building.getBuilding());
+                System.out.println("Hi"+building.getBuilding());
+            }
+            TextFields.bindAutoCompletion(txtBuilding, buildingName);
+
+        }catch (SQLException ex){
+            ex.printStackTrace();
+        }
+
+    }
+    public void setCenter(){
+
+        txtCenter.setItems(centerList);
 
     }
 }

@@ -9,12 +9,19 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
+import main.model.Department;
 import main.model.Lecturer;
 import main.model.Subject;
+import main.model.YearAndSemester;
+import main.service.DepartmentService;
 import main.service.LecturerService;
 import main.service.SubjectService;
+import main.service.YearandSemesterService;
+import main.service.impl.DepartmentServiceImpl;
 import main.service.impl.LectureServiceImpl;
 import main.service.impl.SubjectServiceImpl;
+import main.service.impl.YearAndServiceImpl;
+import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -52,19 +59,74 @@ public class ViewSubjectController implements Initializable {
     @FXML
     private TextField txtTut;
     static String subId;
+    static int dId;
+    private ArrayList<YearAndSemester> yearsId = new ArrayList<>();
+    private ArrayList<String> yearName = new ArrayList<>();
     @FXML
     void updateLecturer(ActionEvent event) {
         String subName=txtName.getText();
-        int offered=Integer.parseInt(txtOfferedYear.getText());
+        String offered=txtOfferedYear.getText();
         int lec=Integer.parseInt(txtLec.getText());
         int tut=Integer.parseInt(txtTut.getText());
         int eval=Integer.parseInt(txtEval.getText());
+        int dCount=0;
+        for (YearAndSemester yearAndSemester : this.yearsId) {
+            if (offered.equals(yearAndSemester.getFullName())) {
+                dId = yearAndSemester.getId();
+                dCount++;
+            }
+        }
         try{
-            Subject subject=new Subject(subId,subName,offered,lec,tut,eval);
-            SubjectService subjectService=new SubjectServiceImpl();
-            subjectService.updateSubject(subject);
-            this.setTableProperties();
-            getAllSubjects();
+            if(!subName.equalsIgnoreCase("")){
+                if(!offered.equalsIgnoreCase("")){
+                    if(lec!=0 && tut!=0 && eval!=0){
+                        Subject subject=new Subject(subId,subName,dId,lec,tut,eval);
+                        SubjectService subjectService=new SubjectServiceImpl();
+                        boolean res=subjectService.updateSubject(subject);
+                        if(res==true){
+                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                            alert.setTitle(null);
+                            alert.setHeaderText(null);
+                            alert.setContentText("Success Updating Subject!");
+
+                            alert.showAndWait();
+
+                            txtName.setText(" ");
+                            txtOfferedYear.setText(" ");
+                            txtLec.setText(" ");
+                            txtTut.setText(" ");
+                            txtEval.setText(" ");
+                        }else{
+                            Alert al = new Alert(Alert.AlertType.ERROR);
+                            al.setTitle(null);
+                            al.setContentText("Error Updating Subject!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+                        }
+                        this.setTableProperties();
+                        getAllSubjects();
+                    }else{
+                        Alert al = new Alert(Alert.AlertType.ERROR);
+                        al.setTitle(null);
+                        al.setContentText("Enter in Correct Format for  Lecture/Tute/Evaluation hours!");
+                        al.setHeaderText(null);
+                        al.showAndWait();
+                    }
+                }else{
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Offered Year and Semester Empty!");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            }else{
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Subject Name is Empty!");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+
         }catch (SQLException ex){
             ex.printStackTrace();
         }
@@ -74,6 +136,7 @@ public class ViewSubjectController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.setTableProperties();
         getAllSubjects();
+        getAllYearAndSemesterDetails();
     }
     public void getAllSubjects(){
 
@@ -84,6 +147,8 @@ public class ViewSubjectController implements Initializable {
             {
                 System.out.println(str.getSubId());
                 System.out.println(str.getSubName());
+                YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
+                str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
             }
             tblSubject.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
@@ -94,7 +159,7 @@ public class ViewSubjectController implements Initializable {
         tblSubject.getSelectionModel().getTableView().getItems().clear();
         tblSubject.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("subId"));
         tblSubject.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("subName"));
-        tblSubject.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("offeredYearSem"));
+        tblSubject.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("yearSem"));
         colEdit.setCellFactory(cellFactoryBtnEdit);
         colDelete.setCellFactory(cellFactoryBtnDelete);
 
@@ -129,7 +194,14 @@ public class ViewSubjectController implements Initializable {
                         private void setSubjectDetailsToTheField(Subject subject1) {
                             subId=subject1.getSubId();
                             txtName.setText(subject1.getSubName());
-                            txtOfferedYear.setText(Integer.toString(subject1.getOfferedYearSem()));
+                            try{
+                                YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
+                                subject1.setYearSem(yearandSemesterService.searchYearAndSemesterName(subject1.getOfferedYearSem()));
+                            }catch (SQLException ex){
+                                ex.printStackTrace();
+                            }
+
+                            txtOfferedYear.setText(subject1.getYearSem());
                             txtLec.setText(Integer.toString(subject1.getNoLecHrs()));
                             txtTut.setText(Integer.toString(subject1.getNoTutHrs()));
                             txtEval.setText(Integer.toString(subject1.getNoEvalHrs()));
@@ -188,6 +260,20 @@ public class ViewSubjectController implements Initializable {
             getAllSubjects();
         }catch (SQLException ex){
             ex.printStackTrace();
+        }
+    }
+    private void getAllYearAndSemesterDetails() {
+        try {
+            YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
+            ArrayList<YearAndSemester> list =yearandSemesterService.getAllDetails() ;
+            for (YearAndSemester yearAndSemester : list
+            ) {
+                yearsId.add(yearAndSemester);
+                yearName.add(yearAndSemester.getFullName());
+            }
+            TextFields.bindAutoCompletion(txtOfferedYear, yearName);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

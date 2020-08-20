@@ -8,20 +8,20 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="481.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Subject.ViewSubjectController">
+<AnchorPane prefHeight="487.0" prefWidth="780.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Subject.ViewSubjectController">
    <children>
-      <Button fx:id="btnUpdate" layoutX="498.0" layoutY="194.0" mnemonicParsing="false" onAction="#updateLecturer" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Update" textFill="#f5f0f0">
+      <Button fx:id="btnUpdate" layoutX="514.0" layoutY="190.0" mnemonicParsing="false" onAction="#updateLecturer" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Update" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <TableView fx:id="tblSubject" layoutX="53.0" layoutY="243.0" prefHeight="212.0" prefWidth="516.0" stylesheets="@../../css/Student.css">
+      <TableView fx:id="tblSubject" layoutX="53.0" layoutY="243.0" prefHeight="295.0" prefWidth="645.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="256.0">
          <columns>
             <TableColumn prefWidth="60.0" text="Id" />
-            <TableColumn prefWidth="108.0" text="Name" />
-            <TableColumn prefWidth="208.0" text="Offered Year" />
-            <TableColumn fx:id="colEdit" prefWidth="70.0" text="View" />
-            <TableColumn fx:id="colDelete" prefWidth="70.0" text="Delete" />
+            <TableColumn prefWidth="195.0" text="Name" />
+            <TableColumn prefWidth="270.0" text="Offered Year" />
+            <TableColumn fx:id="colEdit" prefWidth="59.0" text="View" />
+            <TableColumn fx:id="colDelete" prefWidth="59.0" text="Delete" />
          </columns>
       </TableView>
       <Label layoutX="135.0" layoutY="14.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Subject Name">

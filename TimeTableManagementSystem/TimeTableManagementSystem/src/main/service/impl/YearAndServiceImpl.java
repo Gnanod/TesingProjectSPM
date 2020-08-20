@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class YearAndServiceImpl implements YearandSemesterService {
 
     private Connection connection;
-
+    private static String yearSem;
     public YearAndServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
@@ -76,5 +76,19 @@ public class YearAndServiceImpl implements YearandSemesterService {
         String SQL = "Delete From academicYearAndSemester where id = '"+key+"'";
         Statement stm = connection.createStatement();
         return stm.executeUpdate(SQL)>0;
+    }
+
+    @Override
+    public String searchYearAndSemesterName(int id) throws SQLException {
+        String SQL = "select fullName  from academicYearAndSemester where id = '" + id + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+
+        while(rst.next()) {
+
+            yearSem=rst.getString("fullName");
+            System.out.println(yearSem);
+        }
+        return yearSem;
     }
 }
