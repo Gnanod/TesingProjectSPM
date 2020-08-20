@@ -108,15 +108,21 @@ public class WorkingDaysServiceImpl implements WorkingDaysService {
             WorkingDaysSub  m1 = new WorkingDaysSub();
             m1.setSubId(Integer.parseInt(rst.getString("subId")));
             m1.setWorkingday(rst.getString("workingday"));
+            m1.setWorkingId(Integer.parseInt(rst.getString("workingId")));
             list.add(m1);
         }
         return list;
     }
 
     @Override
-    public boolean deleteWorkingDaysSub(int id) throws SQLException {
+    public boolean deleteWorkingDaysSub(int id,int workingId) throws SQLException {
         String SQL = "Delete From WorkingDaysSub where subId = '"+id+"'";
         Statement stm = connection.createStatement();
+
+//        String SQL2 = "Update WorkingDaysMain set type='"+workingDaysMain.getNoOfDays()+"'," +
+//                "noOfDays='"+workingDaysMain.getNoOfDays()+"' " +
+//                "where workingId='"+workingDaysMain.getWorkingId()+"'";
+
         return stm.executeUpdate(SQL)>0;
     }
 }

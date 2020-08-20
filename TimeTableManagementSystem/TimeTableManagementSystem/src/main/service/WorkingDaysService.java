@@ -24,5 +24,5 @@ public interface WorkingDaysService {
 
     ArrayList<WorkingDaysSub> getAllSubDetails() throws SQLException;
 
-    boolean deleteWorkingDaysSub(int id)throws SQLException;
+    boolean deleteWorkingDaysSub(int id,int workingId)throws SQLException;
 }

@@ -87,8 +87,8 @@ public class BuildingServiceImpl implements BuildingService {
         ArrayList<Building> buildingList = new ArrayList<>();
         while(rst.next()){
             Building buildingRows = new Building(Integer.parseInt(rst.getString("bid")),
-                    rst.getString("center"),
-                    rst.getString("building"));
+                    rst.getString("building"),
+                    rst.getString("center"));
             buildingList.add(buildingRows);
         }
         return buildingList;

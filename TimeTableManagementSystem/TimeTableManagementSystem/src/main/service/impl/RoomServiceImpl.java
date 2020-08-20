@@ -86,15 +86,17 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public ArrayList<Room> getAllRoomDetails() throws SQLException {
-        String SQL ="Select * from room";
+        String SQL ="Select * from room r, building b";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Room> rooms = new ArrayList<>();
         while(rst.next()){
-            Room r1 = new Room(Integer.parseInt(rst.getString("rid")),
-                    Integer.parseInt(rst.getString("buildingid")),
-                    rst.getString("room"),
-                    Integer.parseInt(rst.getString("capacity")));
+            Room r1 = new Room(Integer.parseInt(rst.getString("r.rid")),
+                    Integer.parseInt(rst.getString("b.bid")),
+                    rst.getString("r.room"),
+                    Integer.parseInt(rst.getString("r.capacity")),
+                            rst.getString("b.center"),
+                            rst.getString("b.building"));
             rooms.add(r1);
         }
         return rooms;

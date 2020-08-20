@@ -64,11 +64,11 @@ public class SearchRoomController implements Initializable {
         String rbuilding = null;
         String rroom = null;
 
-        String building = txtBuildingSearch1.getText();
+        String building1 = txtBuildingSearch1.getText();
         String room = txtRoomSearch1.getText();
         for (Room r : this.roomIdList
         ) {
-            if (building.equals(r.getBuilding())) {
+            if (building1.equals(r.getBuilding())) {
                 rbuilding = r.getBuilding();
 
             }
