@@ -117,7 +117,6 @@ public class AddMainGroupController implements Initializable {
                         if (yearCount != 0) {
                             boolean isAdded = false;
                             int count = this.mainGroupService.getCountAccordingToName(yName + "." + pName);
-                            System.out.println("Count :" + count);
                             for (int i = 0; i < groupCount; i++) {
                                 MainGroup m = new MainGroup();
                                 String generateId = null;

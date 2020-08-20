@@ -46,21 +46,22 @@ public class AddSubGroupController implements Initializable {
 
     @FXML
     void saveDetails(ActionEvent event) {
-        String mainGroupId = txtMainGroupId.getText();
-        int mainid = 0;
-        int mainCount = 0;
-        int mainGroupCount = 0;
-        if (txtGroupCount.getText().length() != 0) {
-            mainGroupCount = Integer.parseInt(txtGroupCount.getText());
-        }
-        for (MainGroup m : this.mainGroupList
-        ) {
-            if (mainGroupId.equals(m.getGroupid())) {
-                mainid = m.getId();
-                mainCount++;
-            }
-        }
+
         try {
+            String mainGroupId = txtMainGroupId.getText();
+            int mainid = 0;
+            int mainCount = 0;
+            int mainGroupCount = 0;
+            if (txtGroupCount.getText().length() != 0) {
+                mainGroupCount = Integer.parseInt(txtGroupCount.getText());
+            }
+            for (MainGroup m : this.mainGroupList
+            ) {
+                if (mainGroupId.equals(m.getGroupid())) {
+                    mainid = m.getId();
+                    mainCount++;
+                }
+            }
             if (mainGroupId != null) {
                 if (mainGroupCount != 0) {
                     if (mainCount != 0) {
@@ -118,6 +119,12 @@ public class AddSubGroupController implements Initializable {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NumberFormatException e){
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Please Enter Numeric Value For This Field");
+            al.setHeaderText(null);
+            al.showAndWait();
         }
     }
 
