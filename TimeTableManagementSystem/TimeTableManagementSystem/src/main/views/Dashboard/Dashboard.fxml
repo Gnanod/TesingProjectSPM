@@ -3,18 +3,28 @@
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="511.0" prefWidth="803.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Dashboard.DashboardController">
+<AnchorPane prefHeight="867.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Dashboard.DashboardController">
    <children>
-      <BarChart fx:id="buildingChart" layoutX="14.0" layoutY="14.0" prefHeight="215.0" prefWidth="336.0" title="Buildings">
+      <BarChart fx:id="subjectChart" layoutX="778.0" layoutY="460.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="SUBJECTS">
         <xAxis>
-          <CategoryAxis label="Centers" side="BOTTOM" fx:id="x" />
+          <CategoryAxis label="Year and Semester" side="BOTTOM" fx:id="x" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="y" label="No of Buildings" side="LEFT" />
+          <NumberAxis fx:id="y" label="No of Subjects" side="LEFT" />
         </yAxis>
       </BarChart>
+      <BarChart fx:id="EmployeeChart" layoutX="127.0" layoutY="19.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="EMPLOYEES">
+        <xAxis>
+          <CategoryAxis fx:id="yEmp" label="Employees" side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis label="No of Employees" side="LEFT" fx:id="xEmp" />
+        </yAxis>
+      </BarChart>
+      <PieChart fx:id="buildingPiechart" layoutX="778.0" layoutY="19.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="BUILDINGS OF EACH CENTERS" />
+      <PieChart fx:id="desPiechart" layoutX="127.0" layoutY="460.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="DESIGNATIONS" />
    </children>
 </AnchorPane>

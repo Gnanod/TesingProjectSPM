@@ -87,8 +87,8 @@ public class BuildingServiceImpl implements BuildingService {
         ArrayList<Building> buildingList = new ArrayList<>();
         while(rst.next()){
             Building buildingRows = new Building(Integer.parseInt(rst.getString("bid")),
-                    rst.getString("center"),
-                    rst.getString("building"));
+                    rst.getString("building"),
+                    rst.getString("center"));
             buildingList.add(buildingRows);
         }
         return buildingList;
@@ -125,6 +125,69 @@ public class BuildingServiceImpl implements BuildingService {
             buildingsList.add(building);
         }
         return buildingsList;
+    }
+
+    @Override
+    public ArrayList<Building> getAllAllRoomDetails() throws SQLException {
+        String SQL ="Select  * from building";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Building> buildings = new ArrayList<>();
+        while(rst.next()){
+            Building r1 = new Building(Integer.parseInt(rst.getString("bid")),
+                    rst.getString("building"),
+                    rst.getString("center"));
+            buildings.add(r1);
+        }
+        return buildings;
+    }
+
+    @Override
+    public ArrayList<Building> getAllDetailsForSearch(String bcenter, String bbuilding) throws SQLException {
+        String buildingsql = "";
+        String centerSql = "";
+        Statement stm = null;
+        String SQL = "";
+        System.out.println("bbuilding"+bbuilding);
+        System.out.println("Center"+bcenter);
+        ArrayList<Building> buildingA = new ArrayList<>();
+        try {
+            stm = connection.createStatement();
+            if(bbuilding==null && bcenter==null) {
+                 SQL = "select * " +
+                        "from building ";
+            }
+            if (bbuilding!=null) {
+                buildingsql = " building LIKE '%" + bbuilding + "%'";
+                SQL = "select * " +
+                        "from building "+
+                "where "+ buildingsql;
+
+            }
+            if (bcenter!=null) {
+                centerSql = " center LIKE '%" + bcenter + "%'";
+                SQL = "select * " +
+                        "from building "+
+                        "where "+centerSql;
+            }
+            if(bbuilding!=null && bcenter!=null) {
+                SQL = "select * from building where building LIKE '%" + bbuilding + "%' and center LIKE '%" + bcenter + "%'";
+            }
+
+            System.out.println(SQL);
+            ResultSet rst = stm.executeQuery(SQL);
+            while(rst.next()){
+                Building building = new Building(Integer.parseInt(rst.getString("bid")),
+                        rst.getString("building"),
+                        rst.getString("center"));
+                buildingA.add(building);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return buildingA;
     }
 
 }

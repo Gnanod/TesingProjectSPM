@@ -50,6 +50,13 @@ public class BuildingMainRowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        pnlMainBuilding.getChildren().removeAll();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../../views/Location/AddBuilding.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pnlMainBuilding.setCenter(root);
     }
 }

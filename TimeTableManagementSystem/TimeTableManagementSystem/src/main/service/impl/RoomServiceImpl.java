@@ -2,6 +2,7 @@ package main.service.impl;
 
 import main.dbconnection.DBConnection;
 import main.model.Building;
+import main.model.MainGroupCount;
 import main.model.Room;
 import main.service.RoomService;
 
@@ -83,6 +84,58 @@ public class RoomServiceImpl implements RoomService {
         return result;
     }
 
+    @Override
+    public ArrayList<Room> getAllRoomDetails() throws SQLException {
+        String SQL ="Select * from room r, building b";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Room> rooms = new ArrayList<>();
+        while(rst.next()){
+            Room r1 = new Room(Integer.parseInt(rst.getString("r.rid")),
+                    Integer.parseInt(rst.getString("b.bid")),
+                    rst.getString("r.room"),
+                    Integer.parseInt(rst.getString("r.capacity")),
+                            rst.getString("b.center"),
+                            rst.getString("b.building"));
+            rooms.add(r1);
+        }
+        return rooms;
+    }
+
+    @Override
+    public ArrayList<Room> getAllDetailsForSearch(String rbuilding, String rroom) throws SQLException {
+        String buildingsql = "";
+        String roomSql = "";
+        if (rbuilding != null) {
+            buildingsql = " and b.building LIKE '%" + rbuilding + "%'";
+        }
+        if (rroom != null) {
+            roomSql = " and r.room LIKE '%" + rroom + "%'";
+        }
+        String SQL = "select b.building, r.room, r.capacity " +
+                "from building b, room r " +
+                "where b.bid = r.buildingid "+buildingsql+" "+roomSql +" ";
+        Statement stm = null;
+        try {
+            stm = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ResultSet rst = null;
+        try {
+            rst = stm.executeQuery(SQL);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Room> roomA = new ArrayList<>();
+        while(rst.next()){
+            Room room = new Room(rst.getString("b.building"),
+                    rst.getString("r.room"),
+                    Integer.parseInt(rst.getString("r.capacity")));
+            roomA.add(room);
+        }
+        return roomA;
+    }
 
 
 }
