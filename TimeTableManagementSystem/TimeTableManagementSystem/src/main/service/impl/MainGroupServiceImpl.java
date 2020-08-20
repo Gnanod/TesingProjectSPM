@@ -133,4 +133,11 @@ public class MainGroupServiceImpl implements MainGroupService {
         }
         return main;
     }
+
+    @Override
+    public boolean deleteMainGroup(int id) throws SQLException {
+        String SQL = "Delete From maingroup where id = '"+id+"'";
+        Statement stm = connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
 }
