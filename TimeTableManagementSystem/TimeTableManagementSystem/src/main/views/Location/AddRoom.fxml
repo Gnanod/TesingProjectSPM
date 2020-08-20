@@ -17,10 +17,9 @@
     <children>
         <TableView fx:id="tblRoomAdd" layoutX="105.0" layoutY="218.0" prefHeight="206.0" prefWidth="405.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="26.0">
             <columns>
-                <TableColumn minWidth="0.0" prefWidth="113.0" text="Center" />
-                <TableColumn prefWidth="102.0" text="Building" />
-                <TableColumn fx:id="editRoomAdd" prefWidth="94.0" text="Edit" />
-                <TableColumn fx:id="removeRoomAdd" prefWidth="94.0" text="Remove" />
+                <TableColumn minWidth="0.0" prefWidth="151.0" text="Center" />
+                <TableColumn prefWidth="117.0" text="Building" />
+                <TableColumn fx:id="removeRoomAdd" prefWidth="136.0" text="Remove" />
             </columns>
         </TableView>
         <TextField fx:id="txtRoomAdd" layoutX="293.0" layoutY="101.0" prefHeight="31.0" prefWidth="119.0" />
