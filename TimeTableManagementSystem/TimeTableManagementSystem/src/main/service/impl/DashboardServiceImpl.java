@@ -73,8 +73,9 @@ public class DashboardServiceImpl implements DashboardService {
         ArrayList<Dashboard2> NoSubList = new ArrayList<>();
         while (rst.next()) {
             Dashboard2 dashboard2 = new Dashboard2();
-            dashboard2.setDesignation(rst.getString("subName"));
-            dashboard2.setNoOfDesig(Integer.parseInt(rst.getString("NoOfSubjects")));
+            dashboard2.setYearSem(rst.getString("subName"));
+            dashboard2.setNoOfSubjects(Integer.parseInt(rst.getString("NoOfSubjects")));
+
             NoSubList.add(dashboard2);
         }
         return NoSubList;

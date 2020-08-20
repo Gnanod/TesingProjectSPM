@@ -102,8 +102,6 @@ public class AddRoomController implements Initializable {
                 if (!building.isEmpty()) {
                     if (!room.isEmpty()) {
                         if (!txtCapacities.getText().isEmpty()) {
-
-
                             int capacity = Integer.parseInt(txtCapacities.getText());
                             Room rooomObj = new Room();
                             rooomObj.setCenter(center);

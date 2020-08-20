@@ -52,7 +52,21 @@ public class SearchBuildingController implements Initializable {
             ArrayList<Building> bList = this.buildingService.getAllAllRoomDetails();
             for (Building p1 : bList
             ) {
-                centerList.add(p1.getCenter());
+                if(centerList.size()!=0){
+                    int duplicateCount=0;
+                    for (String b1: centerList
+                         ) {
+                        if(b1.equals(p1.getCenter())){
+                            duplicateCount++;
+                        }
+                    }
+                    if(duplicateCount==0){
+                        centerList.add(p1.getCenter());
+                    }
+                }else{
+                    centerList.add(p1.getCenter());
+                }
+
                 buildingList.add(p1.getBuilding());
                 bIdList.add(p1);
             }
@@ -65,29 +79,26 @@ public class SearchBuildingController implements Initializable {
 
     @FXML
     void searchDetails(ActionEvent event) {
-        String bbuilding = null;
-        String bcenter = null;
 
-        System.out.println("sssssssssssssss");
         String building = txtCenterSearch.getText();
         String center = txtBuildingSearch.getText();
-        for (Building r : this.bIdList
-        ) {
-            if (building.equals(r.getBuilding())) {
-                bbuilding = r.getBuilding();
-
-            }
-            if (center.equals(r.getCenter())) {
-                bcenter = r.getCenter();
-
-            }
-        }
-
-        getAllDetailsForSearch(bcenter,bbuilding);
+//        for (Building r : this.bIdList
+//        ) {
+//            if (building.equals(r.getBuilding())) {
+//                bbuilding = r.getBuilding();
+//                System.out.println("KKKK"+r.getBuilding());
+//
+//            }
+//            if (center.equals(r.getCenter())) {
+//                bcenter = r.getCenter();
+//                System.out.println("LLLL"+r.get);
+//
+//            }
+//        }
+        getAllDetailsForSearch(building,center);
     }
 
     private void getAllDetailsForSearch(String bcenter,String bbuilding) {
-
         try {
             ArrayList<Building> list = this.buildingService.getAllDetailsForSearch(bcenter,bbuilding);
             tblBuildingSeach.setItems(FXCollections.observableArrayList(list));
