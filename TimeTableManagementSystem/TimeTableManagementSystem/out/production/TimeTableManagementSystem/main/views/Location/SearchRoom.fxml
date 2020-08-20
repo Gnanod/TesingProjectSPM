@@ -10,8 +10,9 @@
     <children>
         <TableView fx:id="tblRoomSeach" layoutX="106.0" layoutY="109.0" prefHeight="248.0" prefWidth="405.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="43.0">
             <columns>
-                <TableColumn minWidth="0.0" prefWidth="202.0" text="Center" />
-                <TableColumn prefWidth="202.0" text="Building" />
+                <TableColumn minWidth="0.0" prefWidth="119.0" text="Center" />
+                <TableColumn prefWidth="158.0" text="Building" />
+            <TableColumn prefWidth="127.0" text="Capacity" />
             </columns>
         </TableView>
         <TextField fx:id="txtBuildingSearch1" layoutX="106.0" layoutY="51.0" prefHeight="31.0" prefWidth="177.0" promptText="Building" />

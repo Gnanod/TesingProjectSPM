@@ -17,8 +17,9 @@ import java.util.ResourceBundle;
 
 public class DashboardController implements Initializable {
 
+
     @FXML
-    private BarChart<String, Integer> buildingChart;
+    private BarChart<String, Integer> subjectChart;
 
     @FXML
     private CategoryAxis x;
@@ -42,51 +43,48 @@ public class DashboardController implements Initializable {
     private PieChart desPiechart;
 
 
-
-
     private DashboardService dashboardService;
 
-    public DashboardController(){
+    public DashboardController() {
         this.dashboardService = new DashboardServiceImpl();
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        this.loadSubjects();
         this.loadEmployeeCounts();
         this.piechartForBuildings();
         this.piechartForDesignations();
-//                this.loadSubjects();
+
     }
 
-    private void loadSubjects(){
-
+    private void loadSubjects() {
         try {
-
             ArrayList<Dashboard2> list1 = this.dashboardService.getSubjects();
-            ObservableList<XYChart.Series<String,Integer>> data1 = FXCollections.observableArrayList();
-            XYChart.Series<String,Integer> series = new XYChart.Series<>();
-            for (Dashboard2 d1:list1
+            ObservableList<XYChart.Series<String, Integer>> data1 = FXCollections.observableArrayList();
+            XYChart.Series<String, Integer> series = new XYChart.Series<>();
+            for (Dashboard2 d1 : list1
             ) {
                 series.getData().add(new XYChart.Data(d1.getYearSem(),d1.getNoOfSubjects()));
             }
             data1.add(series);
-            buildingChart.setData(data1);
+            subjectChart.setData(data1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    private void loadEmployeeCounts(){
+    private void loadEmployeeCounts() {
 
         try {
 
             ArrayList<Dashboard> list = this.dashboardService.getEmployeeCount();
-            ObservableList<XYChart.Series<String,Integer>> data = FXCollections.observableArrayList();
-            XYChart.Series<String,Integer> series = new XYChart.Series<>();
-            for (Dashboard d1:list
+            ObservableList<XYChart.Series<String, Integer>> data = FXCollections.observableArrayList();
+            XYChart.Series<String, Integer> series = new XYChart.Series<>();
+            for (Dashboard d1 : list
             ) {
-                series.getData().add(new XYChart.Data(d1.getFaculty(),d1.getNoOfEmployees()));
+                series.getData().add(new XYChart.Data(d1.getFaculty(), d1.getNoOfEmployees()));
             }
             data.add(series);
             EmployeeChart.setData(data);
@@ -95,15 +93,15 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private void piechartForBuildings(){
+    private void piechartForBuildings() {
 
         try {
             ArrayList<Dashboard> list = this.dashboardService.getBuildingCount();
             ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList();
 //            PieChart.Data pie = new XYChart.Series<>();
-            for (Dashboard d1:list
+            for (Dashboard d1 : list
             ) {
-                piechartData.add(new PieChart.Data(d1.getCenter(),d1.getNoOfBuildings()));
+                piechartData.add(new PieChart.Data(d1.getCenter(), d1.getNoOfBuildings()));
             }
 
             buildingPiechart.setData(piechartData);
@@ -112,15 +110,15 @@ public class DashboardController implements Initializable {
         }
     }
 
-    private void piechartForDesignations(){
+    private void piechartForDesignations() {
 
         try {
             ArrayList<Dashboard2> list = this.dashboardService.getDesignationCount();
             ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList();
 //            PieChart.Data pie = new XYChart.Series<>();
-            for (Dashboard2 d1:list
+            for (Dashboard2 d1 : list
             ) {
-                piechartData.add(new PieChart.Data(d1.getDesignation(),d1.getNoOfDesig()));
+                piechartData.add(new PieChart.Data(d1.getDesignation(), d1.getNoOfDesig()));
             }
 
             desPiechart.setData(piechartData);

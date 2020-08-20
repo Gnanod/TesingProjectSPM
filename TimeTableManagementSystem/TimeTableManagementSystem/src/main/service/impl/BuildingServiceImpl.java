@@ -129,7 +129,7 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public ArrayList<Building> getAllAllRoomDetails() throws SQLException {
-        String SQL ="Select * from building";
+        String SQL ="Select  * from building";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Building> buildings = new ArrayList<>();
@@ -146,34 +146,35 @@ public class BuildingServiceImpl implements BuildingService {
     public ArrayList<Building> getAllDetailsForSearch(String bcenter, String bbuilding) throws SQLException {
         String buildingsql = "";
         String centerSql = "";
-
         Statement stm = null;
         String SQL = "";
-
-
+        System.out.println("bbuilding"+bbuilding);
+        System.out.println("Center"+bcenter);
         ArrayList<Building> buildingA = new ArrayList<>();
         try {
             stm = connection.createStatement();
-
-            if(bbuilding == null && bcenter == null ) {
+            if(bbuilding==null && bcenter==null) {
                  SQL = "select * " +
                         "from building ";
             }
-
-            if (bbuilding != null) {
+            if (bbuilding!=null) {
                 buildingsql = " building LIKE '%" + bbuilding + "%'";
                 SQL = "select * " +
                         "from building "+
-                "where "+buildingsql;
+                "where "+ buildingsql;
+
             }
-            if (bcenter != null) {
+            if (bcenter!=null) {
                 centerSql = " center LIKE '%" + bcenter + "%'";
                 SQL = "select * " +
                         "from building "+
                         "where "+centerSql;
             }
+            if(bbuilding!=null && bcenter!=null) {
+                SQL = "select * from building where building LIKE '%" + bbuilding + "%' and center LIKE '%" + bcenter + "%'";
+            }
 
-
+            System.out.println(SQL);
             ResultSet rst = stm.executeQuery(SQL);
             while(rst.next()){
                 Building building = new Building(Integer.parseInt(rst.getString("bid")),

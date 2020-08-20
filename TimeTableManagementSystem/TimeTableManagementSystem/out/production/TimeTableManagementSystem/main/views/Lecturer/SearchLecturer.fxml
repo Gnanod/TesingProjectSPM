@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Lecturer.SearchLecturerController">
+<AnchorPane prefHeight="396.0" prefWidth="884.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Lecturer.SearchLecturerController">
    <children>
-      <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" prefHeight="303.0" prefWidth="680.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="32.0">
+      <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" prefHeight="332.0" prefWidth="828.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="64.0">
          <columns>
-            <TableColumn minWidth="0.0" prefWidth="60.0" text="Id" />
-            <TableColumn prefWidth="60.0" text="Name" />
-            <TableColumn prefWidth="80.0" text="Faculty" />
-            <TableColumn prefWidth="60.0" text="Department" />
-            <TableColumn prefWidth="80.0" text="Center" />
-            <TableColumn prefWidth="60.0" text="Building" />
-            <TableColumn prefWidth="80.0" text="Designation" />
-            <TableColumn prefWidth="60.0" text="Level" />
-            <TableColumn prefWidth="100.0" text="Rank" />
+            <TableColumn minWidth="0.0" prefWidth="63.0" text="Id" />
+            <TableColumn prefWidth="156.0" text="Name" />
+            <TableColumn prefWidth="90.0" text="Faculty" />
+            <TableColumn prefWidth="107.0" text="Department" />
+            <TableColumn prefWidth="79.0" text="Center" />
+            <TableColumn prefWidth="111.0" text="Building" />
+            <TableColumn prefWidth="110.0" text="Designation" />
+            <TableColumn prefWidth="38.0" text="Level" />
+            <TableColumn prefWidth="73.0" text="Rank" />
          </columns>
       </TableView>
       <TextField fx:id="txtLecturer" layoutX="97.0" layoutY="22.0" onAction="#searchDetails" prefHeight="25.0" prefWidth="219.0" promptText="Enter Lecturer Name" />
