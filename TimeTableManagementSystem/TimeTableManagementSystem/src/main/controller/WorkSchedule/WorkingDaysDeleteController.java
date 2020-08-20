@@ -80,7 +80,7 @@ public class WorkingDaysDeleteController implements Initializable {
                                     a2.setContentText(null);
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
-                                        deleteWorkingDaysSub(wds.getSubId());
+                                        deleteWorkingDaysSub(wds.getSubId(),wds.getWorkingId());
                                     } else {
 
                                     }
@@ -98,9 +98,10 @@ public class WorkingDaysDeleteController implements Initializable {
                 }
             };
 
-    public void deleteWorkingDaysSub(int id){
+    public void deleteWorkingDaysSub(int id,int workingId){
+        System.out.println(workingId);
         try {
-            boolean staus = workingDaysService.deleteWorkingDaysSub(id);
+            boolean staus = workingDaysService.deleteWorkingDaysSub(id,workingId);
             if (staus) {
                 Alert al = new Alert(Alert.AlertType.INFORMATION);
                 al.setTitle(null);
