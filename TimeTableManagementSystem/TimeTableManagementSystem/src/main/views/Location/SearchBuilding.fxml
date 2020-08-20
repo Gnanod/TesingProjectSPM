@@ -14,8 +14,8 @@
                 <TableColumn prefWidth="202.0" text="Building" />
             </columns>
         </TableView>
-        <TextField fx:id="txtCenterSearch" layoutX="106.0" layoutY="51.0" prefHeight="31.0" prefWidth="177.0" promptText="Center" />
-        <TextField fx:id="txtBuildingSearch" layoutX="339.0" layoutY="51.0" prefHeight="31.0" prefWidth="164.0" promptText="Building" />
+        <TextField fx:id="txtCenterSearch" layoutX="106.0" layoutY="51.0" onAction="#searchDetails" prefHeight="31.0" prefWidth="177.0" promptText="Center" />
+        <TextField fx:id="txtBuildingSearch" layoutX="339.0" layoutY="51.0" onAction="#searchDetails" prefHeight="31.0" prefWidth="164.0" promptText="Building" />
     </children>
 
 </AnchorPane>

@@ -20,5 +20,8 @@ public interface RoomService {
 
     public boolean searchRoom(String building, String room) throws SQLException;
 
+    public ArrayList<Room> getAllRoomDetails() throws SQLException;
 
+
+    ArrayList<Room> getAllDetailsForSearch(String rbuilding, String rroom) throws SQLException;
 }

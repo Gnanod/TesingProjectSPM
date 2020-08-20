@@ -58,7 +58,14 @@ public class PanelLocationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        pnlLocation.getChildren().removeAll();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../../views/Location/BuildingMainRow.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pnlLocation.setCenter(root);
     }
 }
 

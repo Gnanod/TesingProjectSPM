@@ -24,6 +24,10 @@ public interface BuildingService {
 
 
     ArrayList<Building> searchBuildingDetailsByUsingCenter(String center) throws SQLException;
+
+    ArrayList<Building> getAllAllRoomDetails() throws SQLException;
+
+    public ArrayList<Building> getAllDetailsForSearch(String bcenter, String bbuilding) throws SQLException;
 }
 
 
