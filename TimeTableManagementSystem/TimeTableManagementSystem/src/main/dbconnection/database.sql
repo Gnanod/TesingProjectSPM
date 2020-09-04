@@ -1,7 +1,7 @@
 drop database timetableManagementSystem;
 
-  create database timetableManagementSystem;
-  use timetableManagementSystem;
+create database timetableManagementSystem;
+use timetableManagementSystem;
 
 create table academicYearAndSemester(
 	id int not null auto_increment,
@@ -111,4 +111,15 @@ create table workingHoursPerDay(
      workingTime varchar(20),
      timeSlot varchar (20),
      constraint primary key (whpId)
+);
+
+create table notAvailableLectures(
+    id int not null auto_increment,
+    toTime varchar(20),
+    fromTime varchar(20),
+    subgroupId int,
+    mainGroupId int,
+    FOREIGN KEY (subgroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
+    FOREIGN KEY (mainGroupId) REFERENCES maingroup(id) ON DELETE CASCADE,
+    constraint primary key (id)
 );
