@@ -67,13 +67,13 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public ArrayList<Dashboard2> getSubjects() throws SQLException {
-        String SQL = "select subName,count(subId) AS NoOfSubjects from Subject group by offeredYearSemId";
+        String SQL = "select a.fullName,count(s.subId) AS NoOfSubjects from Subject s, academicYearAndSemester a where s.offeredYearSemId = a.id group by offeredYearSemId";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Dashboard2> NoSubList = new ArrayList<>();
         while (rst.next()) {
             Dashboard2 dashboard2 = new Dashboard2();
-            dashboard2.setYearSem(rst.getString("subName"));
+            dashboard2.setYearSem(rst.getString("a.fullName"));
             dashboard2.setNoOfSubjects(Integer.parseInt(rst.getString("NoOfSubjects")));
 
             NoSubList.add(dashboard2);

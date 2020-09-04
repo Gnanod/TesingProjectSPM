@@ -135,8 +135,8 @@ public class ViewBuildingController implements Initializable {
 
     private void setTableProperties() {
         tblBuildingView.getSelectionModel().getTableView().getItems().clear();
-        tblBuildingView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("building"));
-        tblBuildingView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("center"));
+        tblBuildingView.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("center"));
+        tblBuildingView.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("building"));
         editBuildingView.setCellFactory(cellFactoryBtnEdit);
         removeBuildingView.setCellFactory(cellFactoryBtnDelete);
     }

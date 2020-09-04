@@ -24,14 +24,14 @@
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Button fx:id="btnSave" layoutX="247.0" layoutY="355.0" mnemonicParsing="false" onAction="#saveDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+      <Button fx:id="btnSave" layoutX="254.0" layoutY="391.0" mnemonicParsing="false" onAction="#saveDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
       <TextField fx:id="txtDepartment" layoutX="264.0" layoutY="144.0" prefHeight="31.0" prefWidth="176.0" />
       <TextField fx:id="txtEmpName" layoutX="264.0" layoutY="62.0" prefHeight="31.0" prefWidth="176.0" />
-      <TextField fx:id="txtEmpID" layoutX="264.0" layoutY="19.0" prefHeight="31.0" prefWidth="176.0" AnchorPane.bottomAnchor="396.0" />
+      <TextField fx:id="txtEmpID" layoutX="265.0" layoutY="16.0" prefHeight="31.0" prefWidth="176.0" />
       <Label layoutX="125.0" layoutY="144.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Department">
          <font>
             <Font name="System Bold" size="13.0 " />

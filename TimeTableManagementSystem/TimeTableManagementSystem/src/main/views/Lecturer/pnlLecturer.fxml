@@ -26,17 +26,14 @@
                   <FontAwesomeIconView glyphName="SITEMAP" size="35.0" />
                </graphic>
             </Button>
-            <Button layoutY="186.0" mnemonicParsing="false" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available                        ">
+            <Button fx:id="btnNotAvailable" alignment="CENTER" contentDisplay="TOP" layoutY="186.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
+               <graphic>
+                  <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" size="35.0" />
+               </graphic>
             </Button>
-            <Button fx:id="btnNotAvailable" alignment="CENTER" contentDisplay="TOP" layoutY="204.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Button>
-            <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" layoutX="83.0" layoutY="234.0" size="35.0" />
          </children>
       </Pane>
       <BorderPane fx:id="pnlStudent" layoutX="225.0" layoutY="11.0" prefHeight="591.0" prefWidth="769.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="220.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />

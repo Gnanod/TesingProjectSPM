@@ -9,4 +9,6 @@ public class Constants {
                                                     "fullName varchar(100) not null," +
                                                     "constraint primary key(id)" +
                                                     ");";
+
+    public final static String PROFESSOR ="Professor";
 }

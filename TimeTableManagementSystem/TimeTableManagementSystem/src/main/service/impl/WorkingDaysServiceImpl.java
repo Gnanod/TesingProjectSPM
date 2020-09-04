@@ -133,4 +133,20 @@ public class WorkingDaysServiceImpl implements WorkingDaysService {
         }
         return update>0;
     }
+
+    @Override
+    public boolean checkWeekDayOrWeekEndIsAdded(String selectedType) throws SQLException {
+        String SQL = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        boolean result = false;
+        if (rst.next()) {
+            if (rst.getString("workingId") != null) {
+                result = true;
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
 }

@@ -33,7 +33,7 @@
                 <FontAwesomeIconView fx:id="AddRoomsToTable" glyphName="PLUS_CIRCLE" size="35" text="" wrappingWidth="33.2857141494751" />
             </graphic>
         </Button>
-        <Button fx:id="btnRoomSave" layoutX="719.0" layoutY="418.0" mnemonicParsing="false" onAction="#saveRoomDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+        <Button fx:id="btnRoomSave" layoutX="719.0" layoutY="418.0" mnemonicParsing="false" onAction="#saveRoomDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0" AnchorPane.bottomAnchor="42.0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
@@ -47,6 +47,8 @@
                     <String fx:value="Kurunegala" />
                     <String fx:value="Matara" />
                     <String fx:value="Jaffna" />
+                    <String fx:value="Metro" />
+                    <String fx:value="SLIIT Academy" />
                 </FXCollections>
             </items>
         </ComboBox>

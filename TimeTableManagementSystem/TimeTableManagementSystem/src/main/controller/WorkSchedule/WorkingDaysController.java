@@ -149,7 +149,6 @@ public class WorkingDaysController implements Initializable {
                         this.workingDaysService.addWorkingDaysSub(workingDaysSub);
                         count++;
                     }
-
                     if (count == updateArrayListDay.size()) {
                         Alert al = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
                         al.setTitle(null);
@@ -204,32 +203,39 @@ public class WorkingDaysController implements Initializable {
                     arrayListDay.add("Sunday");
                 }
             }
-
             WorkingDaysMain workingDaysMain = new WorkingDaysMain(selectedType, noOfDays);
-
-            int lastId = this.workingDaysService.addWorkingDays(workingDaysMain);
-            int count = 0;
-            if (lastId != 0) {
-                for (String day : arrayListDay
-                ) {
-                    WorkingDaysSub workingDaysSub = new WorkingDaysSub(lastId, day);
-                    this.workingDaysService.addWorkingDaysSub(workingDaysSub);
-                    count++;
+            boolean status = this.workingDaysService.checkWeekDayOrWeekEndIsAdded(selectedType);
+            if(!status){
+                int lastId = this.workingDaysService.addWorkingDays(workingDaysMain);
+                int count = 0;
+                if (lastId != 0) {
+                    for (String day : arrayListDay
+                    ) {
+                        WorkingDaysSub workingDaysSub = new WorkingDaysSub(lastId, day);
+                        this.workingDaysService.addWorkingDaysSub(workingDaysSub);
+                        count++;
+                    }
                 }
-            }
-            if (count == arrayListDay.size()) {
-                Alert al = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-                al.setTitle(null);
-                al.setContentText("Added Successfully ");
-                WeekendController.count = 0;
-                WeekdaysController.count = 0;
-                al.setHeaderText(null);
-                al.showAndWait();
-                this.getAllDetails();
-            } else {
+                if (count == arrayListDay.size()) {
+                    Alert al = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                    al.setTitle(null);
+                    al.setContentText("Added Successfully ");
+                    WeekendController.count = 0;
+                    WeekdaysController.count = 0;
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                    this.getAllDetails();
+                } else {
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText(" Added Fail ");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            }else{
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
-                al.setContentText(" Added Fail ");
+                al.setContentText("Already an record exist ! You can add only one record !");
                 al.setHeaderText(null);
                 al.showAndWait();
             }
@@ -397,7 +403,6 @@ public class WorkingDaysController implements Initializable {
         try {
             ArrayList<String> days = this.workingDaysService.getWorkingDaysAccordingId(mainDays.getWorkingId());
             if (mainDays.getType().equals("Weekends")) {
-
                 btnRadioWeekEnd.setSelected(true);
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../views/WorkSchedule/Weekends.fxml"));
                 Parent root = (Parent) fxmlLoader.load();

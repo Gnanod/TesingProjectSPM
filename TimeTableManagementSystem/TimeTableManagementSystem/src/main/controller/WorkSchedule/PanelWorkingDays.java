@@ -32,7 +32,7 @@ public class PanelWorkingDays implements Initializable {
             if (event.getSource() == btnWorkingDays) {
                 Parent root = (Parent) FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/pnlDays.fxml"));
                 pnlShedule.setCenter(root);
-            } else if (event.getSource() == btnWorkingHours) {
+            }else if (event.getSource() == btnWorkingHours) {
                 Parent root = (Parent) FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/WorkingHours.fxml"));
                 pnlShedule.setCenter(root);
             }
