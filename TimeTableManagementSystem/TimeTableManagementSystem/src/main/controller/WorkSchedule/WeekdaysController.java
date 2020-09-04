@@ -67,12 +67,6 @@ public class WeekdaysController {
         }else{
             friday=false;
         }
-        System.out.println((new StringBuilder()).append("count = ").append(count).toString());
-        System.out.println("Monday"+monday);
-        System.out.println("TuesDay"+tuesday);
-        System.out.println("WednesDay"+wednesday);
-        System.out.println("Thursday"+thursday);
-        System.out.println("Friday"+friday);
     }
 
 //    public static void updateCheckStatus() {
