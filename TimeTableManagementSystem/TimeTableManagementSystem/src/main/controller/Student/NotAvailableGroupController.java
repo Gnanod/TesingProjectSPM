@@ -1,6 +1,5 @@
 package main.controller.Student;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
 import java.net.URL;
@@ -9,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import com.jfoenix.controls.JFXTimePicker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -97,7 +95,7 @@ public class NotAvailableGroupController implements Initializable {
 
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources){
         mainGroupservice = new MainGroupServiceImpl();
         groupNameList = new ArrayList<>();
         groupList = new ArrayList<>();

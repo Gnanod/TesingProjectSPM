@@ -128,6 +128,8 @@ public class MainController implements Initializable {
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnSession) {
                 chageLableStatus("/home/session", "Session");
+                Parent root = FXMLLoader.load(getClass().getResource("../views/Session/pnlSession.fxml"));
+                pnlMain.setCenter(root);
             } else if (event.getSource() == btnlogout) {
                 System.exit(0);
             }
