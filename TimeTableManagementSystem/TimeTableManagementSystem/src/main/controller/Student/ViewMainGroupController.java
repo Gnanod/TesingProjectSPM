@@ -59,9 +59,9 @@ public class ViewMainGroupController implements Initializable {
         System.out.println("GGG" + txtSearch.getText().length());
         if (txtSearch.getText().length() != 0) {
 
-            try{
+            try {
                 getAllGroupDetails(Integer.parseInt(txtSearch.getText()));
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Please Enter Number");
@@ -93,7 +93,7 @@ public class ViewMainGroupController implements Initializable {
     void changeGroupId(ActionEvent event) {
         String groupNum = txtGroupNumber.getText();
         String groupId = txtGroupId.getText();
-        if (groupId.length()!=0) {
+        if (groupId.length() != 0) {
             int lastIndxDot = groupId.lastIndexOf('.');
             String substringId = groupId.substring(0, lastIndxDot);
             String newGroupId = "";
@@ -115,7 +115,7 @@ public class ViewMainGroupController implements Initializable {
         String updateGroupId = txtGroupId.getText();
         if (updateGroupId.length() != 0) {
             if (txtGroupNumber.getText().length() != 0) {
-                if(id!=0){
+                if (id != 0) {
                     try {
                         boolean status = this.mainGroupService.searchMainGroup(updateGroupId);
                         if (!status) {
@@ -151,7 +151,7 @@ public class ViewMainGroupController implements Initializable {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                }else{
+                } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
                     al.setContentText("You Cant Update this record.because this record isn't in the database");
@@ -262,7 +262,27 @@ public class ViewMainGroupController implements Initializable {
             };
 
     public void deleteMainGroup(int id) {
-        System.out.println("Deleted");
+        boolean isDeleted = false;
+        try {
+            isDeleted = this.mainGroupService.deleteMainGroup(id);
+            if (isDeleted) {
+                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                al.setTitle(null);
+                al.setContentText("Deleted SuccessFully");
+                al.setHeaderText(null);
+                al.showAndWait();
+                this.getAllGroupDetails(0);
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Deleted Fail");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

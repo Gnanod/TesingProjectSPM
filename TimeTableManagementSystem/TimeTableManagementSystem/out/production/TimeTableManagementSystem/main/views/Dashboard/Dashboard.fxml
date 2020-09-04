@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="867.0" prefWidth="1363.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Dashboard.DashboardController">
    <children>
-      <BarChart fx:id="Chart" layoutX="778.0" layoutY="460.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="SUBJECTS">
+      <BarChart fx:id="subjectChart" layoutX="778.0" layoutY="460.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="SUBJECTS">
         <xAxis>
           <CategoryAxis label="Year and Semester" side="BOTTOM" fx:id="x" />
         </xAxis>

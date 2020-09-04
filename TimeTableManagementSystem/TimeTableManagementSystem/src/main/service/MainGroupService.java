@@ -21,4 +21,6 @@ public interface MainGroupService {
     boolean updateGroupNumber(MainGroup m) throws SQLException;
 
     ArrayList<MainGroup> getAllMainGroupDetails() throws SQLException;
+
+    boolean deleteMainGroup(int id) throws SQLException;
 }

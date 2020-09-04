@@ -31,8 +31,8 @@ create table maingroup(
   programmeid int,
   semid int,
   constraint primary key(id),
-  FOREIGN KEY (programmeid) REFERENCES programme(programmeid),
-  FOREIGN KEY (semid) REFERENCES academicYearAndSemester(id)
+  FOREIGN KEY (programmeid) REFERENCES programme(programmeid) ON DELETE CASCADE,
+  FOREIGN KEY (semid) REFERENCES academicYearAndSemester(id) ON DELETE CASCADE
 );
 
 create table subgroup(
@@ -41,7 +41,7 @@ create table subgroup(
   subgroupnumber int ,
   maingroupid int,
   constraint primary key(id),
-  FOREIGN KEY (maingroupid) REFERENCES maingroup(id)
+  FOREIGN KEY (maingroupid) REFERENCES maingroup(id)ON DELETE CASCADE
 );
 
 create table building(
@@ -57,7 +57,7 @@ create table room(
 	room varchar(100) not null,
 	capacity int not null,
 	constraint primary key(rid),
-	FOREIGN KEY (buildingid) REFERENCES building(bid)
+	FOREIGN KEY (buildingid) REFERENCES building(bid) ON DELETE CASCADE
 );
 
 
@@ -78,8 +78,8 @@ CREATE TABLE Lecturer (
   buildingId int ,
   level INT(1) NOT NULL ,
   ranks VARCHAR(8) NOT NULL,
-  FOREIGN KEY (buildingId) REFERENCES building(bid),
-  FOREIGN KEY (departmentId) REFERENCES department(dId)
+  FOREIGN KEY (buildingId) REFERENCES building(bid) ON DELETE CASCADE,
+  FOREIGN KEY (departmentId) REFERENCES department(dId) ON DELETE CASCADE
 );
 CREATE TABLE Subject (
   subId VARCHAR(10)  PRIMARY KEY,
@@ -88,8 +88,7 @@ CREATE TABLE Subject (
   noLecHrs INT NOT NULL,
   noTutHrs INT NOT NULL,
   noEvalHrs INT NOT NULL,
-
-  FOREIGN KEY (offeredYearSemId) REFERENCES academicYearAndSemester(id)
+  FOREIGN KEY (offeredYearSemId) REFERENCES academicYearAndSemester(id) ON DELETE CASCADE
 );
 
 create table WorkingDaysMain(

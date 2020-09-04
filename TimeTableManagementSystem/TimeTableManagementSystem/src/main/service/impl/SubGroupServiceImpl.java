@@ -107,4 +107,11 @@ public class SubGroupServiceImpl implements SubGroupService {
         Statement stm=connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
+
+    @Override
+    public boolean deleteSubGroup(int id) throws SQLException {
+        String SQL = "Delete From subgroup where id = '"+id+"'";
+        Statement stm = connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
 }

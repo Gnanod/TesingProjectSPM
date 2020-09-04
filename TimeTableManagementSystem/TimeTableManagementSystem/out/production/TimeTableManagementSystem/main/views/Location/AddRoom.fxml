@@ -19,8 +19,8 @@
             <columns>
                 <TableColumn minWidth="0.0" prefWidth="108.0" text="Center" />
                 <TableColumn prefWidth="160.0" text="Building" />
-            <TableColumn prefWidth="125.0" text="Room" />
-            <TableColumn prefWidth="134.0" text="Capacity" />
+                <TableColumn prefWidth="125.0" text="Room" />
+                <TableColumn prefWidth="134.0" text="Capacity" />
                 <TableColumn fx:id="removeRoomAdd" prefWidth="70.0" text="Remove" />
             </columns>
         </TableView>
@@ -29,16 +29,16 @@
             <font>
                 <Font name="System Bold" size="13.0" />
             </font>
-         <graphic>
-              <FontAwesomeIconView fx:id="AddRoomsToTable" glyphName="PLUS_CIRCLE" size="35" text="" wrappingWidth="33.2857141494751" />
-         </graphic>
+            <graphic>
+                <FontAwesomeIconView fx:id="AddRoomsToTable" glyphName="PLUS_CIRCLE" size="35" text="" wrappingWidth="33.2857141494751" />
+            </graphic>
         </Button>
         <Button fx:id="btnRoomSave" layoutX="719.0" layoutY="418.0" mnemonicParsing="false" onAction="#saveRoomDetails" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Button>
-      <TextField fx:id="txtCapacities" layoutX="293.0" layoutY="141.0" prefHeight="31.0" prefWidth="119.0" />
+        <TextField fx:id="txtCapacities" layoutX="293.0" layoutY="141.0" prefHeight="31.0" prefWidth="119.0" />
         <ComboBox fx:id="cmbCenter" layoutX="293.0" layoutY="21.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="119.0">
             <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -50,11 +50,11 @@
                 </FXCollections>
             </items>
         </ComboBox>
-      <TextField fx:id="txtBuilding" layoutX="293.0" layoutY="61.0" prefHeight="31.0" prefWidth="119.0" />
-      <Text layoutX="117.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Center" wrappingWidth="168.99999507889152" />
-      <Text layoutX="117.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Building" wrappingWidth="168.99999507889152" />
-      <Text layoutX="117.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" wrappingWidth="168.99999507889152" />
-      <Text layoutX="117.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" wrappingWidth="168.99999507889152" />
+        <TextField fx:id="txtBuilding" layoutX="293.0" layoutY="61.0" prefHeight="31.0" prefWidth="119.0" />
+        <Text layoutX="117.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Center" wrappingWidth="168.99999507889152" />
+        <Text layoutX="117.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Building" wrappingWidth="168.99999507889152" />
+        <Text layoutX="117.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Capacity" wrappingWidth="168.99999507889152" />
+        <Text layoutX="117.0" layoutY="121.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" wrappingWidth="168.99999507889152" />
     </children>
 
 

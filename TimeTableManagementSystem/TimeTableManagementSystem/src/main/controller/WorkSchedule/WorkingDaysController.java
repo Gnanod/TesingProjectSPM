@@ -69,10 +69,6 @@ public class WorkingDaysController implements Initializable {
     }
 
 
-//    @FXML
-//    void handleEvents(ActionEvent event) {
-//
-//    }
 
 
     @FXML
@@ -163,6 +159,7 @@ public class WorkingDaysController implements Initializable {
                         al.setHeaderText(null);
                         al.showAndWait();
                         updateStatus=false;
+                        this.getAllDetails();
                     } else {
                         Alert al = new Alert(Alert.AlertType.ERROR);
                         al.setTitle(null);
@@ -228,6 +225,7 @@ public class WorkingDaysController implements Initializable {
                 WeekdaysController.count = 0;
                 al.setHeaderText(null);
                 al.showAndWait();
+                this.getAllDetails();
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
@@ -381,6 +379,7 @@ public class WorkingDaysController implements Initializable {
                 al.setContentText("Deleted SuccessFully ");
                 al.setHeaderText(null);
                 al.showAndWait();
+                this.getAllDetails();
             }else{
                 Alert al = new Alert(Alert.AlertType.INFORMATION);
                 al.setTitle(null);
@@ -406,6 +405,7 @@ public class WorkingDaysController implements Initializable {
                 weekendController.checkSUN.setSelected(false);
                 weekendController.checkSAT.setSelected(false);
                 cmbNoDays.setItems(WeekendNumber);
+                cmbNoDays.setValue(mainDays.getNoOfDays());
                 for (String s : days) {
                     if (s.equals("Sunday")) {
                         weekendController.checkSUN.setSelected(true);
@@ -422,6 +422,7 @@ public class WorkingDaysController implements Initializable {
                 Parent root = (Parent) fxmlLoader.load();
                 pnlWorkingDays.setCenter(root);
                 cmbNoDays.setItems(WeekdayNumber);
+                cmbNoDays.setValue(mainDays.getNoOfDays());
                 WeekdaysController weekdaysController = fxmlLoader.getController();
                 for (String s : days
                 ) {

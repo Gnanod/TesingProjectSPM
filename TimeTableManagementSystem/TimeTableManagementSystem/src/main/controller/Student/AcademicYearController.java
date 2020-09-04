@@ -253,7 +253,6 @@ public class AcademicYearController implements Initializable {
     private void deleteYearSemester(int id) {
         try {
             boolean staus = yearandSemesterService.deleteYearAndSemester(id);
-            System.out.println(id);
             if (staus) {
                 Alert al = new Alert(Alert.AlertType.INFORMATION);
                 al.setTitle(null);

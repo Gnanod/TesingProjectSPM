@@ -263,5 +263,25 @@ public class ViewSubGroupController implements Initializable {
             };
 
     public void deleteSubGroup(int id) {
+        boolean isDeleted = false;
+        try {
+            isDeleted = this.subGroupService.deleteSubGroup(id);
+            if (isDeleted) {
+                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                al.setTitle(null);
+                al.setContentText("SubGroup Deleted SuccessFully");
+                al.setHeaderText(null);
+                al.showAndWait();
+                this.getAllSubgroupDetails(0);
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Sub Group Deleted Fail");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
