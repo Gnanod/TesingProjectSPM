@@ -347,11 +347,12 @@ public class WorkingDaysController implements Initializable {
                                     WorkingDaysMain daysMain = getTableView().getItems().get(getIndex());
                                     Alert a2 = new Alert(Alert.AlertType.CONFIRMATION);
                                     a2.setTitle(null);
-                                    a2.setHeaderText("Are You Okay To Delete This Row !!!");
+                                    a2.setHeaderText("Are you sure you want to delete this record ?");
                                     a2.setContentText(null);
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteWorkingDay(daysMain.getWorkingId());
+                                        getAllDetails();
                                     } else {
 
                                     }
