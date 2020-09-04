@@ -16,13 +16,13 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <TableView fx:id="tblMainGroup" layoutX="88.0" layoutY="273.0" prefHeight="212.0" prefWidth="597.0" stylesheets="@../../css/Student.css">
+      <TableView fx:id="tblMainGroup" layoutX="88.0" layoutY="273.0" prefHeight="212.0" prefWidth="687.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="273.0">
          <columns>
-            <TableColumn prefWidth="48.0" text="Id" />
+            <TableColumn prefWidth="88.0" text="Id" />
             <TableColumn prefWidth="237.0" text="Name" />
             <TableColumn prefWidth="206.0" text="Faculty" />
-            <TableColumn fx:id="colEdit" prefWidth="57.0" text="View" />
-            <TableColumn fx:id="colDelete" prefWidth="48.0" text="Delete" />
+            <TableColumn fx:id="colEdit" prefWidth="77.0" text="View" />
+            <TableColumn fx:id="colDelete" prefWidth="78.0" text="Delete" />
          </columns>
       </TableView>
       <Label layoutX="135.0" layoutY="14.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Name">

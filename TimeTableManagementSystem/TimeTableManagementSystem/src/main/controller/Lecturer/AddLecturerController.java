@@ -28,6 +28,7 @@ import main.service.LecturerService;
 import main.service.impl.BuildingServiceImpl;
 import main.service.impl.DepartmentServiceImpl;
 import main.service.impl.LectureServiceImpl;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
 public class AddLecturerController implements Initializable{
@@ -275,7 +276,7 @@ public class AddLecturerController implements Initializable{
         }
         setRank();
     }
-
+    private AutoCompletionBinding<String> autoCompletionBinding;
     @FXML
     void getCenter(ActionEvent event) {
         buildingsId.clear();
@@ -291,7 +292,10 @@ public class AddLecturerController implements Initializable{
                 buildingName.add(building.getBuilding());
                 System.out.println(building.getBuilding());
             }
-            TextFields.bindAutoCompletion(txtBuilding, buildingName);
+            if(autoCompletionBinding!=null){
+                autoCompletionBinding.dispose();
+            }
+            autoCompletionBinding=TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
         }catch (SQLException ex){
             ex.printStackTrace();
