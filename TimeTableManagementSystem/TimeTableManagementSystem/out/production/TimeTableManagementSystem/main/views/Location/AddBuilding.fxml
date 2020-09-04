@@ -44,6 +44,8 @@
                     <String fx:value="Kurunegala" />
                     <String fx:value="Matara" />
                     <String fx:value="Jaffna" />
+                    <String fx:value="Metro" />
+                    <String fx:value="SLIIT Academy" />
                 </FXCollections>
             </items>
         </ComboBox>
