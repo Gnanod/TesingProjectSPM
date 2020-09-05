@@ -57,16 +57,16 @@ public class WorkingHoursController implements Initializable {
 
     @FXML
     void addWorkingHours(ActionEvent event) {
-        if (checkbxThirtyMin.isSelected()) {
+        if (checkbxThirtyMin.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
             System.out.println(((Integer) spinnerHour.getValue()).intValue() );
             System.out.println(((Integer) spinnerMinute.getValue()).intValue() );
-            if (((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
+           // if (((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
                 Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Atleast 30min time is needed for Thirty minute time slot ");
                 al.setHeaderText(null);
                 al.showAndWait();
-            }
+           // }
 
         } else if (checkbxOneHour.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1) {
             Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
