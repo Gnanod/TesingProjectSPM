@@ -15,4 +15,6 @@ public interface WorkingHoursService {
 
     public boolean deleteWorkingHours(int key) throws SQLException;
 
+    boolean checkHoursAdded(String selectedType) throws SQLException;
+
 }
