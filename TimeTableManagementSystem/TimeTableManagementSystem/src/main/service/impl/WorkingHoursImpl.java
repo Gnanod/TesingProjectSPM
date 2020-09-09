@@ -59,6 +59,20 @@ public class WorkingHoursImpl implements WorkingHoursService {
         return stm.executeUpdate(SQL)>0;
     }
 
-
+    @Override
+    public boolean checkHoursAdded(String selectedType) throws SQLException {
+        String SQL = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        boolean result = false;
+        if (rst.next()) {
+            if (rst.getString("workingId") != null) {
+                result = true;
+            } else {
+                result = false;
+            }
+        }
+        return result;
+    }
 
 }
