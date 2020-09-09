@@ -50,6 +50,7 @@ public class TagServiceImpl implements TagService {
         while(rst.next()){
             Tag t = new Tag(Integer.parseInt(rst.getString("tagid")),rst.getString("tagName"));
             tagList.add(t);
+
         }
         return tagList;
     }

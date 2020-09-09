@@ -46,7 +46,7 @@
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Button fx:id="btnSave" layoutX="208.0" layoutY="278.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+      <Button fx:id="btnSave" layoutX="208.0" layoutY="287.0" mnemonicParsing="false" onAction="#saveDetails" prefHeight="31.0" prefWidth="92.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -63,13 +63,13 @@
             </FXCollections>
          </items>
       </ComboBox>
-      <TableView fx:id="tblSemester" layoutX="70.0" layoutY="348.0" prefHeight="287.0" prefWidth="561.0" stylesheets="@../../css/Student.css">
+      <TableView fx:id="tblNotAvailable" layoutX="70.0" layoutY="348.0" prefHeight="287.0" prefWidth="618.0" stylesheets="@../../css/Student.css">
          <columns>
-            <TableColumn prefWidth="117.0" text="Group Id" />
-            <TableColumn prefWidth="114.0" text="Day" />
-            <TableColumn prefWidth="114.0" text="From Time" />
-            <TableColumn prefWidth="111.0" text="To Time" />
-            <TableColumn prefWidth="111.0" />
+            <TableColumn prefWidth="147.0" text="Group Id" />
+            <TableColumn prefWidth="145.0" text="Day" />
+            <TableColumn prefWidth="136.0" text="From Time" />
+            <TableColumn prefWidth="148.0" text="To Time" />
+            <TableColumn fx:id="colDelete" minWidth="9.0" prefWidth="41.0" />
          </columns>
       </TableView>
       <ToggleButtonGroup layoutX="208.0" layoutY="176.0" prefHeight="31.0" prefWidth="359.0">
@@ -78,8 +78,8 @@
             <RadioButton fx:id="btnRadioSub" alignment="CENTER_LEFT" contentDisplay="TOP" mnemonicParsing="false" onAction="#loadGroupDetails" prefHeight="22.0" prefWidth="129.0" text="Sub-Group" />
          </toggles>
       </ToggleButtonGroup>
-      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="208.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
-      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="209.0" layoutY="154.0" prefHeight="26.0" prefWidth="270.0" />
-      <TextField fx:id="groupId" layoutX="208.0" layoutY="242.0" prefHeight="31.0" prefWidth="263.0" />
+      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="209.0" layoutY="118.0" prefHeight="26.0" prefWidth="270.0" />
+      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="210.0" layoutY="154.0" prefHeight="26.0" prefWidth="270.0" />
+      <TextField fx:id="txtGroupId" layoutX="208.0" layoutY="242.0" prefHeight="31.0" prefWidth="263.0" />
    </children>
 </AnchorPane>

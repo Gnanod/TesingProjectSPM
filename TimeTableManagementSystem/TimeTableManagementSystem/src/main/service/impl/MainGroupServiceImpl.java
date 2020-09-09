@@ -3,6 +3,7 @@ package main.service.impl;
 import main.dbconnection.DBConnection;
 import main.model.MainGroup;
 import main.model.MainGroupCount;
+import main.model.NotAvailableGroup;
 import main.model.Tag;
 import main.service.MainGroupService;
 
@@ -137,6 +138,60 @@ public class MainGroupServiceImpl implements MainGroupService {
     @Override
     public boolean deleteMainGroup(int id) throws SQLException {
         String SQL = "Delete From maingroup where id = '"+id+"'";
+        Statement stm = connection.createStatement();
+        return stm.executeUpdate(SQL)>0;
+    }
+
+    @Override
+    public boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException {
+        String SQL = "Insert into notAvailableGroup Values(?,?,?,?,?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(SQL);
+        stm.setObject(1, 0);
+        stm.setObject(2, nag.getDay());
+        stm.setObject(3, nag.getToTime());
+        stm.setObject(4, nag.getFromTime());
+        stm.setObject(5,nag.getGroupId());
+        if(nag.getSubGroupId()!=0){
+            stm.setObject(6, nag.getSubGroupId());
+        }else{
+            stm.setObject(6,null);
+        }
+
+        if(nag.getMainGroupId()!=0){
+            stm.setObject(7, nag.getMainGroupId());
+        }else {
+            stm.setObject(7, null);
+        }
+        int res = stm.executeUpdate();
+        return res > 0;
+    }
+
+    @Override
+    public ArrayList<NotAvailableGroup> getAllNotAvailableGroupDetails(String groupId) throws SQLException {
+        String SQL ="";
+        if(groupId.isEmpty()){
+            SQL = "select * from notAvailableGroup ";
+        }else{
+            SQL ="select * from notAvailableGroup where groupId LIKE '%"+groupId+"%' ";
+        }
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<NotAvailableGroup> main = new ArrayList<>();
+        while(rst.next()){
+            NotAvailableGroup nag = new NotAvailableGroup();
+            nag.setId(Integer.parseInt(rst.getString("id")));
+            nag.setGroupId(rst.getString("groupId"));
+            nag.setToTime(rst.getString("toTime"));
+            nag.setFromTime(rst.getString("fromTime"));
+            nag.setDay(rst.getString("day"));
+            main.add(nag);
+        }
+        return main;
+    }
+
+    @Override
+    public boolean deleteNotAvailableGroupId(int id) throws SQLException {
+        String SQL = "Delete From notAvailableGroup where id = '"+id+"'";
         Statement stm = connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
