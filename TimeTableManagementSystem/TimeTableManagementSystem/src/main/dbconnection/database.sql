@@ -1,7 +1,7 @@
 drop database timetableManagementSystem;
 
-  create database timetableManagementSystem;
-  use timetableManagementSystem;
+create database timetableManagementSystem;
+use timetableManagementSystem;
 
 create table academicYearAndSemester(
 	id int not null auto_increment,
@@ -111,4 +111,61 @@ create table workingHoursPerDay(
      workingTime varchar(20),
      timeSlot varchar (20),
      constraint primary key (whpId)
+);
+
+create table notAvailableGroup(
+    id int not null auto_increment,
+    day varchar (20),
+    toTime varchar(20),
+    fromTime varchar(20),
+    groupId varchar (20),
+    subgroupId int,
+    mainGroupId int,
+    FOREIGN KEY (subgroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
+    FOREIGN KEY (mainGroupId) REFERENCES maingroup(id) ON DELETE CASCADE,
+    constraint primary key (id)
+);
+
+create table notAvailableLecture(
+    id int not null auto_increment,
+    day varchar (20),
+    toTime varchar(20),
+    fromTime varchar(20),
+    lectureId  INT(6) UNSIGNED,
+    FOREIGN KEY (lectureId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
+    constraint primary key (id)
+);
+
+CREATE TABLE Session(
+    sessionId int PRIMARY KEY auto_increment,
+    lecturerId INT(6) UNSIGNED,
+    subjectId varchar(10),
+    tagId int,
+    groupId int  NULL,
+    subGroupId int  NULL,
+    studentCount int,
+    duration float,
+    buildingId int,
+    roomId int,
+    isConsecutive varchar(5),
+    consectiveSessionId int NULL,
+    Constraint fk_key1 FOREIGN KEY(lecturerId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
+    Constraint fk_key2 FOREIGN KEY(subjectId) REFERENCES Subject(subId) ON DELETE CASCADE,
+    Constraint fk_key3 FOREIGN KEY(tagId) REFERENCES tag(tagid) ON DELETE CASCADE,
+    Constraint fk_key4 FOREIGN KEY(groupId) REFERENCES maingroup(id) ON DELETE CASCADE,
+    Constraint fk_key5 FOREIGN KEY(subGroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
+    Constraint fk_key6 FOREIGN KEY(buildingId) REFERENCES building(bid) ON DELETE CASCADE,
+    Constraint fk_key7 FOREIGN KEY(roomId) REFERENCES room(rid) ON DELETE CASCADE
+);
+ALTER TABLE Session
+ADD FOREIGN KEY (consectiveSessionId) REFERENCES Session(sessionId);
+
+
+CREATE TABLE NotAvailableSession(
+  id int PRIMARY KEY auto_increment,
+  sessionId int,
+  day varchar(10),
+  toTime varchar(20),
+  fromTime varchar(20),
+  FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 );

@@ -1,12 +1,12 @@
 package main.model;
 
 public class MainGroup {
-    int id;
-    String groupid;
-    String mgroupName;
-    int programmeid;
-    int semid;
-    int groupNumber;
+    private int id;
+    private String groupid;
+    private String mgroupName;
+    private int programmeid;
+    private int semid;
+    private int groupNumber;
 
     public MainGroup() {
     }

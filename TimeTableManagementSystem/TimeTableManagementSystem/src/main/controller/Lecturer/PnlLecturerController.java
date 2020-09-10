@@ -33,10 +33,13 @@ public class PnlLecturerController implements Initializable {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/Department.fxml"));
                 pnlStudent.setCenter(root);
-            }
-            if (event.getSource() == btnLecturer) {
+            }else if (event.getSource() == btnLecturer) {
                 pnlStudent.getChildren().removeAll();
                 Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/MainLecturer.fxml"));
+                pnlStudent.setCenter(root);
+            }else if(event.getSource() == btnNotAvailable){
+                pnlStudent.getChildren().removeAll();
+                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/NotAvailableLecturer.fxml"));
                 pnlStudent.setCenter(root);
             }
         } catch (IOException e) {

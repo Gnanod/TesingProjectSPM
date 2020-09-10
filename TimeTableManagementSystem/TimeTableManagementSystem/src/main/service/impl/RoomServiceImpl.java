@@ -25,7 +25,6 @@ public class RoomServiceImpl implements RoomService {
         stm.setObject(2, room.getBuildingid());
         stm.setObject(3, room.getRoom());
         stm.setObject(4, room.getCapacity());
-
         int res = stm.executeUpdate();
         return res > 0;
     }

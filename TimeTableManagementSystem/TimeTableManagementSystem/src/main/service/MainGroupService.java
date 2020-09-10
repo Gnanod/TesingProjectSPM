@@ -2,6 +2,7 @@ package main.service;
 
 import main.model.MainGroup;
 import main.model.MainGroupCount;
+import main.model.NotAvailableGroup;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -23,4 +24,10 @@ public interface MainGroupService {
     ArrayList<MainGroup> getAllMainGroupDetails() throws SQLException;
 
     boolean deleteMainGroup(int id) throws SQLException;
+
+    boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException;
+
+    ArrayList<NotAvailableGroup> getAllNotAvailableGroupDetails(String groupId) throws SQLException;
+
+    boolean deleteNotAvailableGroupId(int id) throws SQLException;
 }

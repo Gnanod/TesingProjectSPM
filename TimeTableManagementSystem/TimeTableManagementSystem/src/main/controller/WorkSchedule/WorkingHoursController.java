@@ -57,14 +57,16 @@ public class WorkingHoursController implements Initializable {
 
     @FXML
     void addWorkingHours(ActionEvent event) {
-        if (checkbxThirtyMin.isSelected()) {
-            if (((Integer) spinnerHour.getValue()).intValue() <= 0 && ((Integer) spinnerMinute.getValue()).intValue() <= 30) {
+        if (checkbxThirtyMin.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
+            System.out.println(((Integer) spinnerHour.getValue()).intValue() );
+            System.out.println(((Integer) spinnerMinute.getValue()).intValue() );
+           // if (((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
                 Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Atleast 30min time is needed for Thirty minute time slot ");
                 al.setHeaderText(null);
                 al.showAndWait();
-            }
+           // }
 
         } else if (checkbxOneHour.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1) {
             Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
@@ -204,7 +206,7 @@ public class WorkingHoursController implements Initializable {
                                     WorkingHoursPerDay whp = getTableView().getItems().get(getIndex());
                                     Alert a2 = new Alert(Alert.AlertType.CONFIRMATION);
                                     a2.setTitle(null);
-                                    a2.setHeaderText("Are You Okay To Delete This Row !!!");
+                                    a2.setHeaderText("Are You Okay To Delete This Row ?");
                                     a2.setContentText(null);
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {

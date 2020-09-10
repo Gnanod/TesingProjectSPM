@@ -18,8 +18,10 @@ import main.service.BuildingService;
 import main.service.RoomService;
 import main.service.impl.BuildingServiceImpl;
 import main.service.impl.RoomServiceImpl;
+import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
+import javax.xml.soap.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,23 +58,30 @@ public class AddRoomController implements Initializable {
     private ArrayList<Building> buildingsId = new ArrayList<>();
     private ArrayList<String> buildingName = new ArrayList<>();
     private ArrayList<Room> roomsList = new ArrayList<>();
-
+    private AutoCompletionBinding<String> autoCompletionBinding;
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.print(center);
         try {
             BuildingService buildingService = new BuildingServiceImpl();
             ;
+
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
-            buildingName.clear();
-            buildingsId.clear();
+            buildingsId = new ArrayList<>();
+            buildingName = new ArrayList<>();
             for (Building building : list
             ) {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
             }
-            TextFields.bindAutoCompletion(txtBuilding, buildingName);
+            for (String building : buildingName
+                 ) {
+                System.out.println(building);
+            }
+            if(autoCompletionBinding!=null){
+                autoCompletionBinding.dispose();
+            }
+            autoCompletionBinding  =TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
