@@ -65,6 +65,8 @@ public class AddRoomController implements Initializable {
             BuildingService buildingService = new BuildingServiceImpl();
             ;
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
+            buildingName.clear();
+            buildingsId.clear();
             for (Building building : list
             ) {
                 buildingsId.add(building);
