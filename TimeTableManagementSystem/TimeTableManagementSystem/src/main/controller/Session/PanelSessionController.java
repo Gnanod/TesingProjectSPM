@@ -27,6 +27,9 @@ public class PanelSessionController implements Initializable {
     private BorderPane pnlSession;
 
     @FXML
+    private Button btnConsectiveSession;
+
+    @FXML
     void handleEvents(ActionEvent event) {
             try{
                 if(event.getSource()== btnSession){
@@ -37,6 +40,12 @@ public class PanelSessionController implements Initializable {
                     pnlSession.setCenter(root);
                     String currentUrl = MainController.urlName;
                     MainController.urlName = currentUrl+"/"+"NotAvailableSession";
+                }else if(event.getSource() == btnConsectiveSession){
+                    pnlSession.getChildren().removeAll();
+                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ConsectiveSession.fxml"));
+                    pnlSession.setCenter(root);
+                    String currentUrl = MainController.urlName;
+                    MainController.urlName = currentUrl+"/"+"ConsectiveSession";
                 }
 
             }catch (IOException e){

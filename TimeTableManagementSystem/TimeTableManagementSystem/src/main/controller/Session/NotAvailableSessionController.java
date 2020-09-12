@@ -323,8 +323,8 @@ public class NotAvailableSessionController implements Initializable {
         mainGroupservice = new MainGroupServiceImpl();
         groupNameList = new ArrayList<>();
         groupList = new ArrayList<>();
-        lectureList = new ArrayList<>();
         btnRadioMain.setSelected(true);
+        lectureList = new ArrayList<>();
         lectureNameList = new ArrayList<>();
         tagList = new ArrayList<>();
         tagNameList = new ArrayList<>();
@@ -412,7 +412,7 @@ public class NotAvailableSessionController implements Initializable {
         } else {
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
-            al.setContentText("Session Id is not searched!!!");
+            al.setContentText("ConsectiveSession Id is not searched!!!");
             al.setHeaderText(null);
             al.showAndWait();
         }

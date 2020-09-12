@@ -136,29 +136,41 @@ create table notAvailableLecture(
     constraint primary key (id)
 );
 
+
+
 CREATE TABLE Session(
     sessionId int PRIMARY KEY auto_increment,
-    lecturerId INT(6) UNSIGNED,
     subjectId varchar(10),
     tagId int,
     groupId int  NULL,
     subGroupId int  NULL,
     studentCount int,
     duration float,
-    buildingId int,
-    roomId int,
     isConsecutive varchar(5),
-    consectiveSessionId int NULL,
-    Constraint fk_key1 FOREIGN KEY(lecturerId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
+    consectiveAdded varchar(5),
     Constraint fk_key2 FOREIGN KEY(subjectId) REFERENCES Subject(subId) ON DELETE CASCADE,
     Constraint fk_key3 FOREIGN KEY(tagId) REFERENCES tag(tagid) ON DELETE CASCADE,
     Constraint fk_key4 FOREIGN KEY(groupId) REFERENCES maingroup(id) ON DELETE CASCADE,
-    Constraint fk_key5 FOREIGN KEY(subGroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
-    Constraint fk_key6 FOREIGN KEY(buildingId) REFERENCES building(bid) ON DELETE CASCADE,
-    Constraint fk_key7 FOREIGN KEY(roomId) REFERENCES room(rid) ON DELETE CASCADE
+    Constraint fk_key5 FOREIGN KEY(subGroupId) REFERENCES subgroup(id) ON DELETE CASCADE
 );
-ALTER TABLE Session
-ADD FOREIGN KEY (consectiveSessionId) REFERENCES Session(sessionId);
+
+CREATE TABLE SessionLecture(
+    id  int PRIMARY KEY auto_increment,
+    lecturerId INT(6) UNSIGNED,
+    sessionId int,
+    Constraint fk_keySessionLectureLectId FOREIGN KEY(lecturerId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
+    Constraint fk_keySessionLecturesessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE,
+)
+
+CREATE TABLE ConsectiveSession(
+  id int PRIMARY KEY auto_increment,
+  sessionId int,
+  consectiveId int,
+  Constraint fk_keyConsectiveSessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE,
+  Constraint fk_keyconsectiveId FOREIGN KEY(consectiveId) REFERENCES Session(sessionId) ON DELETE CASCADE
+);
+
+
 
 
 CREATE TABLE NotAvailableSession(

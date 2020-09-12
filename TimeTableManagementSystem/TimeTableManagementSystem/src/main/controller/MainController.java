@@ -127,7 +127,7 @@ public class MainController implements Initializable {
                 Parent root = FXMLLoader.load(getClass().getResource("../views/Students/pnlstudents.fxml"));
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnSession) {
-                chageLableStatus("/home/session", "Session");
+                chageLableStatus("/home/session", "ConsectiveSession");
                 Parent root = FXMLLoader.load(getClass().getResource("../views/Session/pnlSession.fxml"));
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnlogout) {
