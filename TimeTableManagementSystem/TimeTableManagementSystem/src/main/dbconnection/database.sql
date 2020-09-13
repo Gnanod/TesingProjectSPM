@@ -171,8 +171,6 @@ CREATE TABLE ConsectiveSession(
 );
 
 
-
-
 CREATE TABLE NotAvailableSession(
   id int PRIMARY KEY auto_increment,
   sessionId int,
