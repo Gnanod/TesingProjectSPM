@@ -2,46 +2,30 @@ package main.controller.Location;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
-public class TagController implements Initializable {
-
-    @FXML
-    private TableView<?> tblTagOpt;
-
-    @FXML
-    private TableColumn<?, ?> editTag;
-
-    @FXML
-    private TableColumn<?, ?> removeTag;
-
-    @FXML
-    private TextField txtTagOpt;
-
-    @FXML
-    private TextField txtRoomOpt;
-
-    @FXML
-    private Button btnTagAdd;
+public class TagController {
 
     @FXML
     private Button btnTagOptions;
 
     @FXML
-    void handleEvents(ActionEvent event) {
+    private TextField txtBuildingOpt1;
+
+    @FXML
+    private TextField txtRoomOpt1;
+
+    @FXML
+    private ComboBox<?> cmbCenter;
+
+    @FXML
+    private TextField txtTagOpt11;
+
+    @FXML
+    void saveTagRoom(ActionEvent event) {
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 }
-

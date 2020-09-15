@@ -1,42 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="473.0" prefWidth="831.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.LecturerController">
 
     <children>
-        <TableView fx:id="tblLecOpt" layoutX="106.0" layoutY="167.0" prefHeight="248.0" prefWidth="549.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="58.0">
-            <columns>
-                <TableColumn minWidth="0.0" prefWidth="110.0" text="Subject" />
-                <TableColumn prefWidth="109.0" text="Tag" />
-                <TableColumn fx:id="editTag" prefWidth="119.0" text="Building" />
-                <TableColumn fx:id="editLecOpt" minWidth="0.0" prefWidth="107.0" text="Edit" />
-                <TableColumn fx:id="removeLecOpt" minWidth="0.0" prefWidth="103.0" text="Remove" />
-            </columns>
-        </TableView>
-        <TextField fx:id="txtLecOpt" layoutX="291.0" layoutY="23.0" prefHeight="31.0" prefWidth="151.0" />
-        <TextField fx:id="txtLecTagOpt" layoutX="291.0" layoutY="66.0" prefHeight="31.0" prefWidth="151.0" />
-        <TextField layoutX="106.0" layoutY="23.0" prefHeight="31.0" prefWidth="169.0" text="Lecturer" />
-        <TextField layoutX="106.0" layoutY="66.0" prefHeight="31.0" prefWidth="169.0" text="Tag" />
-        <Button fx:id="btnTagAdd" contentDisplay="TOP" layoutX="457.0" layoutY="101.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="43.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css">
-            <font>
-                <Font name="System Bold" size="13.0" />
-            </font>
-        </Button>
-        <FontAwesomeIconView fx:id="btnAddLecOpt" glyphName="PLUS_CIRCLE" layoutX="463.0" layoutY="134.0" size="35" text="" wrappingWidth="33.2857141494751" />
-        <Button fx:id="btnSaveLecOptions" layoutX="661.0" layoutY="376.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+        <TextField fx:id="txtLecOpt" layoutX="290.0" layoutY="73.0" prefHeight="31.0" prefWidth="200.0" />
+        <Button fx:id="btnSaveLecOptions" layoutX="541.0" layoutY="124.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Button>
-        <TextField fx:id="txtLecBuildingOpt" layoutX="291.0" layoutY="110.0" prefHeight="31.0" prefWidth="151.0" />
-        <TextField layoutX="106.0" layoutY="110.0" prefHeight="31.0" prefWidth="169.0" text="Building" />
+      <Text layoutX="99.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lecturer" wrappingWidth="169.0000051036477" />
+      <TextField fx:id="txtRoomOpt1" layoutX="290.0" layoutY="128.0" prefHeight="31.0" prefWidth="200.0" />
+      <Text layoutX="99.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" wrappingWidth="169.0000051036477" />
     </children>
 
 

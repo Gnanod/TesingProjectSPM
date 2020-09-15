@@ -71,6 +71,14 @@ public class OptionsMainRowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        pnlMainOptions.getChildren().removeAll();
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../../views/Location/Tag.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        pnlMainOptions.setCenter(root);
 
     }
 }

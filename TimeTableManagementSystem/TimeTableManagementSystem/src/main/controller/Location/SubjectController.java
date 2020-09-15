@@ -1,9 +1,9 @@
 package main.controller.Location;
 
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -11,46 +11,46 @@ import javafx.scene.control.TextField;
 public class SubjectController {
 
     @FXML
-    private TableView<?> tblSubOpt;
-
-    @FXML
-    private TableColumn<?, ?> editTag;
-
-    @FXML
-    private TableColumn<?, ?> removeTag;
-
-    @FXML
-    private TableColumn<?, ?> editSubOpt;
-
-    @FXML
-    private TableColumn<?, ?> removeSubOpt;
-
-    @FXML
-    private TextField txtSubOpt;
-
-    @FXML
     private TextField txtSubTagOpt;
-
-    @FXML
-    private Button btnTagAdd;
-
-    @FXML
-    private FontAwesomeIconView btnAddSubOpt;
 
     @FXML
     private Button btnSubjectOptions;
 
     @FXML
-    private TextField txtSubBuildingOpt;
+    private TextField txtBuildingOpt;
 
     @FXML
-    private TextField txtSubRoomOpt;
+    private TextField txtBuildingOpt1;
 
     @FXML
-    void handleEvents(ActionEvent event) {
+    private ComboBox<?> cmbCenter;
+
+    @FXML
+    private TableView<?> tblBuilding;
+
+    @FXML
+    private TableColumn<?, ?> removeBuilding;
+
+    @FXML
+    private TableColumn<?, ?> removeBuilding1;
+
+    @FXML
+    private TableColumn<?, ?> removeBuilding2;
+
+    @FXML
+    private Button btnBuildingAdd;
+
+    @FXML
+    private TextField txtTagOpt1;
+
+    @FXML
+    void AddBuildingsToTable(ActionEvent event) {
+
+    }
+
+    @FXML
+    void saveTagRoom(ActionEvent event) {
 
     }
 
 }
-
-
