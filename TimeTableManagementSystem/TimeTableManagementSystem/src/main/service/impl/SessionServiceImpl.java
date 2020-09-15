@@ -21,19 +21,20 @@ public class SessionServiceImpl implements SessionService {
     public int searchSession(int lecId, String subId, int tagId, int subGroupId, int mainGroupId) throws SQLException {
         String SQL = "";
         if (subGroupId != 0) {
-            SQL = "select sessionId from Session where lecturerId = '" + lecId + "' and subjectId ='" + subId + "' " +
+            SQL = "select s.sessionId from Session s ,SessionLecture sl where s.sessionId= sl.sessionId and " +
+                    "sl.lecturerId = '" + lecId + "' and subjectId ='" + subId + "' " +
                     "and tagId='" + tagId + "' and (subGroupId ='" + subGroupId + "' or groupId =NULL)";
         } else if (mainGroupId != 0) {
-            SQL = "select sessionId from Session where lecturerId = '" + lecId + "' and subjectId ='" + subId + "' " +
+            SQL = "select s.sessionId from Session s ,SessionLecture sl  where s.sessionId= sl.sessionId and " +
+                    "sl.lecturerId  = '" + lecId + "' " +
+                    "and subjectId ='" + subId + "' " +
                     "and tagId='" + tagId + "' and (subGroupId =NULL or groupId ='" + mainGroupId + "')";
         }
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         int result = 0;
         if (rst.next()) {
-            System.out.println("GGG" + rst.getString("sessionId"));
             if (!rst.getString("sessionId").isEmpty()) {
-                System.out.println("KKKK");
                 result = Integer.parseInt(rst.getString("sessionId"));
             } else {
                 result = 0;
