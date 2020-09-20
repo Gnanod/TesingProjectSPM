@@ -179,3 +179,63 @@ CREATE TABLE NotAvailableSession(
   fromTime varchar(20),
   FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 );
+
+
+
+
+
+CREATE TABLE PrefRoomTag(
+	id int PRIMARY KEY auto_increment,
+	tagId int,
+	roomId int,
+	Constraint fk_tagId FOREIGN KEY(tagId) REFERENCES tag(tagid),
+	Constraint fk_roomId_tag FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+CREATE TABLE PrefRoomSubject(
+	id int PRIMARY KEY auto_increment,
+	tagId int,
+	subjectId VARCHAR(10),
+	roomId int,
+	Constraint fk_subjectId_pref FOREIGN KEY(subjectId) REFERENCES Subject(subId),
+	Constraint fk_tagId_pref FOREIGN KEY(tagId) REFERENCES tag(tagid),
+	Constraint fk_roomId_subject FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+CREATE TABLE PrefRoomLecturer(
+	id int PRIMARY KEY auto_increment,
+	employeeId INT(6) UNSIGNED ,
+	roomId int,
+	Constraint fk_employeeId FOREIGN KEY(employeeId) REFERENCES Lecturer(employeeId),
+	Constraint fk_roomId_lecturer FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+CREATE TABLE PrefRoomGroup(
+	id int PRIMARY KEY auto_increment,
+	groupId int,
+	subGroupId int,
+	roomId int,
+	Constraint fk_groupId FOREIGN KEY(groupId) REFERENCES maingroup(id),
+	Constraint fk_subGroupId FOREIGN KEY(subGroupId) REFERENCES subgroup(id),
+	Constraint fk_roomId_group FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+CREATE TABLE PrefRoomSession(
+	id int PRIMARY KEY auto_increment,
+	sessionId int,
+	roomId int,
+	Constraint fk_sessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+	Constraint fk_roomId_session FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+CREATE TABLE PrefRoomReserved(
+	id int PRIMARY KEY auto_increment,
+	roomId int,
+	day varchar(10),
+	toTime varchar(20),
+	fromTime varchar(20),
+	Constraint fk_roomId_reserved FOREIGN KEY(roomId) REFERENCES room(rid)
+);
+
+
+
