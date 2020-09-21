@@ -11,12 +11,12 @@
    <children>
       <Pane layoutX="14.0" layoutY="11.0" prefWidth="201.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0">
          <children>
-            <Button fx:id="btnSession" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Academic Year &amp; Semester">
+            <Button fx:id="btnSession" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Sessions">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
+                  <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" size="35.0" wrappingWidth="40.0" />
                </graphic></Button>
             <Button fx:id="btnNotAvailable" alignment="CENTER" contentDisplay="TOP" layoutY="90.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Not Available">
                <font>
