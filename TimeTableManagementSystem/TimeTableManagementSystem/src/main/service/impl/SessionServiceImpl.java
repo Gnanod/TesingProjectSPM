@@ -4,6 +4,7 @@ import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import main.dbconnection.DBConnection;
 import main.model.ConsectiveSession;
 import main.model.NotAvailableSession;
+import main.model.Session;
 import main.service.SessionService;
 
 import java.sql.*;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class SessionServiceImpl implements SessionService {
 
     private Connection connection;
+    private String mains;
 
     public SessionServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
@@ -41,6 +43,34 @@ public class SessionServiceImpl implements SessionService {
             }
         }
         return result;
+    }
+
+    @Override
+    public int searchSessionByDetails(String subId, int tagId, int subGroupId, int mainGroupId) throws SQLException {
+        String SQL1 = "";
+        if (subGroupId != 0) {
+            System.out.println("Hey"+subGroupId);
+            SQL1 = "select sessionId from Session where" +
+                  " subjectId ='" + subId + "' " +
+                    "and tagId='" + tagId + "' and (subGroupId ='" + subGroupId + "' or groupId =NULL)";
+        } else if (mainGroupId != 0) {
+            System.out.println("Bluu"+mainGroupId);
+            SQL1 = "select sessionId from Session where" +
+                    " subjectId ='" + subId + "' " +
+                    "and tagId='" + tagId + "' and (groupId ='" + mainGroupId + "' or  subGroupId =NULL)";
+        }
+        Statement stm1 = connection.createStatement();
+        ResultSet rst1 = stm1.executeQuery(SQL1);
+        int result1 = 0;
+        if (rst1.next()) {
+            if (!rst1.getString("sessionId").isEmpty()) {
+                result1 = Integer.parseInt(rst1.getString("sessionId"));
+            } else {
+                result1 = 0;
+            }
+        }
+        return result1;
+
     }
 
     @Override
@@ -134,6 +164,48 @@ public class SessionServiceImpl implements SessionService {
         stm.setObject(2, id);
         stm.setObject(3, id1);
         int res = stm.executeUpdate();
+        return res > 0;
+    }
+
+    @Override
+    public boolean addSession(Session s1) throws SQLException {
+        if(s1.getGroupId()==null){
+
+            String SQL = "Insert into Session(subjectId,tagId,subGroupId,studentCount,duration,isConsecutive)  Values(?,?,?,?,?,?)";
+            PreparedStatement stm1 = connection.prepareStatement(SQL);
+            stm1.setObject(1, s1.getSubjectId());
+            stm1.setObject(2, s1.getTagId());
+            stm1.setObject(3, Integer.parseInt(s1.getSubGroupId()));
+            stm1.setObject(4, s1.getStudentCount());
+            stm1.setObject(5, s1.getDuration());
+            stm1.setObject(6, s1.getIsConsecutive());
+            int res = stm1.executeUpdate();
+            return res > 0;
+        }else{
+
+            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive)  Values(?,?,?,?,?,?)";
+            PreparedStatement stm2 = connection.prepareStatement(SQL);
+            stm2.setObject(1, s1.getSubjectId());
+            stm2.setObject(2, s1.getTagId());
+            stm2.setObject(3, Integer.parseInt(s1.getGroupId()));
+            stm2.setObject(4, s1.getStudentCount());
+            stm2.setObject(5, s1.getDuration());
+            stm2.setObject(6, s1.getIsConsecutive());
+            int res = stm2.executeUpdate();
+            return res > 0;
+        }
+
+    }
+
+    @Override
+    public boolean addLectureSession(int lecturerId, int sessionId) throws SQLException {
+
+        String SQL = "Insert into SessionLecture(lecturerId,sessionId) Values(?,?)";
+        PreparedStatement stmt = connection.prepareStatement(SQL);
+        stmt.setObject(1, lecturerId);
+        stmt.setObject(2, sessionId);
+        int res = stmt.executeUpdate();
+        System.out.println(res);
         return res > 0;
     }
 }

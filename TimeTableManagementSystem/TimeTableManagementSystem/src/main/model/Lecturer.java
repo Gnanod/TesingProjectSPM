@@ -13,6 +13,11 @@ public class Lecturer {
     String departmentName;
     String buildingName;
 
+    public Lecturer(int empId, String empName) {
+        this.empId = empId;
+        this.empName = empName;
+    }
+
     public String getDepartmentName() {
         return departmentName;
     }

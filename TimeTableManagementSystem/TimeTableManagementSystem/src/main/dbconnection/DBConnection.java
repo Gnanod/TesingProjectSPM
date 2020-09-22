@@ -22,6 +22,8 @@ public class DBConnection {
             conn = (Connection) DriverManager.getConnection(jdbcurl, "root", "mysql123");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+            System.out.println();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
