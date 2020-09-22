@@ -33,7 +33,11 @@ public class PanelSessionController implements Initializable {
     void handleEvents(ActionEvent event) {
             try{
                 if(event.getSource()== btnSession){
-
+                    pnlSession.getChildren().removeAll();
+                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/MainSessions.fxml"));
+                    pnlSession.setCenter(root);
+                    String currentUrl = MainController.urlName;
+                    MainController.urlName = currentUrl+"/"+"SessionDetails";
                 }else if(event.getSource()== btnNotAvailable){
                     pnlSession.getChildren().removeAll();
                     Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/NotAvailableSession.fxml"));
@@ -55,6 +59,11 @@ public class PanelSessionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        try {
+            Parent   root = FXMLLoader.load(getClass().getResource("../../views/Session/MainSessions.fxml"));
+            pnlSession.setCenter(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
