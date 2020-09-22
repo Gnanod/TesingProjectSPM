@@ -66,7 +66,7 @@
       <TableView fx:id="tblNotAvailable" layoutX="70.0" layoutY="348.0" prefHeight="287.0" prefWidth="618.0" stylesheets="@../../css/Student.css">
          <columns>
             <TableColumn prefWidth="147.0" text="Group Id" />
-            <TableColumn prefWidth="145.0" text="Day" />
+            <TableColumn prefWidth="145.0" text="Day" />F
             <TableColumn prefWidth="136.0" text="From Time" />
             <TableColumn prefWidth="148.0" text="To Time" />
             <TableColumn fx:id="colDelete" minWidth="9.0" prefWidth="41.0" />
