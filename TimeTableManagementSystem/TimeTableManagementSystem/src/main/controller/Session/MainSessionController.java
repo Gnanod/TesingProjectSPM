@@ -252,9 +252,12 @@ public class MainSessionController implements Initializable{
                 lecCount++;
             }
         }
-        Lecturer l1=new Lecturer(lecId1,lectureName1);
-        list1.add(l1);
-        lectTbl.setItems(FXCollections.observableArrayList(list1));
+        if(lecId1!=0){
+            Lecturer l1=new Lecturer(lecId1,lectureName1);
+            list1.add(l1);
+            lectTbl.setItems(FXCollections.observableArrayList(list1));
+            txtLecturer.setText("");
+        }
         txtLecturer.setText("");
     }
 
@@ -421,6 +424,8 @@ public class MainSessionController implements Initializable{
         this.loadAllSubjectDetails();
         this.loadAllTagDetails();
         this.setTableProperties();
+        btnRadioMain.setDisable(true);
+        btnRadioSub.setDisable(true);
     }
 
     public void deleteLecturer(int EmpId){
@@ -436,5 +441,6 @@ public class MainSessionController implements Initializable{
 
         setTableProperties();
         lectTbl.setItems(FXCollections.observableArrayList(list1));
+
     }
 }

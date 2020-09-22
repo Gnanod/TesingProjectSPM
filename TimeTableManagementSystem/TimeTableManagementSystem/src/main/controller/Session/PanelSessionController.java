@@ -30,6 +30,9 @@ public class PanelSessionController implements Initializable {
     private Button btnConsectiveSession;
 
     @FXML
+    private Button btnRequetsSession;
+
+    @FXML
     void handleEvents(ActionEvent event) {
             try{
                 if(event.getSource()== btnSession){
@@ -50,6 +53,12 @@ public class PanelSessionController implements Initializable {
                     pnlSession.setCenter(root);
                     String currentUrl = MainController.urlName;
                     MainController.urlName = currentUrl+"/"+"ConsectiveSession";
+                }else if(event.getSource() == btnRequetsSession){
+                    pnlSession.getChildren().removeAll();
+                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/RequestedSession.fxml"));
+                    pnlSession.setCenter(root);
+                    String currentUrl = MainController.urlName;
+                    MainController.urlName = currentUrl+"/"+"RequetSession";
                 }
 
             }catch (IOException e){
