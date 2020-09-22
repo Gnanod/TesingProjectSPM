@@ -136,5 +136,24 @@ public class RoomServiceImpl implements RoomService {
         return roomA;
     }
 
+    @Override
+    public ArrayList<Room> searchRoomDetailsByUsingbuilding(String building) throws SQLException {
+        System.out.println(building);
+
+        String SQL = "Select r.rid, r.buildingid, r.room,r.capacity from room r, building b where b.bid = r.buildingid and b.building LIKE '%"+building+"%'";
+        System.out.println(SQL);
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Room> roomsList = new ArrayList<>();
+        while(rst.next()){
+            Room room = new Room(Integer.parseInt(rst.getString("r.rid")),
+                    Integer.parseInt(rst.getString("r.buildingid")),
+                    rst.getString("r.room"),
+                    Integer.parseInt(rst.getString("r.capacity")));
+            roomsList.add(room);
+        }
+        return roomsList;
+    }
+
 
 }

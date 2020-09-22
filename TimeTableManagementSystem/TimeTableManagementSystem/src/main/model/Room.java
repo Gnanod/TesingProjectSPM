@@ -11,6 +11,10 @@ public class Room {
 
     public Room(){}
 
+    public Room(String room) {
+        this.room = room;
+    }
+
     public Room(int rid, int buildingid, String room, int capacity) {
         this.rid = rid;
         this.buildingid = buildingid;

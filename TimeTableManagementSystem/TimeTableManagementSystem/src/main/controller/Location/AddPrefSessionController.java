@@ -8,7 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
-public class SessionController {
+public class AddPrefSessionController {
 
     @FXML
     private TextField txtLecturer;

@@ -7,7 +7,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
-public class ReservedController {
+public class AddPrefReservedController {
 
     @FXML
     private TextField txtBuildingOpt1;

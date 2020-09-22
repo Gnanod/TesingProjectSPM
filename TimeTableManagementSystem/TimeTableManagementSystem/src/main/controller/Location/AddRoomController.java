@@ -63,9 +63,7 @@ public class AddRoomController implements Initializable {
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
         try {
-            BuildingService buildingService = new BuildingServiceImpl();
-            ;
-
+            BuildingService buildingService = new BuildingServiceImpl();;
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
             buildingsId = new ArrayList<>();
             buildingName = new ArrayList<>();
