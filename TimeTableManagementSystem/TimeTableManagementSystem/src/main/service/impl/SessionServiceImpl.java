@@ -5,6 +5,7 @@ import main.dbconnection.DBConnection;
 import main.model.ConsectiveSession;
 import main.model.NotAvailableSession;
 import main.model.Session;
+import main.model.SessionDTO;
 import main.service.SessionService;
 
 import java.sql.*;
@@ -14,6 +15,7 @@ public class SessionServiceImpl implements SessionService {
 
     private Connection connection;
     private String mains;
+    private  SessionDTO cs;
 
     public SessionServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
@@ -207,6 +209,23 @@ public class SessionServiceImpl implements SessionService {
         int res = stmt.executeUpdate();
         System.out.println(res);
         return res > 0;
+    }
+
+    @Override
+    public ArrayList<SessionDTO> getAllSessions() throws SQLException {
+        String SQL= "select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName,sg.subgroupid from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m,subgroup sg where s.sessionId= sl.sessionId and  sub.subId =s.subjectId and s.groupId=m.id  and s.subGroupId=sg.id and sl.lecturerId=l.employeeId and s.tagId=t.tagid";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<SessionDTO> csList = new ArrayList<>();
+        System.out.println("Hi");
+        while (rst.next()) {
+            if(rst.getString("mgroupName")==null){
+               cs = new SessionDTO(Integer.parseInt(rst.getString("employeeId")),rst.getString("subjectName"),rst.getString("tagName"),rst.getString("subgroupid"), Integer.parseInt(rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")),rst.getString("employeeName"));
+            }
+            csList.add(cs);
+        }
+        return csList;
+
     }
 }
 

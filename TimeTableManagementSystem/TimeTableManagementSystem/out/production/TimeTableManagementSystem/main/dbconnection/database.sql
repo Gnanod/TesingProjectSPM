@@ -236,6 +236,11 @@ CREATE TABLE PrefRoomReserved(
 	fromTime varchar(20),
 	Constraint fk_roomId_reserved FOREIGN KEY(roomId) REFERENCES room(rid)
 );
+ALTER TABLE Subject
+ADD  subjectType varchar(20);
+
+ALTER TABLE Subject
+ADD  category varchar(20);
 
 
 

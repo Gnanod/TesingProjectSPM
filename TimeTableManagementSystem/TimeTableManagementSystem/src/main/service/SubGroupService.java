@@ -20,4 +20,6 @@ public interface SubGroupService {
     boolean updateGroupNumber(SubGroup m) throws SQLException;
 
     boolean deleteSubGroup(int id) throws SQLException;
+
+
 }

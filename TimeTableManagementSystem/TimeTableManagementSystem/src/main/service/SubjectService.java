@@ -14,4 +14,5 @@ public interface SubjectService {
     public void deleteSubjectDetails(String id) throws SQLException ;
     public boolean updateSubject(Subject subject) throws SQLException ;
     public ArrayList<Subject> searchSubjectDetails(String name) throws SQLException ;
+
 }

@@ -3,6 +3,7 @@ package main.service;
 import main.model.ConsectiveSession;
 import main.model.NotAvailableSession;
 import main.model.Session;
+import main.model.SessionDTO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -26,4 +27,6 @@ public interface SessionService {
     boolean addSession(Session s1) throws SQLException;
 
     boolean addLectureSession(int lecturerId,int sessionId) throws SQLException;
+
+    ArrayList<SessionDTO> getAllSessions() throws SQLException;
 }

@@ -1,9 +1,12 @@
 package main.controller.Subject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import main.model.Building;
@@ -42,8 +45,16 @@ public class AddSubjectController implements Initializable {
     @FXML
     private TextField txtYear;
 
+
+    @FXML
+    private ComboBox<String> subType;
+
+    @FXML
+    private TextField txtCategory;
+
     @FXML
     private TextField txtTutHours;
+    private ObservableList<String> subjectsLists= FXCollections.observableArrayList("Compulsory","Optional");
     private ArrayList<YearAndSemester> yearAndSemesters = new ArrayList<>();
     private ArrayList<String> yearSemName = new ArrayList<>();
     static int yId;
@@ -54,6 +65,9 @@ public class AddSubjectController implements Initializable {
         String subName = txtSubName.getText();
 
         String offeredYearSem =txtYear.getText();
+        String subjectType=subType.getValue();
+        String categoryName=null;
+        categoryName=txtCategory.getText();
 
         int yearCount=0;
         for (YearAndSemester y : this.yearAndSemesters) {
@@ -74,33 +88,42 @@ public class AddSubjectController implements Initializable {
                         if(!subName.equalsIgnoreCase("")){
                             if(!offeredYearSem.equalsIgnoreCase("")){
                                 if(noLecHrs!=0){
-                                    try {
-                                        Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs);
-                                        SubjectService subjectService = new SubjectServiceImpl();
-                                        boolean res=subjectService.saveSubject(subject);
-                                        if(res==true){
-                                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                            alert.setTitle(null);
-                                            alert.setHeaderText(null);
-                                            alert.setContentText("Success Adding Subject!");
+                                    if(subjectType!=null){
+                                        try {
+                                            Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs,subjectType,categoryName);
+                                            SubjectService subjectService = new SubjectServiceImpl();
+                                            boolean res=subjectService.saveSubject(subject);
+                                            if(res==true){
+                                                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                                alert.setTitle(null);
+                                                alert.setHeaderText(null);
+                                                alert.setContentText("Success Adding Subject!");
 
-                                            alert.showAndWait();
-                                            txtSubID.setText(" ");
-                                            txtSubName.setText(" ");
-                                            txtYear.setText(" ");
-                                            txtLecHours.setText(" ");
-                                            txtTutHours.setText(" ");
-                                            txtEvalHours.setText(" ");
-                                        }else{
-                                            Alert al = new Alert(Alert.AlertType.ERROR);
-                                            al.setTitle(null);
-                                            al.setContentText("Error Adding Subject!");
-                                            al.setHeaderText(null);
-                                            al.showAndWait();
+                                                alert.showAndWait();
+                                                txtSubID.setText(" ");
+                                                txtSubName.setText(" ");
+                                                txtYear.setText(" ");
+                                                txtLecHours.setText(" ");
+                                                txtTutHours.setText(" ");
+                                                txtEvalHours.setText(" ");
+                                            }else{
+                                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                                al.setTitle(null);
+                                                al.setContentText("Error Adding Subject!");
+                                                al.setHeaderText(null);
+                                                al.showAndWait();
+                                            }
+                                        }catch (SQLException ex){
+                                            ex.printStackTrace();
                                         }
-                                    }catch (SQLException ex){
-                                        ex.printStackTrace();
+                                    }else{
+                                        Alert al = new Alert(Alert.AlertType.ERROR);
+                                        al.setTitle(null);
+                                        al.setContentText("Select Subject Type!");
+                                        al.setHeaderText(null);
+                                        al.showAndWait();
                                     }
+
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
@@ -159,7 +182,11 @@ public class AddSubjectController implements Initializable {
 
 
     }
+    public void setSubjectType(){
 
+        subType.setItems(subjectsLists);
+
+    }
 
     public  void getYearSem() {
         try{
@@ -177,9 +204,20 @@ public class AddSubjectController implements Initializable {
             ex.printStackTrace();
         }
     }
+    @FXML
+    void setText(ActionEvent event) {
+        String type=subType.getValue();
+        //System.out.println(type);
+        if(type.equalsIgnoreCase("Compulsory")){
+            txtCategory.setDisable(true);
+        }else{
+            txtCategory.setDisable(false);
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         getYearSem();
+        this.setSubjectType();
     }
 }

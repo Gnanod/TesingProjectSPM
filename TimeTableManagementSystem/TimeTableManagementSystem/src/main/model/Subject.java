@@ -8,6 +8,35 @@ public class Subject {
     int noTutHrs;
     int noEvalHrs;
     String yearSem;
+    String subType;
+    String category;
+
+    public String getSubType() {
+        return subType;
+    }
+
+    public void setSubType(String subType) {
+        this.subType = subType;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Subject(String subId, String subName, int offeredYearSem, int noLecHrs, int noTutHrs, int noEvalHrs,  String subType, String category) {
+        this.subId = subId;
+        this.subName = subName;
+        this.offeredYearSem = offeredYearSem;
+        this.noLecHrs = noLecHrs;
+        this.noTutHrs = noTutHrs;
+        this.noEvalHrs = noEvalHrs;
+        this.subType = subType;
+        this.category = category;
+    }
 
     public Subject(String subId, String subName, int offeredYearSem, int noLecHrs, int noTutHrs, int noEvalHrs) {
         this.subId = subId;
