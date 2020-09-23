@@ -11,6 +11,18 @@ public class Session {
     String isConsecutive;
     String consectiveAdded;
 
+
+    public Session(int sessionId, String subjectId, int tagId, int studentCount, float duration) {
+        this.sessionId = sessionId;
+        this.subjectId = subjectId;
+        this.tagId = tagId;
+        this.studentCount = studentCount;
+        this.duration = duration;
+
+    }
+
+
+
     public Session(String subjectId, int tagId, String  groupId, String subGroupId, int studentCount, float duration, String isConsecutive) {
         this.subjectId = subjectId;
         this.tagId = tagId;

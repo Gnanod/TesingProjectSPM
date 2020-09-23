@@ -9,6 +9,12 @@
 <?import javafx.scene.text.Text?>
 
 
+<<<<<<< HEAD
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="main.controller.Location.AddPrefReservedController" prefHeight="400.0" prefWidth="600.0">
+
+=======
 <AnchorPane prefHeight="462.0" prefWidth="682.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.Location.ReservedController">
    <children>
       <Text layoutX="115.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Center" wrappingWidth="169.0000051036477" />
@@ -29,4 +35,5 @@
          </font>
       </Button>
    </children>
+>>>>>>> f96d797d283655e3fe4883890f1541abb2e9e8b0
 </AnchorPane>
