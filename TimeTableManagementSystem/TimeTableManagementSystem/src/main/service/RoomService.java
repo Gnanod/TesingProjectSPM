@@ -24,4 +24,6 @@ public interface RoomService {
 
 
     ArrayList<Room> getAllDetailsForSearch(String rbuilding, String rroom) throws SQLException;
+
+    ArrayList<Room> searchRoomDetailsByUsingbuilding(String building) throws SQLException;
 }
