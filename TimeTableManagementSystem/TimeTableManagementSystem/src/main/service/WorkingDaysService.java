@@ -27,4 +27,10 @@ public interface WorkingDaysService {
     boolean deleteWorkingDaysSub(int id,int workingId)throws SQLException;
 
     boolean checkWeekDayOrWeekEndIsAdded(String selectedType) throws SQLException;
+
+    int getCountOfWorkingDays() throws SQLException;
+
+    double getWorkingTime() throws SQLException;
+
+    String getWorkingTimeType() throws SQLException;
 }

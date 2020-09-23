@@ -55,7 +55,7 @@ public class PanelSessionController implements Initializable {
                     MainController.urlName = currentUrl+"/"+"ConsectiveSession";
                 }else if(event.getSource() == btnRequetsSession){
                     pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/RequestedSession.fxml"));
+                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ViewSearchSessions.fxml"));
                     pnlSession.setCenter(root);
                     String currentUrl = MainController.urlName;
                     MainController.urlName = currentUrl+"/"+"RequetSession";

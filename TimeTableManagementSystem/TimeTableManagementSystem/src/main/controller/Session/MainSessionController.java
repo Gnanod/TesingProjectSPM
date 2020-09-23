@@ -160,8 +160,7 @@ public class MainSessionController implements Initializable{
                                     empId=lecture1.getEmpId();
                                     sessionService.addLectureSession(empId,sessionId);
                                 }
-
-
+                                
                                 if(res==true){
                                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                     alert.setTitle(null);

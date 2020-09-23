@@ -110,6 +110,14 @@
                   <Insets />
                </VBox.margin>
             </Button>
+            <Button fx:id="btnTimeTable" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="257.0" stylesheets="@../css/main.css" text="TimeTable" textFill="#fcf7f7">
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIconView fill="#f2eaea" glyphName="POWER_OFF" size="25" />
+               </graphic>
+            </Button>
             <Button fx:id="btnlogout" alignment="BASELINE_LEFT" graphicTextGap="10.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="50.0" prefWidth="257.0" stylesheets="@../css/main.css" text="LogOut" textFill="#fcf7f7">
                <padding>
                   <Insets left="50.0" />

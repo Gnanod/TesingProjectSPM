@@ -16,7 +16,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public boolean saveSubject(Subject subject) throws SQLException {
-        String SQL = "Insert into Subject  Values(?,?,?,?,?,?)";
+        String SQL = "Insert into Subject  Values(?,?,?,?,?,?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
         stm.setObject(1, subject.getSubId());
         stm.setObject(2, subject.getSubName());
@@ -24,6 +24,8 @@ public class SubjectServiceImpl implements SubjectService {
         stm.setObject(4, subject.getNoLecHrs());
         stm.setObject(5, subject.getNoTutHrs());
         stm.setObject(6, subject.getNoEvalHrs());
+        stm.setObject(7, subject.getSubType());
+        stm.setObject(8, subject.getCategory());
         int res = stm.executeUpdate();
         return res > 0;
     }
@@ -80,4 +82,7 @@ public class SubjectServiceImpl implements SubjectService {
         }
         return subjects;
     }
+
+
+
 }
