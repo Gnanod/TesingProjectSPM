@@ -3,17 +3,12 @@ package main.controller.Location;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import main.model.Building;
-import main.model.MainGroup;
-import main.model.Room;
-import main.model.SubGroup;
+import javafx.scene.control.*;
+import main.model.*;
 import main.service.*;
 import main.service.impl.BuildingServiceImpl;
 import main.service.impl.PrefGroupServiceImpl;
+import main.service.impl.PrefTagServiceImpl;
 import main.service.impl.RoomServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
@@ -60,9 +55,11 @@ public class AddPrefGroupController implements Initializable {
     private SubGroupService subGroupService;
 
     private PrefGroupService prefGroupService;
+    private PrefTagService prefTagService;
 
     public AddPrefGroupController() {
         this.prefGroupService = new PrefGroupServiceImpl();
+        this.prefTagService = new PrefTagServiceImpl();
     }
 
     @FXML
@@ -173,7 +170,108 @@ public class AddPrefGroupController implements Initializable {
     }
 
     @FXML
-    void saveGroupRoom(ActionEvent event) {
+    void saveGroupRoom(ActionEvent event) throws SQLException {
+        System.out.println("wwwww");
+        String center = (String) cmbCenter.getValue();
+        String building = txtBuilding.getText();
+        String room = txtRoom.getText();
+        String group = textGroup.getText();
+        int roomId=0;
+        int groupId=0;
+
+        if(building != null ){
+            if(center != null) {
+                if(room != null) {
+                    roomId = prefTagService.getRoomId(center, building, room);
+                    System.out.println("wwwwwROOMID:" + roomId);
+                }else {
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Please Select room");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            }else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Please Select center");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+
+        }else {
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Please Select building");
+            al.setHeaderText(null);
+            al.showAndWait();
+        }
+
+
+        if(group != null) {
+            groupId = prefTagService.getTagIdFromTags(group);
+            System.out.println("wwwwwTAGID:" + groupId);
+        }else {
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Please Select Values!");
+            al.setHeaderText(null);
+            al.showAndWait();
+        }
+
+        PrefGroup prefGroup = new PrefGroup();
+        prefGroup.setRoomId(roomId);
+        prefGroup.setGroupId(groupId);
+
+        boolean isAdded = false;
+
+        if(group != null){
+            if(center != null){
+                if(building != null){
+                    if(room != null){
+                        isAdded = this.prefGroupService.savePrefGroupRoom(prefGroup);
+                        if (isAdded) {
+                            Alert al = new Alert(Alert.AlertType.INFORMATION);
+                            al.setTitle(null);
+                            al.setContentText("Added Successfully!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+//                            this.getAllDetails();
+                        } else {
+                            Alert al = new Alert(Alert.AlertType.ERROR);
+                            al.setTitle(null);
+                            al.setContentText("Added Failed!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+                        }
+                    }else {
+                        Alert al = new Alert(Alert.AlertType.ERROR);
+                        al.setTitle(null);
+                        al.setContentText("Please Select Room");
+                        al.setHeaderText(null);
+                        al.showAndWait();
+                    }
+                }else {
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Please Select Building");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            }else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Please Select Center");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        }else {
+            Alert al = new Alert(Alert.AlertType.ERROR);
+            al.setTitle(null);
+            al.setContentText("Please Select Group");
+            al.setHeaderText(null);
+            al.showAndWait();
+        }
 
     }
 
