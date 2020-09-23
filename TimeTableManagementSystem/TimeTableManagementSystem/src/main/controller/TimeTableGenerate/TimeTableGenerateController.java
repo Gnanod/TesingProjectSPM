@@ -4,20 +4,30 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import main.model.Session;
+import main.service.SessionService;
 import main.service.WorkingDaysService;
+import main.service.impl.SessionServiceImpl;
 import main.service.impl.WorkingDaysServiceImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class TimeTableGenerateController implements Initializable {
 
     private WorkingDaysService workingDaysService;
+    private SessionService sessionService;
+    private static String timeSlot="";
+    private static double workingHours=0;
+    private static int workingDaysCount=0;
+    private static double hourSize=0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         workingDaysService = new WorkingDaysServiceImpl();
+        sessionService = new SessionServiceImpl();
     }
 
 
@@ -57,14 +67,18 @@ public class TimeTableGenerateController implements Initializable {
     @FXML
     void generateTimeTable(ActionEvent event) {
         String[][] timeString = this.getStringArray();
-//        String groupId = ""
+        int [][]session = new int[workingDaysCount][(int)hourSize];
+//        ArrayList<Session> sessionList = sessionService.getSessionsAccording
+
+
+
     }
 
     public String [][] getStringArray(){
-        String timeSlot = this.getWorkingTimeType();
-        double workingHours = this.getWorkingTime();
-        int workingDaysCount = this.getCountOfWorkingDays();
-        double hourSize = 0;
+        timeSlot = this.getWorkingTimeType();
+        workingHours = this.getWorkingTime();
+        workingDaysCount = this.getCountOfWorkingDays();
+        hourSize = 0;
         if (timeSlot.equals("One Hour")) {
             hourSize = workingHours;
         } else {
@@ -74,7 +88,7 @@ public class TimeTableGenerateController implements Initializable {
         int hoursCount = 8;
         int minutCount = 30;
         for (int i = 0; i < workingDaysCount; i++) {
-            for (int j = 0; j < workingHours; j++) {
+            for (int j = 0; j < hourSize; j++) {
                 String tempTime = "";
                 if (timeSlot.equals("One Hour")){
                     tempTime = hoursCount + "." + minutCount;
@@ -102,6 +116,14 @@ public class TimeTableGenerateController implements Initializable {
             minutCount = 30;
         }
 
+        for (int i = 0; i < workingDaysCount; i++) {
+            System.out.print("[");
+            for (int j = 0; j < hourSize; j++) {
+                System.out.print(timeString[i][j] + " ");
+            }
+            System.out.print("]");
+            System.out.println();
+        }
         return timeString;
 
     }
