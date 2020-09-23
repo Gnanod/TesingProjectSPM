@@ -68,9 +68,8 @@ public class TimeTableGenerateController implements Initializable {
     void generateTimeTable(ActionEvent event) {
         String[][] timeString = this.getStringArray();
         int [][]session = new int[workingDaysCount][(int)hourSize];
-//        ArrayList<Session> sessionList = sessionService.getSessionsAccording
-
-
+        ArrayList<Session> sessionList = new ArrayList<>();
+        ArrayList<Session> mainGroupSessionList = sessionService.getSessionsAccordingToMainGroupId();
 
     }
 
