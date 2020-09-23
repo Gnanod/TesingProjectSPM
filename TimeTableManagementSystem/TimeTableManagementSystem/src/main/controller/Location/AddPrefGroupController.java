@@ -2,24 +2,29 @@ package main.controller.Location;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import main.model.Building;
+import main.model.MainGroup;
 import main.model.Room;
-import main.service.BuildingService;
-import main.service.PrefGroupService;
-import main.service.RoomService;
+import main.model.SubGroup;
+import main.service.*;
 import main.service.impl.BuildingServiceImpl;
 import main.service.impl.PrefGroupServiceImpl;
 import main.service.impl.RoomServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class AddPrefGroupController {
+public class AddPrefGroupController implements Initializable {
 
     @FXML
     private TextField textGroup;
@@ -35,6 +40,12 @@ public class AddPrefGroupController {
     private TextField txtRoom;
 
     @FXML
+    private RadioButton btnRadioMain;
+
+    @FXML
+    private RadioButton btnRadioSub;
+
+    @FXML
     private Button btnGroupOptions;
 
     private ArrayList<Building> buildingsId = new ArrayList<>();
@@ -43,11 +54,64 @@ public class AddPrefGroupController {
     private ArrayList<String> roomName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
+    private MainGroupService mainGroupservice;
+    private List<String> groupNameList;
+    private List<Object> groupList;
+    private SubGroupService subGroupService;
 
     private PrefGroupService prefGroupService;
 
     public AddPrefGroupController() {
         this.prefGroupService = new PrefGroupServiceImpl();
+    }
+
+    @FXML
+    void loadGroupDetails() {
+        if (btnRadioMain.isSelected()) {
+            loadMainGroupDetails();
+        } else if (btnRadioSub.isSelected()) {
+            loadSubGroupDetails();
+        }
+    }
+
+    private void loadMainGroupDetails() {
+        try {
+            ArrayList<MainGroup> mainList = this.mainGroupservice.getAllMainGroupDetails();
+            groupNameList.clear();
+            ;
+            groupList.clear();
+            if (autoCompletionBinding != null) {
+                autoCompletionBinding.dispose();
+            }
+            for (MainGroup m : mainList
+            ) {
+                groupNameList.add(m.getGroupid());
+                groupList.add(m);
+            }
+            autoCompletionBinding = TextFields.bindAutoCompletion(textGroup, groupNameList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadSubGroupDetails() {
+        try {
+            ArrayList<SubGroup> subList = this.subGroupService.getAllSubGroupDetails(0);
+            ;
+            groupNameList.clear();
+            groupList.clear();
+            if (autoCompletionBinding != null) {
+                autoCompletionBinding.dispose();
+            }
+            for (SubGroup s : subList
+            ) {
+                groupNameList.add(s.getSubgroupid());
+                groupList.add(s);
+            }
+            autoCompletionBinding = TextFields.bindAutoCompletion(textGroup, groupNameList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -113,4 +177,8 @@ public class AddPrefGroupController {
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        this.loadGroupDetails();
+    }
 }
