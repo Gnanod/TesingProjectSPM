@@ -184,9 +184,9 @@ public class MainSessionController implements Initializable{
                                     txtSubject.setText("");
                                     txtTag.setText("");
                                     txtGroup.setText("");
-                                    txtCount.setText(" ");
-                                    txtDuration.setText(" ");
-                                    txtLecturer.setText(" ");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
                                     this.setTableProperties();
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -230,9 +230,9 @@ public class MainSessionController implements Initializable{
                                     txtSubject.setText("");
                                     txtTag.setText("");
                                     txtGroup.setText("");
-                                    txtCount.setText(" ");
-                                    txtDuration.setText(" ");
-                                    txtLecturer.setText(" ");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
                                     this.setTableProperties();
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);

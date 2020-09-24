@@ -103,12 +103,12 @@ public class AddSubjectController implements Initializable {
                                                 alert.setContentText("Success Adding Subject!");
 
                                                 alert.showAndWait();
-                                                txtSubID.setText(" ");
-                                                txtSubName.setText(" ");
-                                                txtYear.setText(" ");
-                                                txtLecHours.setText(" ");
-                                                txtTutHours.setText(" ");
-                                                txtEvalHours.setText(" ");
+                                                txtSubID.setText("");
+                                                txtSubName.setText("");
+                                                txtYear.setText("");
+                                                txtLecHours.setText("");
+                                                txtTutHours.setText("");
+                                                txtEvalHours.setText("");
                                                 txtCategory.setText("");
                                                 subType.setValue("");
                                             }else{
