@@ -257,4 +257,11 @@ create TABLE timetable{
   Constraint fk_subgroupId_time_table FOREIGN KEY(subgroupId) REFERENCES subgroup(id)
 }
 
+ALTER TABLE Session
+ADD  isParallel varchar(20);
+
+ALTER TABLE Session
+ADD  category varchar(5);
+
+
 

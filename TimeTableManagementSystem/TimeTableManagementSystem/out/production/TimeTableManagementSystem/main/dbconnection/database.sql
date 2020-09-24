@@ -129,8 +129,8 @@ create table notAvailableGroup(
 create table notAvailableLecture(
     id int not null auto_increment,
     day varchar (20),
-    toTime varchar(20),
-    fromTime varchar(20),
+    toTime TIME,
+    fromTime TIME,
     lectureId  INT(6) UNSIGNED,
     FOREIGN KEY (lectureId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
     constraint primary key (id)
@@ -175,8 +175,8 @@ CREATE TABLE NotAvailableSession(
   id int PRIMARY KEY auto_increment,
   sessionId int,
   day varchar(10),
-  toTime varchar(20),
-  fromTime varchar(20),
+  toTime TIME,
+  fromTime TIME,
   FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 );
 
@@ -232,8 +232,8 @@ CREATE TABLE PrefRoomReserved(
 	id int PRIMARY KEY auto_increment,
 	roomId int,
 	day varchar(10),
-	toTime varchar(20),
-	fromTime varchar(20),
+	toTime TIME,
+	fromTime TIME,
 	Constraint fk_roomId_reserved FOREIGN KEY(roomId) REFERENCES room(rid)
 );
 ALTER TABLE Subject
@@ -249,12 +249,19 @@ create TABLE timetable{
   sessionId int,
   day varchar(20),
   roomId varchar(20),
-  toTime varchar(20),
-  fromTime varchar(20),
+  toTime TIME,
+  fromTime TIME,
   Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
   Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid),
   Constraint fk_groupId_time_table FOREIGN KEY(groupId) REFERENCES maingroup(id),
   Constraint fk_subgroupId_time_table FOREIGN KEY(subgroupId) REFERENCES subgroup(id)
 }
+
+ALTER TABLE Session
+ADD  isParallel varchar(20);
+
+ALTER TABLE Session
+ADD  category varchar(5);
+
 
 
