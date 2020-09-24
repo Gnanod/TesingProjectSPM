@@ -248,7 +248,7 @@ create TABLE timetable{
   subgroupId  int,
   sessionId int,
   day varchar(20),
-  roomId varchar(20),
+  roomId int,
   toTime TIME,
   fromTime TIME,
   Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
@@ -264,4 +264,8 @@ ALTER TABLE Session
 ADD  category varchar(5);
 
 
+ALTER TABLE Subject
+ADD  subjectType varchar(20);
 
+ALTER TABLE Subject
+ADD  category varchar(20);

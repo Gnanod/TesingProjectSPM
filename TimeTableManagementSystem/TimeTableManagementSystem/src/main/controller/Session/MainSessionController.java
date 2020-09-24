@@ -106,178 +106,184 @@ public class MainSessionController implements Initializable{
             System.out.println(duration);
 
 
-        int subCount=0;
-        for (Subject s1 : subjectLists) {
-            if (s1.getSubName().equals(subject.trim())) {
-                subId1 = s1.getSubId();
-                subCount++;
-            }
-        }
-        subCount=0;
-        for (Tag t1 : tagLists) {
-            if (t1.getTagName().equals(tag.trim())) {
-                tagId = t1.getTagId();
-                subCount++;
-            }
-        }
-
-       subCount=0;
-        for (Object m : this.mainGroupLists
-        ) {
-            if (m instanceof MainGroup) {
-                if (groupId.equals(((MainGroup) m).getGroupid())) {
-                    gId = ((MainGroup) m).getId();
-                    subCount++;
-
-                }
-            }
-            if (m instanceof SubGroup) {
-                if (groupId.equals(((SubGroup) m).getSubgroupid())) {
-                    subGroupId = ((SubGroup) m).getId();
+            int subCount=0;
+            for (Subject s1 : subjectLists) {
+                if (s1.getSubName().equals(subject.trim())) {
+                    subId1 = s1.getSubId();
                     subCount++;
                 }
             }
-        }
+            subCount=0;
+            for (Tag t1 : tagLists) {
+                if (t1.getTagName().equals(tag.trim())) {
+                    tagId = t1.getTagId();
+                    subCount++;
+                }
+            }
 
-        String isConsecutive;
-        if(subId1!=null){
-            if(tagId!=0){
-                if(stdCount!=0){
-                    if(duration!=0){
-                        SubjectService subjectService=new SubjectServiceImpl();
-                        Subject sub= subjectService.getCategory(subId1);
-                        String isParallel;
-                        String category;
-                        if(sub.getSubType().equalsIgnoreCase("Optional")){
-                           isParallel="Yes";
-                           category=sub.getCategory();
-                        }else{
-                            isParallel="No";
-                            category=null;
-                        }
-                        if(groupType.equalsIgnoreCase("Main")){
-                            System.out.println("Group"+gId);
-                            isConsecutive="Yes";
-                            Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive,isParallel,category);
-                            SessionService sessionService=new SessionServiceImpl();
+            subCount=0;
+            for (Object m : this.mainGroupLists
+            ) {
+                if (m instanceof MainGroup) {
+                    if (groupId.equals(((MainGroup) m).getGroupid())) {
+                        gId = ((MainGroup) m).getId();
+                        subCount++;
 
-                            try {
-                                boolean res=sessionService.addSession(session);
-                               int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
-                                Iterator<Lecturer> itr = list1.iterator();
-                                System.out.println("hi"+sessionId);
-                                while (itr.hasNext()) {
-                                    Lecturer lecture1 = itr.next();
-                                    empId=lecture1.getEmpId();
-                                     System.out.println("Session Id"+sessionId+"Lec ID"+empId);
-                                    res= sessionService.addLectureSession(empId,sessionId);
+                    }
+                }
+                if (m instanceof SubGroup) {
+                    if (groupId.equals(((SubGroup) m).getSubgroupid())) {
+                        subGroupId = ((SubGroup) m).getId();
+                        subCount++;
+                    }
+                }
+            }
 
+            String isConsecutive;
+            if(subId1!=null){
+                System.out.println("Hi1");
+                if(tagId!=0){
+                    System.out.println("Hi2");
+                    if(stdCount!=0){
+                        System.out.println("H3");
+                        if(duration!=0){
+                            System.out.println("H4");
+                            System.out.println("JJJJ"+subId1);
+                            SubjectService subjectService=new SubjectServiceImpl();
+                            Subject sub=subjectService.getCategory(subId1);
+                            System.out.println("OOO"+sub.getSubName());
+                            String isParallel;
+                            String category;
+                            if(sub.getSubType().equalsIgnoreCase("Optional")){
+                                isParallel="Yes";
+                                category=sub.getCategory();
+                            }else{
+                                isParallel="No";
+                                category=null;
+                            }
+                            if(groupType.equalsIgnoreCase("Main")){
+                                System.out.println("Group"+gId);
+                                isConsecutive="Yes";
+                                Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive,isParallel,category);
+                                SessionService sessionService=new SessionServiceImpl();
+
+                                try {
+                                    boolean res=sessionService.addSession(session);
+                                    int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
+                                    Iterator<Lecturer> itr = list1.iterator();
+                                    System.out.println("hi"+sessionId);
+                                    while (itr.hasNext()) {
+                                        Lecturer lecture1 = itr.next();
+                                        empId=lecture1.getEmpId();
+                                        System.out.println("Session Id"+sessionId+"Lec ID"+empId);
+                                        res= sessionService.addLectureSession(empId,sessionId);
+
+                                    }
+
+                                    if(res==true){
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle(null);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Success Adding Session!");
+
+                                        alert.showAndWait();
+                                        txtSubject.setText("");
+                                        txtTag.setText("");
+                                        txtGroup.setText("");
+                                        txtCount.setText("");
+                                        txtDuration.setText("");
+                                        txtLecturer.setText("");
+                                        list1.clear();
+                                        this.setTableProperties();
+                                    }else{
+                                        Alert al = new Alert(Alert.AlertType.ERROR);
+                                        al.setTitle(null);
+                                        al.setContentText("Error Adding Session!");
+                                        al.setHeaderText(null);
+                                        al.showAndWait();
+                                    }
+                                    System.out.print(res);
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
                                 }
+                            }else{
+                                isConsecutive="No";
+                                SubGroupService subGroupService=new SubGroupServiceImpl();
+                                int mainn= subGroupService.getMainGroup(subGroupId);
+                                Session session=new Session(subId1,tagId,Integer.toString(mainn),Integer.toString(subGroupId),stdCount,duration,isConsecutive,isParallel,category);
+                                SessionService sessionService=new SessionServiceImpl();
 
-                                if(res==true){
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setTitle(null);
-                                    alert.setHeaderText(null);
-                                    alert.setContentText("Success Adding Session!");
+                                try {
+                                    boolean res=sessionService.addSession(session);
+                                    System.out.print(res);
+                                    int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
+                                    Iterator<Lecturer> itr = list1.iterator();
+                                    System.out.println("hi"+sessionId);
+                                    while (itr.hasNext()) {
+                                        Lecturer lecture1 = itr.next();
+                                        empId=lecture1.getEmpId();
+                                        System.out.println("Session Id"+sessionId+"Lec ID"+empId);
+                                        res= sessionService.addLectureSession(empId,sessionId);
 
-                                    alert.showAndWait();
-                                    txtSubject.setText("");
-                                    txtTag.setText("");
-                                    txtGroup.setText("");
-                                    txtCount.setText("");
-                                    txtDuration.setText("");
-                                    txtLecturer.setText("");
-                                    list1.clear();
-                                    this.setTableProperties();
-                                }else{
-                                    Alert al = new Alert(Alert.AlertType.ERROR);
-                                    al.setTitle(null);
-                                    al.setContentText("Error Adding Session!");
-                                    al.setHeaderText(null);
-                                    al.showAndWait();
+                                    }
+
+                                    if(res==true){
+                                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                        alert.setTitle(null);
+                                        alert.setHeaderText(null);
+                                        alert.setContentText("Success Adding Session!");
+
+                                        alert.showAndWait();
+                                        txtSubject.setText("");
+                                        txtTag.setText("");
+                                        txtGroup.setText("");
+                                        txtCount.setText("");
+                                        txtDuration.setText("");
+                                        txtLecturer.setText("");
+                                        this.setTableProperties();
+
+                                    }else{
+                                        Alert al = new Alert(Alert.AlertType.ERROR);
+                                        al.setTitle(null);
+                                        al.setContentText("Error Adding Session!");
+                                        al.setHeaderText(null);
+                                        al.showAndWait();
+                                    }
+                                } catch (SQLException e) {
+                                    e.printStackTrace();
                                 }
-                                System.out.print(res);
-                            } catch (SQLException e) {
-                                e.printStackTrace();
                             }
                         }else{
-                            isConsecutive="No";
-                            SubGroupService subGroupService=new SubGroupServiceImpl();
-                           int mainn= subGroupService.getMainGroup(subGroupId);
-                            Session session=new Session(subId1,tagId,Integer.toString(mainn),Integer.toString(subGroupId),stdCount,duration,isConsecutive,isParallel,category);
-                            SessionService sessionService=new SessionServiceImpl();
-
-                            try {
-                                boolean res=sessionService.addSession(session);
-                                System.out.print(res);
-                                int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
-                                Iterator<Lecturer> itr = list1.iterator();
-                                System.out.println("hi"+sessionId);
-                                while (itr.hasNext()) {
-                                    Lecturer lecture1 = itr.next();
-                                    empId=lecture1.getEmpId();
-                                    System.out.println("Session Id"+sessionId+"Lec ID"+empId);
-                                    res= sessionService.addLectureSession(empId,sessionId);
-
-                                }
-
-                                if(res==true){
-                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                                    alert.setTitle(null);
-                                    alert.setHeaderText(null);
-                                    alert.setContentText("Success Adding Session!");
-
-                                    alert.showAndWait();
-                                    txtSubject.setText("");
-                                    txtTag.setText("");
-                                    txtGroup.setText("");
-                                    txtCount.setText("");
-                                    txtDuration.setText("");
-                                    txtLecturer.setText("");
-                                    this.setTableProperties();
-
-                                }else{
-                                    Alert al = new Alert(Alert.AlertType.ERROR);
-                                    al.setTitle(null);
-                                    al.setContentText("Error Adding Session!");
-                                    al.setHeaderText(null);
-                                    al.showAndWait();
-                                }
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                            }
+                            Alert ald = new Alert(Alert.AlertType.ERROR);
+                            ald.setTitle(null);
+                            ald.setContentText("Invalid Time Duration");
+                            ald.setHeaderText(null);
+                            ald.showAndWait();
                         }
+
                     }else{
-                        Alert ald = new Alert(Alert.AlertType.ERROR);
-                        ald.setTitle(null);
-                        ald.setContentText("Invalid Time Duration");
-                        ald.setHeaderText(null);
-                        ald.showAndWait();
+                        Alert alst = new Alert(Alert.AlertType.ERROR);
+                        alst.setTitle(null);
+                        alst.setContentText("Invalid Student Count");
+                        alst.setHeaderText(null);
+                        alst.showAndWait();
                     }
 
                 }else{
-                    Alert alst = new Alert(Alert.AlertType.ERROR);
-                    alst.setTitle(null);
-                    alst.setContentText("Invalid Student Count");
-                    alst.setHeaderText(null);
-                    alst.showAndWait();
+                    Alert alt = new Alert(Alert.AlertType.ERROR);
+                    alt.setTitle(null);
+                    alt.setContentText("Tag Is not Exists In this System");
+                    alt.setHeaderText(null);
+                    alt.showAndWait();
                 }
 
             }else{
-                Alert alt = new Alert(Alert.AlertType.ERROR);
-                alt.setTitle(null);
-                alt.setContentText("Tag Is not Exists In this System");
-                alt.setHeaderText(null);
-                alt.showAndWait();
+                Alert als = new Alert(Alert.AlertType.ERROR);
+                als.setTitle(null);
+                als.setContentText("Subject Is not Exists In this System");
+                als.setHeaderText(null);
+                als.showAndWait();
             }
-
-        }else{
-            Alert als = new Alert(Alert.AlertType.ERROR);
-            als.setTitle(null);
-            als.setContentText("Subject Is not Exists In this System");
-            als.setHeaderText(null);
-            als.showAndWait();
-        }
 
         }catch (NumberFormatException | SQLException ex){
             Alert als = new Alert(Alert.AlertType.ERROR);
