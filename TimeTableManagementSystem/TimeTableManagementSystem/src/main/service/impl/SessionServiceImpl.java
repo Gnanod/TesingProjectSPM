@@ -171,21 +171,23 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public boolean addSession(Session s1) throws SQLException {
-        if(s1.getGroupId()==null){
+        if(s1.getSubGroupId()!=null){
 
-            String SQL = "Insert into Session(subjectId,tagId,subGroupId,studentCount,duration,isConsecutive)  Values(?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,subGroupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?,?)";
             PreparedStatement stm1 = connection.prepareStatement(SQL);
             stm1.setObject(1, s1.getSubjectId());
             stm1.setObject(2, s1.getTagId());
-            stm1.setObject(3, Integer.parseInt(s1.getSubGroupId()));
-            stm1.setObject(4, s1.getStudentCount());
-            stm1.setObject(5, s1.getDuration());
-            stm1.setObject(6, s1.getIsConsecutive());
+            stm1.setObject(3, Integer.parseInt(s1.getGroupId()));
+            stm1.setObject(4, Integer.parseInt(s1.getSubGroupId()));
+            stm1.setObject(5, s1.getStudentCount());
+            stm1.setObject(6, s1.getDuration());
+            stm1.setObject(7, s1.getIsConsecutive());
+            stm1.setObject(8, "No");
             int res = stm1.executeUpdate();
             return res > 0;
         }else{
 
-            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive)  Values(?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?)";
             PreparedStatement stm2 = connection.prepareStatement(SQL);
             stm2.setObject(1, s1.getSubjectId());
             stm2.setObject(2, s1.getTagId());
@@ -193,6 +195,7 @@ public class SessionServiceImpl implements SessionService {
             stm2.setObject(4, s1.getStudentCount());
             stm2.setObject(5, s1.getDuration());
             stm2.setObject(6, s1.getIsConsecutive());
+            stm2.setObject(7, "No");
             int res = stm2.executeUpdate();
             return res > 0;
         }
@@ -213,17 +216,19 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public ArrayList<SessionDTO> getAllSessions() throws SQLException {
-        String SQL= "select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName,sg.subgroupid from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m,subgroup sg where s.sessionId= sl.sessionId and  sub.subId =s.subjectId and s.groupId=m.id  and s.subGroupId=sg.id and sl.lecturerId=l.employeeId and s.tagId=t.tagid";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<SessionDTO> csList = new ArrayList<>();
-        System.out.println("Hi");
-        while (rst.next()) {
-            if(rst.getString("mgroupName")==null){
-               cs = new SessionDTO(Integer.parseInt(rst.getString("employeeId")),rst.getString("subjectName"),rst.getString("tagName"),rst.getString("subgroupid"), Integer.parseInt(rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")),rst.getString("employeeName"));
-            }
-            csList.add(cs);
-        }
+//        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName\n" +
+//                "from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m \n" +
+//                "where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
+//        Statement stmtnt = connection.createStatement();
+//        ResultSet rst = stmtnt.executeQuery(SQL);
+      ArrayList<SessionDTO> csList = new ArrayList<>();
+//        System.out.println("Hi");
+//        while (rst.next()) {
+//            if(rst.getString("mgroupName")==null){
+//               cs = new SessionDTO(Integer.parseInt(rst.getString("employeeId")),rst.getString("subjectName"),rst.getString("tagName"),rst.getString("subgroupid"), Integer.parseInt(rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")),rst.getString("employeeName"));
+//            }
+//            csList.add(cs);
+//        }
         return csList;
 
     }

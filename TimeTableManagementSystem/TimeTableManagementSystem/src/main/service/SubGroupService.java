@@ -21,5 +21,7 @@ public interface SubGroupService {
 
     boolean deleteSubGroup(int id) throws SQLException;
 
+    int getMainGroup(int id) throws SQLException;
+
 
 }
