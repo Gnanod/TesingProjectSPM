@@ -29,4 +29,6 @@ public interface SessionService {
     boolean addLectureSession(int lecturerId,int sessionId) throws SQLException;
 
     ArrayList<SessionDTO> getAllSessions() throws SQLException;
+
+    ArrayList<Session> getSessionsAccordingToMainGroupId();
 }

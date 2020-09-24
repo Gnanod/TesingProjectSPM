@@ -232,6 +232,11 @@ public class SessionServiceImpl implements SessionService {
         return csList;
 
     }
+
+    @Override
+    public ArrayList<Session> getSessionsAccordingToMainGroupId() {
+        return null;
+    }
 }
 
 

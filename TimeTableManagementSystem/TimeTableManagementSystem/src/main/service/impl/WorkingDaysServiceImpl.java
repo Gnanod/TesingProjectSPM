@@ -149,4 +149,45 @@ public class WorkingDaysServiceImpl implements WorkingDaysService {
         }
         return result;
     }
+
+    @Override
+    public int getCountOfWorkingDays() throws SQLException {
+        String SQL = "select count(subId) from WorkingDaysSub ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        int result = 0;
+        if (rst.next()) {
+            if (rst.getString("count(subId)") != null) {
+                result = Integer.parseInt(rst.getString("count(subId)"));
+            } else {
+                result = 0;
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public double getWorkingTime() throws SQLException {
+        String SQL = "select workingTime from workingHoursPerDay";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        double result = 0;
+        while(rst.next()) {
+            result=Double.parseDouble(rst.getString("workingTime"));
+        }
+        return result;
+    }
+
+    @Override
+    public String getWorkingTimeType() throws SQLException {
+
+        String SQL = "select * from workingHoursPerDay";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        String result = " ";
+        while(rst.next()) {
+            result=rst.getString("timeSlot");
+        }
+        return result;
+    }
 }

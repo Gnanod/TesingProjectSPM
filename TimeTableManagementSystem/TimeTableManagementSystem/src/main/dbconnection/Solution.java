@@ -5,25 +5,20 @@ import java.util.Scanner;
 
 public class Solution {
 
-        public static void main(String[] args) {
-            char[] chars = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-            int len = 5;
-            iterate(chars, len, new char[len], 0);
-
-        }
-
-    public static void iterate(char[] chars, int len, char[] build, int pos) {
-        if (pos == len) {
-            String word = new String(build);
-            System.out.println(word);
-            // do what you need with each word here
-            return;
-        }
-
-        for (int i = 0; i < chars.length; i++) {
-            build[pos] = chars[i];
-            iterate(chars, len, build, pos + 1);
-        }
+    public static void main (String args[]){
+        int [][] arr = new int[8][7];
+        System.out.println(arr.length);
+        System.out.println(arr[1].length);
+        System.out.println(arr[2].length);
+//        int count = 2;
+//        for (int i = 0; i< arr.length; i++){
+//            for (int j = 0; j< arr[i].length; j++){
+//                System.out.println("Arrilength"+ arr[i].length);
+//                count++;
+//                arr[i][j] = count*2;
+//                System.out.print(arr[i][j] + " ");
+//            }
+//            System.out.print("\n");
+//        }
     }
-
 }

@@ -62,6 +62,9 @@ public class MainController implements Initializable {
     @FXML
     private AnchorPane mainPnl;
 
+    @FXML
+    private Button btnTimeTable;
+
     public MainController() {
 
     }
@@ -130,7 +133,11 @@ public class MainController implements Initializable {
                 chageLableStatus("/home/session", "ConsectiveSession");
                 Parent root = FXMLLoader.load(getClass().getResource("../views/Session/pnlSession.fxml"));
                 pnlMain.setCenter(root);
-            } else if (event.getSource() == btnlogout) {
+            }else if(event.getSource()== btnTimeTable){
+                chageLableStatus("/home/TimeTable", "TimeTableGenerate");
+                Parent root = FXMLLoader.load(getClass().getResource("../views/TimeTableGenerate/pnlTimetable.fxml"));
+                pnlMain.setCenter(root);
+            }else if (event.getSource() == btnlogout) {
                 System.exit(0);
             }
         } catch (IOException e) {
