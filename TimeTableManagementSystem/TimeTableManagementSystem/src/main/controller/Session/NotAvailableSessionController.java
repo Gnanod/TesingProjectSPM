@@ -266,14 +266,14 @@ public class NotAvailableSessionController implements Initializable {
                                 } else {
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
-                                    al.setContentText("Tag Is not Exists In this System");
+                                    al.setContentText("Tag Is not Exists In this System !");
                                     al.setHeaderText(null);
                                     al.showAndWait();
                                 }
                             } else {
                                 Alert al = new Alert(Alert.AlertType.ERROR);
                                 al.setTitle(null);
-                                al.setContentText("Subject Is not Exists In this System");
+                                al.setContentText("Subject Is not Exists In this System !");
                                 al.setHeaderText(null);
                                 al.showAndWait();
                             }

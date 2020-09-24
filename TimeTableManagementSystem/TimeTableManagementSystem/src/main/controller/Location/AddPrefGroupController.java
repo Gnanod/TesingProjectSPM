@@ -6,13 +6,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import main.model.*;
 import main.service.*;
-import main.service.impl.BuildingServiceImpl;
-import main.service.impl.PrefGroupServiceImpl;
-import main.service.impl.PrefTagServiceImpl;
-import main.service.impl.RoomServiceImpl;
+import main.service.impl.*;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -56,17 +54,26 @@ public class AddPrefGroupController implements Initializable {
 
     private PrefGroupService prefGroupService;
     private PrefTagService prefTagService;
+    Boolean status;
 
     public AddPrefGroupController() {
         this.prefGroupService = new PrefGroupServiceImpl();
         this.prefTagService = new PrefTagServiceImpl();
+        this.mainGroupservice = new MainGroupServiceImpl();
+        this.subGroupService = new SubGroupServiceImpl();
+        this.groupNameList = new ArrayList<>();
+        this.groupList = new ArrayList<>();
     }
 
     @FXML
     void loadGroupDetails() {
         if (btnRadioMain.isSelected()) {
+            status = true;
+            System.out.println("btnRadioMain");
             loadMainGroupDetails();
         } else if (btnRadioSub.isSelected()) {
+            status = false;
+            System.out.println("btnRadioSub");
             loadSubGroupDetails();
         }
     }
@@ -75,7 +82,6 @@ public class AddPrefGroupController implements Initializable {
         try {
             ArrayList<MainGroup> mainList = this.mainGroupservice.getAllMainGroupDetails();
             groupNameList.clear();
-            ;
             groupList.clear();
             if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
@@ -208,20 +214,30 @@ public class AddPrefGroupController implements Initializable {
         }
 
 
+        PrefGroup prefGroup = new PrefGroup();
+        prefGroup.setRoomId(roomId);
+
         if(group != null) {
-            groupId = prefTagService.getTagIdFromTags(group);
-            System.out.println("wwwwwTAGID:" + groupId);
+            if(status) {
+                groupId = prefGroupService.getGroupMainId(group);
+                System.out.println("wwwwwTAGID:" + groupId);
+                prefGroup.setGroupId(groupId);
+                prefGroup.setSubGroupId(0);
+            }
+            else{
+                groupId = prefGroupService.getGroupSubId(group);
+                System.out.println("ID:" + groupId);
+                prefGroup.setSubGroupId(groupId);
+                prefGroup.setGroupId(0);
+            }
         }else {
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
-            al.setContentText("Please Select Values!");
+            al.setContentText("Please Select Values !");
             al.setHeaderText(null);
             al.showAndWait();
         }
 
-        PrefGroup prefGroup = new PrefGroup();
-        prefGroup.setRoomId(roomId);
-        prefGroup.setGroupId(groupId);
 
         boolean isAdded = false;
 
