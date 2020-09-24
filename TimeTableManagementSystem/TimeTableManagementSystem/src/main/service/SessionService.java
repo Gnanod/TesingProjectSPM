@@ -1,9 +1,6 @@
 package main.service;
 
-import main.model.ConsectiveSession;
-import main.model.NotAvailableSession;
-import main.model.Session;
-import main.model.SessionDTO;
+import main.model.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,5 +27,5 @@ public interface SessionService {
 
     ArrayList<SessionDTO> getAllSessions() throws SQLException;
 
-    ArrayList<Session> getSessionsAccordingToMainGroupId();
+    ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException;
 }

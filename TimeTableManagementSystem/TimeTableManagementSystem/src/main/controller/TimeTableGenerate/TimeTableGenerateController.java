@@ -3,11 +3,15 @@ package main.controller.TimeTableGenerate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import main.model.Session;
+import main.model.SessionTagGroup;
 import main.service.SessionService;
+import main.service.TimeTableGenerateService;
 import main.service.WorkingDaysService;
 import main.service.impl.SessionServiceImpl;
+import main.service.impl.TimeTableGenerateServiceImpl;
 import main.service.impl.WorkingDaysServiceImpl;
 
 import java.net.URL;
@@ -19,15 +23,17 @@ public class TimeTableGenerateController implements Initializable {
 
     private WorkingDaysService workingDaysService;
     private SessionService sessionService;
-    private static String timeSlot="";
-    private static double workingHours=0;
-    private static int workingDaysCount=0;
-    private static double hourSize=0;
+    private TimeTableGenerateService timeTableGenerateService;
+    private static String timeSlot = "";
+    private static double workingHours = 0;
+    private static int workingDaysCount = 0;
+    private static double hourSize = 0;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         workingDaysService = new WorkingDaysServiceImpl();
         sessionService = new SessionServiceImpl();
+        timeTableGenerateService = new TimeTableGenerateServiceImpl();
     }
 
 
@@ -66,14 +72,93 @@ public class TimeTableGenerateController implements Initializable {
 
     @FXML
     void generateTimeTable(ActionEvent event) {
-        String[][] timeString = this.getStringArray();
-        int [][]session = new int[workingDaysCount][(int)hourSize];
-        ArrayList<Session> sessionList = new ArrayList<>();
-        ArrayList<Session> mainGroupSessionList = sessionService.getSessionsAccordingToMainGroupId();
+        try {
+            String groupId = "Y1.S1.Software Engineering.01";
+            String[][] timeString = this.getStringArray();
+            int[][] session = new int[workingDaysCount][(int) hourSize];
+            ArrayList<SessionTagGroup> sessionList = sessionService.getSessionsAccordingToMainGroupId(groupId.trim());
+            if (sessionList.size() != 0) {
+                for (SessionTagGroup stg : sessionList
+                ) {
+                    double sessionHour = stg.getDuration();
+                    int arraySpaces = 0;
+                    if (timeSlot.equals("One Hour")) {
+                        arraySpaces = (int) sessionHour;
+                    } else {
+                        arraySpaces = (int) sessionHour * 2;
+                    }
+                    ArrayList<Integer> subjectPreferedRoom = timeTableGenerateService.getSubjectPreferedRoom(stg.getSubjectId().trim(),stg.getTagId());
+                    ArrayList<Integer> lecturesList = timeTableGenerateService.getLecturersAccordingToSessionId(stg.getSessionId());
+                    ArrayList<Integer> lecturerPreferedRoomList = new ArrayList<>();
+                    for (int i : lecturesList
+                    ) {
+                        ArrayList<Integer> lectureRoomId = timeTableGenerateService.getLecturerPrefferedList(i);
+                        for (Integer lri : lectureRoomId
+                        ) {
+                            lecturerPreferedRoomList.add(lri);
+                        }
+                    }
+                    ArrayList<Integer> groupPreferedRooList = timeTableGenerateService.getPreferredRoomListForGroup(
+                            Integer.parseInt(stg.getGroupId()));
+                    ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
+                    String day = "";
+                    firstLoop:
+                    for (int i = 0; i < workingDaysCount; i++) {
+                        day = getDay(i);
+                        for (int j = 0; j < hourSize; j++) {
+                            String time = timeString[i][j];
+                            String[] arrTime = time.split("-");
+                            String toTime = arrTime[0];
+                            String fromTime = arrTime[1];
+                            if (subjectPreferedRoom.size() != 0) {
+                                for (Integer spr : subjectPreferedRoom
+                                     ) {
+                                    if(stg.getTagName().equals("Lecture")||stg.getTagName().equals("Tute")){
+                                        boolean notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime,fromTime,spr,day);
+//                                        boolean notAvailableSessionStatus = timeTableGenerateService.getNotAvailableSessionStatus(toTime,fromTime,stg.getSessionId());
+//                                        boolean notAvailableLectureStatus = timeTableGenerateService.getNotAvailableLectureStatus(toTime,fromTime,stg.get);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Any Of the Sessions didn't Added For this Group");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    public String [][] getStringArray(){
+    private String getDay(int i) {
+        String day="";
+        if(i==0){
+            day= "Monday";
+        }else if(i==1){
+            day = "Tuesday";
+        }else if(i==2){
+            day = "Wednesday";
+        }else if(i==3){
+            day = "Thursday";
+        }else if(i==4){
+            day = "Friday";
+        }else if(i==5){
+            day = "Staurday";
+        }else if(i==6){
+            day = "Sunday";
+        }
+        return day;
+    }
+
+    public String[][] getStringArray() {
         timeSlot = this.getWorkingTimeType();
         workingHours = this.getWorkingTime();
         workingDaysCount = this.getCountOfWorkingDays();
@@ -89,7 +174,7 @@ public class TimeTableGenerateController implements Initializable {
         for (int i = 0; i < workingDaysCount; i++) {
             for (int j = 0; j < hourSize; j++) {
                 String tempTime = "";
-                if (timeSlot.equals("One Hour")){
+                if (timeSlot.equals("One Hour")) {
                     tempTime = hoursCount + "." + minutCount;
                     hoursCount += 1;
                     timeString[i][j] = tempTime + "-" + hoursCount + "." + minutCount;
@@ -115,14 +200,14 @@ public class TimeTableGenerateController implements Initializable {
             minutCount = 30;
         }
 
-        for (int i = 0; i < workingDaysCount; i++) {
-            System.out.print("[");
-            for (int j = 0; j < hourSize; j++) {
-                System.out.print(timeString[i][j] + " ");
-            }
-            System.out.print("]");
-            System.out.println();
-        }
+//        for (int i = 0; i < workingDaysCount; i++) {
+//            System.out.print("[");
+//            for (int j = 0; j < hourSize; j++) {
+//                System.out.print(timeString[i][j] + " ");
+//            }
+//            System.out.print("]");
+//            System.out.println();
+//        }
         return timeString;
 
     }

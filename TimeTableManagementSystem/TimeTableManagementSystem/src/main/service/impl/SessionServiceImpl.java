@@ -2,10 +2,7 @@ package main.service.impl;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import main.dbconnection.DBConnection;
-import main.model.ConsectiveSession;
-import main.model.NotAvailableSession;
-import main.model.Session;
-import main.model.SessionDTO;
+import main.model.*;
 import main.service.SessionService;
 
 import java.sql.*;
@@ -225,12 +222,33 @@ public class SessionServiceImpl implements SessionService {
             csList.add(cs);
         }
         return csList;
-
     }
 
     @Override
-    public ArrayList<Session> getSessionsAccordingToMainGroupId() {
-        return null;
+    public ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException {
+        String SQL= "select s.*,t.tagname " +
+                    "from Session s, tag t ,maingroup m " +
+                    "where s.tagId = t.tagid and s.groupId = m.id and m.groupid='"+groupId+"'";
+        System.out.println(SQL);
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<SessionTagGroup> csList = new ArrayList<>();
+
+        while (rst.next()) {
+            SessionTagGroup stg = new SessionTagGroup(
+                    Integer.parseInt(rst.getString("sessionId")),
+                    rst.getString("subjectId"),
+                    Integer.parseInt(rst.getString("tagId")),
+                    rst.getString("groupId"),
+                    rst.getString("subGroupId"),
+                    Integer.parseInt(rst.getString("studentCount")),
+                    Float.parseFloat(rst.getString("duration")),
+                    rst.getString("isConsecutive"),
+                    rst.getString("consectiveAdded"),
+                    rst.getString("tagname"));
+            csList.add(stg);
+        }
+        return csList;
     }
 }
 

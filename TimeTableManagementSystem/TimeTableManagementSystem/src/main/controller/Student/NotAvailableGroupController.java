@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -144,6 +145,8 @@ public class NotAvailableGroupController implements Initializable {
                                 try {
                                     status = this.mainGroupservice.addNotAvailableGroup(nag);
                                 } catch (SQLException e) {
+                                    e.printStackTrace();
+                                } catch (ParseException e) {
                                     e.printStackTrace();
                                 }
                                 if(status){

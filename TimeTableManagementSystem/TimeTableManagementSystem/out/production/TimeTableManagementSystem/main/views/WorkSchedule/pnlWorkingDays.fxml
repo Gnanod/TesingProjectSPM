@@ -11,19 +11,19 @@
    <children>
       <Pane layoutX="13.0" layoutY="10.0" prefHeight="591.0" prefWidth="201.0" style="-fx-background-color: FFFFFF; -fx-background-radius: 10;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="5.0">
          <children>
-            <Button fx:id="btnWorkingDays" contentDisplay="TOP" layoutY="-1.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="107.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Working Days">
+            <Button fx:id="btnWorkingDays" contentDisplay="TOP" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Working Days">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="CALENDAR_ALT" size="35" />
+                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
                </graphic></Button>
-            <Button fx:id="btnWorkingHours" contentDisplay="TOP" layoutY="114.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="107.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Working Hours">
+            <Button fx:id="btnWorkingHours" contentDisplay="TOP" layoutY="98.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Working Hours">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="CLOCK_ALT" size="35" />
+                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
                </graphic>
             </Button>
          </children>

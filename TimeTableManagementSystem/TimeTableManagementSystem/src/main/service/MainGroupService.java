@@ -5,6 +5,7 @@ import main.model.MainGroupCount;
 import main.model.NotAvailableGroup;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public interface MainGroupService {
@@ -25,7 +26,7 @@ public interface MainGroupService {
 
     boolean deleteMainGroup(int id) throws SQLException;
 
-    boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException;
+    boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException, ParseException;
 
     ArrayList<NotAvailableGroup> getAllNotAvailableGroupDetails(String groupId) throws SQLException;
 

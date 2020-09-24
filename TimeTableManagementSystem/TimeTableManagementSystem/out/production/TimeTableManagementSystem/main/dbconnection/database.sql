@@ -116,9 +116,9 @@ create table workingHoursPerDay(
 create table notAvailableGroup(
     id int not null auto_increment,
     day varchar (20),
-    toTime varchar(20),
-    fromTime varchar(20),
-    groupId varchar (20),
+    toTime TIME,
+    fromTime TIME,
+    groupId varchar (100),
     subgroupId int,
     mainGroupId int,
     FOREIGN KEY (subgroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
@@ -159,7 +159,7 @@ CREATE TABLE SessionLecture(
     lecturerId INT(6) UNSIGNED,
     sessionId int,
     Constraint fk_keySessionLectureLectId FOREIGN KEY(lecturerId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
-    Constraint fk_keySessionLecturesessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE,
+    Constraint fk_keySessionLecturesessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 )
 
 CREATE TABLE ConsectiveSession(
@@ -242,5 +242,19 @@ ADD  subjectType varchar(20);
 ALTER TABLE Subject
 ADD  category varchar(20);
 
+create TABLE timetable{
+  id int PRIMARY KEY auto_increment,
+  groupId int,
+  subgroupId  int,
+  sessionId int,
+  day varchar(20),
+  roomId varchar(20),
+  toTime varchar(20),
+  fromTime varchar(20),
+  Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+  Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid),
+  Constraint fk_groupId_time_table FOREIGN KEY(groupId) REFERENCES maingroup(id),
+  Constraint fk_subgroupId_time_table FOREIGN KEY(subgroupId) REFERENCES subgroup(id)
+}
 
 
