@@ -10,7 +10,36 @@ public class Session {
     float duration;
     String isConsecutive;
     String consectiveAdded;
+    String isParallel;
+    String category;
 
+    public String getIsParallel() {
+        return isParallel;
+    }
+
+    public void setIsParallel(String isParallel) {
+        this.isParallel = isParallel;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Session(String subjectId, int tagId, String groupId, String subGroupId, int studentCount, float duration, String isConsecutive, String isParallel, String category) {
+        this.subjectId = subjectId;
+        this.tagId = tagId;
+        this.groupId = groupId;
+        this.subGroupId = subGroupId;
+        this.studentCount = studentCount;
+        this.duration = duration;
+        this.isConsecutive = isConsecutive;
+        this.isParallel = isParallel;
+        this.category = category;
+    }
 
     public Session(int sessionId, String subjectId, int tagId, int studentCount, float duration) {
         this.sessionId = sessionId;

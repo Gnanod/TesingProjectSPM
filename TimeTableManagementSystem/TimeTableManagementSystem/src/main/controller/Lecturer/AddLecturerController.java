@@ -118,15 +118,15 @@ public class AddLecturerController implements Initializable{
                                         alert.setContentText("Success Adding Employee!");
 
                                         alert.showAndWait();
-                                        txtEmpID.setText(" ");
-                                        txtEmpName.setText(" ");
-                                        txtFaculty.setValue(" ");
-                                        txtDepartment.setText(" ");
-                                        txtDesignation.setValue(" ");
-                                        txtDepartment.setText(" ");
-                                        txtrank.setText(" ");
-                                        txtCenter.setValue(" ");
-                                        txtBuilding.setText(" ");
+                                        txtEmpID.setText("");
+                                        txtEmpName.setText("");
+                                        txtFaculty.setValue("");
+                                        txtDepartment.setText("");
+                                        txtDesignation.setValue("");
+                                        txtDepartment.setText("");
+                                        txtrank.setText("");
+                                        txtCenter.setValue("");
+                                        txtBuilding.setText("");
                                     }else{
                                         Alert al = new Alert(Alert.AlertType.ERROR);
                                         al.setTitle(null);

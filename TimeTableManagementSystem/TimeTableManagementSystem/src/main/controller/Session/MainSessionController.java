@@ -144,10 +144,21 @@ public class MainSessionController implements Initializable{
             if(tagId!=0){
                 if(stdCount!=0){
                     if(duration!=0){
+                        SubjectService subjectService=new SubjectServiceImpl();
+                        Subject sub=subjectService.getCategory(subId1);
+                        String isParallel;
+                        String category;
+                        if(sub.getSubType().equalsIgnoreCase("Optional")){
+                           isParallel="Yes";
+                           category=sub.getCategory();
+                        }else{
+                            isParallel="No";
+                            category=null;
+                        }
                         if(groupType.equalsIgnoreCase("Main")){
                             System.out.println("Group"+gId);
                             isConsecutive="Yes";
-                            Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive);
+                            Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive,isParallel,category);
                             SessionService sessionService=new SessionServiceImpl();
 
                             try {
@@ -173,9 +184,10 @@ public class MainSessionController implements Initializable{
                                     txtSubject.setText("");
                                     txtTag.setText("");
                                     txtGroup.setText("");
-                                    txtCount.setText(" ");
-                                    txtDuration.setText(" ");
-                                    txtLecturer.setText(" ");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
+                                    list1.clear();
                                     this.setTableProperties();
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -192,7 +204,7 @@ public class MainSessionController implements Initializable{
                             isConsecutive="No";
                             SubGroupService subGroupService=new SubGroupServiceImpl();
                            int mainn= subGroupService.getMainGroup(subGroupId);
-                            Session session=new Session(subId1,tagId,Integer.toString(mainn),Integer.toString(subGroupId),stdCount,duration,isConsecutive);
+                            Session session=new Session(subId1,tagId,Integer.toString(mainn),Integer.toString(subGroupId),stdCount,duration,isConsecutive,isParallel,category);
                             SessionService sessionService=new SessionServiceImpl();
 
                             try {
@@ -219,10 +231,11 @@ public class MainSessionController implements Initializable{
                                     txtSubject.setText("");
                                     txtTag.setText("");
                                     txtGroup.setText("");
-                                    txtCount.setText(" ");
-                                    txtDuration.setText(" ");
-                                    txtLecturer.setText(" ");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
                                     this.setTableProperties();
+
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
@@ -267,11 +280,11 @@ public class MainSessionController implements Initializable{
         }
 
         }catch (NumberFormatException | SQLException ex){
-//            Alert als = new Alert(Alert.AlertType.ERROR);
-//            als.setTitle(null);
-//            als.setContentText("Enter Time & Duration in Correct Format");
-//            als.setHeaderText(null);
-//            als.showAndWait();
+            Alert als = new Alert(Alert.AlertType.ERROR);
+            als.setTitle(null);
+            als.setContentText("Enter Time & Duration in Correct Format");
+            als.setHeaderText(null);
+            als.showAndWait();
             ex.printStackTrace();
         }
 
@@ -280,6 +293,7 @@ public class MainSessionController implements Initializable{
 
     @FXML
     void AddLecturer(ActionEvent event) {
+
         String lectureName1 = txtLecturer.getText();
         int lecId1 = 0;
         int lecCount = 0;

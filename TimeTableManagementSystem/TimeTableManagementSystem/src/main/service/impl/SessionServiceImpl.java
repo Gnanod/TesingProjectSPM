@@ -16,6 +16,7 @@ public class SessionServiceImpl implements SessionService {
     private Connection connection;
     private String mains;
     private  SessionDTO cs;
+    private  ArrayList<SessionDTO> csList = new ArrayList<>();
 
     public SessionServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
@@ -173,7 +174,7 @@ public class SessionServiceImpl implements SessionService {
     public boolean addSession(Session s1) throws SQLException {
         if(s1.getSubGroupId()!=null){
 
-            String SQL = "Insert into Session(subjectId,tagId,groupId,subGroupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,subGroupId,studentCount,duration,isConsecutive,consectiveAdded,isParallel,category)  Values(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stm1 = connection.prepareStatement(SQL);
             stm1.setObject(1, s1.getSubjectId());
             stm1.setObject(2, s1.getTagId());
@@ -183,11 +184,13 @@ public class SessionServiceImpl implements SessionService {
             stm1.setObject(6, s1.getDuration());
             stm1.setObject(7, s1.getIsConsecutive());
             stm1.setObject(8, "No");
+            stm1.setObject(9, s1.getIsParallel());
+            stm1.setObject(10, s1.getCategory());
             int res = stm1.executeUpdate();
             return res > 0;
         }else{
 
-            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive,consectiveAdded,isParallel,category)  Values(?,?,?,?,?,?,?,?,?)";
             PreparedStatement stm2 = connection.prepareStatement(SQL);
             stm2.setObject(1, s1.getSubjectId());
             stm2.setObject(2, s1.getTagId());
@@ -196,6 +199,8 @@ public class SessionServiceImpl implements SessionService {
             stm2.setObject(5, s1.getDuration());
             stm2.setObject(6, s1.getIsConsecutive());
             stm2.setObject(7, "No");
+            stm2.setObject(8, s1.getIsParallel());
+            stm2.setObject(9, s1.getCategory());
             int res = stm2.executeUpdate();
             return res > 0;
         }
@@ -216,19 +221,32 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public ArrayList<SessionDTO> getAllSessions() throws SQLException {
-//        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName\n" +
-//                "from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m \n" +
-//                "where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
-//        Statement stmtnt = connection.createStatement();
-//        ResultSet rst = stmtnt.executeQuery(SQL);
-      ArrayList<SessionDTO> csList = new ArrayList<>();
-//        System.out.println("Hi");
-//        while (rst.next()) {
-//            if(rst.getString("mgroupName")==null){
-//               cs = new SessionDTO(Integer.parseInt(rst.getString("employeeId")),rst.getString("subjectName"),rst.getString("tagName"),rst.getString("subgroupid"), Integer.parseInt(rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")),rst.getString("employeeName"));
-//            }
-//            csList.add(cs);
-//        }
+        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+
+
+        while (rst.next()) {
+           // System.out.println(rst.getString("employeeName"));
+            SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
+            csList.add(cs);
+        }
+        return csList;
+
+    }
+
+    @Override
+    public ArrayList<SessionDTO> searchSessions(String id) throws SQLException {
+
+       // String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id and s.subjectId='" + id + "' OR l.employeeName='" + id + "' OR m.mgroupName='" + id+ "' ";
+        String sql="Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id and sub.subName='" + id+ "' OR l.employeeName='" + id+ "' OR m.mgroupName='" + id+ "'";
+        Statement stmtnty = connection.createStatement();
+        ResultSet rst = stmtnty.executeQuery(sql);
+        while (rst.next()) {
+            // System.out.println(rst.getString("employeeName"));
+            SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
+            csList.add(cs);
+        }
         return csList;
 
     }
@@ -237,6 +255,8 @@ public class SessionServiceImpl implements SessionService {
     public ArrayList<Session> getSessionsAccordingToMainGroupId() {
         return null;
     }
+
+
 }
 
 
