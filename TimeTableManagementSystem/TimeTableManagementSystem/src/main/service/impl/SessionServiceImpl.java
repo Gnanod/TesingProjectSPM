@@ -174,7 +174,7 @@ public class SessionServiceImpl implements SessionService {
     public boolean addSession(Session s1) throws SQLException {
         if(s1.getSubGroupId()!=null){
 
-            String SQL = "Insert into Session(subjectId,tagId,groupId,subGroupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,subGroupId,studentCount,duration,isConsecutive,consectiveAdded,isParallel,category)  Values(?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stm1 = connection.prepareStatement(SQL);
             stm1.setObject(1, s1.getSubjectId());
             stm1.setObject(2, s1.getTagId());
@@ -184,11 +184,13 @@ public class SessionServiceImpl implements SessionService {
             stm1.setObject(6, s1.getDuration());
             stm1.setObject(7, s1.getIsConsecutive());
             stm1.setObject(8, "No");
+            stm1.setObject(9, s1.getIsParallel());
+            stm1.setObject(10, s1.getCategory());
             int res = stm1.executeUpdate();
             return res > 0;
         }else{
 
-            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive,consectiveAdded)  Values(?,?,?,?,?,?,?)";
+            String SQL = "Insert into Session(subjectId,tagId,groupId,studentCount,duration,isConsecutive,consectiveAdded,isParallel,category)  Values(?,?,?,?,?,?,?,?,?)";
             PreparedStatement stm2 = connection.prepareStatement(SQL);
             stm2.setObject(1, s1.getSubjectId());
             stm2.setObject(2, s1.getTagId());
@@ -197,6 +199,8 @@ public class SessionServiceImpl implements SessionService {
             stm2.setObject(5, s1.getDuration());
             stm2.setObject(6, s1.getIsConsecutive());
             stm2.setObject(7, "No");
+            stm2.setObject(8, s1.getIsParallel());
+            stm2.setObject(9, s1.getCategory());
             int res = stm2.executeUpdate();
             return res > 0;
         }

@@ -90,6 +90,9 @@ public class AddSubjectController implements Initializable {
                                 if(noLecHrs!=0){
                                     if(subjectType!=null){
                                         try {
+                                            if(categoryName.equalsIgnoreCase("")){
+                                                categoryName=null;
+                                            }
                                             Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs,subjectType,categoryName);
                                             SubjectService subjectService = new SubjectServiceImpl();
                                             boolean res=subjectService.saveSubject(subject);
@@ -106,6 +109,8 @@ public class AddSubjectController implements Initializable {
                                                 txtLecHours.setText(" ");
                                                 txtTutHours.setText(" ");
                                                 txtEvalHours.setText(" ");
+                                                txtCategory.setText("");
+                                                subType.setValue("");
                                             }else{
                                                 Alert al = new Alert(Alert.AlertType.ERROR);
                                                 al.setTitle(null);

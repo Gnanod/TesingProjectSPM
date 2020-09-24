@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.gluonhq.charm.glisten.control.ToggleButtonGroup?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
@@ -38,7 +39,8 @@
             </FXCollections>
          </items>
       </ComboBox>
-      <RadioButton fx:id="btnRadioMain" alignment="CENTER_LEFT" contentDisplay="TOP" layoutX="290.0" layoutY="60.0" mnemonicParsing="false" onAction="#loadGroupDetails" prefHeight="31.0" prefWidth="185.0" text="Main-Group" />
-      <RadioButton fx:id="btnRadioSub" alignment="CENTER_LEFT" contentDisplay="TOP" layoutX="422.0" layoutY="65.0" mnemonicParsing="false" onAction="#loadGroupDetails" prefHeight="22.0" prefWidth="129.0" text="Sub-Group" />
+      <ToggleButtonGroup layoutX="422.0" layoutY="87.0" prefHeight="39.0" prefWidth="314.0" selectionType="SINGLE" />
+      <RadioButton fx:id="btnRadioMain" alignment="CENTER_LEFT" contentDisplay="TOP" layoutX="290.0" layoutY="69.0" mnemonicParsing="false" onAction="#loadGroupDetails" prefHeight="31.0" prefWidth="185.0" text="Main-Group" />
+      <RadioButton fx:id="btnRadioSub" alignment="CENTER_LEFT" contentDisplay="TOP" layoutX="475.0" layoutY="69.0" mnemonicParsing="false" onAction="#loadGroupDetails" prefHeight="22.0" prefWidth="129.0" text="Sub-Group" />
    </children>
 </AnchorPane>
