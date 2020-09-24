@@ -7,6 +7,7 @@ import main.service.PrefReservedService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.LocalTime;
 
 public class PrefReservedServiceImpl implements PrefReservedService {
 
@@ -22,8 +23,8 @@ public class PrefReservedServiceImpl implements PrefReservedService {
         stm.setObject(1, 0);
         stm.setObject(2, prefRes.getRoomId());
         stm.setObject(3, prefRes.getDay());
-        stm.setObject(4, prefRes.getToTime());
-        stm.setObject(5, prefRes.getFromTime());
+        stm.setObject(4, LocalTime.parse(prefRes.getToTime()));
+        stm.setObject(5, LocalTime.parse(prefRes.getFromTime()));
 
         int res = stm.executeUpdate();
         return res > 0;
