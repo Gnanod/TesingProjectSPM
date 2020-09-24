@@ -187,6 +187,7 @@ public class MainSessionController implements Initializable{
                                     txtCount.setText("");
                                     txtDuration.setText("");
                                     txtLecturer.setText("");
+                                    list1.clear();
                                     this.setTableProperties();
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -234,6 +235,7 @@ public class MainSessionController implements Initializable{
                                     txtDuration.setText("");
                                     txtLecturer.setText("");
                                     this.setTableProperties();
+
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
@@ -291,6 +293,7 @@ public class MainSessionController implements Initializable{
 
     @FXML
     void AddLecturer(ActionEvent event) {
+
         String lectureName1 = txtLecturer.getText();
         int lecId1 = 0;
         int lecCount = 0;
