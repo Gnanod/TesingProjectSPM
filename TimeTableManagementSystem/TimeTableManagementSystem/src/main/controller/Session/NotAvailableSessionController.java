@@ -80,8 +80,10 @@ public class NotAvailableSessionController implements Initializable {
 
     @FXML
     void loadGroupDetails() {
+        System.out.println("loadGroupDetails");
         if (btnRadioMain.isSelected()) {
             loadMainGroupDetails();
+            System.out.println("preloadMainGroupDetails");
         } else if (btnRadioSub.isSelected()) {
             loadSubGroupDetails();
         }
@@ -134,9 +136,10 @@ public class NotAvailableSessionController implements Initializable {
 
     private void loadMainGroupDetails() {
         try {
+            System.out.println("loadMainGroupDetails");
             ArrayList<MainGroup> mainList = this.mainGroupservice.getAllMainGroupDetails();
             groupNameList.clear();
-            ;
+
             groupList.clear();
             if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
@@ -154,8 +157,9 @@ public class NotAvailableSessionController implements Initializable {
 
     private void loadSubGroupDetails() {
         try {
+            System.out.println("loadSubGroupDetails");
             ArrayList<SubGroup> subList = this.subGroupService.getAllSubGroupDetails(0);
-            ;
+
             groupNameList.clear();
             groupList.clear();
             if (autoCompletionBinding != null) {
@@ -262,14 +266,14 @@ public class NotAvailableSessionController implements Initializable {
                                 } else {
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
-                                    al.setContentText("Tag Is not Exists In this System");
+                                    al.setContentText("Tag Is not Exists In this System !");
                                     al.setHeaderText(null);
                                     al.showAndWait();
                                 }
                             } else {
                                 Alert al = new Alert(Alert.AlertType.ERROR);
                                 al.setTitle(null);
-                                al.setContentText("Subject Is not Exists In this System");
+                                al.setContentText("Subject Is not Exists In this System !");
                                 al.setHeaderText(null);
                                 al.showAndWait();
                             }

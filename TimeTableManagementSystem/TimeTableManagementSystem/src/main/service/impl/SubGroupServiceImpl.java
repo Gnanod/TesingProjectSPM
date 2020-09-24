@@ -114,4 +114,20 @@ public class SubGroupServiceImpl implements SubGroupService {
         Statement stm = connection.createStatement();
         return stm.executeUpdate(SQL)>0;
     }
+
+    @Override
+    public int getMainGroup(int id) throws SQLException {
+        String SQL = "select maingroupid from subgroup where id='"+id+"'";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        int result = 0;
+        if (rst.next()) {
+            if (rst.getString("maingroupid") != null) {
+                result = Integer.parseInt(rst.getString("maingroupid"));
+            } else {
+                result = 0;
+            }
+        }
+        return result;
+    }
 }

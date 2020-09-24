@@ -36,8 +36,9 @@ public class ViewMainSessionController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.getAllSessions();
+
         this.setTableProperties();
+        this.getAllSessions();
     }
     public void setTableProperties() {
         tblGroupCount.getSelectionModel().getTableView().getItems().clear();
@@ -53,22 +54,35 @@ public class ViewMainSessionController implements Initializable {
     public  void getAllSessions(){
 
         try {
-            SessionService lecturerService=new SessionServiceImpl();
-            ArrayList<SessionDTO> list = lecturerService.getAllSessions();
-
-                for (SessionDTO str : list)
-                {
-
-                    sessionDTOS.add(str);
-
-
-                }
-
-
-            tblGroupCount.setItems(FXCollections.observableArrayList(sessionDTOS));
+           SessionService sessionService=new SessionServiceImpl();
+           ArrayList<SessionDTO> arrayList=sessionService.getAllSessions();
+            tblGroupCount.setItems(FXCollections.observableArrayList(arrayList));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    void searchSession(ActionEvent event) {
+        String lecturer=txtLecturer.getText();
+        String subject=txtLecturer1.getText();
+        String groupId=txtLecturer2.getText();
+        try{
+            SessionService sessionService=new SessionServiceImpl();
+            ArrayList<SessionDTO> arrayList;
+            if(!lecturer.equalsIgnoreCase("")){
+                arrayList=sessionService.searchSessions(lecturer);
+            }else if(!subject.equalsIgnoreCase("")){
+                arrayList=sessionService.searchSessions(subject);
+            }else{
+                arrayList=sessionService.searchSessions(groupId);
+            }
+            this.setTableProperties();
+            tblGroupCount.setItems(FXCollections.observableArrayList(arrayList));
+        }catch (SQLException ex){
+
+        }
+
     }
 
 }

@@ -11,6 +11,11 @@ public class Subject {
     String subType;
     String category;
 
+    public Subject(String subType, String category) {
+        this.subType = subType;
+        this.category = category;
+    }
+
     public String getSubType() {
         return subType;
     }

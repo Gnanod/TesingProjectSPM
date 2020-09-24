@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 public class SubjectServiceImpl implements SubjectService {
     private Connection connection;
+    private Subject subject;
     public SubjectServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
@@ -83,6 +84,18 @@ public class SubjectServiceImpl implements SubjectService {
         return subjects;
     }
 
+    @Override
+    public Subject getCategory(String id) throws SQLException {
+        String SQL = "select sub.category, sub.subjectType from Session s, Subject sub where s.subjectId=sub.subId and sub.subId LIKE '%" + id + "%'";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        ArrayList<Subject>  subjects = new ArrayList<>();
+        while(rst.next()){
+            subject=new Subject(rst.getString("subjectType"),rst.getString("category"));
+
+        }
+        return subject;
+    }
 
 
 }

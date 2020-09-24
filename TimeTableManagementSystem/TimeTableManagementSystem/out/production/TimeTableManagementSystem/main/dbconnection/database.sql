@@ -212,8 +212,8 @@ CREATE TABLE PrefRoomLecturer(
 
 CREATE TABLE PrefRoomGroup(
 	id int PRIMARY KEY auto_increment,
-	groupId int,
-	subGroupId int,
+	groupId int NULL,
+	subGroupId int NULL,
 	roomId int,
 	Constraint fk_groupId FOREIGN KEY(groupId) REFERENCES maingroup(id),
 	Constraint fk_subGroupId FOREIGN KEY(subGroupId) REFERENCES subgroup(id),

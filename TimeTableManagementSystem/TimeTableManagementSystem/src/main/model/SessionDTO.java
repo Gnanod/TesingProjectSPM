@@ -9,7 +9,15 @@ public class SessionDTO {
     float duration;
     String lecturer;
 
-    public SessionDTO(int sessionId, String subjectName, String tagName, String groupName, int studentCount, float duration, String lecturer) {
+    public String getLecturer() {
+        return lecturer;
+    }
+
+    public void setLecturer(String lecturer) {
+        this.lecturer = lecturer;
+    }
+
+    public SessionDTO(int sessionId, String subjectName, String tagName, int studentCount , float duration, String groupName, String lecturer) {
         this.sessionId = sessionId;
         this.subjectName = subjectName;
         this.tagName = tagName;
@@ -19,7 +27,7 @@ public class SessionDTO {
         this.lecturer = lecturer;
     }
 
-    public SessionDTO(int sessionId, String subjectName, String tagName, String groupName, int studentCount, float duration) {
+    public SessionDTO(int sessionId, String subjectName, String tagName, int studentCount , float duration,String groupName) {
         this.sessionId = sessionId;
         this.subjectName = subjectName;
         this.tagName = tagName;

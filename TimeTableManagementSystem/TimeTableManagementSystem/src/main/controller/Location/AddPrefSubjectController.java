@@ -202,7 +202,7 @@ public class AddPrefSubjectController implements Initializable {
                     System.out.println("HHH1111");
                     if (room != null) {
                         System.out.println("HHH2222");
-//                        roomId = prefTagService.getRoomId(center,building,room);
+                        roomId = prefTagService.getRoomId(center,building,room);
                         System.out.println("KKKKKKKKKKKKKKKK"+prefTagService.getRoomId(center,building,room));
 
                     } else {

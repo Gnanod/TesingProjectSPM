@@ -100,9 +100,10 @@ public class MainSessionController implements Initializable{
         }
         String groupId=txtGroup.getText();
         try{
-            int stdCount=Integer.parseInt(txtCount.getText());
-            float duration=Float.parseFloat(txtDuration.getText());
-
+            int stdCount=Integer.parseInt(txtCount.getText().trim());
+            float duration=Float.parseFloat(txtDuration.getText().trim());
+            System.out.println(stdCount);
+            System.out.println(duration);
 
 
         int subCount=0;
@@ -143,24 +144,36 @@ public class MainSessionController implements Initializable{
             if(tagId!=0){
                 if(stdCount!=0){
                     if(duration!=0){
+                        SubjectService subjectService=new SubjectServiceImpl();
+                        Subject sub=subjectService.getCategory(subId1);
+                        String isParallel;
+                        String category;
+                        if(sub.getSubType().equalsIgnoreCase("Optional")){
+                           isParallel="Yes";
+                           category=sub.getCategory();
+                        }else{
+                            isParallel="No";
+                            category=null;
+                        }
                         if(groupType.equalsIgnoreCase("Main")){
                             System.out.println("Group"+gId);
                             isConsecutive="Yes";
-                            Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive);
+                            Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive,isParallel,category);
                             SessionService sessionService=new SessionServiceImpl();
 
                             try {
                                 boolean res=sessionService.addSession(session);
                                int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
-                               // System.out.println(sessionId);
                                 Iterator<Lecturer> itr = list1.iterator();
-
+                                System.out.println("hi"+sessionId);
                                 while (itr.hasNext()) {
                                     Lecturer lecture1 = itr.next();
                                     empId=lecture1.getEmpId();
-                                    sessionService.addLectureSession(empId,sessionId);
+                                     System.out.println("Session Id"+sessionId+"Lec ID"+empId);
+                                    res= sessionService.addLectureSession(empId,sessionId);
+
                                 }
-                                
+
                                 if(res==true){
                                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                     alert.setTitle(null);
@@ -171,14 +184,14 @@ public class MainSessionController implements Initializable{
                                     txtSubject.setText("");
                                     txtTag.setText("");
                                     txtGroup.setText("");
-                                    txtCount.setText(" ");
-                                    txtDuration.setText(" ");
-                                    txtLecturer.setText(" ");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
                                     this.setTableProperties();
                                 }else{
                                     Alert al = new Alert(Alert.AlertType.ERROR);
                                     al.setTitle(null);
-                                    al.setContentText("Error Adding Employee!");
+                                    al.setContentText("Error Adding Session!");
                                     al.setHeaderText(null);
                                     al.showAndWait();
                                 }
@@ -188,12 +201,46 @@ public class MainSessionController implements Initializable{
                             }
                         }else{
                             isConsecutive="No";
-                            Session session=new Session(subId1,tagId,null,Integer.toString(subGroupId),stdCount,duration,isConsecutive);
+                            SubGroupService subGroupService=new SubGroupServiceImpl();
+                           int mainn= subGroupService.getMainGroup(subGroupId);
+                            Session session=new Session(subId1,tagId,Integer.toString(mainn),Integer.toString(subGroupId),stdCount,duration,isConsecutive,isParallel,category);
                             SessionService sessionService=new SessionServiceImpl();
 
                             try {
                                 boolean res=sessionService.addSession(session);
                                 System.out.print(res);
+                                int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
+                                Iterator<Lecturer> itr = list1.iterator();
+                                System.out.println("hi"+sessionId);
+                                while (itr.hasNext()) {
+                                    Lecturer lecture1 = itr.next();
+                                    empId=lecture1.getEmpId();
+                                    System.out.println("Session Id"+sessionId+"Lec ID"+empId);
+                                    res= sessionService.addLectureSession(empId,sessionId);
+
+                                }
+
+                                if(res==true){
+                                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                                    alert.setTitle(null);
+                                    alert.setHeaderText(null);
+                                    alert.setContentText("Success Adding Session!");
+
+                                    alert.showAndWait();
+                                    txtSubject.setText("");
+                                    txtTag.setText("");
+                                    txtGroup.setText("");
+                                    txtCount.setText("");
+                                    txtDuration.setText("");
+                                    txtLecturer.setText("");
+                                    this.setTableProperties();
+                                }else{
+                                    Alert al = new Alert(Alert.AlertType.ERROR);
+                                    al.setTitle(null);
+                                    al.setContentText("Error Adding Session!");
+                                    al.setHeaderText(null);
+                                    al.showAndWait();
+                                }
                             } catch (SQLException e) {
                                 e.printStackTrace();
                             }
@@ -229,12 +276,14 @@ public class MainSessionController implements Initializable{
             als.setHeaderText(null);
             als.showAndWait();
         }
-        }catch (NumberFormatException ex){
+
+        }catch (NumberFormatException | SQLException ex){
             Alert als = new Alert(Alert.AlertType.ERROR);
             als.setTitle(null);
             als.setContentText("Enter Time & Duration in Correct Format");
             als.setHeaderText(null);
             als.showAndWait();
+            ex.printStackTrace();
         }
 
     }
@@ -248,6 +297,7 @@ public class MainSessionController implements Initializable{
         for (Lecturer l1 : lectureLists) {
             if (l1.getEmpName().equals(lectureName1.trim())) {
                 lecId1 = l1.getEmpId();
+                System.out.println(lecId1);
                 lecCount++;
             }
         }

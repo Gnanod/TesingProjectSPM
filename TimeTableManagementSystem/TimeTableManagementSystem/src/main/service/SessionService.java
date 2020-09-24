@@ -27,5 +27,7 @@ public interface SessionService {
 
     ArrayList<SessionDTO> getAllSessions() throws SQLException;
 
+    ArrayList<SessionDTO> searchSessions(String id) throws SQLException;
+
     ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException;
 }

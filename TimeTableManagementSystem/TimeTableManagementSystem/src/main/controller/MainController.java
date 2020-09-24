@@ -135,7 +135,7 @@ public class MainController implements Initializable {
                 pnlMain.setCenter(root);
             }else if(event.getSource()== btnTimeTable){
                 chageLableStatus("/home/TimeTable", "TimeTableGenerate");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/TimeTableGenerate/TimeTableGeneratePnl.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("../views/TimeTableGenerate/pnlTimetable.fxml"));
                 pnlMain.setCenter(root);
             }else if (event.getSource() == btnlogout) {
                 System.exit(0);

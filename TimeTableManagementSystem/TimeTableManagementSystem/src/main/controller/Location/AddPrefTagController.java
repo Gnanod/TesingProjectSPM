@@ -54,6 +54,7 @@ public class AddPrefTagController implements Initializable {
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding3;
+    private String curTime;
 
     private PrefTagService prefTagService;
 
