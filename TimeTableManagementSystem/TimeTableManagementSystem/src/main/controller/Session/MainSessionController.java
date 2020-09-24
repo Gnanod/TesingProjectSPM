@@ -145,7 +145,7 @@ public class MainSessionController implements Initializable{
                 if(stdCount!=0){
                     if(duration!=0){
                         SubjectService subjectService=new SubjectServiceImpl();
-                        Subject sub=subjectService.getCategory(subId1);
+                        Subject sub= subjectService.getCategory(subId1);
                         String isParallel;
                         String category;
                         if(sub.getSubType().equalsIgnoreCase("Optional")){
