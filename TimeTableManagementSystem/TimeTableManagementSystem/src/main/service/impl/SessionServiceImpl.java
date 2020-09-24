@@ -16,6 +16,7 @@ public class SessionServiceImpl implements SessionService {
     private Connection connection;
     private String mains;
     private  SessionDTO cs;
+    private  ArrayList<SessionDTO> csList = new ArrayList<>();
 
     public SessionServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
@@ -216,19 +217,32 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public ArrayList<SessionDTO> getAllSessions() throws SQLException {
-//        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName\n" +
-//                "from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m \n" +
-//                "where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
-//        Statement stmtnt = connection.createStatement();
-//        ResultSet rst = stmtnt.executeQuery(SQL);
-      ArrayList<SessionDTO> csList = new ArrayList<>();
-//        System.out.println("Hi");
-//        while (rst.next()) {
-//            if(rst.getString("mgroupName")==null){
-//               cs = new SessionDTO(Integer.parseInt(rst.getString("employeeId")),rst.getString("subjectName"),rst.getString("tagName"),rst.getString("subgroupid"), Integer.parseInt(rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")),rst.getString("employeeName"));
-//            }
-//            csList.add(cs);
-//        }
+        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+
+
+        while (rst.next()) {
+           // System.out.println(rst.getString("employeeName"));
+            SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
+            csList.add(cs);
+        }
+        return csList;
+
+    }
+
+    @Override
+    public ArrayList<SessionDTO> searchSessions(String id) throws SQLException {
+
+       // String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id and s.subjectId='" + id + "' OR l.employeeName='" + id + "' OR m.mgroupName='" + id+ "' ";
+        String sql="Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id and sub.subName='" + id+ "' OR l.employeeName='" + id+ "' OR m.mgroupName='" + id+ "'";
+        Statement stmtnty = connection.createStatement();
+        ResultSet rst = stmtnty.executeQuery(sql);
+        while (rst.next()) {
+            // System.out.println(rst.getString("employeeName"));
+            SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
+            csList.add(cs);
+        }
         return csList;
 
     }
@@ -237,6 +251,8 @@ public class SessionServiceImpl implements SessionService {
     public ArrayList<Session> getSessionsAccordingToMainGroupId() {
         return null;
     }
+
+
 }
 
 
