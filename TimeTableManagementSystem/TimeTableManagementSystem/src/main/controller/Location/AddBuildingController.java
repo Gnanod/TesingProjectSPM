@@ -69,7 +69,7 @@ public class AddBuildingController implements Initializable {
                 buildingObj.setBuilding(building);
                 buildingObj.setCenter(center);
                 txtBuildingAdd.setText("");
-                int duplicateCount = 0;
+                int duplicateCount  = 0;
                 if (buildingList.size() != 0) {
                     for (Building b1 : buildingList
                     ) {

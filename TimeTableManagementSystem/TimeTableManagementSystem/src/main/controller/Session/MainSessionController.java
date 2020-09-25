@@ -306,9 +306,27 @@ public class MainSessionController implements Initializable{
         }
         if(lecId1!=0){
             Lecturer l1=new Lecturer(lecId1,lectureName1);
-            list1.add(l1);
-            lectTbl.setItems(FXCollections.observableArrayList(list1));
-            txtLecturer.setText("");
+            int duplicateCount  = 0;
+            for (Lecturer l2 : list1
+            ) {
+                if (l2.getEmpId()==lecId1) {
+                        duplicateCount++;
+                }
+            }
+            if (duplicateCount == 0) {
+                list1.add(l1);
+                lectTbl.setItems(FXCollections.observableArrayList(list1));
+                txtLecturer.setText("");
+
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Lecturer is Already In the Table!");
+                al.setHeaderText(null);
+                al.showAndWait();
+                duplicateCount = 0;
+            }
+
         }
         txtLecturer.setText("");
     }
