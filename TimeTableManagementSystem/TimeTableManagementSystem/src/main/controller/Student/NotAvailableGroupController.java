@@ -104,6 +104,8 @@ public class NotAvailableGroupController implements Initializable {
         String day = (String) cmbDate.getValue();
         String getToTime = toTime.getValue().toString();
         String getFromTime = fromTime.getValue().toString();
+        System.out.println("ToTime"+getToTime);
+        System.out.println("FromTime"+getFromTime);
         String groupId = txtGroupId.getText();
         NotAvailableGroup nag = new NotAvailableGroup();
         String selectedBtn = "";
@@ -113,6 +115,8 @@ public class NotAvailableGroupController implements Initializable {
         if(btnRadioSub.isSelected()){
             selectedBtn="SubGroupId";
         }
+        System.out.println("GGGToTime"+getToTime);
+        System.out.println("GGGFromTime"+getFromTime);
         if (!day.isEmpty()) {
             if (!getToTime.isEmpty()) {
                 if (!getFromTime.isEmpty()) {

@@ -16,4 +16,14 @@ public interface TimeTableGenerateService {
     ArrayList<Integer> getPreferredRoomListForSession(int sessionId) throws SQLException;
 
     boolean getNotAvailableGroupStaus(String toTime, String fromTime, Integer spr, String day) throws SQLException;
+
+    boolean getNotAvailableSessionStatus(int sessionId, String day, String toTime, String fromTime) throws SQLException;
+
+    boolean getNotAvailableLectureStatus(String toTime, String fromTime, String day, Integer lec) throws SQLException;
+
+    int getRoomSize(int roomId) throws SQLException;
+
+    boolean getNotAvailableSubGroupStaus(String toTime, String fromTime, int parseInt, String day) throws SQLException;
+
+    int getConsectiveSessionIdAccordingToSession(int sessionId) throws SQLException;
 }

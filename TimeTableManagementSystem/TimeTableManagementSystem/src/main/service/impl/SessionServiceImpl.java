@@ -251,8 +251,8 @@ public class SessionServiceImpl implements SessionService {
     public ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException {
         String SQL= "select s.*,t.tagname " +
                     "from Session s, tag t ,maingroup m " +
-                    "where s.tagId = t.tagid and s.groupId = m.id and m.groupid='"+groupId+"'";
-        System.out.println(SQL);
+                    "where s.tagId = t.tagid and s.groupId = m.id and m.groupid='"+groupId+"' and isParallel='No' " +
+                    "order by s.subjectId";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
         ArrayList<SessionTagGroup> csList = new ArrayList<>();

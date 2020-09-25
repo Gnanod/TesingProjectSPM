@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.Student">
+<AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.TimeTableGenerateController">
 
-    <Button fx:id="btnGenerate" layoutX="468.0" layoutY="471.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="189.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
+    <Button fx:id="btnGenerate" layoutX="462.0" layoutY="64.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="189.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
         <font>
             <Font name="System Bold" size="18.0" />
         </font>

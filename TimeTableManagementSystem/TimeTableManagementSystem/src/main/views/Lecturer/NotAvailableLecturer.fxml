@@ -24,12 +24,12 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="126.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="To Time">
+      <Label layoutX="70.0" layoutY="126.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="From Time">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
       </Label>
-      <Label layoutX="70.0" layoutY="169.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="From Time">
+      <Label layoutX="70.0" layoutY="169.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="To Time">
          <font>
             <Font name="System Bold" size="13.0 " />
          </font>
@@ -44,7 +44,7 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </Button>
-      <ComboBox fx:id="cmbDay" layoutX="209.0" layoutY="82.0" prefHeight="28.0" prefWidth="263.0">
+      <ComboBox fx:id="cmbDay" layoutX="208.0" layoutY="85.0" prefHeight="28.0" prefWidth="263.0">
          <items>
             <FXCollections fx:factory="observableArrayList">
                <String fx:value="Sunday" />
@@ -65,8 +65,8 @@
             <TableColumn fx:id="colDelete" prefWidth="45.0" />
          </columns>
       </TableView>
-      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="212.0" layoutY="121.0" prefHeight="31.0" prefWidth="263.0" />
-      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="211.0" layoutY="163.0" prefHeight="31.0" prefWidth="263.0" />
+      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="210.0" layoutY="167.0" prefHeight="31.0" prefWidth="263.0" />
+      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="210.0" layoutY="124.0" prefHeight="31.0" prefWidth="263.0" />
       <TextField fx:id="txtLecturer" layoutX="209.0" layoutY="209.0" prefHeight="31.0" prefWidth="263.0" />
       <TextField fx:id="txtSearchLecturer" layoutX="51.0" layoutY="314.0" onAction="#searchLecturer" prefHeight="31.0" prefWidth="263.0" />
 

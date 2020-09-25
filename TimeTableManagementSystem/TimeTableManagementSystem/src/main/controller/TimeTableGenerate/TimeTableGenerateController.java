@@ -3,8 +3,7 @@ package main.controller.TimeTableGenerate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import main.model.Session;
 import main.model.SessionTagGroup;
 import main.service.SessionService;
@@ -20,6 +19,25 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class TimeTableGenerateController implements Initializable {
+
+    @FXML
+    private Button btnGenerate;
+
+    @FXML
+    private ComboBox<?> StudentType;
+
+    @FXML
+    private TextField txtSubID;
+
+    @FXML
+    private TableView<?> tblTimeTable;
+
+
+    @FXML
+    void setText(ActionEvent event) {
+
+    }
+
 
     private WorkingDaysService workingDaysService;
     private SessionService sessionService;
@@ -73,21 +91,38 @@ public class TimeTableGenerateController implements Initializable {
     @FXML
     void generateTimeTable(ActionEvent event) {
         try {
-            String groupId = "Y1.S1.Software Engineering.01";
+            String groupId = "Y1.S1.SE.01";
             String[][] timeString = this.getStringArray();
-            int[][] session = new int[workingDaysCount][(int) hourSize];
+            String[][] session = new String[workingDaysCount][(int) hourSize];
             ArrayList<SessionTagGroup> sessionList = sessionService.getSessionsAccordingToMainGroupId(groupId.trim());
             if (sessionList.size() != 0) {
+                int consectiveSesionRoom = 0;
+                int consectiveSessionId =0;
+                int consectiveSessionCount=0;
+                double lectureTagCount=0;
+                double tuteTagCount=0;
                 for (SessionTagGroup stg : sessionList
                 ) {
                     double sessionHour = stg.getDuration();
                     int arraySpaces = 0;
-                    if (timeSlot.equals("One Hour")) {
+                    if (timeSlot.equals("One Hour")){
                         arraySpaces = (int) sessionHour;
-                    } else {
+                        if(stg.getTagName().equalsIgnoreCase("Lecture")){
+                            lectureTagCount= sessionHour;
+                        }else if(stg.getTagName().equalsIgnoreCase("tute")){
+                            tuteTagCount=sessionHour;
+                        }
+                    }else{
                         arraySpaces = (int) sessionHour * 2;
+                        if(stg.getTagName().equalsIgnoreCase("Lecture")){
+                            lectureTagCount= sessionHour*2;
+                        }else if(stg.getTagName().equalsIgnoreCase("tute")){
+                            tuteTagCount=sessionHour*2;
+                        }
                     }
-                    ArrayList<Integer> subjectPreferedRoom = timeTableGenerateService.getSubjectPreferedRoom(stg.getSubjectId().trim(),stg.getTagId());
+
+
+                    ArrayList<Integer> subjectPreferedRoom = timeTableGenerateService.getSubjectPreferedRoom(stg.getSubjectId().trim(), stg.getTagId());
                     ArrayList<Integer> lecturesList = timeTableGenerateService.getLecturersAccordingToSessionId(stg.getSessionId());
                     ArrayList<Integer> lecturerPreferedRoomList = new ArrayList<>();
                     for (int i : lecturesList
@@ -102,26 +137,90 @@ public class TimeTableGenerateController implements Initializable {
                             Integer.parseInt(stg.getGroupId()));
                     ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
                     String day = "";
-                    firstLoop:
-                    for (int i = 0; i < workingDaysCount; i++) {
-                        day = getDay(i);
-                        for (int j = 0; j < hourSize; j++) {
-                            String time = timeString[i][j];
-                            String[] arrTime = time.split("-");
-                            String toTime = arrTime[0];
-                            String fromTime = arrTime[1];
-                            if (subjectPreferedRoom.size() != 0) {
-                                for (Integer spr : subjectPreferedRoom
-                                     ) {
-                                    if(stg.getTagName().equals("Lecture")||stg.getTagName().equals("Tute")){
-                                        boolean notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime,fromTime,spr,day);
-//                                        boolean notAvailableSessionStatus = timeTableGenerateService.getNotAvailableSessionStatus(toTime,fromTime,stg.getSessionId());
-//                                        boolean notAvailableLectureStatus = timeTableGenerateService.getNotAvailableLectureStatus(toTime,fromTime,stg.get);
+                    if (subjectPreferedRoom.size() != 0) {
+                        groupList:
+                        for (Integer spr : subjectPreferedRoom
+                        ) {
+                            int roomSize = getRoomSize(spr);
+                            if (stg.getStudentCount() <= roomSize) {
+                                firstLoop:
+                                for (int i = 0; i < workingDaysCount; i++) {
+                                    day = getDay(i);
+                                    //  int
+                                    for (int j = 0; j < hourSize; j++) {
+                                        if (session[i][j] != null) {
+                                            String time = timeString[i][j];
+                                            String[] arrTime = time.split("-");
+                                            String toTime = arrTime[1];
+                                            String fromTime = arrTime[0];
+                                            boolean notAvailableSessionStatus = timeTableGenerateService.getNotAvailableSessionStatus(stg.getSessionId(), day, toTime, fromTime);
+                                            boolean notAvailableLectureStatus = false;
+                                            for (Integer lec : lecturesList
+                                            ) {
+                                                boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                System.out.println("Stats" + status);
+                                                if (status) {
+                                                    notAvailableLectureStatus = true;
+                                                }
+                                            }
+                                            boolean notAvailableGroupStatus = false;
+                                            if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
+                                                notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+                                            } else {
+                                                notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                            }
+                                            if (!notAvailableGroupStatus && !notAvailableSessionStatus && !notAvailableLectureStatus) {
+                                                if (stg.getConsectiveAdded().equalsIgnoreCase("Yes")) {
+                                                    consectiveSessionId = this.timeTableGenerateService.getConsectiveSessionIdAccordingToSession(stg.getSessionId());
+                                                    if(consectiveSesionRoom!=0){
+
+                                                    }
+                                                    consectiveSesionRoom = spr;
+                                                    if(consectiveSessionCount == (lectureTagCount+tuteTagCount)){
+                                                        consectiveSesionRoom=0;
+                                                        consectiveSessionId=0;
+                                                    }
+                                                    consectiveSessionCount++;
+                                                }
+                                                session[i][j] = Integer.toString(stg.getSessionId());
+                                                if (arraySpaces == j)
+                                                    break groupList;
+
+                                            }else{
+                                                System.out.println("Time Table Not Print");
+                                            }
+
+                                        }
+
+
                                     }
                                 }
                             }
                         }
+                    } else {
+
                     }
+
+
+//                    for (int i = 0; i < workingDaysCount; i++) {
+//                        day = getDay(i);
+//                        for (int j = 0; j < hourSize; j++) {
+//                            String time = timeString[i][j];
+//                            String[] arrTime = time.split("-");
+//                            String toTime = arrTime[1];
+//                            String fromTime = arrTime[0];
+//                            if (subjectPreferedRoom.size() != 0) {
+//                                for (Integer spr : subjectPreferedRoom
+//                                ) {
+//                                    int roomSize = getRoomSize(spr);
+//                                    if (stg.getStudentCount() <= roomSize) {
+//
+//                                    }
+//
+//                                }
+//                            }
+//                        }
+//                    }
                 }
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
@@ -139,23 +238,33 @@ public class TimeTableGenerateController implements Initializable {
     }
 
     private String getDay(int i) {
-        String day="";
-        if(i==0){
-            day= "Monday";
-        }else if(i==1){
+        String day = "";
+        if (i == 0) {
+            day = "Monday";
+        } else if (i == 1) {
             day = "Tuesday";
-        }else if(i==2){
+        } else if (i == 2) {
             day = "Wednesday";
-        }else if(i==3){
+        } else if (i == 3) {
             day = "Thursday";
-        }else if(i==4){
+        } else if (i == 4) {
             day = "Friday";
-        }else if(i==5){
+        } else if (i == 5) {
             day = "Staurday";
-        }else if(i==6){
+        } else if (i == 6) {
             day = "Sunday";
         }
         return day;
+    }
+
+    public int getRoomSize(int roomId) {
+        int result = 0;
+        try {
+            result = this.timeTableGenerateService.getRoomSize(roomId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public String[][] getStringArray() {
@@ -175,14 +284,33 @@ public class TimeTableGenerateController implements Initializable {
             for (int j = 0; j < hourSize; j++) {
                 String tempTime = "";
                 if (timeSlot.equals("One Hour")) {
-                    tempTime = hoursCount + "." + minutCount;
+                    if (hoursCount < 10) {
+                        tempTime = "0" + hoursCount + ":" + minutCount;
+                    } else {
+                        tempTime = hoursCount + ":" + minutCount;
+                    }
                     hoursCount += 1;
-                    timeString[i][j] = tempTime + "-" + hoursCount + "." + minutCount;
+                    if (hoursCount < 10) {
+                        timeString[i][j] = tempTime + "-0" + hoursCount + ":" + minutCount;
+                    } else {
+                        timeString[i][j] = tempTime + "-" + hoursCount + ":" + minutCount;
+                    }
+
                 } else {
                     if (minutCount != 30) {
-                        tempTime = hoursCount + "." + minutCount + "0";
+                        if (hoursCount < 10) {
+                            tempTime = "0" + hoursCount + ":" + minutCount + "0";
+                        } else {
+                            tempTime = hoursCount + ":" + minutCount + "0";
+                        }
+
                     } else {
-                        tempTime = hoursCount + "." + minutCount;
+                        if (hoursCount < 10) {
+                            tempTime = "0" + hoursCount + ":" + minutCount;
+                        } else {
+                            tempTime = hoursCount + ":" + minutCount;
+                        }
+
                     }
                     minutCount += 30;
                     if (minutCount >= 60) {
@@ -190,9 +318,19 @@ public class TimeTableGenerateController implements Initializable {
                         minutCount = 0;
                     }
                     if (minutCount != 30) {
-                        timeString[i][j] = tempTime + "-" + hoursCount + "." + minutCount + "0";
+                        if (hoursCount < 10) {
+                            timeString[i][j] = tempTime + "-0" + hoursCount + ":" + minutCount + "0";
+                        } else {
+                            timeString[i][j] = tempTime + "-" + hoursCount + ":" + minutCount + "0";
+                        }
+
                     } else {
-                        timeString[i][j] = tempTime + "-" + hoursCount + "." + minutCount;
+                        if (hoursCount < 10) {
+                            timeString[i][j] = tempTime + "-0" + hoursCount + ":" + minutCount;
+                        } else {
+                            timeString[i][j] = tempTime + "-" + hoursCount + ":" + minutCount;
+
+                        }
                     }
                 }
             }
@@ -200,14 +338,14 @@ public class TimeTableGenerateController implements Initializable {
             minutCount = 30;
         }
 
-//        for (int i = 0; i < workingDaysCount; i++) {
-//            System.out.print("[");
-//            for (int j = 0; j < hourSize; j++) {
-//                System.out.print(timeString[i][j] + " ");
-//            }
-//            System.out.print("]");
-//            System.out.println();
-//        }
+        for (int i = 0; i < workingDaysCount; i++) {
+            System.out.print("[");
+            for (int j = 0; j < hourSize; j++) {
+                System.out.print(timeString[i][j] + " ");
+            }
+            System.out.print("]");
+            System.out.println();
+        }
         return timeString;
 
     }

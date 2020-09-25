@@ -1,7 +1,7 @@
 drop database timetableManagementSystem;
 
 create database timetableManagementSystem;
-use timetableManagementSystem;
+  use timetableManagementSystem;
 
 create table academicYearAndSemester(
 	id int not null auto_increment,
