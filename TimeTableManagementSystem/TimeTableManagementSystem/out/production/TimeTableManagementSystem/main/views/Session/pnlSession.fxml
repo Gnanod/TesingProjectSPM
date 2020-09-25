@@ -34,7 +34,7 @@
                   <FontAwesomeIconView glyphName="CALENDAR_TIMES_ALT" size="35.0" />
                </graphic>
             </Button>
-            <Button fx:id="btnRequetsSession" alignment="CENTER" contentDisplay="TOP" layoutY="268.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Request Session">
+            <Button fx:id="btnRequetsSession" alignment="CENTER" contentDisplay="TOP" layoutY="268.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Search Session">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>

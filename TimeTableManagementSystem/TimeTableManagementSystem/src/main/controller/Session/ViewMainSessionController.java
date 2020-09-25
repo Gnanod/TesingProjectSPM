@@ -72,10 +72,19 @@ public class ViewMainSessionController implements Initializable {
             ArrayList<SessionDTO> arrayList;
             if(!lecturer.equalsIgnoreCase("")){
                 arrayList=sessionService.searchSessions(lecturer);
+                txtLecturer.setText("");
+                txtLecturer2.setText("");
+                txtLecturer1.setText("");
             }else if(!subject.equalsIgnoreCase("")){
                 arrayList=sessionService.searchSessions(subject);
+                txtLecturer1.setText("");
+                txtLecturer.setText("");
+                txtLecturer2.setText("");
             }else{
                 arrayList=sessionService.searchSessions(groupId);
+                txtLecturer2.setText("");
+                txtLecturer1.setText("");
+                txtLecturer.setText("");
             }
             this.setTableProperties();
             tblGroupCount.setItems(FXCollections.observableArrayList(arrayList));
