@@ -9,7 +9,7 @@
    <children>
       <AnchorPane layoutX="5.0" layoutY="24.0" prefHeight="438.0" prefWidth="916.0" style="-fx-background-color: white;">
          <children>
-            <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" prefHeight="332.0" prefWidth="773.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="64.0">
+            <TableView fx:id="tblGroupCount" layoutX="12.0" layoutY="65.0" maxHeight="1.7976931348623157E308" prefHeight="248.0" prefWidth="782.0" stylesheets="@../../css/Student.css" AnchorPane.bottomAnchor="28.0" AnchorPane.topAnchor="100.0">
                <columns>
                   <TableColumn minWidth="0.0" prefWidth="63.0" text="Id" />
                   <TableColumn prefWidth="156.0" text="Subject Name" />
