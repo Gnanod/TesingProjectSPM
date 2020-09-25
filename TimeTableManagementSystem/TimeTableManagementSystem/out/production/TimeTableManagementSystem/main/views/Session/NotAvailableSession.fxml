@@ -61,8 +61,8 @@
             </FXCollections>
          </items>
       </ComboBox>
-      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="209.0" layoutY="374.0" prefHeight="26.0" prefWidth="270.0" />
-      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="209.0" layoutY="413.0" prefHeight="26.0" prefWidth="270.0" />
+      <JFXTimePicker fx:id="fromTime" defaultColor="#7151dd" layoutX="209.0" layoutY="374.0" prefHeight="26.0" prefWidth="270.0" />
+      <JFXTimePicker fx:id="toTime" defaultColor="#7151dd" layoutX="209.0" layoutY="413.0" prefHeight="26.0" prefWidth="270.0" />
       <TextField fx:id="txtLecturer" layoutX="208.0" layoutY="80.0" prefHeight="31.0" prefWidth="263.0" />
       <TextField fx:id="txtSubject" layoutX="208.0" layoutY="121.0" prefHeight="31.0" prefWidth="263.0" />
       <Label layoutX="70.0" layoutY="121.0" prefHeight="31.0" prefWidth="129.0" stylesheets="@../../css/Student.css" text="Subject">
