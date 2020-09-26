@@ -1,5 +1,8 @@
 package main.service;
 
+import main.model.Session;
+import main.model.SessionArray;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,5 +28,21 @@ public interface TimeTableGenerateService {
 
     boolean getNotAvailableSubGroupStaus(String toTime, String fromTime, int parseInt, String day) throws SQLException;
 
+    double getConsectiveSessionHourAccordingToSession(int sessionId) throws SQLException;
+
     int getConsectiveSessionIdAccordingToSession(int sessionId) throws SQLException;
+
+    ArrayList<Integer> getPreferredRoomListForSubGroup(int parseInt) throws SQLException;
+
+    Integer getBuilidingForLecturer(Integer i) throws SQLException;
+
+    ArrayList<Integer> getRoomsAccordingToBuilding(Integer i) throws SQLException;
+
+    SessionArray getSessionDetailsAccordingToSessionId(String s) throws SQLException;
+
+    ArrayList<String> getLecturerNamesAccordingTo(String s) throws SQLException;
+
+    String getRoomNumberAccordingToRoomId(String s) throws SQLException;
+
+    String getSubgroupIdAccordingToSession(String s) throws SQLException;
 }

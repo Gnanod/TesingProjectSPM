@@ -12,6 +12,7 @@ public class SessionTagGroup {
     private String isConsecutive;
     private String consectiveAdded;
     private String tagName;
+    private String categoty;
 
     public SessionTagGroup() {
     }
@@ -27,6 +28,28 @@ public class SessionTagGroup {
         this.isConsecutive = isConsecutive;
         this.consectiveAdded = consectiveAdded;
         this.tagName = tagName;
+    }
+
+    public SessionTagGroup(int sessionId, String subjectId, int tagId, String groupId, String subGroupId, int studentCount, float duration, String isConsecutive, String consectiveAdded, String tagName, String categoty) {
+        this.sessionId = sessionId;
+        this.subjectId = subjectId;
+        this.tagId = tagId;
+        this.groupId = groupId;
+        this.subGroupId = subGroupId;
+        this.studentCount = studentCount;
+        this.duration = duration;
+        this.isConsecutive = isConsecutive;
+        this.consectiveAdded = consectiveAdded;
+        this.tagName = tagName;
+        this.categoty = categoty;
+    }
+
+    public String getCategoty() {
+        return categoty;
+    }
+
+    public void setCategoty(String categoty) {
+        this.categoty = categoty;
     }
 
     public int getSessionId() {

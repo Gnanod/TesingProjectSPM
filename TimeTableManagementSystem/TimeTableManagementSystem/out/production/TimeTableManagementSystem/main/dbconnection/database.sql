@@ -242,7 +242,7 @@ ADD  subjectType varchar(20);
 ALTER TABLE Subject
 ADD  category varchar(20);
 
-create TABLE timetable{
+create TABLE timetable(
   id int PRIMARY KEY auto_increment,
   groupId int,
   subgroupId  int,
@@ -255,7 +255,7 @@ create TABLE timetable{
   Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid),
   Constraint fk_groupId_time_table FOREIGN KEY(groupId) REFERENCES maingroup(id),
   Constraint fk_subgroupId_time_table FOREIGN KEY(subgroupId) REFERENCES subgroup(id)
-}
+)
 
 ALTER TABLE Session
 ADD  isParallel varchar(20);
@@ -269,3 +269,12 @@ ADD  subjectType varchar(20);
 
 ALTER TABLE Subject
 ADD  category varchar(20);
+
+create Table parrellSessions(
+      id int PRIMARY KEY auto_increment,
+      sessionId int,
+      fromTime TIME,
+      toTime TIME,
+      day varchar(20),
+      Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+)

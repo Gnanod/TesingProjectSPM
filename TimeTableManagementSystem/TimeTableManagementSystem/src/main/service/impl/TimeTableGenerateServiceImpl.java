@@ -1,6 +1,8 @@
 package main.service.impl;
 
 import main.dbconnection.DBConnection;
+import main.model.Session;
+import main.model.SessionArray;
 import main.model.SessionDTO;
 import main.service.TimeTableGenerateService;
 
@@ -78,21 +80,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean getNotAvailableGroupStaus(String toTime, String fromTime, Integer spr, String day) throws SQLException {
-//        String SQL = "select id from notAvailableGroup where toTime >= '" + LocalTime.parse(toTime)+ "' and  fromTime <= '"+LocalTime.parse(fromTime)+"' and day='"+day+"'" +
-////                "and mainGroupId='" + spr + "'";
-////        System.out.println(SQL);
-////        Statement stm = connection.createStatement();
-////        ResultSet rst = stm.executeQuery(SQL);
-////        boolean result = false;
-////        if (rst.next()) {
-////            if (rst.getString("id") != null) {
-////                result = true;
-////            } else {
-////                result = false;
-////            }
-////        }
-////        return result;
-
         String SQLTo = "select id from notAvailableGroup " +
                 "where  mainGroupId='" + spr + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
@@ -129,20 +116,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean getNotAvailableSessionStatus(int sessionId, String day, String toTime, String fromTime) throws SQLException {
-//        String SQL = "select id from notavailablesession where " +
-//                "'" + LocalTime.parse(toTime) + "' BETWEEN  fromTime and toTime and '" + LocalTime.parse(fromTime) + "' BETWEEN fromTime and toTime and day='" + day + "'" +
-//                "and sessionId='" + sessionId + "'";
-//        Statement stm = connection.createStatement();
-//        ResultSet rst = stm.executeQuery(SQL);
-//        boolean result = false;
-//        if (rst.next()) {
-//            if (rst.getString("id") != null) {
-//                result = true;
-//            } else {
-//                result = false;
-//            }
-//        }
-//        return result;
         String SQLTo = "select id from notavailablesession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
@@ -179,29 +152,14 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean getNotAvailableLectureStatus(String toTime, String fromTime, String day, Integer lec) throws SQLException {
-//        String SQL = "select id from notavailablelecture where toTime >= '" + LocalTime.parse(toTime) + "' and  fromTime <= '" + LocalTime.parse(fromTime) + "' and day='" + day + "'" +
-//                "and lectureId='" + lec + "'";
-//        System.out.println(SQL);
-//        Statement stm = connection.createStatement();
-//        ResultSet rst = stm.executeQuery(SQL);
-//        boolean result = false;
-//        if (rst.next()) {
-//            if (rst.getString("id") != null) {
-//                result = true;
-//            } else {
-//                result = false;
-//            }
-//        }
-//        return result;
-
         String SQLTo = "select id from notavailablelecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
         String SQLFrom = "select id from notavailablelecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-        System.out.println(SQLTo);
-        System.out.println(SQLFrom);
+//        System.out.println(SQLTo);
+//        System.out.println(SQLFrom);
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQLTo);
         boolean result = false;
@@ -221,8 +179,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
                 result1 = false;
             }
         }
-        System.out.println("Result1 " + result);
-        System.out.println("Result1 " + result1);
         if (result || result1) {
             return true;
         } else {
@@ -281,8 +237,27 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     }
 
     @Override
+    public double getConsectiveSessionHourAccordingToSession(int sessionId) throws SQLException {
+//        String SQL = "select duration from session s ,consectivesession cs where " +
+//                " s.sessionId = cs.sessionId and cs.sessionId='"+sessionId+"' " ;
+        String SQL ="select duration from session s where s.sessionId In " +
+                "(Select consectiveId from consectivesession cs where cs.sessionId='"+sessionId+"') ";
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(SQL);
+        double result = 0;
+        if (rst.next()) {
+            if (rst.getString("duration") != null) {
+                result = Double.parseDouble(rst.getString("duration"));
+            } else {
+                result = 0;
+            }
+        }
+        return result;
+    }
+
+    @Override
     public int getConsectiveSessionIdAccordingToSession(int sessionId) throws SQLException {
-        String SQL = "select consectiveId from consectivesession where sessionId='"+sessionId+"'" ;
+        String SQL = "select consectiveId from consectivesession cs where cs.sessionId='"+sessionId+"'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         int result = 0;
@@ -292,6 +267,103 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
             } else {
                 result = 0;
             }
+        }
+        return result;
+    }
+
+    @Override
+    public ArrayList<Integer> getPreferredRoomListForSubGroup(int parseInt) throws SQLException {
+        String SQL = "select roomId from PrefRoomGroup where subGroupId ='" + parseInt + "'";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<Integer> roomList = new ArrayList<>();
+        while (rst.next()) {
+            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        }
+        return roomList;
+    }
+
+    @Override
+    public Integer getBuilidingForLecturer(Integer i) throws SQLException {
+        String SQL = "select buildingId from lecturer where employeeId ='" + i + "'";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        int buidlingId =0;
+        while (rst.next()) {
+            buidlingId = Integer.parseInt(rst.getString("buildingId"));
+        }
+        return buidlingId;
+    }
+
+    @Override
+    public ArrayList<Integer> getRoomsAccordingToBuilding(Integer i) throws SQLException {
+        String SQL = "select rid from room where buildingid ='" + i + "'";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<Integer> roomList = new ArrayList<>();
+        while (rst.next()) {
+            roomList.add(Integer.parseInt(rst.getString("rid")));
+        }
+        return roomList;
+    }
+
+    @Override
+    public SessionArray getSessionDetailsAccordingToSessionId(String s) throws SQLException {
+        String SQL="select su.subId,su.subName,t.tagName " +
+                "from Subject su ,session s,tag t " +
+                "where s.sessionId='"+Integer.parseInt(s.trim())+"' and s.tagId = t.tagid and s.subjectId = su.subId ";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        SessionArray session = new SessionArray();
+        while (rst.next()) {
+            session.setSubjectCode(rst.getString("subId"));
+            session.setSubjectName(rst.getString("subName"));
+            session.setTagName(rst.getString("tagName"));
+
+        }
+        return session;
+    }
+
+    @Override
+    public ArrayList<String> getLecturerNamesAccordingTo(String s) throws SQLException {
+        String SQL ="select l.employeeName " +
+                "from sessionlecture sl ,session s ,lecturer l " +
+                "where s.sessionId = sl.sessionId and s.sessionId='"+Integer.parseInt(s.trim())+"' and l.employeeId = sl.lecturerId";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<String> list = new ArrayList<>();
+        while (rst.next()) {
+            list.add(rst.getString("employeeName"));
+
+        }
+        return list;
+    }
+
+    @Override
+    public String getRoomNumberAccordingToRoomId(String s) throws SQLException {
+        String SQL ="select r.room " +
+                    "from room r " +
+                    "where rid='"+Integer.parseInt(s.trim())+"' ";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        String result ="";
+        while (rst.next()) {
+            result =rst.getString("room");
+        }
+        return result;
+
+    }
+
+    @Override
+    public String getSubgroupIdAccordingToSession(String s) throws SQLException {
+        String SQL="select sg.subgroupid " +
+                "from session s, subgroup sg " +
+                "where s.subGroupId = sg.id and s.sessionId='"+Integer.parseInt(s.trim())+"'";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        String result ="";
+        while (rst.next()) {
+            result =rst.getString("subgroupid");
         }
         return result;
     }
