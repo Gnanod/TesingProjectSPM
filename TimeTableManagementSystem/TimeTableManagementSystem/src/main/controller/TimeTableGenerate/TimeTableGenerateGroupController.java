@@ -7,7 +7,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import main.controller.Pdf.PrintTimeTable;
-import main.model.Lecturer;
 import main.model.MainGroup;
 import main.model.SessionArray;
 import main.model.SessionTagGroup;
