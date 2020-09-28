@@ -1,5 +1,7 @@
 package main.service;
 
+import main.model.LecturerTimeTable;
+import main.model.RoomTimeTable;
 import main.model.Session;
 import main.model.SessionArray;
 
@@ -45,4 +47,17 @@ public interface TimeTableGenerateService {
     String getRoomNumberAccordingToRoomId(String s) throws SQLException;
 
     String getSubgroupIdAccordingToSession(String s) throws SQLException;
+
+    boolean SaveTimeTable(String newday, String toTime, String fromTime, String s, String s1,String timeString) throws SQLException;
+
+    boolean getRoomIsAvailable(String toTime, String fromTime, String day,int roomId) throws SQLException;
+
+    ArrayList<LecturerTimeTable> getLectureTimeTableDetails(String lecName) throws SQLException;
+
+    String getSubGroupId(int parseInt) throws SQLException;
+
+    String getMainGroupId(int parseInt) throws SQLException;
+
+    ArrayList<RoomTimeTable> getTimeTableForRoom(String center, String building, String room) throws SQLException;
+
 }

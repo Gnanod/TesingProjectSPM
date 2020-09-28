@@ -2,6 +2,7 @@ package main.model;
 
 public class SessionArray {
 
+
     private String subjectCode;
     private String subjectName;
     private String tagName;

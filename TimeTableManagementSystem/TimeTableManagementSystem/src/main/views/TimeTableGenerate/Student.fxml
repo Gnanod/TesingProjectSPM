@@ -1,39 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
-<?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.TimeTableGenerateController">
+<AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.TimeTableGenerateGroupController">
+<!--<AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.TimeTableGenerateController">-->
 
-    <Button fx:id="btnGenerate" layoutX="462.0" layoutY="64.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="189.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
+    <Button fx:id="btnGenerate" layoutX="164.0" layoutY="157.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="189.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
         <font>
             <Font name="System Bold" size="18.0" />
         </font>
     </Button>
-    <ComboBox fx:id="StudentType" layoutX="168.0" layoutY="39.0" onAction="#setText" prefHeight="31.0" prefWidth="182.0" promptText="Group Number">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Group Name" />
-                <String fx:value="Group Name" />
-                <String fx:value="Group Name" />
-
-            </FXCollections>
-        </items>
-    </ComboBox>
-    <TextField fx:id="txtSubID" layoutX="380.0" layoutY="39.0" prefHeight="25.0" prefWidth="176.0" />
-    <TableView fx:id="tblTimeTable" layoutX="58.0" layoutY="113.0" prefHeight="332.0" prefWidth="622.0" stylesheets="@../../css/Student.css">
-        <columns>
-            <TableColumn prefWidth="43.0" text="Time" />
-            <TableColumn prefWidth="576.0" text="Days" />
-        </columns>
-    </TableView>
+    <TextField fx:id="txtGroupId" layoutX="157.0" layoutY="87.0" prefHeight="25.0" prefWidth="176.0" />
 
 
 </AnchorPane>
