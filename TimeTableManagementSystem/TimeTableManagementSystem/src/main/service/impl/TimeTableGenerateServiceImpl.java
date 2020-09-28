@@ -493,7 +493,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
                      "from room r ,building b  " +
                      "where r.buildingid = b.bid and  b.center='"+center+"' " +
                      "and b.building='"+building+"' and r.room='"+room+"') ";
-        System.out.println(SQL);
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
         ArrayList<RoomTimeTable> result = new ArrayList<>();
@@ -512,7 +511,53 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
         return result;
     }
 
+    @Override
+    public ArrayList<ParallelSession> getParalleSessions(String id) throws SQLException {
+        String SQL = "select sb.subName,ta.tagName,sb.subId,s.sessionId,sb.subName,mg.groupId,s.subgroupid,s.category " +
+                     "from session s,subject sb ,tag ta,maingroup mg " +
+                     "where  sb.subId = s.subjectId and ta.tagid=s.tagId and s.isParallel='Yes' " +
+                     "and s.groupId=mg.id ";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<ParallelSession> result = new ArrayList<>();
+        while (rst.next()) {
+            ParallelSession roomTimeTable = new ParallelSession();
+            roomTimeTable.setSessionId(Integer.parseInt(rst.getString("sessionId")));
+            roomTimeTable.setCategory(rst.getString("category"));
+            roomTimeTable.setGroupId(rst.getString("groupId"));
+            roomTimeTable.setSubgroupid(rst.getString("subgroupid"));
+            roomTimeTable.setTagName(rst.getString("tagName"));
+            roomTimeTable.setSubjectName(rst.getString("subName"));
+            result.add(roomTimeTable);
+        }
+        return result;
+    }
 
+    @Override
+    public String getResult() throws SQLException {
+        String SQL = "select orderId from parrellSessions order by 1 desc limit 1";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        String result = "";
+        while (rst.next()) {
+            result = rst.getString("orderId");
+        }
+        return result;
+    }
+
+    @Override
+    public boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException {
+
+        String SQL = "Insert into parrellSessions values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(SQL);
+        stm.setObject(1, 0);
+        stm.setObject(2, p.getSessionId());
+        stm.setObject(3, orderID);
+
+        int res = stm.executeUpdate();
+        return res > 0;
+
+    }
 
 
 }

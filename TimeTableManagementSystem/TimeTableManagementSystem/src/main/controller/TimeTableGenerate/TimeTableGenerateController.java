@@ -770,6 +770,7 @@ public class TimeTableGenerateController implements Initializable {
                                                             completeStatus = false;
                                                             break completeLoop;
                                                         }
+
                                                     }
                                                     if (completeStatus) {
                                                         session[i][j] = Integer.toString(stg.getSessionId());

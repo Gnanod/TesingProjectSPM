@@ -1,9 +1,6 @@
 package main.service;
 
-import main.model.LecturerTimeTable;
-import main.model.RoomTimeTable;
-import main.model.Session;
-import main.model.SessionArray;
+import main.model.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -60,4 +57,9 @@ public interface TimeTableGenerateService {
 
     ArrayList<RoomTimeTable> getTimeTableForRoom(String center, String building, String room) throws SQLException;
 
+    ArrayList<ParallelSession> getParalleSessions(String id) throws SQLException;
+
+    String getResult() throws SQLException;
+
+    boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException;
 }
