@@ -244,17 +244,14 @@ ADD  category varchar(20);
 
 create TABLE timetable(
   id int PRIMARY KEY auto_increment,
-  groupId int,
-  subgroupId  int,
   sessionId int,
   day varchar(20),
   roomId int,
   toTime TIME,
   fromTime TIME,
+  timeString varchar(20),
   Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
-  Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid),
-  Constraint fk_groupId_time_table FOREIGN KEY(groupId) REFERENCES maingroup(id),
-  Constraint fk_subgroupId_time_table FOREIGN KEY(subgroupId) REFERENCES subgroup(id)
+  Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid)
 )
 
 ALTER TABLE Session
@@ -273,8 +270,6 @@ ADD  category varchar(20);
 create Table parrellSessions(
       id int PRIMARY KEY auto_increment,
       sessionId int,
-      fromTime TIME,
-      toTime TIME,
-      day varchar(20),
+      orderId varchar(20),
       Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
 )

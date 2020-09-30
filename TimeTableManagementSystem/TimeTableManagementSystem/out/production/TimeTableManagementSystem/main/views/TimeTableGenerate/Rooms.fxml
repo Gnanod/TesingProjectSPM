@@ -4,36 +4,36 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="546.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.TimeTableGenerate.TimeTableRoomController">
 
-    <Button fx:id="btnGenerate" layoutX="468.0" layoutY="471.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="189.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
+    <Button fx:id="btnGenerate" layoutX="194.0" layoutY="221.0" mnemonicParsing="false" onAction="#generateTimeTable" prefHeight="46.0" prefWidth="320.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Generate" textFill="#f5f0f0">
         <font>
             <Font name="System Bold" size="18.0" />
         </font>
     </Button>
-    <ComboBox fx:id="RoomType" layoutX="168.0" layoutY="39.0" onAction="#setText" prefHeight="31.0" prefWidth="182.0" promptText="Room Number">
-        <items>
-            <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Room Number" />
-                <String fx:value="Room Number" />
-                <String fx:value="Room Number" />
-
-            </FXCollections>
-        </items>
-    </ComboBox>
-    <TextField fx:id="txtSubID" layoutX="380.0" layoutY="39.0" prefHeight="25.0" prefWidth="176.0" />
-    <TableView fx:id="tblTimeTable" layoutX="58.0" layoutY="113.0" prefHeight="332.0" prefWidth="622.0" stylesheets="@../../css/Student.css">
-        <columns>
-            <TableColumn prefWidth="43.0" text="Time" />
-            <TableColumn prefWidth="576.0" text="Days" />
-        </columns>
-    </TableView>
+   <Text layoutX="106.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Center" wrappingWidth="169.0000051036477" />
+   <TextField fx:id="txtBuildingOpt1" layoutX="194.0" layoutY="122.0" onAction="#getRoom" prefHeight="31.0" prefWidth="320.0" />
+   <TextField fx:id="txtRoom" layoutX="194.0" layoutY="166.0" prefHeight="31.0" prefWidth="320.0" />
+   <Text layoutX="102.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Building" wrappingWidth="169.0000051036477" />
+   <Text layoutX="105.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" wrappingWidth="169.0000051036477" />
+   <ComboBox fx:id="cmbCenter" layoutX="194.0" layoutY="76.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="320.0">
+      <items>
+         <FXCollections fx:factory="observableArrayList">
+            <String fx:value="Malabe" />
+            <String fx:value="Kandy" />
+            <String fx:value="Kurunegala" />
+            <String fx:value="Matara" />
+            <String fx:value="Jaffna" />
+            <String fx:value="Metro" />
+            <String fx:value="SLIIT Academy" />
+         </FXCollections>
+      </items>
+   </ComboBox>
 
 
 </AnchorPane>
