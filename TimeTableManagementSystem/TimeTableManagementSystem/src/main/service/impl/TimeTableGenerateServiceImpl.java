@@ -84,8 +84,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
         String SQLFrom = "select id from notAvailableGroup " +
                 "where  mainGroupId='" + spr + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-//        System.out.println(SQLTo);
-//        System.out.println(SQLFrom  );
+
 
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQLTo);
@@ -121,8 +120,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
         String SQLFrom = "select id from notavailablesession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-//        System.out.println(SQLTo);
-//        System.out.println(SQLFrom  );
+
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQLTo);
         boolean result = false;
@@ -157,8 +155,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
         String SQLFrom = "select id from notavailablelecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-//        System.out.println(SQLTo);
-//        System.out.println(SQLFrom);
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQLTo);
         boolean result = false;
@@ -437,7 +433,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
                 "where s.sessionId = t.sessionId and s.sessionId=sl.sessionId and sl.lecturerId = l.employeeId " +
                 "and sb.subId = s.subjectId and r.rid = t.roomId and ta.tagid=s.tagId " +
                 " and l.employeeName ='" + lecName.trim() + "'";
-        System.out.println(SQL);
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<LecturerTimeTable> lecturerTimeTables = new ArrayList<>();
@@ -547,16 +542,25 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException {
-
         String SQL = "Insert into parrellSessions values(?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
         stm.setObject(1, 0);
         stm.setObject(2, p.getSessionId());
         stm.setObject(3, orderID);
-
         int res = stm.executeUpdate();
         return res > 0;
+    }
 
+    @Override
+    public String getParallelSesionOrderNumberAccordingToId(int sessionId) throws SQLException {
+        String SQL = "select orderId from parrellSessions where sessionId='"+sessionId+"'";
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        String result = "";
+        while (rst.next()) {
+            result = rst.getString("orderId");
+        }
+        return result;
     }
 
 

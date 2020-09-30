@@ -32,4 +32,6 @@ public interface SessionService {
     ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException;
 
     ArrayList<SessionTagGroup> getParallelSessionsAccordingToMainGroupId(String trim) throws SQLException;
+
+    ArrayList<SessionTagGroup> getParallelSessionsAccordingOrderId(String orderId) throws SQLException;
 }

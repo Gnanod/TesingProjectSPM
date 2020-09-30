@@ -62,4 +62,6 @@ public interface TimeTableGenerateService {
     String getResult() throws SQLException;
 
     boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException;
+
+    String getParallelSesionOrderNumberAccordingToId(int sessionId) throws SQLException;
 }
