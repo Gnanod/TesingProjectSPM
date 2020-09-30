@@ -17,9 +17,9 @@ public class DBConnection {
     private DBConnection() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
+            System.out.println(System.getProperty("user.dir"));
 
-
-            File file=new File(System.getProperty("user.dir")+"/TimeTableManagementSystem/src/dbSettings.properties");
+            File file=new File(System.getProperty("user.dir")+"/TimeTableManagementSystem/TimeTableManagementSystem/src/dbSettings.properties");
 
             FileReader fileReader=new FileReader(file);
             Properties properties=new Properties();
