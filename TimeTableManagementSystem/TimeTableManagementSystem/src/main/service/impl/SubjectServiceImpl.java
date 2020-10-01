@@ -86,14 +86,19 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public Subject getCategory(String id) throws SQLException {
-        String SQL = "select sub.category, sub.subjectType from Session s, Subject sub where s.subjectId=sub.subId and sub.subId LIKE '%" + id + "%'";
+        String SQL = "select sub.category, sub.subjectType from  Subject sub where  sub.subId = '"+id+"'";
+        System.out.println(SQL);
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         ArrayList<Subject>  subjects = new ArrayList<>();
         while(rst.next()){
+            System.out.println(rst.getString("subjectType"));
+            System.out.println(rst.getString("category"));
             subject=new Subject(rst.getString("subjectType"),rst.getString("category"));
-
         }
+        System.out.println("GGGGLLLL");
+        System.out.println(subject.getSubType());
+        System.out.println(subject.getCategory());
         return subject;
     }
 

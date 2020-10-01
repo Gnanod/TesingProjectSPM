@@ -7,8 +7,14 @@ import main.model.NotAvailableGroup;
 import main.model.Tag;
 import main.service.MainGroupService;
 
+
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainGroupServiceImpl implements MainGroupService {
 
@@ -143,13 +149,15 @@ public class MainGroupServiceImpl implements MainGroupService {
     }
 
     @Override
-    public boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException {
+    public boolean addNotAvailableGroup(NotAvailableGroup nag) throws SQLException, ParseException {
         String SQL = "Insert into notAvailableGroup Values(?,?,?,?,?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
+        System.out.println(nag.getFromTime());
+        System.out.println(nag.getToTime());
         stm.setObject(1, 0);
         stm.setObject(2, nag.getDay());
-        stm.setObject(3, nag.getToTime());
-        stm.setObject(4, nag.getFromTime());
+        stm.setObject(3, LocalTime.parse(nag.getToTime()));
+        stm.setObject(4,LocalTime.parse(nag.getFromTime()));
         stm.setObject(5,nag.getGroupId());
         if(nag.getSubGroupId()!=0){
             stm.setObject(6, nag.getSubGroupId());

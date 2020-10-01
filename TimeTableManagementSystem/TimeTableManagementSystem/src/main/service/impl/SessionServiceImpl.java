@@ -2,10 +2,7 @@ package main.service.impl;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import main.dbconnection.DBConnection;
-import main.model.ConsectiveSession;
-import main.model.NotAvailableSession;
-import main.model.Session;
-import main.model.SessionDTO;
+import main.model.*;
 import main.service.SessionService;
 
 import java.sql.*;
@@ -52,12 +49,10 @@ public class SessionServiceImpl implements SessionService {
     public int searchSessionByDetails(String subId, int tagId, int subGroupId, int mainGroupId) throws SQLException {
         String SQL1 = "";
         if (subGroupId != 0) {
-            System.out.println("Hey"+subGroupId);
             SQL1 = "select sessionId from Session where" +
                   " subjectId ='" + subId + "' " +
                     "and tagId='" + tagId + "' and (subGroupId ='" + subGroupId + "' or groupId =NULL)";
         } else if (mainGroupId != 0) {
-            System.out.println("Bluu"+mainGroupId);
             SQL1 = "select sessionId from Session where" +
                     " subjectId ='" + subId + "' " +
                     "and tagId='" + tagId + "' and (groupId ='" + mainGroupId + "' or  subGroupId =NULL)";
@@ -215,19 +210,17 @@ public class SessionServiceImpl implements SessionService {
         stmt.setObject(1, lecturerId);
         stmt.setObject(2, sessionId);
         int res = stmt.executeUpdate();
-        System.out.println(res);
         return res > 0;
     }
 
     @Override
     public ArrayList<SessionDTO> getAllSessions() throws SQLException {
-        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id";
+        String SQL= "Select s.sessionId,sub.subName,t.tagName,s.studentCount,s.duration,l.employeeName,m.mgroupName from Session s ,SessionLecture sl,Subject sub,Lecturer l,tag t,maingroup m where s. sessionId=sl.sessionId and s.tagId=t.tagid and s.subjectId=sub.subId and sl.lecturerId=l.employeeId and s.groupId=m.id order by sub.subName";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
 
 
         while (rst.next()) {
-           // System.out.println(rst.getString("employeeName"));
             SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
             csList.add(cs);
         }
@@ -243,17 +236,92 @@ public class SessionServiceImpl implements SessionService {
         Statement stmtnty = connection.createStatement();
         ResultSet rst = stmtnty.executeQuery(sql);
         while (rst.next()) {
-            // System.out.println(rst.getString("employeeName"));
             SessionDTO cs=new SessionDTO(Integer.parseInt(rst.getString("sessionId")),rst.getString("subName"), rst.getString("tagName"),Integer.parseInt( rst.getString("studentCount")),Float.parseFloat(rst.getString("duration")), rst.getString("mgroupName"),rst.getString("employeeName"));
             csList.add(cs);
         }
         return csList;
-
     }
 
     @Override
-    public ArrayList<Session> getSessionsAccordingToMainGroupId() {
-        return null;
+    public ArrayList<SessionTagGroup> getSessionsAccordingToMainGroupId(String groupId) throws SQLException {
+        String SQL= "select s.*,t.tagname " +
+                    "from Session s, tag t ,maingroup m " +
+                    "where s.tagId = t.tagid and s.groupId = m.id and m.groupid='"+groupId+"' and isParallel='No' " +
+                    "order by s.subjectId";;
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<SessionTagGroup> csList = new ArrayList<>();
+
+        while (rst.next()) {
+            SessionTagGroup stg = new SessionTagGroup(
+                    Integer.parseInt(rst.getString("sessionId")),
+                    rst.getString("subjectId"),
+                    Integer.parseInt(rst.getString("tagId")),
+                    rst.getString("groupId"),
+                    rst.getString("subGroupId"),
+                    Integer.parseInt(rst.getString("studentCount")),
+                    Float.parseFloat(rst.getString("duration")),
+                    rst.getString("isConsecutive"),
+                    rst.getString("consectiveAdded"),
+                    rst.getString("tagname"));
+            csList.add(stg);
+        }
+        return csList;
+    }
+
+    @Override
+    public ArrayList<SessionTagGroup> getParallelSessionsAccordingToMainGroupId(String trim) throws SQLException {
+        String SQL= "select s.*,t.tagname " +
+                "from Session s, tag t ,maingroup m " +
+                "where s.tagId = t.tagid and s.groupId = m.id and m.groupid='"+trim+"' and s.isParallel='Yes' " +
+                "order by s.subjectId ";
+
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<SessionTagGroup> csList = new ArrayList<>();
+
+        while (rst.next()) {
+            SessionTagGroup stg = new SessionTagGroup(
+                    Integer.parseInt(rst.getString("sessionId")),
+                    rst.getString("subjectId"),
+                    Integer.parseInt(rst.getString("tagId")),
+                    rst.getString("groupId"),
+                    rst.getString("subGroupId"),
+                    Integer.parseInt(rst.getString("studentCount")),
+                    Float.parseFloat(rst.getString("duration")),
+                    rst.getString("isConsecutive"),
+                    rst.getString("consectiveAdded"),
+                    rst.getString("tagname"));
+            csList.add(stg);
+        }
+        return csList;
+    }
+
+    @Override
+    public ArrayList<SessionTagGroup> getParallelSessionsAccordingOrderId(String orderId) throws SQLException {
+        String SQL= "select s.*,t.tagname " +
+                "from Session s, tag t ,parrellSessions p " +
+                "where s.tagId = t.tagid and s.sessionId = p.sessionId and p.orderId='"+orderId+"' " +
+                "order by s.subjectId ";
+
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+        ArrayList<SessionTagGroup> csList = new ArrayList<>();
+        while (rst.next()) {
+            SessionTagGroup stg = new SessionTagGroup(
+                    Integer.parseInt(rst.getString("sessionId")),
+                    rst.getString("subjectId"),
+                    Integer.parseInt(rst.getString("tagId")),
+                    rst.getString("groupId"),
+                    rst.getString("subGroupId"),
+                    Integer.parseInt(rst.getString("studentCount")),
+                    Float.parseFloat(rst.getString("duration")),
+                    rst.getString("isConsecutive"),
+                    rst.getString("consectiveAdded"),
+                    rst.getString("tagname"));
+            csList.add(stg);
+        }
+        return csList;
     }
 
 

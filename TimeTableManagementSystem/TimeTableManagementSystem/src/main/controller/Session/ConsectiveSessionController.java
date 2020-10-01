@@ -52,11 +52,12 @@ public class ConsectiveSessionController implements Initializable {
     private SubjectService subjectService;
     private List<Subject> subList;
     private List<String> subNameList;
+
     @FXML
     void searchDetails(ActionEvent event) {
         String lecturer = txtLecturer.getText();
         String subject = txtSubject.getText();
-        loadConsectiveSesssions(lecturer,subject);
+        loadConsectiveSesssions(lecturer, subject);
     }
 
 
@@ -64,7 +65,7 @@ public class ConsectiveSessionController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.setTableProperties();
         sessionService = new SessionServiceImpl();
-        this.loadConsectiveSesssions("","");
+        this.loadConsectiveSesssions("", "");
         lectureNameList = new ArrayList<>();
         lectureList = new ArrayList<>();
         lecturerService = new LectureServiceImpl();
@@ -78,7 +79,8 @@ public class ConsectiveSessionController implements Initializable {
 
     public void loadLectureDetails() {
         try {
-            ArrayList<Lecturer> lec = lecturerService.getAllLecturerDetails();;
+            ArrayList<Lecturer> lec = lecturerService.getAllLecturerDetails();
+            ;
             for (Lecturer l : lec
             ) {
                 lectureNameList.add(l.getEmpName());
@@ -93,7 +95,8 @@ public class ConsectiveSessionController implements Initializable {
 
     public void loadSubjectDetails() {
         try {
-            ArrayList<Subject> subjects = subjectService.getAllSubjectDetails();;
+            ArrayList<Subject> subjects = subjectService.getAllSubjectDetails();
+            ;
             for (Subject s : subjects
             ) {
                 subList.add(s);
@@ -106,9 +109,9 @@ public class ConsectiveSessionController implements Initializable {
     }
 
 
-    private void loadConsectiveSesssions(String lecturer,String subject) {
+    private void loadConsectiveSesssions(String lecturer, String subject) {
         try {
-            ArrayList<ConsectiveSession> csList = sessionService.getAllConsectiveSessions(lecturer,subject);
+            ArrayList<ConsectiveSession> csList = sessionService.getAllConsectiveSessions(lecturer, subject);
 
             tblConsectiveSession.setItems(FXCollections.observableArrayList(csList));
         } catch (SQLException e) {
@@ -160,43 +163,47 @@ public class ConsectiveSessionController implements Initializable {
 
     public void setConsectiveSessions(ConsectiveSession cs) {
         if (cs.getTag().equals("Tute")) {
-            consectiveSession("Lecture",cs);
+            consectiveSession("Lecture", cs);
         } else if (cs.getTag().equals("Lecture")) {
-            consectiveSession("Tute",cs);
+            consectiveSession("Tute", cs);
         }
     }
 
-    public void consectiveSession(String type,ConsectiveSession cs){
+    public void consectiveSession(String type, ConsectiveSession cs) {
         try {
             int id = this.sessionService.getSessionIdForConsectiveSession(cs.getGroupId(), cs.getSubject(), type);
             if (id != 0) {
-                boolean isAdded = this.sessionService.saveCosectiveSession(cs.getId(),id);
-                if(isAdded){
-                    boolean isUpdated = this.sessionService.updateRowForConsectiveSession(id);
-                    if (isUpdated) {
-                        boolean isUpdated1 = this.sessionService.updateRowForConsectiveSession(cs.getId());
-                        if(isUpdated){
-                            Alert al = new Alert(Alert.AlertType.INFORMATION);
-                            al.setTitle(null);
-                            al.setContentText("Consective Session Is Added SuccessFully");
-                            al.setHeaderText(null);
-                            al.showAndWait();
-                            this.loadConsectiveSesssions("","");
-                        }else{
+                boolean isAdded = this.sessionService.saveCosectiveSession(cs.getId(), id);
+                if (isAdded) {
+                    boolean isAdded1 = this.sessionService.saveCosectiveSession(id, cs.getId());
+                    if (isAdded1) {
+                        boolean isUpdated = this.sessionService.updateRowForConsectiveSession(id);
+                        if (isUpdated) {
+                            boolean isUpdated1 = this.sessionService.updateRowForConsectiveSession(cs.getId());
+                            if (isUpdated1) {
+                                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                                al.setTitle(null);
+                                al.setContentText("Consective Session Is Added SuccessFully");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                                this.loadConsectiveSesssions("", "");
+                            } else {
+                                Alert al = new Alert(Alert.AlertType.ERROR);
+                                al.setTitle(null);
+                                al.setContentText("Consective Session Added Fail ");
+                                al.setHeaderText(null);
+                                al.showAndWait();
+                            }
+                        } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);
-                            al.setContentText("Consective Session Added Fail ");
+                            al.setContentText("Consective Session Added Fail");
                             al.setHeaderText(null);
                             al.showAndWait();
                         }
-                    } else {
-                        Alert al = new Alert(Alert.AlertType.ERROR);
-                        al.setTitle(null);
-                        al.setContentText("Consective Session Added Fail");
-                        al.setHeaderText(null);
-                        al.showAndWait();
                     }
-                }else{
+
+                } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
                     al.setContentText(" Consective Session Added Fail");

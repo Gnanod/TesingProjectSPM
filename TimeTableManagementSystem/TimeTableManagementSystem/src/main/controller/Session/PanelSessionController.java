@@ -33,6 +33,9 @@ public class PanelSessionController implements Initializable {
     private Button btnRequetsSession;
 
     @FXML
+    private Button btnParallelSession;
+
+    @FXML
     void handleEvents(ActionEvent event) {
             try{
                 if(event.getSource()== btnSession){
@@ -58,7 +61,13 @@ public class PanelSessionController implements Initializable {
                     Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ViewSearchSessions.fxml"));
                     pnlSession.setCenter(root);
                     String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"RequetSession";
+                    MainController.urlName = currentUrl+"/"+"Search Session";
+                }else if(event.getSource()==btnParallelSession){
+                    pnlSession.getChildren().removeAll();
+                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ParallelSessions.fxml"));
+                    pnlSession.setCenter(root);
+                    String currentUrl = MainController.urlName;
+                    MainController.urlName = currentUrl+"/"+"ParallelSession";
                 }
 
             }catch (IOException e){

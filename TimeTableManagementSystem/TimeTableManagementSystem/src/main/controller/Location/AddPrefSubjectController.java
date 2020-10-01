@@ -1,9 +1,11 @@
 package main.controller.Location;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.model.*;
 import main.service.*;
 import main.service.impl.*;
@@ -13,7 +15,9 @@ import org.controlsfx.control.textfield.TextFields;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class AddPrefSubjectController implements Initializable {
 
@@ -33,7 +37,7 @@ public class AddPrefSubjectController implements Initializable {
     private ComboBox<String> cmbCenter;
 
     @FXML
-    private TableView<?> tblBuilding;
+    private TableView<prefSubject> tblBuilding;
 
     @FXML
     private TableColumn<?, ?> removeBuilding;
@@ -59,6 +63,7 @@ public class AddPrefSubjectController implements Initializable {
     private ArrayList<String> tagName = new ArrayList<>();
     private ArrayList<Subject> subjectId = new ArrayList<>();
     private ArrayList<String> subjectName = new ArrayList<>();
+    private ArrayList<prefSubject> prefSubject = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding3;
@@ -76,7 +81,6 @@ public class AddPrefSubjectController implements Initializable {
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.println("ccccccccccccc:"+center);
         try {
             BuildingService buildingService = new BuildingServiceImpl();
 
@@ -91,10 +95,10 @@ public class AddPrefSubjectController implements Initializable {
                 buildingName.add(building.getBuilding());
             }
 
-            if(autoCompletionBinding!=null){
+            if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
             }
-            autoCompletionBinding  = TextFields.bindAutoCompletion(txtBuildingOpt, buildingName);
+            autoCompletionBinding = TextFields.bindAutoCompletion(txtBuildingOpt, buildingName);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -115,10 +119,10 @@ public class AddPrefSubjectController implements Initializable {
                 tagName.add(tag.getTagName());
             }
 
-            if(autoCompletionBinding3!=null){
+            if (autoCompletionBinding3 != null) {
                 autoCompletionBinding3.dispose();
             }
-            autoCompletionBinding3  =TextFields.bindAutoCompletion(txtTagOpt1, tagName);
+            autoCompletionBinding3 = TextFields.bindAutoCompletion(txtTagOpt1, tagName);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -128,7 +132,7 @@ public class AddPrefSubjectController implements Initializable {
     @FXML
     void getRoom(ActionEvent event) {
         String building = txtRoomOpt1.getText();
-        System.out.println("555555:"+building);
+        System.out.println("555555:" + building);
         try {
             RoomService roomService = new RoomServiceImpl();
 
@@ -143,10 +147,10 @@ public class AddPrefSubjectController implements Initializable {
 
             }
 
-            if(autoCompletionBinding2!=null){
+            if (autoCompletionBinding2 != null) {
                 autoCompletionBinding2.dispose();
             }
-            autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
+            autoCompletionBinding2 = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -169,10 +173,10 @@ public class AddPrefSubjectController implements Initializable {
             ) {
                 System.out.println(subject);
             }
-            if(autoCompletionBinding4!=null){
+            if (autoCompletionBinding4 != null) {
                 autoCompletionBinding4.dispose();
             }
-            autoCompletionBinding4  =TextFields.bindAutoCompletion(txtSubTagOpt, subjectName);
+            autoCompletionBinding4 = TextFields.bindAutoCompletion(txtSubTagOpt, subjectName);
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -180,30 +184,20 @@ public class AddPrefSubjectController implements Initializable {
     }
 
     @FXML
-    void AddSubjectToTable(ActionEvent event) {
-
-    }
-
-    @FXML
-    void saveTagRoom(ActionEvent event) throws SQLException {
-        System.out.println("wwwww");
-        String center = (String) cmbCenter.getValue();
-        String building = txtBuildingOpt.getText();
-        String room = txtRoomOpt1.getText();
-        String tag = txtTagOpt1.getText();
-        String subject = txtSubTagOpt.getText();
-        int roomId=0;
-        int tagId=0;
-        String subId= "";
-
+    void AddBuildingsToTable(ActionEvent event) {
+        try {
+            String center = (String) cmbCenter.getValue();
+            String building = txtBuildingOpt.getText();
+            String room = txtRoomOpt1.getText();
+            String tag = txtTagOpt1.getText();
+            String subject = txtSubTagOpt.getText();
+            int roomId = 0;
+            int tagId = 0;
+            String subId = "";
             if (building != null) {
-                System.out.println("HHH");
                 if (center != null) {
-                    System.out.println("HHH1111");
                     if (room != null) {
-                        System.out.println("HHH2222");
-                        roomId = prefTagService.getRoomId(center,building,room);
-                        System.out.println("KKKKKKKKKKKKKKKK"+prefTagService.getRoomId(center,building,room));
+                        roomId = prefTagService.getRoomId(center, building, room);
 
                     } else {
                         Alert al = new Alert(Alert.AlertType.ERROR);
@@ -227,15 +221,9 @@ public class AddPrefSubjectController implements Initializable {
                 al.setHeaderText(null);
                 al.showAndWait();
             }
-
-
-
-
-
-        if(tag != null) {
+            if (tag != null) {
                 tagId = prefTagService.getTagIdFromTags(tag);
-                System.out.println("wwwwwTAGID:" + tagId);
-            }else {
+            } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Please Select Tag!");
@@ -243,80 +231,143 @@ public class AddPrefSubjectController implements Initializable {
                 al.showAndWait();
             }
 
-        if(subject != null) {
-            subId = prefSubjectService.getSubIdFromSubjects(subject);
-
-        }else {
-            Alert al = new Alert(Alert.AlertType.ERROR);
-            al.setTitle(null);
-            al.setContentText("Please Select Subject!");
-            al.setHeaderText(null);
-            al.showAndWait();
-        }
-
-
-        PrefSubject prefSub = new PrefSubject();
-        prefSub.setTagId(tagId);
-        prefSub.setRoomId(roomId);
-        prefSub.setSubjectId(subId);
-
-        boolean isAdded = false;
-
-        if(tag != null){
-            if(center != null){
-                if(building != null){
-                    if(room != null){
-                        System.out.println("YYYY"+prefSub.getTagId());
-                        System.out.println("YYYY"+prefSub.getSubjectId());
-                        System.out.println("YYYY"+prefSub.getRoomId());
-                        isAdded = this.prefSubjectService.savePrefSubjectRoom(prefSub);
-                        if (isAdded) {
-                            Alert al = new Alert(Alert.AlertType.INFORMATION);
-                            al.setTitle(null);
-                            al.setContentText("Added Successfully!!");
-                            al.setHeaderText(null);
-                            al.showAndWait();
-//                            this.getAllDetails();
-                        } else {
-                            Alert al = new Alert(Alert.AlertType.ERROR);
-                            al.setTitle(null);
-                            al.setContentText("Added Failed!!");
-                            al.setHeaderText(null);
-                            al.showAndWait();
-                        }
-                    }else {
-                        Alert al = new Alert(Alert.AlertType.ERROR);
-                        al.setTitle(null);
-                        al.setContentText("Please Select Room!");
-                        al.setHeaderText(null);
-                        al.showAndWait();
-                    }
-                }else {
-                    Alert al = new Alert(Alert.AlertType.ERROR);
-                    al.setTitle(null);
-                    al.setContentText("Please Select Building!");
-                    al.setHeaderText(null);
-                    al.showAndWait();
-                }
-            }else {
+            if (subject != null) {
+                subId = prefSubjectService.getSubIdFromSubjects(subject);
+            } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
-                al.setContentText("Please Select Center!");
+                al.setContentText("Please Select Subject!");
                 al.setHeaderText(null);
                 al.showAndWait();
             }
-        }else {
+            prefSubject prefSub = new prefSubject();
+            prefSub.setTagId(tagId);
+            prefSub.setRoomId(roomId);
+            prefSub.setSubjectId(subId);
+
+            boolean isAdded = false;
+
+            if (tag != null) {
+                if (center != null) {
+                    if (building != null) {
+                        if (room != null) {
+                            prefSub.setBuidlingName(building);
+                            prefSub.setCenterName(center);
+                            prefSub.setRoomName(room);
+                            prefSub.setSubName(subject);
+                            prefSub.setTagName(tag);
+                            boolean status=false;
+
+                            if(prefSubject.size()==0){
+                                prefSubject.add(prefSub);
+                                tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
+                            }else{
+
+                                for(prefSubject p :prefSubject){
+                                    if(p.getRoomId()==roomId && p.getCenterName().equalsIgnoreCase(center)){
+                                        status=true;
+                                    }
+                                }
+                                if(!status){
+                                    prefSubject.add(prefSub);
+                                    tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
+                                }else{
+                                    Alert al = new Alert(Alert.AlertType.ERROR);
+                                    al.setTitle(null);
+                                    al.setContentText("Cant Add Same Room To Table");
+                                    al.setHeaderText(null);
+                                    al.showAndWait();
+                                }
+                            }
+
+
+
+                        } else {
+                            Alert al = new Alert(Alert.AlertType.ERROR);
+                            al.setTitle(null);
+                            al.setContentText("Please Select Room!");
+                            al.setHeaderText(null);
+                            al.showAndWait();
+                        }
+                    } else {
+                        Alert al = new Alert(Alert.AlertType.ERROR);
+                        al.setTitle(null);
+                        al.setContentText("Please Select Building!");
+                        al.setHeaderText(null);
+                        al.showAndWait();
+                    }
+                } else {
+                    Alert al = new Alert(Alert.AlertType.ERROR);
+                    al.setTitle(null);
+                    al.setContentText("Please Select Center!");
+                    al.setHeaderText(null);
+                    al.showAndWait();
+                }
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Please Select tag!");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setTableProperties() {
+        tblBuilding.getSelectionModel().getTableView().getItems().clear();
+        tblBuilding.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("tagName"));
+        tblBuilding.getColumns().get(1).setCellValueFactory(new PropertyValueFactory<>("subName"));
+        tblBuilding.getColumns().get(2).setCellValueFactory(new PropertyValueFactory<>("centerName"));
+        tblBuilding.getColumns().get(3).setCellValueFactory(new PropertyValueFactory<>("buidlingName"));
+        tblBuilding.getColumns().get(4).setCellValueFactory(new PropertyValueFactory<>("roomName"));
+    }
+
+    @FXML
+    void saveTagRoom(ActionEvent event) throws SQLException {
+        if(prefSubject.size()!=0){
+            int count =0;
+            for (prefSubject pref:prefSubject
+            ) {
+                count++;
+                prefSubject prefSub = new prefSubject();
+                prefSub.setTagId(pref.getTagId());
+                prefSub.setRoomId(pref.getRoomId());
+                prefSub.setSubjectId(pref.getSubjectId());
+                boolean isAdded = this.prefSubjectService.savePrefSubjectRoom(prefSub);
+
+            }
+            if (count==prefSubject.size()) {
+                Alert al = new Alert(Alert.AlertType.INFORMATION);
+                al.setTitle(null);
+                al.setContentText("Added Successfully!!");
+                al.setHeaderText(null);
+                al.showAndWait();
+                prefSubject.clear();
+                tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
+            } else {
+                Alert al = new Alert(Alert.AlertType.ERROR);
+                al.setTitle(null);
+                al.setContentText("Added Failed!!");
+                al.setHeaderText(null);
+                al.showAndWait();
+            }
+        }else{
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
-            al.setContentText("Please Select tag!");
+            al.setContentText("Please Add Data To Table!");
             al.setHeaderText(null);
             al.showAndWait();
         }
+
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.getSubject();
         this.getTag();
+        this.setTableProperties();
     }
 }

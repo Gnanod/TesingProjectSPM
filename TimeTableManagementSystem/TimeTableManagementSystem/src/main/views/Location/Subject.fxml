@@ -16,7 +16,7 @@
 
     <children>
         <TextField fx:id="txtSubTagOpt" layoutX="291.0" layoutY="66.0" prefHeight="31.0" prefWidth="200.0" />
-        <Button fx:id="btnSubjectOptions" layoutX="676.0" layoutY="528.0" mnemonicParsing="false" onAction="#saveTagRoom" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
+        <Button fx:id="btnSubjectOptions" layoutX="644.0" layoutY="258.0" mnemonicParsing="false" onAction="#saveTagRoom" prefHeight="39.0" prefWidth="106.0" style="-fx-background-radius: 15;" styleClass="btnSave" stylesheets="@../../css/Student.css" text="Save" textFill="#f5f0f0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>

@@ -1,24 +1,38 @@
 package main.dbconnection;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.*;
 
 public class Solution {
 
     public static void main (String args[]){
-        int [][] arr = new int[8][7];
-        System.out.println(arr.length);
-        System.out.println(arr[1].length);
-        System.out.println(arr[2].length);
-//        int count = 2;
-//        for (int i = 0; i< arr.length; i++){
-//            for (int j = 0; j< arr[i].length; j++){
-//                System.out.println("Arrilength"+ arr[i].length);
-//                count++;
-//                arr[i][j] = count*2;
-//                System.out.print(arr[i][j] + " ");
-//            }
-//            System.out.print("\n");
+//        String time1 = "09:30";
+//        String time2 = "10:30";
+//
+//        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+//        Date date1 = null;
+//        Date date2 = null;
+//        try {
+//            date1 = format.parse(time1);
+//            date2 = format.parse(time2);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
 //        }
+//
+//        long difference = date2.getTime() - date1.getTime();
+//        System.out.println(difference / (60 * 60 * 1000));
+
+        Set<Integer> roomList = new HashSet<>();
+        roomList.add(1);
+        roomList.add(2);
+        roomList.add(4);
+        roomList.add(1);
+
+        for (Integer i: roomList
+             ) {
+            System.out.println(i);
+        }
     }
 }

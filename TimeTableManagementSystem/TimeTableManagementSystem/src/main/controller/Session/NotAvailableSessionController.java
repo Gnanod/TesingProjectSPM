@@ -352,7 +352,6 @@ public class NotAvailableSessionController implements Initializable {
         String getToTime = toTime.getValue().toString();
         String getFromTime = fromTime.getValue().toString();
         String sessionId = lblSessionId.getText();
-        System.out.println("Day" + day);
         if (!sessionId.isEmpty()) {
             if (day != null) {
                 if (!getToTime.isEmpty()) {

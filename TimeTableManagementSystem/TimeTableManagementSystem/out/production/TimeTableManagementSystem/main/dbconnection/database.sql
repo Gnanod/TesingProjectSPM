@@ -1,7 +1,7 @@
 drop database timetableManagementSystem;
 
 create database timetableManagementSystem;
-use timetableManagementSystem;
+  use timetableManagementSystem;
 
 create table academicYearAndSemester(
 	id int not null auto_increment,
@@ -116,9 +116,9 @@ create table workingHoursPerDay(
 create table notAvailableGroup(
     id int not null auto_increment,
     day varchar (20),
-    toTime varchar(20),
-    fromTime varchar(20),
-    groupId varchar (20),
+    toTime TIME,
+    fromTime TIME,
+    groupId varchar (100),
     subgroupId int,
     mainGroupId int,
     FOREIGN KEY (subgroupId) REFERENCES subgroup(id) ON DELETE CASCADE,
@@ -129,8 +129,8 @@ create table notAvailableGroup(
 create table notAvailableLecture(
     id int not null auto_increment,
     day varchar (20),
-    toTime varchar(20),
-    fromTime varchar(20),
+    toTime TIME,
+    fromTime TIME,
     lectureId  INT(6) UNSIGNED,
     FOREIGN KEY (lectureId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
     constraint primary key (id)
@@ -159,7 +159,7 @@ CREATE TABLE SessionLecture(
     lecturerId INT(6) UNSIGNED,
     sessionId int,
     Constraint fk_keySessionLectureLectId FOREIGN KEY(lecturerId) REFERENCES Lecturer(employeeId) ON DELETE CASCADE,
-    Constraint fk_keySessionLecturesessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE,
+    Constraint fk_keySessionLecturesessionId FOREIGN KEY(sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 )
 
 CREATE TABLE ConsectiveSession(
@@ -175,8 +175,8 @@ CREATE TABLE NotAvailableSession(
   id int PRIMARY KEY auto_increment,
   sessionId int,
   day varchar(10),
-  toTime varchar(20),
-  fromTime varchar(20),
+  toTime TIME,
+  fromTime TIME,
   FOREIGN KEY (sessionId) REFERENCES Session(sessionId) ON DELETE CASCADE
 );
 
@@ -232,8 +232,8 @@ CREATE TABLE PrefRoomReserved(
 	id int PRIMARY KEY auto_increment,
 	roomId int,
 	day varchar(10),
-	toTime varchar(20),
-	fromTime varchar(20),
+	toTime TIME,
+	fromTime TIME,
 	Constraint fk_roomId_reserved FOREIGN KEY(roomId) REFERENCES room(rid)
 );
 ALTER TABLE Subject
@@ -242,5 +242,34 @@ ADD  subjectType varchar(20);
 ALTER TABLE Subject
 ADD  category varchar(20);
 
+create TABLE timetable(
+  id int PRIMARY KEY auto_increment,
+  sessionId int,
+  day varchar(20),
+  roomId int,
+  toTime TIME,
+  fromTime TIME,
+  timeString varchar(20),
+  Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+  Constraint fk_roomId_time_table FOREIGN KEY(roomId) REFERENCES room(rid)
+)
+
+ALTER TABLE Session
+ADD  isParallel varchar(20);
+
+ALTER TABLE Session
+ADD  category varchar(5);
 
 
+ALTER TABLE Subject
+ADD  subjectType varchar(20);
+
+ALTER TABLE Subject
+ADD  category varchar(20);
+
+create Table parrellSessions(
+      id int PRIMARY KEY auto_increment,
+      sessionId int,
+      orderId varchar(20),
+      Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+)
