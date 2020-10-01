@@ -1,16 +1,19 @@
 package main.service.impl;
 
 import main.dbconnection.DBConnection;
-import main.model.*;
 import main.service.TimeTableGenerateService;
 
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import main.model.LecturerTimeTable;
+import main.model.ParallelSession;
+import main.model.RoomTimeTable;
+import main.model.SessionArray;
 
 public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     private Connection connection;
-
+    private static  byte []arr;
     public TimeTableGenerateServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
@@ -392,38 +395,6 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
             }
         }
         return result;
-//        String SQLTo = "select id from timetable " +
-//                "where  day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
-//                "and '" + LocalTime.parse(toTime) + "' < toTime and roomId='"+roomId+"'";
-//        String SQLFrom = "select id from timetable " +
-//                "where   day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
-//                "and '" + LocalTime.parse(fromTime) + "' < toTime and roomId='"+roomId+"'";
-//        System.out.println(SQLTo);
-//        System.out.println(SQLFrom);
-//        Statement stm = connection.createStatement();
-//        ResultSet rst = stm.executeQuery(SQLTo);
-//        boolean result = false;
-//        if (rst.next()) {
-//            if (rst.getString("id") != null) {
-//                result = true;
-//            } else {
-//                result = false;
-//            }
-//        }
-//        rst = stm.executeQuery(SQLFrom);
-//        boolean result1 = false;
-//        if (rst.next()) {
-//            if (rst.getString("id") != null) {
-//                result1 = true;
-//            } else {
-//                result1 = false;
-//            }
-//        }
-//        if (result || result1) {
-//            return true;
-//        } else {
-//            return false;
-//        }
     }
 
     @Override
@@ -482,12 +453,12 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     @Override
     public ArrayList<RoomTimeTable> getTimeTableForRoom(String center, String building, String room) throws SQLException {
         String SQL = "select t.day,t.timeString,sb.subName,ta.tagName,sb.subId,t.sessionId,s.groupId,s.subGroupId " +
-                     "from session s,timetable t ,subject sb ,tag ta " +
-                     "where s.sessionId = t.sessionId and sb.subId = s.subjectId and ta.tagid=s.tagId " +
-                     "and t.roomId In (select r.rid " +
-                     "from room r ,building b  " +
-                     "where r.buildingid = b.bid and  b.center='"+center+"' " +
-                     "and b.building='"+building+"' and r.room='"+room+"') ";
+                "from session s,timetable t ,subject sb ,tag ta " +
+                "where s.sessionId = t.sessionId and sb.subId = s.subjectId and ta.tagid=s.tagId " +
+                "and t.roomId In (select r.rid " +
+                "from room r ,building b  " +
+                "where r.buildingid = b.bid and  b.center='"+center+"' " +
+                "and b.building='"+building+"' and r.room='"+room+"') ";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
         ArrayList<RoomTimeTable> result = new ArrayList<>();
@@ -509,9 +480,9 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     @Override
     public ArrayList<ParallelSession> getParalleSessions(String id) throws SQLException {
         String SQL = "select sb.subName,ta.tagName,sb.subId,s.sessionId,sb.subName,mg.groupId,s.subgroupid,s.category " +
-                     "from session s,subject sb ,tag ta,maingroup mg " +
-                     "where  sb.subId = s.subjectId and ta.tagid=s.tagId and s.isParallel='Yes' " +
-                     "and s.groupId=mg.id ";
+                "from session s,subject sb ,tag ta,maingroup mg " +
+                "where  sb.subId = s.subjectId and ta.tagid=s.tagId and s.isParallel='Yes' " +
+                "and s.groupId=mg.id ";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
         ArrayList<ParallelSession> result = new ArrayList<>();
@@ -562,6 +533,43 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
         }
         return result;
     }
+
+    @Override
+    public boolean saveGroupPdf(String fileBytes, String groupId) throws SQLException {
+        String SQL = "Insert into saveGroupTimeTable values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(SQL);
+        stm.setObject(1, 0);
+        stm.setObject(2, groupId);
+        stm.setObject(3, fileBytes);
+        int res = stm.executeUpdate();
+        return res > 0;
+    }
+
+    @Override
+    public String getPdf(String groupId) throws SQLException {
+        String SQL = "select id,file from saveGroupTimeTable where groupId='"+groupId+"'";
+        System.out.println(SQL);
+        Statement stmtnt = connection.createStatement();
+        ResultSet rst = stmtnt.executeQuery(SQL);
+
+        if(rst.next()){
+            return rst.getString("file");
+        }else{
+            return null;
+        }
+//        while(rst.next()) {
+//            Blob blob = rst.getBlob("file");
+//            arr=blob.getBytes(1, (int)blob.length());
+//            System.out.println(arr);
+//        }
+//        return arr;
+
+//        while (rst.next()) {
+//            result = rst.getString("file").getBytes();;
+//        }
+//        return result;
+    }
+
 
 
 }

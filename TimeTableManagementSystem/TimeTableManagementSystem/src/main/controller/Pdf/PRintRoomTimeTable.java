@@ -1,11 +1,15 @@
 package main.controller.Pdf;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +60,14 @@ public class PRintRoomTimeTable {
             addMetaData(document,RoomName);
             addTitlePage(document,RoomName);
             createTable(document, arr,timeString,workingDaysCount,hourSize);
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    File myFile = new File(FILE);
+                    Desktop.getDesktop().open(myFile);
+                } catch (IOException ex) {
+                    // no application registered for PDFs
+                }
+            }
             document.close();
 
         } catch (Exception e) {

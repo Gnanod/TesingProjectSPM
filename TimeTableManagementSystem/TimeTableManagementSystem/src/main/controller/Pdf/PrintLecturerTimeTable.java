@@ -1,11 +1,16 @@
 package main.controller.Pdf;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import java.awt.*;
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +62,16 @@ public class PrintLecturerTimeTable {
             addMetaData(document,lecName);
             addTitlePage(document,lecName);
             createTable(document, arr,timeString,workingDaysCount,hourSize);
+            File myFile = new File(FILE);
+            if (Desktop.isDesktopSupported()) {
+                try {
+                    Desktop.getDesktop().open(myFile);
+                } catch (IOException ex) {
+                    // no application registered for PDFs
+                }
+            }
+
+
             document.close();
 
         } catch (Exception e) {

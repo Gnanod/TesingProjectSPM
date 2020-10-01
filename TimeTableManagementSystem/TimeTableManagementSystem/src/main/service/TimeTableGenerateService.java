@@ -1,9 +1,12 @@
 package main.service;
 
-import main.model.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import main.model.LecturerTimeTable;
+import main.model.ParallelSession;
+import main.model.RoomTimeTable;
+import main.model.SessionArray;
 
 public interface TimeTableGenerateService {
 
@@ -64,4 +67,8 @@ public interface TimeTableGenerateService {
     boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException;
 
     String getParallelSesionOrderNumberAccordingToId(int sessionId) throws SQLException;
+
+    boolean saveGroupPdf(String fileBytes, String groupId) throws SQLException;
+
+    String getPdf(String groupId) throws SQLException;
 }
