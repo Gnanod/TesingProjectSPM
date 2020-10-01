@@ -213,6 +213,7 @@ public class AddPrefSubjectController implements Initializable {
                     al.setHeaderText(null);
                     al.showAndWait();
                 }
+
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);

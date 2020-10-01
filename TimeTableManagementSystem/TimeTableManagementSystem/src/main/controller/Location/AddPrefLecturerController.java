@@ -8,14 +8,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import main.model.*;
-import main.service.BuildingService;
 import main.service.LecturerService;
 import main.service.PrefLecturerService;
-import main.service.PrefTagService;
-import main.service.impl.BuildingServiceImpl;
 import main.service.impl.LectureServiceImpl;
 import main.service.impl.PrefLecturerServiceImpl;
-import main.service.impl.PrefTagServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
@@ -137,7 +133,7 @@ public class AddPrefLecturerController implements Initializable {
             al.showAndWait();
         }
 
-        prefLecturer prefLecturer = new prefLecturer();
+        PrefLecturer prefLecturer = new PrefLecturer();
         prefLecturer.setEmployeeId(lecturerId);
         prefLecturer.setRoomId(roomId);
 

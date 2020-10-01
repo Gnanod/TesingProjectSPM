@@ -50,7 +50,7 @@
             <TableColumn fx:id="removeBuilding2" prefWidth="108.0" text="Room" />
          </columns>
       </TableView>
-      <Button fx:id="btnBuildingAdd" contentDisplay="TOP" layoutX="518.0" layoutY="179.0" mnemonicParsing="false" onAction="#AddBuildingsToTable" prefHeight="39.0" prefWidth="43.0" style="-fx-background-color: white;" styleClass="pnlStudentButton">
+      <Button fx:id="btnBuildingAdd" contentDisplay="TOP" layoutX="518.0" layoutY="179.0" mnemonicParsing="false" onAction="#AddSubjectToTable" prefHeight="39.0" prefWidth="43.0" style="-fx-background-color: white;" styleClass="pnlStudentButton">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>

@@ -1,7 +1,7 @@
 package main.service.impl;
 
 import main.dbconnection.DBConnection;
-import main.model.prefSubject;
+import main.model.PrefSubject;
 import main.service.PrefSubjectService;
 
 import java.sql.*;
@@ -30,7 +30,7 @@ public class PrefSubjectServiceImpl implements PrefSubjectService {
     }
 
     @Override
-    public boolean savePrefSubjectRoom(prefSubject prefSub) throws SQLException {
+    public boolean savePrefSubjectRoom(PrefSubject prefSub) throws SQLException {
         String SQL = "Insert into PrefRoomSubject Values(?,?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
         stm.setObject(1, 0);
