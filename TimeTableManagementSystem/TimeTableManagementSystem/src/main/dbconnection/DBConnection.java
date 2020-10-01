@@ -59,6 +59,21 @@ public class DBConnection {
             String jdbcurl = "jdbc:mysql://" + "spmproject.calqnpocpi57.us-east-1.rds.amazonaws.com:" + 3306 +
                     "/timetableManagementSystem";
             conn = (Connection) DriverManager.getConnection(jdbcurl, "root", "mysql123");
+            System.out.println(System.getProperty("user.dir"));
+
+            File file=new File(System.getProperty("user.dir")+"/TimeTableManagementSystem/TimeTableManagementSystem/src/dbSettings.properties");
+
+            FileReader fileReader=new FileReader(file);
+            Properties properties=new Properties();
+            properties.load(fileReader);
+            String ip=properties.getProperty("ip");
+            String port=properties.getProperty("port");
+            String db=properties.getProperty("database");
+            String user=properties.getProperty("user");
+            String password=properties.getProperty("password");
+            String jdbcurl="jdbc:mysql://"+ip+":"+port+"/"+db;
+            conn=(Connection) DriverManager.getConnection(jdbcurl,user,password);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println();
