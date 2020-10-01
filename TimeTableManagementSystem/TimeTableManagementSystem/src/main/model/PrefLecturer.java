@@ -1,14 +1,14 @@
 package main.model;
 
-public class prefLecturer {
+public class PrefLecturer {
 
     int id;
     int employeeId;
     int roomId;
 
-    public prefLecturer() { }
+    public PrefLecturer() { }
 
-    public prefLecturer(int id, int employeeId, int roomId) {
+    public PrefLecturer(int id, int employeeId, int roomId) {
         this.id = id;
         this.employeeId = employeeId;
         this.roomId = roomId;

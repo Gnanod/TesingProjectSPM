@@ -2,7 +2,7 @@ package main.service.impl;
 
 import main.dbconnection.DBConnection;
 import main.model.Room;
-import main.model.prefLecturer;
+import main.model.PrefLecturer;
 import main.service.PrefLecturerService;
 
 import java.sql.*;
@@ -79,7 +79,7 @@ public class PrefLecturerServiceImpl implements PrefLecturerService {
     }
 
     @Override
-    public boolean savePrefLecturerRoom(prefLecturer prefLecturer) throws SQLException {
+    public boolean savePrefLecturerRoom(PrefLecturer prefLecturer) throws SQLException {
         String SQL = "Insert into PrefRoomLecturer Values(?,?,?)";
         PreparedStatement stm = connection.prepareStatement(SQL);
         stm.setObject(1, 0);

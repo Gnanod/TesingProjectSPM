@@ -1,7 +1,7 @@
 package main.service;
 
 import main.model.Room;
-import main.model.prefLecturer;
+import main.model.PrefLecturer;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,5 +17,5 @@ public interface PrefLecturerService {
 
     int getLecturerIdFromLecturers(String lecturer) throws SQLException;
 
-    boolean savePrefLecturerRoom(prefLecturer prefLecturer) throws SQLException;
+    boolean savePrefLecturerRoom(PrefLecturer prefLecturer) throws SQLException;
 }

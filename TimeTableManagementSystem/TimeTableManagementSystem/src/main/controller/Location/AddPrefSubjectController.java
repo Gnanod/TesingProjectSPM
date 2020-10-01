@@ -180,7 +180,7 @@ public class AddPrefSubjectController implements Initializable {
     }
 
     @FXML
-    void AddBuildingsToTable(ActionEvent event) {
+    void AddSubjectToTable(ActionEvent event) {
 
     }
 
@@ -255,7 +255,7 @@ public class AddPrefSubjectController implements Initializable {
         }
 
 
-        prefSubject prefSub = new prefSubject();
+        PrefSubject prefSub = new PrefSubject();
         prefSub.setTagId(tagId);
         prefSub.setRoomId(roomId);
         prefSub.setSubjectId(subId);

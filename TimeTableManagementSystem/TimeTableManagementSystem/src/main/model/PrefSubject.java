@@ -1,15 +1,15 @@
 package main.model;
 
-public class prefSubject {
+public class PrefSubject {
 
     int id;
     int tagId;
     String subjectId;
     int roomId;
 
-    public prefSubject() { }
+    public PrefSubject() { }
 
-    public prefSubject(int id, int tagId, String subjectId, int roomId) {
+    public PrefSubject(int id, int tagId, String subjectId, int roomId) {
         this.id = id;
         this.tagId = tagId;
         this.subjectId = subjectId;
