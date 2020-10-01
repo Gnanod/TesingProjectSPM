@@ -37,7 +37,7 @@ public class AddPrefSubjectController implements Initializable {
     private ComboBox<String> cmbCenter;
 
     @FXML
-    private TableView<prefSubject> tblBuilding;
+    private TableView<PrefSubject> tblBuilding;
 
     @FXML
     private TableColumn<?, ?> removeBuilding;
@@ -63,7 +63,7 @@ public class AddPrefSubjectController implements Initializable {
     private ArrayList<String> tagName = new ArrayList<>();
     private ArrayList<Subject> subjectId = new ArrayList<>();
     private ArrayList<String> subjectName = new ArrayList<>();
-    private ArrayList<prefSubject> prefSubject = new ArrayList<>();
+    private ArrayList<PrefSubject> prefSubject = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding3;
@@ -240,7 +240,7 @@ public class AddPrefSubjectController implements Initializable {
                 al.setHeaderText(null);
                 al.showAndWait();
             }
-            prefSubject prefSub = new prefSubject();
+            PrefSubject prefSub = new PrefSubject();
             prefSub.setTagId(tagId);
             prefSub.setRoomId(roomId);
             prefSub.setSubjectId(subId);
@@ -263,7 +263,7 @@ public class AddPrefSubjectController implements Initializable {
                                 tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
                             }else{
 
-                                for(prefSubject p :prefSubject){
+                                for(PrefSubject p :prefSubject){
                                     if(p.getRoomId()==roomId && p.getCenterName().equalsIgnoreCase(center)){
                                         status=true;
                                     }
@@ -328,10 +328,10 @@ public class AddPrefSubjectController implements Initializable {
     void saveTagRoom(ActionEvent event) throws SQLException {
         if(prefSubject.size()!=0){
             int count =0;
-            for (prefSubject pref:prefSubject
+            for (PrefSubject pref:prefSubject
             ) {
                 count++;
-                prefSubject prefSub = new prefSubject();
+                PrefSubject prefSub = new PrefSubject();
                 prefSub.setTagId(pref.getTagId());
                 prefSub.setRoomId(pref.getRoomId());
                 prefSub.setSubjectId(pref.getSubjectId());
