@@ -25,13 +25,18 @@ public class SessionMainController {
         try {
             if (event.getSource() == btnAdd) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/MainSessions.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/MainSessions.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
 
             } else if (event.getSource() == btnSearch) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/ViewSearchSessions.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/ViewSearchSessions.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();

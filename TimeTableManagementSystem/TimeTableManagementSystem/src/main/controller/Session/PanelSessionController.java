@@ -15,8 +15,6 @@ import main.controller.MainController;
 
 public class PanelSessionController implements Initializable {
 
-
-
     @FXML
     private Button btnSession;
 
@@ -37,48 +35,60 @@ public class PanelSessionController implements Initializable {
 
     @FXML
     void handleEvents(ActionEvent event) {
-            try{
-                if(event.getSource()== btnSession){
-                    pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/MainSessions.fxml"));
-                    pnlSession.setCenter(root);
-                    String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"SessionDetails";
-                }else if(event.getSource()== btnNotAvailable){
-                    pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/NotAvailableSession.fxml"));
-                    pnlSession.setCenter(root);
-                    String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"NotAvailableSession";
-                }else if(event.getSource() == btnConsectiveSession){
-                    pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ConsectiveSession.fxml"));
-                    pnlSession.setCenter(root);
-                    String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"ConsectiveSession";
-                }else if(event.getSource() == btnRequetsSession){
-                    pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ViewSearchSessions.fxml"));
-                    pnlSession.setCenter(root);
-                    String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"Search Session";
-                }else if(event.getSource()==btnParallelSession){
-                    pnlSession.getChildren().removeAll();
-                    Parent root = FXMLLoader.load(getClass().getResource("../../views/Session/ParallelSessions.fxml"));
-                    pnlSession.setCenter(root);
-                    String currentUrl = MainController.urlName;
-                    MainController.urlName = currentUrl+"/"+"ParallelSession";
-                }
-
-            }catch (IOException e){
-                e.printStackTrace();
+        try {
+            if (event.getSource() == btnSession) {
+                pnlSession.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Session/MainSessions.fxml"));
+                Parent root = loader.load();
+                pnlSession.setCenter(root);
+                String currentUrl = MainController.urlName;
+                MainController.urlName = currentUrl + "/" + "SessionDetails";
+            } else if (event.getSource() == btnNotAvailable) {
+                pnlSession.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Session/NotAvailableSession.fxml"));
+                Parent root = loader.load();
+                pnlSession.setCenter(root);
+                String currentUrl = MainController.urlName;
+                MainController.urlName = currentUrl + "/" + "NotAvailableSession";
+            } else if (event.getSource() == btnConsectiveSession) {
+                pnlSession.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Session/ConsectiveSession.fxml"));
+                Parent root = loader.load();
+                pnlSession.setCenter(root);
+                String currentUrl = MainController.urlName;
+                MainController.urlName = currentUrl + "/" + "ConsectiveSession";
+            } else if (event.getSource() == btnRequetsSession) {
+                pnlSession.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Session/ViewSearchSessions.fxml"));
+                Parent root = loader.load();
+                pnlSession.setCenter(root);
+                String currentUrl = MainController.urlName;
+                MainController.urlName = currentUrl + "/" + "Search Session";
+            } else if (event.getSource() == btnParallelSession) {
+                pnlSession.getChildren().removeAll();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Session/ParallelSessions.fxml"));
+                Parent root = loader.load();
+                pnlSession.setCenter(root);
+                String currentUrl = MainController.urlName;
+                MainController.urlName = currentUrl + "/" + "ParallelSession";
             }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            Parent   root = FXMLLoader.load(getClass().getResource("../../views/Session/MainSessions.fxml"));
+            pnlSession.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Session/MainSessions.fxml"));
+            Parent root = loader.load();
             pnlSession.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();

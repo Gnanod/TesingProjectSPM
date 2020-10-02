@@ -1,16 +1,18 @@
 package main.controller.TimeTableGenerate;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class TimeTableTypesPnl {
+public class TimeTableTypesPnl implements Initializable {
 
     @FXML
     private Button btnStudent;
@@ -29,22 +31,44 @@ public class TimeTableTypesPnl {
         try {
             if (event.getSource() == btnLecturer) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/TimeTableGenerate/Lecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Lecturer.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnStudent) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/TimeTableGenerate/Student.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Student.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
-            }else if (event.getSource() == btnRoom) {
+
+            } else if (event.getSource() == btnRoom) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/TimeTableGenerate/Rooms.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Rooms.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
             }
-        } catch ( IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
 
+
+        try {
+            pnlMain.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Lecturer.fxml"));
+            Parent root  = loader.load();
+            pnlMain.setCenter(root);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class PanelLocationController implements Initializable {
 
-    public PanelLocationController(){
+    public PanelLocationController() {
 
     }
 
@@ -38,17 +38,25 @@ public class PanelLocationController implements Initializable {
         try {
             if (event.getSource() == btnBuilding) {
                 pnlLocation.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/BuildingMainRow.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/BuildingMainRow.fxml"));
+                Parent root = loader.load();
                 pnlLocation.setCenter(root);
 
             } else if (event.getSource() == btnRoom) {
                 pnlLocation.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/RoomMainRow.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/RoomMainRow.fxml"));
+                Parent root = loader.load();
                 pnlLocation.setCenter(root);
+
             } else if (event.getSource() == btnOptions) {
                 pnlLocation.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/OptionsMainRow.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/OptionsMainRow.fxml"));
+                Parent root = loader.load();
                 pnlLocation.setCenter(root);
+
             }
 
         } catch (IOException e) {
@@ -58,14 +66,15 @@ public class PanelLocationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pnlLocation.getChildren().removeAll();
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../views/Location/BuildingMainRow.fxml"));
+            pnlLocation.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Location/BuildingMainRow.fxml"));
+            Parent root = loader.load();
+            pnlLocation.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-        pnlLocation.setCenter(root);
     }
 }
-

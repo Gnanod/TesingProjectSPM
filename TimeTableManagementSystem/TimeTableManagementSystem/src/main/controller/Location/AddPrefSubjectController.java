@@ -184,7 +184,7 @@ public class AddPrefSubjectController implements Initializable {
     }
 
     @FXML
-    void AddBuildingsToTable(ActionEvent event) {
+    void AddSubjectToTable(ActionEvent event) {
         try {
             String center = (String) cmbCenter.getValue();
             String building = txtBuildingOpt.getText();

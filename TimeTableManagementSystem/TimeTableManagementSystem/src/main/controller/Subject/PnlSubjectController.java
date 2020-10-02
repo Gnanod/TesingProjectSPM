@@ -29,13 +29,18 @@ public class PnlSubjectController implements Initializable {
         try {
             if (event.getSource() == btnTag) {
                 pnlSubject.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Subject/Tag.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Subject/Tag.fxml"));
+                Parent root = loader.load();
                 pnlSubject.setCenter(root);
             }
             if (event.getSource() == btnSubject) {
                 pnlSubject.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Subject/MainSubject.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Subject/MainSubject.fxml"));
+                Parent root = loader.load();
                 pnlSubject.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +51,9 @@ public class PnlSubjectController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             pnlSubject.getChildren().removeAll();
-            Parent root = FXMLLoader.load(getClass().getResource("../../views/Subject/MainSubject.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Subject/MainSubject.fxml"));
+            Parent root = loader.load();
             pnlSubject.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();

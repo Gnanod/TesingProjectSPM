@@ -21,13 +21,13 @@ import main.service.impl.DepartmentServiceImpl;
 import main.service.impl.LectureServiceImpl;
 import main.service.impl.SubjectServiceImpl;
 import main.service.impl.YearAndServiceImpl;
-import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import org.controlsfx.control.textfield.TextFields;
 
 public class ViewSubjectController implements Initializable {
 

@@ -1,4 +1,5 @@
 package main.controller.WorkSchedule;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,27 +28,32 @@ public class pnlDaysController implements Initializable {
 
         try {
             if (event.getSource() == btnAdd) {
-                pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/WorkingDays.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/WorkingDays.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnDelete) {
-                pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/WorkingDaysDelete.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/WorkingDaysDelete.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
             }
-        } catch ( IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         pnlMain.getChildren().removeAll();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/WorkingDays.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/WorkSchedule/WorkingDays.fxml"));
+            root = loader.load();
+            pnlMain.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

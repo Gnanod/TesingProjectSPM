@@ -41,28 +41,45 @@ public class OptionsMainRowController implements Initializable {
         try {
             if (event.getSource() == btnTagOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Tag.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Tag.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
+
             } else if (event.getSource() == btnSubjectOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Subject.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Subject.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
             } else if (event.getSource() == btnLecturerOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Lecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Lecturer.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
-            }else if (event.getSource() == btnGroupOptions) {
+
+            } else if (event.getSource() == btnGroupOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Group.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Group.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
+
             } else if (event.getSource() == btnSessionOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Session.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Session.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
+
             } else if (event.getSource() == btnReservedOptions) {
                 pnlMainOptions.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/Reserved.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/Reserved.fxml"));
+                Parent root = loader.load();
                 pnlMainOptions.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,15 +88,16 @@ public class OptionsMainRowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pnlMainOptions.getChildren().removeAll();
-        Parent root = null;
+
         try {
-            root = FXMLLoader.load(getClass().getResource("../../views/Location/Tag.fxml"));
+            pnlMainOptions.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Location/Tag.fxml"));
+            Parent root = loader.load();
+            pnlMainOptions.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        pnlMainOptions.setCenter(root);
 
     }
 }
-

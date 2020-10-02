@@ -32,16 +32,25 @@ public class RoomMainRowController implements Initializable {
         try {
             if (event.getSource() == btnAddRoom) {
                 pnlMainRoom.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/AddRoom.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/AddRoom.fxml"));
+                Parent root = loader.load();
                 pnlMainRoom.setCenter(root);
+
             } else if (event.getSource() == btnSearchRoom) {
                 pnlMainRoom.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/SearchRoom.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/SearchRoom.fxml"));
+                Parent root = loader.load();
                 pnlMainRoom.setCenter(root);
+
             } else if (event.getSource() == btnViewRoom) {
                 pnlMainRoom.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Location/ViewRoom.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Location/ViewRoom.fxml"));
+                Parent root = loader.load();
                 pnlMainRoom.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,16 +59,15 @@ public class RoomMainRowController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        pnlMainRoom.getChildren().removeAll();
-        Parent root = null;
+
         try {
-            root = FXMLLoader.load(getClass().getResource("../../views/Location/AddRoom.fxml"));
+            pnlMainRoom.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Location/AddRoom.fxml"));
+            Parent root = loader.load();
+            pnlMainRoom.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        pnlMainRoom.setCenter(root);
     }
 }
-
-
-

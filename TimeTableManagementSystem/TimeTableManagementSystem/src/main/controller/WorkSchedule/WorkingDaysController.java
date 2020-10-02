@@ -3,9 +3,7 @@ package main.controller.WorkSchedule;
 import com.gluonhq.charm.glisten.control.ToggleButtonGroup;
 
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -26,18 +24,14 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Callback;
-import main.dbconnection.DBConnection;
 import main.model.WorkingDaysMain;
 import main.model.WorkingDaysSub;
-import main.model.YearAndSemester;
 import main.service.WorkingDaysService;
 import main.service.impl.WorkingDaysServiceImpl;
 
 // Referenced classes of package main.controller.WorkSchedule:
 //            WeekdaysController, WeekendController
-
 public class WorkingDaysController implements Initializable {
-
 
     ObservableList WeekdayNumber;
     ObservableList WeekendNumber;
@@ -62,14 +56,11 @@ public class WorkingDaysController implements Initializable {
     private ToggleButtonGroup togglebtnDays;
     private WorkingDaysService workingDaysService;
     private boolean updateStatus = false;
-    private int updateId=0;
+    private int updateId = 0;
 
     public WorkingDaysController() {
         this.workingDaysService = new WorkingDaysServiceImpl();
     }
-
-
-
 
     @FXML
     void addDetails(ActionEvent event) {
@@ -96,24 +87,24 @@ public class WorkingDaysController implements Initializable {
             al.showAndWait();
         } else {
 
-            if(!updateStatus){
+            if (!updateStatus) {
                 saveDetails();
-            }else{
+            } else {
                 updateDetails();
             }
 
         }
     }
 
-    public void updateDetails(){
+    public void updateDetails() {
         try {
             boolean isDeleted = this.workingDaysService.deleteWorkingDaysfromSub(updateId);
-            if(isDeleted){
+            if (isDeleted) {
                 ArrayList<String> updateArrayListDay = new ArrayList<>();
                 String selectedType = "";
                 int noOfDays = Integer.parseInt(cmbNoDays.getValue().toString());
-                if (btnRadioWeekday.isSelected()){
-                     selectedType = "Weekdays";;
+                if (btnRadioWeekday.isSelected()) {
+                    selectedType = "Weekdays";;
                     if (WeekdaysController.monday) {
                         updateArrayListDay.add("Monday");
                     }
@@ -138,13 +129,12 @@ public class WorkingDaysController implements Initializable {
                         updateArrayListDay.add("Sunday");
                     }
                 }
-                WorkingDaysMain workingDaysMain = new WorkingDaysMain(updateId,selectedType, noOfDays);
+                WorkingDaysMain workingDaysMain = new WorkingDaysMain(updateId, selectedType, noOfDays);
                 boolean isUpdated = this.workingDaysService.updateNoOfWorkingDays(workingDaysMain);
                 int count = 0;
 
-                if(isUpdated){
-                    for (String day : updateArrayListDay
-                    ) {
+                if (isUpdated) {
+                    for (String day : updateArrayListDay) {
                         WorkingDaysSub workingDaysSub = new WorkingDaysSub(updateId, day);
                         this.workingDaysService.addWorkingDaysSub(workingDaysSub);
                         count++;
@@ -157,7 +147,7 @@ public class WorkingDaysController implements Initializable {
                         WeekdaysController.count = 0;
                         al.setHeaderText(null);
                         al.showAndWait();
-                        updateStatus=false;
+                        updateStatus = false;
                         this.getAllDetails();
                     } else {
                         Alert al = new Alert(Alert.AlertType.ERROR);
@@ -172,6 +162,7 @@ public class WorkingDaysController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public void saveDetails() {
         try {
             ArrayList<String> arrayListDay = new ArrayList<>();
@@ -205,12 +196,11 @@ public class WorkingDaysController implements Initializable {
             }
             WorkingDaysMain workingDaysMain = new WorkingDaysMain(selectedType, noOfDays);
             boolean status = this.workingDaysService.checkWeekDayOrWeekEndIsAdded(selectedType);
-            if(!status){
+            if (!status) {
                 int lastId = this.workingDaysService.addWorkingDays(workingDaysMain);
                 int count = 0;
                 if (lastId != 0) {
-                    for (String day : arrayListDay
-                    ) {
+                    for (String day : arrayListDay) {
                         WorkingDaysSub workingDaysSub = new WorkingDaysSub(lastId, day);
                         this.workingDaysService.addWorkingDaysSub(workingDaysSub);
                         count++;
@@ -232,7 +222,7 @@ public class WorkingDaysController implements Initializable {
                     al.setHeaderText(null);
                     al.showAndWait();
                 }
-            }else{
+            } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Already an record exist ! You can add only one record !");
@@ -249,12 +239,14 @@ public class WorkingDaysController implements Initializable {
         pnlWorkingDays.getChildren().removeAll(new Node[0]);
         try {
             if (btnRadioWeekday.isSelected()) {
-                Parent root = (Parent) FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/Weekdays.fxml"));
-                cmbNoDays.setItems(WeekdayNumber);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekdays.fxml"));
+                Parent root = loader.load();
                 pnlWorkingDays.setCenter(root);
             } else if (btnRadioWeekEnd.isSelected()) {
-                Parent root = (Parent) FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/Weekends.fxml"));
-                cmbNoDays.setItems(WeekendNumber);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekends.fxml"));
+                Parent root = loader.load();
                 pnlWorkingDays.setCenter(root);
             }
         } catch (IOException e) {
@@ -269,7 +261,9 @@ public class WorkingDaysController implements Initializable {
         if (btnRadioWeekday.isSelected()) {
             Parent root = null;
             try {
-                root = (Parent) FXMLLoader.load(getClass().getResource("../../views/WorkSchedule/Weekdays.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekdays.fxml"));
+                root = loader.load();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -298,10 +292,8 @@ public class WorkingDaysController implements Initializable {
         colDelete.setCellFactory(cellFactoryBtnDelete);
     }
 
-
-
-    Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>> cellFactoryBtnEdit =
-            new Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>>() {
+    Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>> cellFactoryBtnEdit
+            = new Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>>() {
                 @Override
                 public TableCell<WorkingDaysMain, Boolean> call(TableColumn<WorkingDaysMain, Boolean> param) {
                     final TableCell<WorkingDaysMain, Boolean> cell = new TableCell<WorkingDaysMain, Boolean>() {
@@ -334,8 +326,8 @@ public class WorkingDaysController implements Initializable {
                 }
             };
 
-    Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>> cellFactoryBtnDelete =
-            new Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>>() {
+    Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>> cellFactoryBtnDelete
+            = new Callback<TableColumn<WorkingDaysMain, Boolean>, TableCell<WorkingDaysMain, Boolean>>() {
                 @Override
                 public TableCell<WorkingDaysMain, Boolean> call(TableColumn<WorkingDaysMain, Boolean> param) {
                     final TableCell<WorkingDaysMain, Boolean> cell = new TableCell<WorkingDaysMain, Boolean>() {
@@ -376,18 +368,18 @@ public class WorkingDaysController implements Initializable {
                 }
             };
 
-    public void deleteWorkingDay(int workingId){
+    public void deleteWorkingDay(int workingId) {
         try {
             boolean isDeleted = this.workingDaysService.deleteWorkingDay(workingId);
 
-            if(isDeleted){
+            if (isDeleted) {
                 Alert al = new Alert(Alert.AlertType.INFORMATION);
                 al.setTitle(null);
                 al.setContentText("Deleted SuccessFully ");
                 al.setHeaderText(null);
                 al.showAndWait();
                 this.getAllDetails();
-            }else{
+            } else {
                 Alert al = new Alert(Alert.AlertType.INFORMATION);
                 al.setTitle(null);
                 al.setContentText("Deleted Fail ");
@@ -404,8 +396,9 @@ public class WorkingDaysController implements Initializable {
             ArrayList<String> days = this.workingDaysService.getWorkingDaysAccordingId(mainDays.getWorkingId());
             if (mainDays.getType().equals("Weekends")) {
                 btnRadioWeekEnd.setSelected(true);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../views/WorkSchedule/Weekends.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekends.fxml"));
+                Parent root = fxmlLoader.load();
                 pnlWorkingDays.setCenter(root);
                 WeekendController weekendController = fxmlLoader.getController();
                 weekendController.checkSUN.setSelected(false);
@@ -424,17 +417,18 @@ public class WorkingDaysController implements Initializable {
 
             } else if (mainDays.getType().equals("Weekdays")) {
                 btnRadioWeekday.setSelected(true);
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../views/WorkSchedule/Weekdays.fxml"));
-                Parent root = (Parent) fxmlLoader.load();
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekdays.fxml"));
+                Parent root = loader.load();
+//                Parent root = (Parent) fxmlLoader.load();
                 pnlWorkingDays.setCenter(root);
                 cmbNoDays.setItems(WeekdayNumber);
                 cmbNoDays.setValue(mainDays.getNoOfDays());
-                WeekdaysController weekdaysController = fxmlLoader.getController();
-                for (String s : days
-                ) {
+                WeekdaysController weekdaysController = loader.getController();
+                for (String s : days) {
                     System.out.println(s);
                     if (s.equals("Monday")) {
-                       weekdaysController.checkMON.setSelected(true);
+                        weekdaysController.checkMON.setSelected(true);
                     } else if (s.equals("Tuesday")) {
                         weekdaysController.checkTUE.setSelected(true);
                     } else if (s.equals("Wednesday")) {
@@ -446,8 +440,6 @@ public class WorkingDaysController implements Initializable {
                     }
                 }
             }
-
-
 
         } catch (SQLException e) {
             e.printStackTrace();
