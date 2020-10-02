@@ -58,17 +58,14 @@ public class TimeTableTypesPnl implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
-
         try {
             pnlMain.getChildren().removeAll();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Lecturer.fxml"));
-            Parent root  = loader.load();
+            loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Student.fxml"));
+            Parent root = loader.load();
             pnlMain.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 }

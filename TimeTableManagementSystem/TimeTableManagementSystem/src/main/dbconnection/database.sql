@@ -271,5 +271,11 @@ create Table parrellSessions(
       id int PRIMARY KEY auto_increment,
       sessionId int,
       orderId varchar(20),
-      Constraint fk_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId),
+      Constraint fk_Prallel_sessionId_time_table FOREIGN KEY(sessionId) REFERENCES Session(sessionId)
+)
+
+create Table savegrouptimetable(
+      id int PRIMARY key auto_increment,
+      groupId varchar (30),
+      file varchar(300)
 )
