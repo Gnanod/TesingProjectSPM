@@ -31,17 +31,27 @@ public class SubGroupController implements Initializable {
 
         try {
             if (event.getSource() == btnAdd) {
+
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/AddSubGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/AddSubGroup.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnSearch) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/SearchSubGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/SearchSubGroup.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnView) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/ViewSubGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/ViewSubGroup.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -52,8 +62,11 @@ public class SubGroupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             pnlMain.getChildren().removeAll();
-            Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/AddSubGroup.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Students/AddSubGroup.fxml"));
+            Parent root = loader.load();
             pnlMain.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

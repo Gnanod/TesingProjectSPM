@@ -13,12 +13,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PnlLecturerController implements Initializable {
+
     @FXML
     private Button btnLecturer;
 
     @FXML
     private Button btnDepartment;
-
 
     @FXML
     private Button btnNotAvailable;
@@ -31,15 +31,21 @@ public class PnlLecturerController implements Initializable {
         try {
             if (event.getSource() == btnDepartment) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/Department.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/Department.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
-            }else if (event.getSource() == btnLecturer) {
+            } else if (event.getSource() == btnLecturer) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/MainLecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/MainLecturer.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
-            }else if(event.getSource() == btnNotAvailable){
+            } else if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/NotAvailableLecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/NotAvailableLecturer.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
             }
         } catch (IOException e) {
@@ -47,12 +53,14 @@ public class PnlLecturerController implements Initializable {
         }
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            Parent   root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/MainLecturer.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Lecturer/MainLecturer.fxml"));
+            Parent root = loader.load();
             pnlStudent.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

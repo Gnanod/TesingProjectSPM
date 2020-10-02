@@ -12,8 +12,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
 public class MainGroupController implements Initializable {
+
     @FXML
     private Button btnView;
 
@@ -32,16 +32,24 @@ public class MainGroupController implements Initializable {
         try {
             if (event.getSource() == btnAdd) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/AddMainLecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/AddMainLecturer.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnSearch) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/SearchLecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/SearchLecturer.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnView) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/ViewLecturer.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Lecturer/ViewLecturer.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -51,9 +59,14 @@ public class MainGroupController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            pnlMain.getChildren().removeAll();
-            Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/AddMainLecturer.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Lecturer/AddMainLecturer.fxml"));
+            Parent root = loader.load();
             pnlMain.setCenter(root);
+
+//            pnlMain.getChildren().removeAll();
+//            Parent root = FXMLLoader.load(getClass().getResource("../../views/Lecturer/AddMainLecturer.fxml"));
+//            pnlMain.setCenter(root);
         } catch (IOException e) {
             e.printStackTrace();
         }

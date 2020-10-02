@@ -19,7 +19,6 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
-
     private double x = 0, y = 0;
     private Stage stage;
     public static String urlName;
@@ -69,14 +68,13 @@ public class MainController implements Initializable {
 
     }
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lblUrl.setText(urlName);
         this.dragabled();
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../views/Dashboard/Dashboard.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/main/views/Dashboard/Dashboard.fxml"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -107,37 +105,43 @@ public class MainController implements Initializable {
         try {
             if (event.getSource() == btnDashboard) {
                 chageLableStatus("/home/dashboard", "Dashboard");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Dashboard/Dashboard.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/Dashboard/Dashboard.fxml"));
+
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnWorkingDays) {
                 chageLableStatus("/home/Students&hours", "Working Days & Hours");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/WorkSchedule/pnlWorkingDays.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/WorkSchedule/pnlWorkingDays.fxml"));
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnSubject) {
                 chageLableStatus("/home/subject", "Subject");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Subject/pnlsubject.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Subject/pnlsubject.fxml"));
+                Parent root = loader.load();
+
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnLecturer) {
                 chageLableStatus("/home/lecturer", "Lecturer");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Lecturer/pnlLecturer.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/Lecturer/pnlLecturer.fxml"));
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnLocation) {
                 chageLableStatus("/home/location", "Location");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Location/pnlLocation.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/Location/pnlLocation.fxml"));
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnStudent) {
                 chageLableStatus("/home/student", "Student");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Students/pnlstudents.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/Students/pnlstudents.fxml"));
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnSession) {
                 chageLableStatus("/home/session", "ConsectiveSession");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/Session/pnlSession.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/Session/pnlSession.fxml"));
                 pnlMain.setCenter(root);
-            }else if(event.getSource()== btnTimeTable){
+
+            } else if (event.getSource() == btnTimeTable) {
                 chageLableStatus("/home/TimeTable", "TimeTableGenerate");
-                Parent root = FXMLLoader.load(getClass().getResource("../views/TimeTableGenerate/pnlTimetable.fxml"));
+                Parent root = FXMLLoader.load(getClass().getResource("/main/views/TimeTableGenerate/pnlTimetable.fxml"));
                 pnlMain.setCenter(root);
-            }else if (event.getSource() == btnlogout) {
+            } else if (event.getSource() == btnlogout) {
                 System.exit(0);
             }
         } catch (IOException e) {
@@ -150,6 +154,5 @@ public class MainController implements Initializable {
         lblUrl.setText(urlName);
         lblStatus.setText(mainStatus);
     }
-
 
 }

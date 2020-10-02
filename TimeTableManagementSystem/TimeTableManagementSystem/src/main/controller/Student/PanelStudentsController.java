@@ -19,7 +19,6 @@ public class PanelStudentsController implements Initializable {
 
     }
 
-
     @FXML
     private Button btnSubGroup;
 
@@ -43,29 +42,40 @@ public class PanelStudentsController implements Initializable {
         try {
             if (event.getSource() == btnAcademicYear) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/AcademicYear.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/AcademicYear.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
                 String currentUrl = MainController.urlName;
-                System.out.println("UrlCurrent"+MainController.urlName);
-                MainController.urlName = currentUrl+"/"+"academicyear&semester";
+                MainController.urlName = currentUrl + "/" + "academicyear&semester";
 //                new MainController().changeUrl();
             } else if (event.getSource() == btnMainGroup) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NewMainGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/NewMainGroup.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
+
             } else if (event.getSource() == btnSubGroup) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NewSubGroup.fxml"));
-//                pnlStudent.set
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/NewSubGroup.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
+//                pnlStudent.set
             } else if (event.getSource() == btnNotAvailable) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/NotAvailableGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/NotAvailableGroup.fxml"));
+                Parent root = loader.load();
                 pnlStudent.setCenter(root);
-            } else if(event.getSource()==btnProgramme){
+
+            } else if (event.getSource() == btnProgramme) {
                 pnlStudent.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/Programme.fxml"));
-                pnlStudent.setCenter(root);
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/Programme.fxml"));
+                Parent root = loader.load();
+                pnlStudent.setCenter(root);             
             }
 
         } catch (IOException e) {
@@ -76,8 +86,12 @@ public class PanelStudentsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            Parent   root = FXMLLoader.load(getClass().getResource("../../views/Students/AcademicYear.fxml"));
+            pnlStudent.getChildren().removeAll();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Students/AcademicYear.fxml"));
+            Parent root = loader.load();
             pnlStudent.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

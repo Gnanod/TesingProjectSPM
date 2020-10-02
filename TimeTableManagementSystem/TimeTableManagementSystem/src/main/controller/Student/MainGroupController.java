@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainGroupController implements Initializable {
+
     @FXML
     private Button btnView;
 
@@ -30,16 +31,24 @@ public class MainGroupController implements Initializable {
 
         try {
             if (event.getSource() == btnAdd) {
+
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/AddMainGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/AddMainGroup.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
+
             } else if (event.getSource() == btnSearch) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/SearchMainGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/SearchMainGroup.fxml"));
+                Parent root = loader.load();
                 pnlMain.setCenter(root);
             } else if (event.getSource() == btnView) {
                 pnlMain.getChildren().removeAll();
-                Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/ViewMainGroup.fxml"));
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(getClass().getResource("/main/views/Students/ViewMainGroup.fxml"));
+                Parent root = loader.load();             
                 pnlMain.setCenter(root);
             }
         } catch (IOException e) {
@@ -51,8 +60,11 @@ public class MainGroupController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try {
             pnlMain.getChildren().removeAll();
-            Parent root = FXMLLoader.load(getClass().getResource("../../views/Students/AddMainGroup.fxml"));
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/main/views/Students/AddMainGroup.fxml"));
+            Parent root = loader.load();
             pnlMain.setCenter(root);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -37,7 +37,7 @@ public class AddPrefSubjectController implements Initializable {
     private ComboBox<String> cmbCenter;
 
     @FXML
-    private TableView<PrefSubject> tblBuilding;
+    private TableView<prefSubject> tblBuilding;
 
     @FXML
     private TableColumn<?, ?> removeBuilding;
@@ -262,10 +262,8 @@ public class AddPrefSubjectController implements Initializable {
                                 prefSubject.add(prefSub);
                                 tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
                             }else{
-                                System.out.println("nnn"+roomId);
+
                                 for(PrefSubject p :prefSubject){
-                                    System.out.println("cccc"+p.getRoomId());
-                                    System.out.println("eee"+roomId);
                                     if(p.getRoomId()==roomId && p.getCenterName().equalsIgnoreCase(center)){
                                         status=true;
                                     }
