@@ -16,14 +16,14 @@
                   <Font name="System Bold" size="13.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
+                  <FontAwesomeIconView glyphName="CALENDAR" size="35.0" wrappingWidth="40.0" />
                </graphic></Button>
             <Button fx:id="btnWorkingHours" contentDisplay="TOP" layoutY="98.0" mnemonicParsing="false" onAction="#handleEvents" prefHeight="90.0" prefWidth="200.0" styleClass="pnlStudentButton" stylesheets="@../../css/Student.css" text="Working Hours">
                <font>
                   <Font name="System Bold" size="13.0" />
                </font>
                <graphic>
-                  <FontAwesomeIconView glyphName="GRADUATION_CAP" size="35.0" wrappingWidth="40.0" />
+                  <FontAwesomeIconView glyphName="CLOCK_ALT" size="35.0" wrappingWidth="40.0" />
                </graphic>
             </Button>
          </children>

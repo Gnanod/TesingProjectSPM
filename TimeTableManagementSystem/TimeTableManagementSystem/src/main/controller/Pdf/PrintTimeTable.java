@@ -5,8 +5,11 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import main.model.WorkingDaysSub;
 import main.service.TimeTableGenerateService;
+import main.service.WorkingDaysService;
 import main.service.impl.TimeTableGenerateServiceImpl;
+import main.service.impl.WorkingDaysServiceImpl;
 
 
 import java.awt.*;
@@ -17,14 +20,18 @@ import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class PrintTimeTable {
 
     private TimeTableGenerateService timeTableGenerateService;
-    public PrintTimeTable(){
+    private static WorkingDaysService workingDaysService;
+
+    public PrintTimeTable() {
         timeTableGenerateService = new TimeTableGenerateServiceImpl();
+        this.workingDaysService = new WorkingDaysServiceImpl();
     }
 
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
@@ -35,6 +42,7 @@ public class PrintTimeTable {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
+
 
     //
     /*-------------------Generate Current Date -----------------*/
@@ -58,9 +66,9 @@ public class PrintTimeTable {
     }
 
 
-    public void generateCustomerReportPdf(String[][] arr,String [][]timeString, int workingDaysCount, int hourSize,String groupId) {
+    public void generateCustomerReportPdf(String[][] arr, String[][] timeString, int workingDaysCount, int hourSize, String groupId) {
 
-        String fileName = getCurrentDate() + "_" + getCurrentTime() +"-"+groupId+ ".pdf";
+        String fileName = getCurrentDate() + "_" + getCurrentTime() + "-" + groupId + ".pdf";
         String FILE = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
 
         try {
@@ -68,9 +76,9 @@ public class PrintTimeTable {
             Document document = new Document();
             PdfWriter.getInstance(document, new FileOutputStream(FILE));
             document.open();
-            addMetaData(document,groupId);
-            addTitlePage(document,groupId);
-            createTable(document, arr,timeString,workingDaysCount,hourSize);
+            addMetaData(document, groupId);
+            addTitlePage(document, groupId);
+            createTable(document, arr, timeString, workingDaysCount, hourSize);
             if (Desktop.isDesktopSupported()) {
                 try {
                     File myFile = new File(FILE);
@@ -80,9 +88,9 @@ public class PrintTimeTable {
                 }
             }
             File file = new File(FILE);
-            byte [] fileBytes = Files.readAllBytes(file.toPath());
-            System.out.println("GGG"+groupId);
-            savePdf(FILE,groupId);
+            byte[] fileBytes = Files.readAllBytes(file.toPath());
+            System.out.println("GGG" + groupId);
+            savePdf(FILE, groupId);
             document.close();
 
         } catch (Exception e) {
@@ -94,21 +102,21 @@ public class PrintTimeTable {
 
     private void savePdf(String File, String groupId) {
         try {
-            timeTableGenerateService.saveGroupPdf(File,groupId);
+            timeTableGenerateService.saveGroupPdf(File, groupId);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
 
-    private void addMetaData(Document document,String GroupId) {
+    private void addMetaData(Document document, String GroupId) {
 
         document.addTitle(GroupId);
 
     }
 
 
-    private static void addTitlePage(Document document,String groupId)
+    private static void addTitlePage(Document document, String groupId)
             throws DocumentException {
         Paragraph preface = new Paragraph();
         // We add one empty line
@@ -126,51 +134,36 @@ public class PrintTimeTable {
 
     }
 
-    private static void createTable(Document subCatPart, String[][] arr,String [][] timeString, int workingDaysCount, int hourSize) throws BadElementException {
-        PdfPTable table1 = new PdfPTable(6);
-
-        PdfPCell c1 = new PdfPCell(new Phrase(" "));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-        table1.addCell(c1);
-
-
-        c1 = new PdfPCell(new Phrase("Monday"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("TuesDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("WednesDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-
-        c1 = new PdfPCell(new Phrase("ThursDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Friday"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        table1.setHeaderRows(1);
-        int count=0;
-        for (int i = 0; i <(int)hourSize; i++) {
-            table1.addCell(timeString[i][0]);
-            for (int j = 0; j < workingDaysCount; j++) {
-                PdfPCell c2 = new PdfPCell(new Phrase(arr[i][j],new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
-                table1.addCell(c2);
-            }
-        }
-
+    private static void createTable(Document subCatPart, String[][] arr, String[][] timeString, int workingDaysCount, int hourSize) throws BadElementException {
         try {
+            ArrayList<WorkingDaysSub> list = workingDaysService.getAllSubDetails();
+            PdfPTable table1 = new PdfPTable(list.size()+1);
+            PdfPCell c1 = new PdfPCell(new Phrase(" "));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table1.addCell(c1);
+            for (WorkingDaysSub s : list
+            ) {
+                c1 = new PdfPCell(new Phrase(s.getWorkingday()));
+                ;
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table1.addCell(c1);
+            }
+            table1.setHeaderRows(1);
+            int count = 0;
+            for (int i = 0; i < (int) hourSize; i++) {
+                table1.addCell(timeString[i][0]);
+                for (int j = 0; j < workingDaysCount; j++) {
+                    PdfPCell c2 = new PdfPCell(new Phrase(arr[i][j], new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
+                    table1.addCell(c2);
+                }
+            }
             subCatPart.add(table1);
-        } catch (DocumentException e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (DocumentException e) {
+        e.printStackTrace();
+    }
 
     }
 

@@ -17,7 +17,19 @@
       <TextField fx:id="txtRoomOpt1" layoutX="265.0" layoutY="120.0" prefHeight="31.0" prefWidth="200.0" />
       <Text layoutX="115.0" layoutY="99.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Building" wrappingWidth="169.0000051036477" />
       <Text layoutX="115.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room" wrappingWidth="169.0000051036477" />
-      <ComboBox fx:id="cmbCenter" layoutX="265.0" layoutY="31.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="200.0" />
+      <ComboBox fx:id="cmbCenter" layoutX="265.0" layoutY="31.0" onAction="#getBuilding" prefHeight="31.0" prefWidth="200.0" >
+         <items>
+            <FXCollections fx:factory="observableArrayList">
+               <String fx:value="Malabe" />
+               <String fx:value="Kandy" />
+               <String fx:value="Kurunegala" />
+               <String fx:value="Matara" />
+               <String fx:value="Jaffna" />
+               <String fx:value="Metro" />
+               <String fx:value="SLIIT Academy" />
+            </FXCollections>
+         </items>
+      </ComboBox>
       <Text layoutX="115.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="To Time" wrappingWidth="169.0000051036477" />
       <Text layoutX="115.0" layoutY="187.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Day" wrappingWidth="169.0000051036477" />
       <Text layoutX="115.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="From Time" wrappingWidth="169.0000051036477" />

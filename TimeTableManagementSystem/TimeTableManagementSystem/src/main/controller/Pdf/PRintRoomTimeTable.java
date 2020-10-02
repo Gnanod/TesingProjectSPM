@@ -5,13 +5,18 @@ import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import main.model.WorkingDaysSub;
+import main.service.WorkingDaysService;
+import main.service.impl.WorkingDaysServiceImpl;
 
 import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,6 +29,12 @@ public class PRintRoomTimeTable {
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
+
+    private static WorkingDaysService workingDaysService;
+
+    public PRintRoomTimeTable() {
+        this.workingDaysService = new WorkingDaysServiceImpl();
+    }
 
     //
     /*-------------------Generate Current Date -----------------*/
@@ -103,58 +114,50 @@ public class PRintRoomTimeTable {
     }
 
     private static void createTable(Document subCatPart, String[][] arr,String [][] timeString, int workingDaysCount, int hourSize) throws BadElementException {
-        PdfPTable table1 = new PdfPTable(6);
-
-        PdfPCell c1 = new PdfPCell(new Phrase(" "));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-        table1.addCell(c1);
-
-
-        c1 = new PdfPCell(new Phrase("Monday"));;
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("TuesDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("WednesDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-
-        c1 = new PdfPCell(new Phrase("ThursDay"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        c1 = new PdfPCell(new Phrase("Friday"));
-        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
-        table1.addCell(c1);
-
-        table1.setHeaderRows(1);
-        int count=0;
-        for (int i = 0; i <(int)hourSize; i++) {
-            table1.addCell(timeString[i][0]);
-            for (int j = 0; j < workingDaysCount; j++) {
-                if(arr[i][j]!=null){
-                    PdfPCell c2 = new PdfPCell(new Phrase(arr[i][j],new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
-                    c2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table1.addCell(c2);
-                }else{
-                    PdfPCell c2 = new PdfPCell(new Phrase("-",new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
-                    c2.setHorizontalAlignment(Element.ALIGN_CENTER);
-                    table1.addCell(c2);
-                }
-
-            }
-        }
-
         try {
+            ArrayList<WorkingDaysSub> list = workingDaysService.getAllSubDetails();
+            PdfPTable table1 = new PdfPTable(list.size()+1);
+            PdfPCell c1 = new PdfPCell(new Phrase(" "));
+            c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+            table1.addCell(c1);
+            for (WorkingDaysSub s : list
+            ) {
+                c1 = new PdfPCell(new Phrase(s.getWorkingday()));
+                ;
+                c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+                table1.addCell(c1);
+            }
+            table1.setHeaderRows(1);
+            int count=0;
+            for (int i = 0; i <(int)hourSize; i++) {
+                table1.addCell(timeString[i][0]);
+                for (int j = 0; j < workingDaysCount; j++) {
+                    if(arr[i][j]!=null){
+                        PdfPCell c2 = new PdfPCell(new Phrase(arr[i][j],new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
+                        c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        table1.addCell(c2);
+                    }else{
+                        PdfPCell c2 = new PdfPCell(new Phrase("-",new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
+                        c2.setHorizontalAlignment(Element.ALIGN_CENTER);
+                        table1.addCell(c2);
+                    }
+
+                }
+            }
             subCatPart.add(table1);
-        } catch (DocumentException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        }
+        } catch (DocumentException e) {
+        e.printStackTrace();
+    }
+
+
+
+
+
+
+
+
 
     }
 

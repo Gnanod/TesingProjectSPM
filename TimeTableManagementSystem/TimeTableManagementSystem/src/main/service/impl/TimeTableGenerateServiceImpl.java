@@ -117,10 +117,10 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean getNotAvailableSessionStatus(int sessionId, String day, String toTime, String fromTime) throws SQLException {
-        String SQLTo = "select id from notavailablesession " +
+        String SQLTo = "select id from NotAvailableSession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from notavailablesession " +
+        String SQLFrom = "select id from NotAvailableSession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
 
@@ -152,10 +152,10 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public boolean getNotAvailableLectureStatus(String toTime, String fromTime, String day, Integer lec) throws SQLException {
-        String SQLTo = "select id from notavailablelecture " +
+        String SQLTo = "select id from notAvailableLecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from notavailablelecture " +
+        String SQLFrom = "select id from notAvailableLecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
         Statement stm = connection.createStatement();
@@ -237,7 +237,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 //        String SQL = "select duration from session s ,consectivesession cs where " +
 //                " s.sessionId = cs.sessionId and cs.sessionId='"+sessionId+"' " ;
         String SQL = "select duration from Session s where s.sessionId In " +
-                "(Select consectiveId from consectivesession cs where cs.sessionId='" + sessionId + "') ";
+                "(Select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "') ";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         double result = 0;
@@ -253,7 +253,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public int getConsectiveSessionIdAccordingToSession(int sessionId) throws SQLException {
-        String SQL = "select consectiveId from consectivesession cs where cs.sessionId='" + sessionId + "'";
+        String SQL = "select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "'";
         Statement stm = connection.createStatement();
         ResultSet rst = stm.executeQuery(SQL);
         int result = 0;
@@ -281,7 +281,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
 
     @Override
     public Integer getBuilidingForLecturer(Integer i) throws SQLException {
-        String SQL = "select buildingId from lecturer where employeeId ='" + i + "'";
+        String SQL = "select buildingId from Lecturer where employeeId ='" + i + "'";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
         int buidlingId = 0;
@@ -323,7 +323,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     @Override
     public ArrayList<String> getLecturerNamesAccordingTo(String s) throws SQLException {
         String SQL = "select l.employeeName " +
-                "from sessionlecture sl ,Session s ,lecturer l " +
+                "from SessionLecture sl ,Session s ,Lecturer l " +
                 "where s.sessionId = sl.sessionId and s.sessionId='" + Integer.parseInt(s.trim()) + "' and l.employeeId = sl.lecturerId";
         Statement stmtnt = connection.createStatement();
         ResultSet rst = stmtnt.executeQuery(SQL);
@@ -400,7 +400,7 @@ public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     @Override
     public ArrayList<LecturerTimeTable> getLectureTimeTableDetails(String lecName) throws SQLException {
         String SQL = "select  t.day,r.room,t.timeString,sb.subName,ta.tagName,sb.subId,s.groupId,s.subGroupId " +
-                "from Session s,timetable t , sessionlecture sl, room r,lecturer l ,Subject sb ,tag ta " +
+                "from Session s,timetable t , SessionLecture sl, room r,Lecturer l ,Subject sb ,tag ta " +
                 "where s.sessionId = t.sessionId and s.sessionId=sl.sessionId and sl.lecturerId = l.employeeId " +
                 "and sb.subId = s.subjectId and r.rid = t.roomId and ta.tagid=s.tagId " +
                 " and l.employeeName ='" + lecName.trim() + "'";
