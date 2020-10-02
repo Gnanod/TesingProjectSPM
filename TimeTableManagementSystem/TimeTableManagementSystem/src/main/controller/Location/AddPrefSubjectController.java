@@ -37,7 +37,7 @@ public class AddPrefSubjectController implements Initializable {
     private ComboBox<String> cmbCenter;
 
     @FXML
-    private TableView<prefSubject> tblBuilding;
+    private TableView<PrefSubject> tblBuilding;
 
     @FXML
     private TableColumn<?, ?> removeBuilding;
