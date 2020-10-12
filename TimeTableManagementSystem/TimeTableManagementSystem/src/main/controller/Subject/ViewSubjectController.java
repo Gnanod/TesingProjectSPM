@@ -9,16 +9,10 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import main.model.Department;
-import main.model.Lecturer;
 import main.model.Subject;
 import main.model.YearAndSemester;
-import main.service.DepartmentService;
-import main.service.LecturerService;
 import main.service.SubjectService;
 import main.service.YearandSemesterService;
-import main.service.impl.DepartmentServiceImpl;
-import main.service.impl.LectureServiceImpl;
 import main.service.impl.SubjectServiceImpl;
 import main.service.impl.YearAndServiceImpl;
 
@@ -27,6 +21,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.controlsfx.control.textfield.TextFields;
 
 public class ViewSubjectController implements Initializable {
@@ -58,10 +55,13 @@ public class ViewSubjectController implements Initializable {
 
     @FXML
     private TextField txtTut;
-    static String subId;
-    static int dId;
+    String subId;
+    int dId;
     private ArrayList<YearAndSemester> yearsId = new ArrayList<>();
     private ArrayList<String> yearName = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(ViewSubjectController.class.getName());
+    int dCount=0;
+
     @FXML
     void updateLecturer(ActionEvent event) {
         String subName=txtName.getText();
@@ -69,7 +69,7 @@ public class ViewSubjectController implements Initializable {
         int lec=Integer.parseInt(txtLec.getText());
         int tut=Integer.parseInt(txtTut.getText());
         int eval=Integer.parseInt(txtEval.getText());
-        int dCount=0;
+
         for (YearAndSemester yearAndSemester : this.yearsId) {
             if (offered.equals(yearAndSemester.getFullName())) {
                 dId = yearAndSemester.getId();
@@ -83,7 +83,7 @@ public class ViewSubjectController implements Initializable {
                         Subject subject=new Subject(subId,subName,dId,lec,tut,eval);
                         SubjectService subjectService=new SubjectServiceImpl();
                         boolean res=subjectService.updateSubject(subject);
-                        if(res==true){
+                        if(res){
                             Alert alert = new Alert(Alert.AlertType.INFORMATION);
                             alert.setTitle(null);
                             alert.setHeaderText(null);
@@ -128,7 +128,7 @@ public class ViewSubjectController implements Initializable {
             }
 
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -145,14 +145,13 @@ public class ViewSubjectController implements Initializable {
             ArrayList<Subject> list = subjectService.getAllSubjectDetails();
             for (Subject str : list)
             {
-                System.out.println(str.getSubId());
-                System.out.println(str.getSubName());
+
                 YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
                 str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
             }
             tblSubject.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     public void setTableProperties() {
@@ -198,7 +197,7 @@ public class ViewSubjectController implements Initializable {
                                 YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
                                 subject1.setYearSem(yearandSemesterService.searchYearAndSemesterName(subject1.getOfferedYearSem()));
                             }catch (SQLException ex){
-                                ex.printStackTrace();
+                                log.log(Level.SEVERE,ex.getMessage());
                             }
 
                             txtOfferedYear.setText(subject1.getYearSem());
@@ -235,8 +234,6 @@ public class ViewSubjectController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteSubject(subject.getSubId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -252,14 +249,14 @@ public class ViewSubjectController implements Initializable {
                 }
             };
     public void deleteSubject(String id) {
-        System.out.println(id);
+
         try{
             SubjectService subjectService=new SubjectServiceImpl();
             subjectService.deleteSubjectDetails(id);
             this.setTableProperties();
             getAllSubjects();
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
     private void getAllYearAndSemesterDetails() {
@@ -273,7 +270,7 @@ public class ViewSubjectController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtOfferedYear, yearName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

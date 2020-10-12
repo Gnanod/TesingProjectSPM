@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RequestSessionController implements Initializable {
 
@@ -62,7 +64,7 @@ public class RequestSessionController implements Initializable {
 
     @FXML
     void getCenter(ActionEvent event) {
-
+        //Method get Center
     }
 
     @FXML
@@ -77,25 +79,19 @@ public class RequestSessionController implements Initializable {
     private List<Subject> subjectListss;
     private List<Tag> tagListss;
     private List<Object> mainGroupListss;
-    private List<SubGroup> subGroupListss;
     private List<Building> buildingsListss;
     private List<String> lectureNameListss;
     private List<String> subNameListss;
     private List<String> tagNameListss;
     private List<String> maingroupNameListss;
-    private List<String> subGroupNameListss;
     private List<String> buildingNameListss;
-    private ArrayList<Lecturer> list1s=new ArrayList<>();
-    private ObservableList<String> centerList= FXCollections.observableArrayList("Malabe","Metro","Kurunegala","Kandy","Matara","SLIIT Academy","Jaffna");
 
-    private String subId1s;
-    private int tagIds;
-    private int gIds;
-    private int subGroupIds;
-    private  int empIds;
+    private ObservableList<String> centerList= FXCollections.observableArrayList("Malabe","Metro","Kurunegala","Kandy","Matara","SLIIT Academy","Jaffna");
+    public static final Logger log = Logger.getLogger(RequestSessionController.class.getName());
+
     @FXML
     void loadGroupDetails(ActionEvent event) {
-
+        //Method load group details
     }
     private void loadAllMainGroupDetails() {
         try {
@@ -112,7 +108,7 @@ public class RequestSessionController implements Initializable {
             }
             autoCompletionBindings = TextFields.bindAutoCompletion(txtGroup, maingroupNameListss);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     private void loadAllSubGroupDetails() {
@@ -131,7 +127,7 @@ public class RequestSessionController implements Initializable {
             }
             autoCompletionBindings = TextFields.bindAutoCompletion(txtGroup, maingroupNameListss);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     public void loadAllBuildings(){
@@ -149,7 +145,7 @@ public class RequestSessionController implements Initializable {
 
             autoCompletionBindings = TextFields.bindAutoCompletion(txtBuilding, buildingNameListss);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }
@@ -157,7 +153,7 @@ public class RequestSessionController implements Initializable {
     void SelectTag(ActionEvent event) {
         String tag=txtTag.getText();
         if((tag.equalsIgnoreCase("Lecture")||(tag.equalsIgnoreCase("Tute")))){
-            //System.out.print("Lect");
+
             btnRadioMain.setSelected(true);
             btnRadioSub.setSelected(false);
             this.loadAllMainGroupDetails();
@@ -172,7 +168,7 @@ public class RequestSessionController implements Initializable {
 
     @FXML
     void saveDetails(ActionEvent event) {
-
+        //Method for save details
     }
     public void setCenter(){
 
@@ -189,7 +185,7 @@ public class RequestSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtLecturer, lectureNameListss);
     }
@@ -203,7 +199,7 @@ public class RequestSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtSubject, subNameListss);
     }
@@ -217,7 +213,7 @@ public class RequestSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtTag, tagNameListss);
     }

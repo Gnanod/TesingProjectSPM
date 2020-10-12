@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -48,6 +50,7 @@ public class ViewMainGroupController implements Initializable {
     private TextField txtSearch;
     private MainGroupService mainGroupService;
     private int id;
+    public static final Logger log = Logger.getLogger(ViewMainGroupController.class.getName());
 
     public ViewMainGroupController() {
         mainGroupService = new MainGroupServiceImpl();
@@ -56,7 +59,7 @@ public class ViewMainGroupController implements Initializable {
     @FXML
     void searchDetails(ActionEvent event) {
 
-        System.out.println("GGG" + txtSearch.getText().length());
+
         if (txtSearch.getText().length() != 0) {
 
             try {
@@ -85,7 +88,7 @@ public class ViewMainGroupController implements Initializable {
             ArrayList<MainGroup> list = this.mainGroupService.getAllGroupDetails(id);
             tblMainGroup.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -149,7 +152,7 @@ public class ViewMainGroupController implements Initializable {
                             al.showAndWait();
                         }
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.log(Level.SEVERE,e.getMessage());
                     }
                 } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -244,8 +247,6 @@ public class ViewMainGroupController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteMainGroup(mainGroup.getId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -280,7 +281,7 @@ public class ViewMainGroupController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }

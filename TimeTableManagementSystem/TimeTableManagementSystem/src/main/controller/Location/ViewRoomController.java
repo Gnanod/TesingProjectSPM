@@ -24,6 +24,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ViewRoomController implements Initializable {
 
@@ -54,15 +56,14 @@ public class ViewRoomController implements Initializable {
     private ArrayList<Building> buildingsId = new ArrayList<>();
     private ArrayList<String> buildingName = new ArrayList<>();
     private RoomService roomService;
-    private boolean updateStatus;
     private int roomId;
-
+    public static final Logger log = Logger.getLogger(ViewRoomController.class.getName());
 
 
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenterEdit.getValue();
-        System.out.print(center);
+
         try {
             BuildingService buildingService = new BuildingServiceImpl();
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
@@ -74,7 +75,7 @@ public class ViewRoomController implements Initializable {
             TextFields.bindAutoCompletion(txtBuildingEdit1, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -88,7 +89,7 @@ public class ViewRoomController implements Initializable {
             ArrayList<Room> listB = this.roomService.getAllDetails();
             tblRoomView.setItems(FXCollections.observableArrayList(listB));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -126,7 +127,7 @@ public class ViewRoomController implements Initializable {
                             try {
                                 isUpdated = this.roomService.updateRoomDetails(r1);
                             } catch (SQLException e) {
-                                e.printStackTrace();
+                                log.log(Level.SEVERE,e.getMessage());
                             }
                             if (isUpdated) {
                                 Alert al = new Alert(Alert.AlertType.INFORMATION);
@@ -235,7 +236,7 @@ public class ViewRoomController implements Initializable {
                             txtRoomEdit1.setText(room2.getRoom());
 
                             txtCapacitiesEdit1.setText(Integer.toString(room2.getCapacity()));
-//                            updateStatus = true;
+
                             roomId = room2.getRid();
                         }
                     };
@@ -267,8 +268,6 @@ public class ViewRoomController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteRoom(room1.getRid());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -302,7 +301,7 @@ public class ViewRoomController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

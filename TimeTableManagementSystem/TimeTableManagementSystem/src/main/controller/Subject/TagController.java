@@ -10,7 +10,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import main.model.Programme;
 import main.model.Tag;
 import main.service.TagService;
 import main.service.impl.TagServiceImpl;
@@ -20,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TagController implements Initializable {
 
@@ -44,6 +45,7 @@ public class TagController implements Initializable {
     private TagService tagService;
     private boolean updateStatus=false;
     private int tagId;
+    public static final Logger log = Logger.getLogger(TagController.class.getName());
 
     public TagController() {
         tagService = new TagServiceImpl();
@@ -107,7 +109,7 @@ public class TagController implements Initializable {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE,e.getMessage());
             }
         } else {
             Alert al = new Alert(Alert.AlertType.ERROR);
@@ -124,7 +126,7 @@ public class TagController implements Initializable {
             tblTag.setItems(FXCollections.observableArrayList(tagList));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -196,8 +198,6 @@ public class TagController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteTag(tag.getTagId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -238,7 +238,7 @@ public class TagController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

@@ -12,11 +12,13 @@ import main.controller.MainController;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PanelStudentsController implements Initializable {
 
     public PanelStudentsController() {
-
+        //Constructor
     }
 
     @FXML
@@ -37,6 +39,8 @@ public class PanelStudentsController implements Initializable {
     @FXML
     private Button btnProgramme;
 
+    public static final Logger log = Logger.getLogger(PanelStudentsController.class.getName());
+
     @FXML
     void handleEvents(ActionEvent event) {
         try {
@@ -48,7 +52,7 @@ public class PanelStudentsController implements Initializable {
                 pnlStudent.setCenter(root);
                 String currentUrl = MainController.urlName;
                 MainController.urlName = currentUrl + "/" + "academicyear&semester";
-//                new MainController().changeUrl();
+
             } else if (event.getSource() == btnMainGroup) {
                 pnlStudent.getChildren().removeAll();
                 FXMLLoader loader = new FXMLLoader();
@@ -79,7 +83,7 @@ public class PanelStudentsController implements Initializable {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -93,7 +97,7 @@ public class PanelStudentsController implements Initializable {
             pnlStudent.setCenter(root);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

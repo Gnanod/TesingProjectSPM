@@ -1,6 +1,6 @@
 package main.controller.Session;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
@@ -12,13 +12,15 @@ import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import main.model.ConsectiveSession;
+
 import main.model.ParallelSession;
 import main.service.TimeTableGenerateService;
 import main.service.impl.TimeTableGenerateServiceImpl;
@@ -27,6 +29,7 @@ public class ParallelSessionController implements Initializable {
 
     private TimeTableGenerateService timeTableGenerateService;
     private ArrayList<ParallelSession> parallelSessions = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(ParallelSessionController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,14 +61,14 @@ public class ParallelSessionController implements Initializable {
     void saveDetails(ActionEvent event) {
         int count = 0;
         String orderID = getLastID();
-        if(parallelSessions.size()!=0){
+        if(!parallelSessions.isEmpty()){
             for (ParallelSession p : parallelSessions
             ) {
                 count++;
                 try {
                     boolean status =  this.timeTableGenerateService.addParallelSessions(p,orderID);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    log.log(Level.SEVERE,e.getMessage());
                 }
             }
             if(count==parallelSessions.size()){
@@ -94,7 +97,7 @@ public class ParallelSessionController implements Initializable {
         String newID = "";
         try {
             lastId = timeTableGenerateService.getResult();
-            System.out.println("KKKK"+lastId);
+
             if (!lastId.isEmpty()) {
                 String subid = lastId.substring(4);
                 int id = Integer.parseInt(subid);
@@ -108,7 +111,7 @@ public class ParallelSessionController implements Initializable {
                 newID = "S" + "0001";
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
         return newID;
@@ -116,14 +119,14 @@ public class ParallelSessionController implements Initializable {
 
     @FXML
     void searchDetails(ActionEvent event) {
-
+        //Method search details
     }
 
     public void loadParallelSessions(String id) {
         try {
-            ArrayList<ParallelSession> parallelSessions = this.timeTableGenerateService.getParalleSessions(id);
+            ArrayList<ParallelSession> parallelSessions1 = this.timeTableGenerateService.getParalleSessions(id);
             ArrayList<ParallelSession> ps = new ArrayList<>();
-            for (ParallelSession p1 : parallelSessions
+            for (ParallelSession p1 : parallelSessions1
             ) {
                 ParallelSession p2 = p1;
                 if (p1.getSubgroupid() != null) {
@@ -137,7 +140,7 @@ public class ParallelSessionController implements Initializable {
             }
             tblParallelSession.setItems(FXCollections.observableArrayList(ps));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -190,12 +193,12 @@ public class ParallelSessionController implements Initializable {
             };
 
     public void addParallelSession(ParallelSession ps) {
-        if (parallelSessions.size() == 0) {
+        if (parallelSessions.isEmpty()) {
             parallelSessions.add(ps);
         } else {
-            System.out.println();
+
             boolean result = false;
-            System.out.println(parallelSessions.size());
+
             for (ParallelSession p1 : parallelSessions
             ) {
                 if (p1.getCategory().equalsIgnoreCase(ps.getCategory()) && p1.getTagName().equalsIgnoreCase(ps.getTagName())) {

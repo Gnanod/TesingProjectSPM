@@ -13,26 +13,26 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrintLecturerTimeTable {
 
+    int count = 0;
+
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
-            Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-            Font.NORMAL, BaseColor.RED);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
 
     private static WorkingDaysService workingDaysService;
+    public static final Logger log = Logger.getLogger(PrintLecturerTimeTable.class.getName());
 
     public PrintLecturerTimeTable() {
         this.workingDaysService = new WorkingDaysServiceImpl();
@@ -63,17 +63,17 @@ public class PrintLecturerTimeTable {
     public void generateCustomerReportPdf(String[][] arr, String[][] timeString, int workingDaysCount, int hourSize, String lecName) {
 
         String fileName = getCurrentDate() + "_" + getCurrentTime() + "-" + lecName + ".pdf";
-        String FILE = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
+        String file = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
 
         try {
 
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            PdfWriter.getInstance(document, new FileOutputStream(file));
             document.open();
             addMetaData(document, lecName);
             addTitlePage(document, lecName);
             createTable(document, arr, timeString, workingDaysCount, hourSize);
-            File myFile = new File(FILE);
+            File myFile = new File(file);
             if (Desktop.isDesktopSupported()) {
                 try {
                     Desktop.getDesktop().open(myFile);
@@ -86,16 +86,16 @@ public class PrintLecturerTimeTable {
             document.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
 
     }
 
 
-    private void addMetaData(Document document, String GroupId) {
+    private void addMetaData(Document document, String groupId1) {
 
-        document.addTitle(GroupId);
+        document.addTitle(groupId1);
 
     }
 
@@ -127,13 +127,13 @@ public class PrintLecturerTimeTable {
             for (WorkingDaysSub s : list
             ) {
                 c1 = new PdfPCell(new Phrase(s.getWorkingday()));
-                ;
+
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table1.addCell(c1);
             }
             table1.setHeaderRows(1);
-            int count = 0;
-            for (int i = 0; i < (int) hourSize; i++) {
+
+            for (int i = 0; i < hourSize; i++) {
                 table1.addCell(timeString[i][0]);
                 for (int j = 0; j < workingDaysCount; j++) {
                     if (arr[i][j] != null) {
@@ -149,10 +149,8 @@ public class PrintLecturerTimeTable {
                 }
             }
             subCatPart.add(table1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            e.printStackTrace();
+        } catch (SQLException|DocumentException e) {
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

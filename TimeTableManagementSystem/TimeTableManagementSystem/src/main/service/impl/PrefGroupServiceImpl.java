@@ -6,6 +6,7 @@ import main.service.PrefGroupService;
 
 import java.sql.*;
 
+
 public class PrefGroupServiceImpl implements PrefGroupService {
 
     private Connection connection;
@@ -16,58 +17,70 @@ public class PrefGroupServiceImpl implements PrefGroupService {
 
     @Override
     public boolean savePrefGroupRoom(PrefGroup prefGroup) throws SQLException {
-        String SQL = "Insert into PrefRoomGroup Values(?,?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        if(prefGroup.getGroupId() ==0){
-            stm.setObject(2, null);
-        }
-        else{
-            stm.setObject(2, prefGroup.getGroupId());
-        }
-        if(prefGroup.getSubGroupId() ==0){
-            stm.setObject(3, null);
-        }
-        else{
-            stm.setObject(3, prefGroup.getSubGroupId());
-        }
 
-        stm.setObject(1, 0);
-        stm.setObject(4, prefGroup.getRoomId());
+        String sql = "Insert into PrefRoomGroup Values(?,?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            if (prefGroup.getGroupId() == 0) {
+                stm.setObject(2, null);
+            } else {
+                stm.setObject(2, prefGroup.getGroupId());
+            }
+            if (prefGroup.getSubGroupId() == 0) {
+                stm.setObject(3, null);
+            } else {
+                stm.setObject(3, prefGroup.getSubGroupId());
+            }
 
-        System.out.println("savePrefGroupRoom:"+prefGroup.getGroupId());
-        System.out.println("savePrefGroupRoom:"+prefGroup.getSubGroupId());
-        System.out.println("savePrefGroupRoom:"+prefGroup.getRoomId());
-        int res = stm.executeUpdate();
-        return res > 0;
+            stm.setObject(1, 0);
+            stm.setObject(4, prefGroup.getRoomId());
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public int getGroupMainId(String group) throws SQLException {
-        String SQL ="Select id from maingroup where groupid LIKE '%"+group+"%'";
-        System.out.println("getGroupMainId:"+SQL);
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
 
-        int result=0;
-        if(rst.next()){
-            result = rst.getInt("id");
+        Statement stm = null;
+        try {
+            String sql = "Select id from maingroup where groupid LIKE '%" + group + "%'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                int result = 0;
+                if (rst.next()) {
+                    result = rst.getInt("id");
+                }
+
+                return result;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-
-        return result;
     }
 
     @Override
     public int getGroupSubId(String group) throws SQLException {
-        String SQL ="Select id from subgroup where subgroupid LIKE '%" + group + "%'";
-        System.out.println("getGroupSubId:"+SQL);
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
+        Statement stm = null;
+        try {
+            String sql = "Select id from subgroup where subgroupid LIKE '%" + group + "%'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                int result = 0;
+                if (rst.next()) {
+                    result = rst.getInt("id");
+                }
 
-        int result=0;
-        if(rst.next()){
-            result = rst.getInt("id");
+                return result;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-
-        return result;
     }
 }

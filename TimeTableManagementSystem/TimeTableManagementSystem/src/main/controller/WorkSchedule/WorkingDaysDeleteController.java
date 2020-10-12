@@ -19,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class WorkingDaysDeleteController implements Initializable {
 
@@ -32,6 +34,8 @@ public class WorkingDaysDeleteController implements Initializable {
     private TableColumn<WorkingDaysSub, Boolean> colDelete;
 
     private WorkingDaysService workingDaysService;
+    public static final Logger log = Logger.getLogger(WorkingDaysDeleteController.class.getName());
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
             workingDaysService = new WorkingDaysServiceImpl();
@@ -46,7 +50,7 @@ public class WorkingDaysDeleteController implements Initializable {
             ArrayList<WorkingDaysSub> list = this.workingDaysService.getAllSubDetails();
             tblWorkingDays.setItems(FXCollections.observableArrayList(list));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -81,8 +85,6 @@ public class WorkingDaysDeleteController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteWorkingDaysSub(wds.getSubId(),wds.getWorkingId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -99,7 +101,7 @@ public class WorkingDaysDeleteController implements Initializable {
             };
 
     public void deleteWorkingDaysSub(int id,int workingId){
-        System.out.println(workingId);
+
         try {
             boolean staus = workingDaysService.deleteWorkingDaysSub(id,workingId);
             if (staus) {
@@ -117,7 +119,7 @@ public class WorkingDaysDeleteController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

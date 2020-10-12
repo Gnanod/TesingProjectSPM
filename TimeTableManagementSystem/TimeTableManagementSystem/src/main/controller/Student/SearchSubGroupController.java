@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -34,6 +37,7 @@ public class SearchSubGroupController implements Initializable {
     private MainGroupService mainGroupService;
     private List<String> groupIdList = new ArrayList<>();
     private List<MainGroup> groupList = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(SearchSubGroupController.class.getName());
 
     public SearchSubGroupController(){
         subGroupService = new SubGroupServiceImpl();
@@ -78,7 +82,7 @@ public class SearchSubGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtMainGroup, groupIdList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }
@@ -89,7 +93,7 @@ public class SearchSubGroupController implements Initializable {
             ArrayList<SubGroupCount> list = this.subGroupService.getAllSubGroupCount(yearId);
             tblMainGroup.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

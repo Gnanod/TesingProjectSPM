@@ -17,6 +17,8 @@ import org.controlsfx.control.textfield.TextFields;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchRoomController implements Initializable {
 
@@ -36,6 +38,7 @@ public class SearchRoomController implements Initializable {
     private BuildingService buildingService;
     private ArrayList<String> buildingNameList = new ArrayList<>();
     private ArrayList<Building> buildingList = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(SearchRoomController.class.getName());
 
     public SearchRoomController(){
         this.roomService = new RoomServiceImpl();
@@ -61,7 +64,7 @@ public class SearchRoomController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtRoomSearch1, roomNameList);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -76,7 +79,7 @@ public class SearchRoomController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtBuildingSearch1, buildingNameList);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -109,7 +112,7 @@ public class SearchRoomController implements Initializable {
             ArrayList<Room> list = this.roomService.getAllDetailsForSearch(rbuilding,rroom);
             tblRoomSeach.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

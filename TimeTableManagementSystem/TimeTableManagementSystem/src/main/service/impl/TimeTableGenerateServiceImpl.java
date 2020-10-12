@@ -1,575 +1,808 @@
 package main.service.impl;
 
 import main.dbconnection.DBConnection;
+import main.model.*;
 import main.service.TimeTableGenerateService;
-
 import java.sql.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import main.model.LecturerTimeTable;
-import main.model.ParallelSession;
-import main.model.RoomTimeTable;
-import main.model.SessionArray;
 
 public class TimeTableGenerateServiceImpl implements TimeTableGenerateService {
     private Connection connection;
-    private static  byte []arr;
+
     public TimeTableGenerateServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
-
+    private static final String SUB_ID= "subId";
+    private static final String SUB_NAME= "subName";
+    private static final String TAG_NAME= "tagName";
+    private static final String SUBGROUP_ID= "subgroupid";
+    private static final String GROUP_ID= "groupId";
 
     @Override
     public ArrayList<Integer> getSubjectPreferedRoom(String subjectId, int tagId) throws SQLException {
-        String SQL = "select roomId from PrefRoomSubject where subjectId ='" + subjectId + "' and tagId='" + tagId + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        Statement stm = null;
+        try {
+            String sql = "select roomId from PrefRoomSubject where subjectId ='" + subjectId + "' and tagId='" + tagId + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("roomId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public ArrayList<Integer> getLecturersAccordingToSessionId(int sessionId) throws SQLException {
-        String SQL = "select lecturerId from SessionLecture where sessionId ='" + sessionId + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("lecturerId")));
+        Statement stm = null;
+        try {
+            String sql = "select lecturerId from SessionLecture where sessionId ='" + sessionId + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("lecturerId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public ArrayList<Integer> getLecturerPrefferedList(int i) throws SQLException {
-        String SQL = "select roomId from PrefRoomLecturer where employeeId ='" + i + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        Statement stm = null;
+        try {
+            String sql = "select roomId from PrefRoomLecturer where employeeId ='" + i + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("roomId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public ArrayList<Integer> getPreferredRoomListForGroup(int groupId) throws SQLException {
-        String SQL = "select roomId from PrefRoomGroup where groupId ='" + groupId + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        Statement stm = null;
+        try {
+            String sql = "select roomId from PrefRoomGroup where groupId ='" + groupId + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("roomId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public ArrayList<Integer> getPreferredRoomListForSession(int sessionId) throws SQLException {
-        String SQL = "select roomId from PrefRoomSession where sessionId ='" + sessionId + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        Statement stm = null;
+        try {
+            String sql = "select roomId from PrefRoomSession where sessionId ='" + sessionId + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("roomId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public boolean getNotAvailableGroupStaus(String toTime, String fromTime, Integer spr, String day) throws SQLException {
-        String SQLTo = "select id from notAvailableGroup " +
+        String sqlto = "select id from notAvailableGroup " +
                 "where  mainGroupId='" + spr + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from notAvailableGroup " +
+        String sqlfrom = "select id from notAvailableGroup " +
                 "where  mainGroupId='" + spr + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-
-
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQLTo);
+        Statement stm = null;
         boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result = true;
-            } else {
-                result = false;
-            }
-        }
-        rst = stm.executeQuery(SQLFrom);
         boolean result1 = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result1 = true;
+        try {
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sqlto)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+            try (ResultSet rst = stm.executeQuery(sqlfrom)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result1 = true;
+                    } else {
+                        result1 = false;
+                    }
+                }
+            }
+            if (result || result1) {
+                return true;
             } else {
-                result1 = false;
+                return false;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        if (result || result1) {
-            return true;
-        } else {
-            return false;
-        }
+
+
     }
 
     @Override
     public boolean getNotAvailableSessionStatus(int sessionId, String day, String toTime, String fromTime) throws SQLException {
-        String SQLTo = "select id from NotAvailableSession " +
+        String sqlto = "select id from NotAvailableSession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from NotAvailableSession " +
+        String sqlfrom = "select id from NotAvailableSession " +
                 "where  sessionId='" + sessionId + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
 
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQLTo);
+        Statement stm = null;
         boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result = true;
-            } else {
-                result = false;
-            }
-        }
-        rst = stm.executeQuery(SQLFrom);
         boolean result1 = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result1 = true;
-            } else {
-                result1 = false;
+        try {
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sqlto)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
             }
-        }
-        if (result || result1) {
-            return true;
-        } else {
-            return false;
+            try (ResultSet rst = stm.executeQuery(sqlfrom)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result1 = true;
+                    } else {
+                        result1 = false;
+                    }
+                }
+            }
+            if (result || result1) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
     }
 
     @Override
     public boolean getNotAvailableLectureStatus(String toTime, String fromTime, String day, Integer lec) throws SQLException {
-        String SQLTo = "select id from notAvailableLecture " +
+        String sqlto = "select id from notAvailableLecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from notAvailableLecture " +
+        String sqlfrom = "select id from notAvailableLecture " +
                 "where  lectureId='" + lec + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQLTo);
+        Statement stm = null;
         boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result = true;
-            } else {
-                result = false;
-            }
-        }
-        rst = stm.executeQuery(SQLFrom);
         boolean result1 = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result1 = true;
-            } else {
-                result1 = false;
+        try {
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sqlto)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
             }
-        }
-        if (result || result1) {
-            return true;
-        } else {
-            return false;
+            try (ResultSet rst = stm.executeQuery(sqlfrom)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result1 = true;
+                    } else {
+                        result1 = false;
+                    }
+                }
+            }
+            if (result || result1) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
     }
 
     @Override
     public int getRoomSize(int roomId) throws SQLException {
-        String SQL = "select capacity from room where rid='" + roomId + "'";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
+        Statement stm = null;
         int result = 0;
-        if (rst.next()) {
-            if (rst.getString("capacity") != null) {
-                result = Integer.parseInt(rst.getString("capacity"));
+        try {
+            String sql = "select capacity from room where rid='" + roomId + "'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if(rst.next()){
+                    result = Integer.parseInt(rst.getString("capacity"));
+                }
+
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public boolean getNotAvailableSubGroupStaus(String toTime, String fromTime, int parseInt, String day) throws SQLException {
-        String SQLTo = "select id from notAvailableGroup " +
+        String sqlto = "select id from notAvailableGroup " +
                 "where  subgroupId='" + parseInt + "' and day='" + day + "' and '" + LocalTime.parse(toTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(toTime) + "' < toTime";
-        String SQLFrom = "select id from notAvailableGroup " +
+        String sqlfrom = "select id from notAvailableGroup " +
                 "where  subgroupId='" + parseInt + "' and day='" + day + "' and '" + LocalTime.parse(fromTime) + "' > fromTime " +
                 "and '" + LocalTime.parse(fromTime) + "' < toTime";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQLTo);
+        Statement stm = null;
         boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result = true;
-            } else {
-                result = false;
-            }
-        }
-        rst = stm.executeQuery(SQLFrom);
         boolean result1 = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result1 = true;
-            } else {
-                result1 = false;
+        try {
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sqlto)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
             }
-        }
-        if (result || result1) {
-            return true;
-        } else {
-            return false;
+            try (ResultSet rst = stm.executeQuery(sqlfrom)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result1 = true;
+                    } else {
+                        result1 = false;
+                    }
+                }
+            }
+            if (result || result1) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
     }
 
     @Override
     public double getConsectiveSessionHourAccordingToSession(int sessionId) throws SQLException {
-//        String SQL = "select duration from session s ,consectivesession cs where " +
-//                " s.sessionId = cs.sessionId and cs.sessionId='"+sessionId+"' " ;
-        String SQL = "select duration from Session s where s.sessionId In " +
-                "(Select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "') ";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        double result = 0;
-        if (rst.next()) {
-            if (rst.getString("duration") != null) {
-                result = Double.parseDouble(rst.getString("duration"));
-            } else {
-                result = 0;
+        Statement stm = null;
+        try {
+            String sql = "select duration from Session s where s.sessionId In " +
+                    "(Select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "') ";
+            stm = connection.createStatement();
+            double result = 0;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if(rst.next()){
+                    if (rst.getString("duration") != null) {
+                        result = Double.parseDouble(rst.getString("duration"));
+                    } else {
+                        result = 0;
+                    }
+                }else{
+                    result=0;
+                }
+
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public int getConsectiveSessionIdAccordingToSession(int sessionId) throws SQLException {
-        String SQL = "select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "'";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        int result = 0;
-        if (rst.next()) {
-            if (rst.getString("consectiveId") != null) {
-                result = Integer.parseInt(rst.getString("consectiveId"));
-            } else {
-                result = 0;
+        Statement stm = null;
+        try {
+            String sql = "select consectiveId from ConsectiveSession cs where cs.sessionId='" + sessionId + "'";
+            stm = connection.createStatement();
+            int result = 0;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if(rst.next()){
+                    if (rst.getString("consectiveId") != null) {
+                        result = Integer.parseInt(rst.getString("consectiveId"));
+                    } else {
+                        result = 0;
+                    }
+                }else{
+                    result=0;
+                }
+
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
+
     }
 
     @Override
     public ArrayList<Integer> getPreferredRoomListForSubGroup(int parseInt) throws SQLException {
-        String SQL = "select roomId from PrefRoomGroup where subGroupId ='" + parseInt + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("roomId")));
+        Statement stm = null;
+        try {
+            String sql = "select roomId from PrefRoomGroup where subGroupId ='" + parseInt + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("roomId")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public Integer getBuilidingForLecturer(Integer i) throws SQLException {
-        String SQL = "select buildingId from Lecturer where employeeId ='" + i + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        int buidlingId = 0;
-        while (rst.next()) {
-            buidlingId = Integer.parseInt(rst.getString("buildingId"));
+        Statement stm = null;
+        try {
+            String sql = "select buildingId from Lecturer where employeeId ='" + i + "'";
+            stm = connection.createStatement();
+            int buidlingId = 0;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    buidlingId = Integer.parseInt(rst.getString("buildingId"));
+                }
+            }
+            return buidlingId;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return buidlingId;
+
     }
 
     @Override
     public ArrayList<Integer> getRoomsAccordingToBuilding(Integer i) throws SQLException {
-        String SQL = "select rid from room where buildingid ='" + i + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<Integer> roomList = new ArrayList<>();
-        while (rst.next()) {
-            roomList.add(Integer.parseInt(rst.getString("rid")));
+        Statement stm = null;
+        try {
+            String sql = "select rid from room where buildingid ='" + i + "'";
+            stm = connection.createStatement();
+            ArrayList<Integer> roomList = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    roomList.add(Integer.parseInt(rst.getString("rid")));
+                }
+            }
+            return roomList;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return roomList;
     }
 
     @Override
     public SessionArray getSessionDetailsAccordingToSessionId(String s) throws SQLException {
-        String SQL = "select su.subId,su.subName,t.tagName " +
-                "from Subject su ,Session s,tag t " +
-                "where s.sessionId='" + Integer.parseInt(s.trim()) + "' and s.tagId = t.tagid and s.subjectId = su.subId ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        SessionArray session = new SessionArray();
-        while (rst.next()) {
-            session.setSubjectCode(rst.getString("subId"));
-            session.setSubjectName(rst.getString("subName"));
-            session.setTagName(rst.getString("tagName"));
+        Statement stm = null;
+        try {
+            String sql = "select su.subId,su.subName,t.tagName " +
+                    "from Subject su ,Session s,tag t " +
+                    "where s.sessionId='" + Integer.parseInt(s.trim()) + "' and s.tagId = t.tagid and s.subjectId = su.subId ";
+            stm = connection.createStatement();
+            SessionArray session = new SessionArray();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    session.setSubjectCode(rst.getString(SUB_ID));
+                    session.setSubjectName(rst.getString(SUB_NAME));
+                    session.setTagName(rst.getString(TAG_NAME));
 
+                }
+            }
+            return session;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return session;
     }
 
     @Override
     public ArrayList<String> getLecturerNamesAccordingTo(String s) throws SQLException {
-        String SQL = "select l.employeeName " +
-                "from SessionLecture sl ,Session s ,Lecturer l " +
-                "where s.sessionId = sl.sessionId and s.sessionId='" + Integer.parseInt(s.trim()) + "' and l.employeeId = sl.lecturerId";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<String> list = new ArrayList<>();
-        while (rst.next()) {
-            list.add(rst.getString("employeeName"));
-
+        Statement stm = null;
+        try {
+            String sql = "select l.employeeName " +
+                    "from SessionLecture sl ,Session s ,Lecturer l " +
+                    "where s.sessionId = sl.sessionId and s.sessionId='" + Integer.parseInt(s.trim()) + "' and l.employeeId = sl.lecturerId";
+            stm = connection.createStatement();
+            ArrayList<String> list = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    list.add(rst.getString("employeeName"));
+                }
+            }
+            return list;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return list;
     }
 
     @Override
     public String getRoomNumberAccordingToRoomId(String s) throws SQLException {
-        String SQL = "select r.room " +
-                "from room r " +
-                "where rid='" + Integer.parseInt(s.trim()) + "' ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("room");
+        Statement stm = null;
+        try {
+            String sql = "select r.room " +
+                    "from room r " +
+                    "where rid='" + Integer.parseInt(s.trim()) + "' ";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString("room");
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
-
     }
 
     @Override
     public String getSubgroupIdAccordingToSession(String s) throws SQLException {
-        String SQL = "select sg.subgroupid " +
-                "from Session s, subgroup sg " +
-                "where s.subGroupId = sg.id and s.sessionId='" + Integer.parseInt(s.trim()) + "'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("subgroupid");
+        Statement stm = null;
+        try {
+            String sql = "select sg.subgroupid " +
+                    "from Session s, subgroup sg " +
+                    "where s.subGroupId = sg.id and s.sessionId='" + Integer.parseInt(s.trim()) + "'";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString(SUBGROUP_ID);
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public boolean SaveTimeTable(String newday, String toTime, String fromTime, String s, String s1, String time) throws SQLException {
-        String SQL = "Insert into timetable values(?,?,?,?,?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, Integer.parseInt(s.trim()));
-        stm.setObject(3, newday);
-        stm.setObject(4, Integer.parseInt(s1.trim()));
-        stm.setObject(5, toTime);
-        stm.setObject(6, fromTime);
-        stm.setObject(7, time);
-        int res = stm.executeUpdate();
-        return res > 0;
+        String sql = "Insert into timetable values(?,?,?,?,?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, Integer.parseInt(s.trim()));
+            stm.setObject(3, newday);
+            stm.setObject(4, Integer.parseInt(s1.trim()));
+            stm.setObject(5, toTime);
+            stm.setObject(6, fromTime);
+            stm.setObject(7, time);
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean getRoomIsAvailable(String toTime, String fromTime, String day, int roomId) throws SQLException {
-        String SQL = "select id " +
-                "from timetable t " +
-                "where toTime='" + toTime + "' and fromTime='" + fromTime + "' and roomId='" + roomId + "' and day='" + day + "' ";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("id") != null) {
-                result = true;
-            } else {
-                result = false;
+        Statement stm = null;
+        try {
+            String sql = "select id " +
+                    "from timetable t " +
+                    "where toTime='" + toTime + "' and fromTime='" + fromTime + "' and roomId='" + roomId + "' and day='" + day + "' ";
+            stm = connection.createStatement();
+            boolean result = false;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if (rst.next()) {
+                    if (rst.getString("id") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public ArrayList<LecturerTimeTable> getLectureTimeTableDetails(String lecName) throws SQLException {
-        String SQL = "select  t.day,r.room,t.timeString,sb.subName,ta.tagName,sb.subId,s.groupId,s.subGroupId " +
-                "from Session s,timetable t , SessionLecture sl, room r,Lecturer l ,Subject sb ,tag ta " +
-                "where s.sessionId = t.sessionId and s.sessionId=sl.sessionId and sl.lecturerId = l.employeeId " +
-                "and sb.subId = s.subjectId and r.rid = t.roomId and ta.tagid=s.tagId " +
-                " and l.employeeName ='" + lecName.trim() + "'";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<LecturerTimeTable> lecturerTimeTables = new ArrayList<>();
-        while (rst.next()) {
-            LecturerTimeTable t1 = new LecturerTimeTable();
-            t1.setDay(rst.getString("day"));
-            t1.setRomm(rst.getString("room"));
-            t1.setTagName(rst.getString("tagName"));
-            t1.setSubName(rst.getString("subName"));
-            t1.setTimeString(rst.getString("timeString"));
-            t1.setMainGroupId(rst.getString("groupId"));
-            t1.setSubGroupId(rst.getString("subGroupId"));
-            t1.setSubCode(rst.getString("subId"));
-            lecturerTimeTables.add(t1);
+        Statement stm = null;
+        try {
+            String sql = "select  t.day,r.room,t.timeString,sb.subName,ta.tagName,sb.subId,s.groupId,s.subGroupId " +
+                    "from Session s,timetable t , SessionLecture sl, room r,Lecturer l ,Subject sb ,tag ta " +
+                    "where s.sessionId = t.sessionId and s.sessionId=sl.sessionId and sl.lecturerId = l.employeeId " +
+                    "and sb.subId = s.subjectId and r.rid = t.roomId and ta.tagid=s.tagId " +
+                    " and l.employeeName ='" + lecName.trim() + "'";
+            stm = connection.createStatement();
+            boolean result = false;
+            ArrayList<LecturerTimeTable> lecturerTimeTables = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    LecturerTimeTable t1 = new LecturerTimeTable();
+                    t1.setDay(rst.getString("day"));
+                    t1.setRomm(rst.getString("room"));
+                    t1.setTagName(rst.getString(TAG_NAME));
+                    t1.setSubName(rst.getString(SUB_NAME));
+                    t1.setTimeString(rst.getString("timeString"));
+                    t1.setMainGroupId(rst.getString(GROUP_ID));
+                    t1.setSubGroupId(rst.getString(SUBGROUP_ID));
+                    t1.setSubCode(rst.getString(SUB_ID));
+                    lecturerTimeTables.add(t1);
+                }
+            }
+            return lecturerTimeTables;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return lecturerTimeTables;
     }
 
     @Override
     public String getSubGroupId(int parseInt) throws SQLException {
-        String SQL = "select subgroupid " +
-                "from subgroup sg " +
-                "where sg.id='" + parseInt+ "' ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("subgroupid");
+        Statement stm = null;
+        try {
+            String sql = "select subgroupid " +
+                    "from subgroup sg " +
+                    "where sg.id='" + parseInt + "' ";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString(SUBGROUP_ID);
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public String getMainGroupId(int parseInt) throws SQLException {
-        String SQL = "select groupid " +
-                "from maingroup mg " +
-                "where mg.id='" + parseInt+ "' ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("groupid");
+        Statement stm = null;
+        try {
+            String sql = "select groupid " +
+                    "from maingroup mg " +
+                    "where mg.id='" + parseInt + "' ";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString(GROUP_ID);
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public ArrayList<RoomTimeTable> getTimeTableForRoom(String center, String building, String room) throws SQLException {
-        String SQL = "select t.day,t.timeString,sb.subName,ta.tagName,sb.subId,t.sessionId,s.groupId,s.subGroupId " +
-                "from Session s,timetable t ,Subject sb ,tag ta " +
-                "where s.sessionId = t.sessionId and sb.subId = s.subjectId and ta.tagid=s.tagId " +
-                "and t.roomId In (select r.rid " +
-                "from room r ,building b  " +
-                "where r.buildingid = b.bid and  b.center='"+center+"' " +
-                "and b.building='"+building+"' and r.room='"+room+"') ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<RoomTimeTable> result = new ArrayList<>();
-        while (rst.next()) {
-            RoomTimeTable roomTimeTable = new RoomTimeTable();
-            roomTimeTable.setDay(rst.getString("day"));
-            roomTimeTable.setTagName(rst.getString("tagName"));
-            roomTimeTable.setSubName(rst.getString("subName"));
-            roomTimeTable.setTimeString(rst.getString("timeString"));
-            roomTimeTable.setMainGroupId(rst.getString("groupId"));
-            roomTimeTable.setSubGroupId(rst.getString("subGroupId"));
-            roomTimeTable.setSubCode(rst.getString("subId"));
-            roomTimeTable.setSessionId(rst.getString("sessionId"));
-            result.add(roomTimeTable);
+        Statement stm = null;
+        try {
+            String sql = "select t.day,t.timeString,sb.subName,ta.tagName,sb.subId,t.sessionId,s.groupId,s.subGroupId " +
+                    "from Session s,timetable t ,Subject sb ,tag ta " +
+                    "where s.sessionId = t.sessionId and sb.subId = s.subjectId and ta.tagid=s.tagId " +
+                    "and t.roomId In (select r.rid " +
+                    "from room r ,building b  " +
+                    "where r.buildingid = b.bid and  b.center='" + center + "' " +
+                    "and b.building='" + building + "' and r.room='" + room + "') ";
+            stm = connection.createStatement();
+            ArrayList<RoomTimeTable> result = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    RoomTimeTable roomTimeTable = new RoomTimeTable();
+                    roomTimeTable.setDay(rst.getString("day"));
+                    roomTimeTable.setTagName(rst.getString(TAG_NAME));
+                    roomTimeTable.setSubName(rst.getString(SUB_NAME));
+                    roomTimeTable.setTimeString(rst.getString("timeString"));
+                    roomTimeTable.setMainGroupId(rst.getString(GROUP_ID));
+                    roomTimeTable.setSubGroupId(rst.getString(SUBGROUP_ID));
+                    roomTimeTable.setSubCode(rst.getString(SUB_ID));
+                    roomTimeTable.setSessionId(rst.getString("sessionId"));
+                    result.add(roomTimeTable);
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public ArrayList<ParallelSession> getParalleSessions(String id) throws SQLException {
-        String SQL = "select sb.subName,ta.tagName,sb.subId,s.sessionId,sb.subName,mg.groupId,s.subgroupid,s.category " +
-                "from Session s,Subject sb ,tag ta,maingroup mg " +
-                "where  sb.subId = s.subjectId and ta.tagid=s.tagId and s.isParallel='Yes' " +
-                "and s.groupId=mg.id ";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        ArrayList<ParallelSession> result = new ArrayList<>();
-        while (rst.next()) {
-            ParallelSession roomTimeTable = new ParallelSession();
-            roomTimeTable.setSessionId(Integer.parseInt(rst.getString("sessionId")));
-            roomTimeTable.setCategory(rst.getString("category"));
-            roomTimeTable.setGroupId(rst.getString("groupId"));
-            roomTimeTable.setSubgroupid(rst.getString("subgroupid"));
-            roomTimeTable.setTagName(rst.getString("tagName"));
-            roomTimeTable.setSubjectName(rst.getString("subName"));
-            result.add(roomTimeTable);
+        Statement stm = null;
+        try {
+            String sql = "select sb.subName,ta.tagName,sb.subId,s.sessionId,sb.subName,mg.groupId,s.subgroupid,s.category " +
+                    "from Session s,Subject sb ,tag ta,maingroup mg " +
+                    "where  sb.subId = s.subjectId and ta.tagid=s.tagId and s.isParallel='Yes' " +
+                    "and s.groupId=mg.id ";
+            stm = connection.createStatement();
+            ArrayList<ParallelSession> result = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    ParallelSession roomTimeTable = new ParallelSession();
+                    roomTimeTable.setSessionId(Integer.parseInt(rst.getString("sessionId")));
+                    roomTimeTable.setCategory(rst.getString("category"));
+                    roomTimeTable.setGroupId(rst.getString(GROUP_ID));
+                    roomTimeTable.setSubgroupid(rst.getString(SUBGROUP_ID));
+                    roomTimeTable.setTagName(rst.getString(TAG_NAME));
+                    roomTimeTable.setSubjectName(rst.getString(SUB_NAME));
+                    result.add(roomTimeTable);
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public String getResult() throws SQLException {
-        String SQL = "select orderId from parrellSessions order by 1 desc limit 1";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("orderId");
+        Statement stm = null;
+        try {
+            String sql = "select orderId from parrellSessions order by 1 desc limit 1";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString("orderId");
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
+
     }
 
     @Override
     public boolean addParallelSessions(ParallelSession p, String orderID) throws SQLException {
-        String SQL = "Insert into parrellSessions values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, p.getSessionId());
-        stm.setObject(3, orderID);
-        int res = stm.executeUpdate();
-        return res > 0;
+        String sql = "Insert into parrellSessions values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, p.getSessionId());
+            stm.setObject(3, orderID);
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public String getParallelSesionOrderNumberAccordingToId(int sessionId) throws SQLException {
-        String SQL = "select orderId from parrellSessions where sessionId='"+sessionId+"'";
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-        String result = "";
-        while (rst.next()) {
-            result = rst.getString("orderId");
+        Statement stm = null;
+        try {
+            String sql = "select orderId from parrellSessions where sessionId='" + sessionId + "'";
+            stm = connection.createStatement();
+            String result = "";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString("orderId");
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
+
     }
 
     @Override
     public boolean saveGroupPdf(String fileBytes, String groupId) throws SQLException {
-        String SQL = "Insert into savegrouptimetable values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, groupId);
-        stm.setObject(3, fileBytes);
-        int res = stm.executeUpdate();
-        return res > 0;
+        String sql = "Insert into savegrouptimetable values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, groupId);
+            stm.setObject(3, fileBytes);
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public String getPdf(String groupId) throws SQLException {
-        String SQL = "select id,file from savegrouptimetable where groupId='"+groupId+"'";
-        System.out.println(SQL);
-        Statement stmtnt = connection.createStatement();
-        ResultSet rst = stmtnt.executeQuery(SQL);
-
-        if(rst.next()){
-            return rst.getString("file");
-        }else{
-            return null;
+        Statement stm = null;
+        try {
+            String sql = "select id,file from savegrouptimetable where groupId='" + groupId + "'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if (rst.next()) {
+                    return rst.getString("file");
+                } else {
+                    return null;
+                }
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-//        while(rst.next()) {
-//            Blob blob = rst.getBlob("file");
-//            arr=blob.getBytes(1, (int)blob.length());
-//            System.out.println(arr);
-//        }
-//        return arr;
 
-//        while (rst.next()) {
-//            result = rst.getString("file").getBytes();;
-//        }
-//        return result;
     }
-
 
 
 }

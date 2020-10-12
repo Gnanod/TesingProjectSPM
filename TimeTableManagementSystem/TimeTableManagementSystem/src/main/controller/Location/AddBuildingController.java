@@ -11,16 +11,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import main.model.Building;
-import main.model.YearAndSemester;
-import main.service.impl.BuildingServiceImpl;
 import main.service.BuildingService;
+import main.service.impl.BuildingServiceImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddBuildingController implements Initializable {
 
@@ -47,6 +47,8 @@ public class AddBuildingController implements Initializable {
 
     private BuildingService buildingService;
     private ArrayList<Building> buildingList = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(AddBuildingController.class.getName());
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -70,7 +72,7 @@ public class AddBuildingController implements Initializable {
                 buildingObj.setCenter(center);
                 txtBuildingAdd.setText("");
                 int duplicateCount  = 0;
-                if (buildingList.size() != 0) {
+                if (!buildingList.isEmpty()) {
                     for (Building b1 : buildingList
                     ) {
                         if (b1.getBuilding().equals(building) && b1.getCenter().equals(center)) {
@@ -91,7 +93,7 @@ public class AddBuildingController implements Initializable {
                         duplicateCount = 0;
                     }
                 } else {
-                    buildingList.add(buildingObj);;
+                    buildingList.add(buildingObj);
                     tblBuilding.getSelectionModel().getTableView().getItems().clear();
                     tblBuilding.setItems(FXCollections.observableArrayList(buildingList));
                 }
@@ -115,7 +117,7 @@ public class AddBuildingController implements Initializable {
     @FXML
     void saveBuildingDetails(ActionEvent event) {
 
-        if (buildingList.size() != 0) {
+        if (!buildingList.isEmpty()) {
             boolean isAdded = false;
             int addedCount = 0;
             for (Building buildingObj : buildingList
@@ -123,7 +125,7 @@ public class AddBuildingController implements Initializable {
                 try {
                     isAdded = this.buildingService.saveBuildings(buildingObj);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    log.log(Level.SEVERE,e.getMessage());
                 }
                 addedCount++;
             }
@@ -182,8 +184,6 @@ public class AddBuildingController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteBuilding(building);
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");

@@ -11,68 +11,95 @@ public class WorkingHoursImpl implements WorkingHoursService {
 
     private Connection connection;
 
-    public WorkingHoursImpl(){
+    public WorkingHoursImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
 
     @Override
     public boolean saveWorkingHours(WorkingHoursPerDay workingHours) throws SQLException {
-        String SQL = "Insert into workingHoursPerDay Values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, workingHours.getWorkingTime());
-        stm.setObject(3, workingHours.getTimeSlot());
-        int res = stm.executeUpdate();
-        return res > 0;
+        String sql = "Insert into workingHoursPerDay Values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, workingHours.getWorkingTime());
+            stm.setObject(3, workingHours.getTimeSlot());
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public ArrayList<WorkingHoursPerDay> getAllWorkingHours() throws SQLException {
-        String SQL = "Select * from workingHoursPerDay";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<WorkingHoursPerDay> list = new ArrayList<>();
-        while(rst.next()){
-            WorkingHoursPerDay workingHoursPerDay = new WorkingHoursPerDay(Integer.parseInt(rst.getString("whpId")),
-                    rst.getString("workingTime"),
-                    rst.getString("timeSlot")
+        Statement stm = null;
+        try {
+            String sql = "Select * from workingHoursPerDay";
+            stm = connection.createStatement();
+            ArrayList<WorkingHoursPerDay> list = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    WorkingHoursPerDay workingHoursPerDay = new WorkingHoursPerDay(Integer.parseInt(rst.getString("whpId")),
+                            rst.getString("workingTime"),
+                            rst.getString("timeSlot")
                     );
-            list.add(workingHoursPerDay);
+                    list.add(workingHoursPerDay);
+                }
+            }
+            return list;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return list;
     }
 
     @Override
     public boolean updateWorkingHours(WorkingHoursPerDay workingHours) throws SQLException {
-        String SQL="Update workingHoursPerDay set workingTime='"+workingHours.getWorkingTime()+"'" +
-                ",timeSlot='"+workingHours.getTimeSlot()+"' where " +
-                " whpId='"+workingHours.getWhpId()+"'";
-        System.out.println(SQL);
-        Statement stm=connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        String sql = "Update workingHoursPerDay set workingTime='" + workingHours.getWorkingTime() + "'" +
+                ",timeSlot='" + workingHours.getTimeSlot() + "' where " +
+                " whpId='" + workingHours.getWhpId() + "'";
+        Statement stm = connection.createStatement();
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean deleteWorkingHours(int key) throws SQLException {
-        String SQL = "Delete From workingHoursPerDay where whpId = '"+key+"'";
+        String sql = "Delete From workingHoursPerDay where whpId = '" + key + "'";
         Statement stm = connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean checkHoursAdded(String selectedType) throws SQLException {
-        String SQL = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("workingId") != null) {
-                result = true;
-            } else {
-                result = false;
+        Statement stm = null;
+        try {
+            String sql = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";
+            stm = connection.createStatement();
+            boolean result = false;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if (rst.next()) {
+                    if (rst.getString("workingId") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
 }

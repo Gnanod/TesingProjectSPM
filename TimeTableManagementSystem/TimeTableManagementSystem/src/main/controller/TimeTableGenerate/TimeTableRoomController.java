@@ -1,4 +1,4 @@
-package main.controller.TimeTableGenerate;
+package main.controller.timetablegenerate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,6 +17,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TimeTableRoomController implements Initializable {
 
@@ -36,21 +38,22 @@ public class TimeTableRoomController implements Initializable {
     private ArrayList<String> buildingName;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding;
-    private PrefTagService prefTagService;
     private TimeTableGenerateService timeTableGenerateService;
-    private static String timeSlot = "";
-    private static double workingHours = 0;
-    private static int workingDaysCount = 0;
+    String timeSlot = "";
+    double workingHours = 0;
+    int workingDaysCount = 0;
+    PrefTagService prefTagService;
     private WorkingDaysService workingDaysService;
-    private static double hourSize = 0;
-    private String[][] lectSession;
+    double hourSize = 0;
+
+    public static final Logger log = Logger.getLogger(TimeTableRoomController.class.getName());
 
     public int getCountOfWorkingDays() {
         int countWorkingDays = 0;
         try {
             countWorkingDays = workingDaysService.getCountOfWorkingDays();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return countWorkingDays;
     }
@@ -60,7 +63,7 @@ public class TimeTableRoomController implements Initializable {
         try {
             workingTime = workingDaysService.getWorkingTime();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return workingTime;
     }
@@ -70,13 +73,14 @@ public class TimeTableRoomController implements Initializable {
         try {
             type = workingDaysService.getWorkingTimeType();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return type;
     }
 
     @FXML
     void generateTimeTable(ActionEvent event) {
+        String[][] lectSession;
         String center = cmbCenter.getValue();
         String building = txtBuildingOpt1.getText();
         String room = txtRoom.getText();
@@ -84,24 +88,24 @@ public class TimeTableRoomController implements Initializable {
         workingHours = this.getWorkingTime();
         workingDaysCount = this.getCountOfWorkingDays();
 
-        if(!center.isEmpty()){
-            if(!building.isEmpty()){
-                if(!room.isEmpty()){
+        if (!center.isEmpty()) {
+            if (!building.isEmpty()) {
+                if (!room.isEmpty()) {
                     try {
-                        ArrayList<RoomTimeTable> list = this.timeTableGenerateService.getTimeTableForRoom(center,building,room);
-                        if(list.size()!=0){
+                        ArrayList<RoomTimeTable> list = this.timeTableGenerateService.getTimeTableForRoom(center, building, room);
+                        if (!list.isEmpty()) {
                             String[][] timeString = this.getStringArray();
                             lectSession = new String[workingDaysCount][(int) hourSize];
-                            for (RoomTimeTable rm:list
-                                 ) {
+                            for (RoomTimeTable rm : list
+                            ) {
                                 int dayNumber = getDayNumber(rm.getDay());
-                                String groupId="";
-                                if(rm.getSubGroupId()!=null){
+                                String groupId = "";
+                                if (rm.getSubGroupId() != null) {
                                     groupId = this.timeTableGenerateService.getSubGroupId(Integer.parseInt(rm.getSubGroupId()));
-                                }else{
+                                } else {
                                     groupId = this.timeTableGenerateService.getMainGroupId(Integer.parseInt(rm.getMainGroupId()));
                                 }
-                                String lecture ="";
+                                String lecture = "";
                                 ArrayList<String> lecturerNames = this.timeTableGenerateService.getLecturerNamesAccordingTo(rm.getSessionId().trim());
                                 StringBuilder sb = new StringBuilder();
                                 for (String lec : lecturerNames
@@ -113,7 +117,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + lecture+ "\n" +groupId;
+                                                    rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -121,7 +125,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + lecture+"\n"+groupId;
+                                                    rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -129,7 +133,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + lecture+"\n"+groupId;
+                                                    rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -137,7 +141,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() +
-                                                    "\n(" + rm.getTagName() + ")\n" + lecture+"\n"+groupId;
+                                                    "\n(" + rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -145,7 +149,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + lecture+"\n"+groupId;
+                                                    rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -153,7 +157,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + lecture+"\n"+groupId;
+                                                    rm.getTagName() + ")\n" + lecture + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -161,7 +165,7 @@ public class TimeTableRoomController implements Initializable {
                                     for (int i = 0; i < hourSize; i++) {
                                         if (rm.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
                                             String session = rm.getSubCode() + "\n" + rm.getSubName() + "\n(" +
-                                                    rm.getTagName() + ")\n" + rm.getRomm()+"\n"+groupId;
+                                                    rm.getTagName() + ")\n" + rm.getRomm() + "\n" + groupId;
                                             lectSession[dayNumber][i] = session;
                                         }
                                     }
@@ -184,7 +188,7 @@ public class TimeTableRoomController implements Initializable {
                             al.setHeaderText(null);
                             al.showAndWait();
 
-                        }else{
+                        } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);
                             al.setContentText("Any Time Table Not Found For This Room");
@@ -192,23 +196,23 @@ public class TimeTableRoomController implements Initializable {
                             al.showAndWait();
                         }
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.log(Level.SEVERE, e.getMessage());
                     }
-                }else{
+                } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
                     al.setContentText("Room field is empty!");
                     al.setHeaderText(null);
                     al.showAndWait();
                 }
-            }else{
+            } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Buidling field is empty!");
                 al.setHeaderText(null);
                 al.showAndWait();
             }
-        }else{
+        } else {
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
             al.setContentText("Center field is empty!");
@@ -220,8 +224,7 @@ public class TimeTableRoomController implements Initializable {
     public String[][] getStringArray() {
         timeSlot = this.getWorkingTimeType();
         workingHours = this.getWorkingTime();
-        workingDaysCount = this.getCountOfWorkingDays();;
-
+        workingDaysCount = this.getCountOfWorkingDays();
         hourSize = 0;
         if (timeSlot.equals("One Hour")) {
             hourSize = workingHours;
@@ -251,7 +254,7 @@ public class TimeTableRoomController implements Initializable {
                 } else {
                     if (minutCount != 30) {
                         if (hoursCount < 10) {
-                            tempTime = "0" + hoursCount + ":" + minutCount + "0";;
+                            tempTime = "0" + hoursCount + ":" + minutCount + "0";
                         } else {
                             tempTime = hoursCount + ":" + minutCount + "0";
                         }
@@ -273,7 +276,7 @@ public class TimeTableRoomController implements Initializable {
                         if (hoursCount < 10) {
                             timeString[i][j] = tempTime + "-0" + hoursCount + ":" + minutCount + "0";
                         } else {
-                            timeString[i][j] = tempTime + "-" + hoursCount + ":" + minutCount + "0";;
+                            timeString[i][j] = tempTime + "-" + hoursCount + ":" + minutCount + "0";
                         }
 
                     } else {
@@ -302,11 +305,11 @@ public class TimeTableRoomController implements Initializable {
         } else if (day.equalsIgnoreCase("Wednesday")) {
             number = 2;
         } else if (day.equalsIgnoreCase("Thursday")) {
-            number = 3;;
+            number = 3;
         } else if (day.equalsIgnoreCase("Friday")) {
             number = 4;
         } else if (day.equalsIgnoreCase("Saturday")) {
-            number = 5;;
+            number = 5;
         } else if (day.equalsIgnoreCase("Sunday")) {
             number = 6;
         }
@@ -319,8 +322,6 @@ public class TimeTableRoomController implements Initializable {
         String center = cmbCenter.getValue();
         try {
             BuildingService buildingService = new BuildingServiceImpl();
-            ;
-
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
 
             buildingName = new ArrayList<>();
@@ -329,13 +330,13 @@ public class TimeTableRoomController implements Initializable {
             ) {
                 buildingName.add(building.getBuilding());
             }
-            if(autoCompletionBinding!=null){
+            if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
             }
-            autoCompletionBinding  = TextFields.bindAutoCompletion(txtBuildingOpt1, buildingName);
+            autoCompletionBinding = TextFields.bindAutoCompletion(txtBuildingOpt1, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE, ex.getMessage());
         }
     }
 
@@ -357,7 +358,7 @@ public class TimeTableRoomController implements Initializable {
             autoCompletionBinding2 = TextFields.bindAutoCompletion(txtRoom, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE, ex.getMessage());
         }
     }
 

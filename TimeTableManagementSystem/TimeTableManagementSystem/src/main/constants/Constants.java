@@ -2,7 +2,10 @@ package main.constants;
 
 public class Constants {
 
-    public final  static String QUERY_ACADEMIC_YEAR=" create table academicYearAndSemester(" +
+    private Constants() {
+    }
+
+    public static final String QUERY_ACADEMIC_YEAR=" create table academicYearAndSemester(" +
                                                     "id int not null auto_increment," +
                                                     "yearName varchar(100)not null ," +
                                                     "semesterName varchar (100) not null," +
@@ -10,5 +13,5 @@ public class Constants {
                                                     "constraint primary key(id)" +
                                                     ");";
 
-    public final static String PROFESSOR ="Professor";
+    public static final String PROFESSOR ="Professor";
 }

@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PnlLecturerController implements Initializable {
 
@@ -25,6 +27,8 @@ public class PnlLecturerController implements Initializable {
 
     @FXML
     private BorderPane pnlStudent;
+
+    public static final Logger log = Logger.getLogger(PnlLecturerController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -49,7 +53,7 @@ public class PnlLecturerController implements Initializable {
                 pnlStudent.setCenter(root);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -62,7 +66,7 @@ public class PnlLecturerController implements Initializable {
             pnlStudent.setCenter(root);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

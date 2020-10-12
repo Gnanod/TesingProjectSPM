@@ -7,13 +7,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.model.Lecturer;
-import main.model.Session;
 import main.model.SessionDTO;
 import main.service.*;
 import main.service.impl.*;
@@ -31,7 +32,7 @@ public class ViewMainSessionController implements Initializable {
 
     @FXML
     private TextField txtLecturer2;
-    private ArrayList<SessionDTO> sessionDTOS=new ArrayList<>();
+    public static final Logger log = Logger.getLogger(ViewMainSessionController.class.getName());
 
 
     @Override
@@ -58,7 +59,7 @@ public class ViewMainSessionController implements Initializable {
            ArrayList<SessionDTO> arrayList=sessionService.getAllSessions();
             tblGroupCount.setItems(FXCollections.observableArrayList(arrayList));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -89,7 +90,7 @@ public class ViewMainSessionController implements Initializable {
             this.setTableProperties();
             tblGroupCount.setItems(FXCollections.observableArrayList(arrayList));
         }catch (SQLException ex){
-
+            log.log(Level.SEVERE,ex.getMessage());
         }
 
     }

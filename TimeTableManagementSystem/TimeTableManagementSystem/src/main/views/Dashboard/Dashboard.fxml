@@ -16,7 +16,7 @@
           <NumberAxis fx:id="y" label="No of Subjects" side="LEFT" />
         </yAxis>
       </BarChart>
-      <BarChart fx:id="EmployeeChart" layoutX="127.0" layoutY="19.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="NUMBER OF EMPLOYEES FOR FACULTIES">
+      <BarChart fx:id="employeeChart" layoutX="127.0" layoutY="19.0" prefHeight="379.0" prefWidth="596.0" style="-fx-border-color: #800080;" title="NUMBER OF EMPLOYEES FOR FACULTIES">
         <xAxis>
           <CategoryAxis fx:id="yEmp" label="Faculty" side="BOTTOM" />
         </xAxis>

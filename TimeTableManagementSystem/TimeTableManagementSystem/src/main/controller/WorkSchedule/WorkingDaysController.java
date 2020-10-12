@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -57,7 +59,16 @@ public class WorkingDaysController implements Initializable {
     private WorkingDaysService workingDaysService;
     private boolean updateStatus = false;
     private int updateId = 0;
-
+    public static final Logger log = Logger.getLogger(WorkingDaysController.class.getName());
+    private static final String MONDAY="Monday";
+    private static final String TUESDAY="Tuesday";
+    private static final String WEDNESDAY= "Wednesday";
+    private static final String THURSDAY= "Thursday";
+    private static final String FRIDAY= "Friday";
+    private static final String SATURDAY= "Saturday";
+    private static final String SUNDAY= "Sunday";
+    private static final String WEEKEND="Weekends";
+    private static final String WEEKDAY="Weekdays";
     public WorkingDaysController() {
         this.workingDaysService = new WorkingDaysServiceImpl();
     }
@@ -104,29 +115,29 @@ public class WorkingDaysController implements Initializable {
                 String selectedType = "";
                 int noOfDays = Integer.parseInt(cmbNoDays.getValue().toString());
                 if (btnRadioWeekday.isSelected()) {
-                    selectedType = "Weekdays";;
+                    selectedType = WEEKDAY;;
                     if (WeekdaysController.monday) {
-                        updateArrayListDay.add("Monday");
+                        updateArrayListDay.add(MONDAY);
                     }
                     if (WeekdaysController.tuesday) {
-                        updateArrayListDay.add("Tuesday");
+                        updateArrayListDay.add(TUESDAY);
                     }
                     if (WeekdaysController.wednesday) {
-                        updateArrayListDay.add("Wednesday");
+                        updateArrayListDay.add(WEDNESDAY);
                     }
                     if (WeekdaysController.thursday) {
-                        updateArrayListDay.add("Thursday");
+                        updateArrayListDay.add(THURSDAY);
                     }
                     if (WeekdaysController.friday) {
-                        updateArrayListDay.add("Friday");
+                        updateArrayListDay.add(FRIDAY);
                     }
                 } else if (btnRadioWeekEnd.isSelected()) {
-                    selectedType = "Weekends";;
+                    selectedType = WEEKEND;
                     if (WeekendController.saturday) {
-                        updateArrayListDay.add("Saturday");
+                        updateArrayListDay.add(SATURDAY);
                     }
                     if (WeekendController.sunday) {
-                        updateArrayListDay.add("Sunday");
+                        updateArrayListDay.add(SUNDAY);
                     }
                 }
                 WorkingDaysMain workingDaysMain = new WorkingDaysMain(updateId, selectedType, noOfDays);
@@ -159,7 +170,7 @@ public class WorkingDaysController implements Initializable {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -169,29 +180,29 @@ public class WorkingDaysController implements Initializable {
             String selectedType = "";
             int noOfDays = Integer.parseInt(cmbNoDays.getValue().toString());
             if (btnRadioWeekday.isSelected()) {
-                selectedType = "Weekdays";
+                selectedType = WEEKDAY;
                 if (WeekdaysController.monday) {
-                    arrayListDay.add("Monday");
+                    arrayListDay.add(MONDAY);
                 }
                 if (WeekdaysController.tuesday) {
-                    arrayListDay.add("Tuesday");
+                    arrayListDay.add(TUESDAY);
                 }
                 if (WeekdaysController.wednesday) {
-                    arrayListDay.add("Wednesday");
+                    arrayListDay.add(WEDNESDAY);
                 }
                 if (WeekdaysController.thursday) {
-                    arrayListDay.add("Thursday");
+                    arrayListDay.add(THURSDAY);
                 }
                 if (WeekdaysController.friday) {
-                    arrayListDay.add("Friday");
+                    arrayListDay.add(FRIDAY);
                 }
             } else if (btnRadioWeekEnd.isSelected()) {
-                selectedType = "Weekends";
+                selectedType = WEEKEND;
                 if (WeekendController.saturday) {
-                    arrayListDay.add("Saturday");
+                    arrayListDay.add(SATURDAY);
                 }
                 if (WeekendController.sunday) {
-                    arrayListDay.add("Sunday");
+                    arrayListDay.add(SUNDAY);
                 }
             }
             WorkingDaysMain workingDaysMain = new WorkingDaysMain(selectedType, noOfDays);
@@ -230,7 +241,7 @@ public class WorkingDaysController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -250,7 +261,7 @@ public class WorkingDaysController implements Initializable {
                 pnlWorkingDays.setCenter(root);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -265,7 +276,7 @@ public class WorkingDaysController implements Initializable {
                 loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekdays.fxml"));
                 root = loader.load();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE,e.getMessage());
             }
             pnlWorkingDays.setCenter(root);
             cmbNoDays.setItems(WeekdayNumber);
@@ -279,7 +290,7 @@ public class WorkingDaysController implements Initializable {
             ArrayList<WorkingDaysMain> list = this.workingDaysService.getAllNoOfWorkingDays();
             tblWorkingDays.setItems(FXCollections.observableArrayList(list));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -351,8 +362,6 @@ public class WorkingDaysController implements Initializable {
                                     if (result.get() == ButtonType.OK) {
                                         deleteWorkingDay(daysMain.getWorkingId());
                                         getAllDetails();
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -387,14 +396,14 @@ public class WorkingDaysController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
     private void setWorkingDaysMainDetailsToFiled(WorkingDaysMain mainDays) {
         try {
             ArrayList<String> days = this.workingDaysService.getWorkingDaysAccordingId(mainDays.getWorkingId());
-            if (mainDays.getType().equals("Weekends")) {
+            if (mainDays.getType().equals(WEEKEND)) {
                 btnRadioWeekEnd.setSelected(true);
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekends.fxml"));
@@ -406,45 +415,45 @@ public class WorkingDaysController implements Initializable {
                 cmbNoDays.setItems(WeekendNumber);
                 cmbNoDays.setValue(mainDays.getNoOfDays());
                 for (String s : days) {
-                    if (s.equals("Sunday")) {
+                    if (s.equals(SUNDAY)) {
                         weekendController.checkSUN.setSelected(true);
                         weekendController.selectedDays(new ActionEvent());
-                    } else if (s.equals("Saturday")) {
+                    } else if (s.equals(SATURDAY)) {
                         weekendController.checkSAT.setSelected(true);
                         weekendController.selectedDays(new ActionEvent());
                     }
                 }
 
-            } else if (mainDays.getType().equals("Weekdays")) {
+            } else if (mainDays.getType().equals(WEEKDAY)) {
                 btnRadioWeekday.setSelected(true);
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(getClass().getResource("/main/views/WorkSchedule/Weekdays.fxml"));
                 Parent root = loader.load();
-//                Parent root = (Parent) fxmlLoader.load();
+
                 pnlWorkingDays.setCenter(root);
                 cmbNoDays.setItems(WeekdayNumber);
                 cmbNoDays.setValue(mainDays.getNoOfDays());
                 WeekdaysController weekdaysController = loader.getController();
                 for (String s : days) {
-                    System.out.println(s);
-                    if (s.equals("Monday")) {
+
+                    if (s.equals(MONDAY)) {
                         weekdaysController.checkMON.setSelected(true);
-                    } else if (s.equals("Tuesday")) {
+                    } else if (s.equals(TUESDAY)) {
                         weekdaysController.checkTUE.setSelected(true);
-                    } else if (s.equals("Wednesday")) {
+                    } else if (s.equals(WEDNESDAY)) {
                         weekdaysController.checkWED.setSelected(true);
-                    } else if (s.equals("Thursday")) {
+                    } else if (s.equals(THURSDAY)) {
                         weekdaysController.checkTHU.setSelected(true);
-                    } else if (s.equals("Friday")) {
+                    } else if (s.equals(FRIDAY)) {
                         weekdaysController.checkFRI.setSelected(true);
                     }
                 }
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

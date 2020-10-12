@@ -16,10 +16,13 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainController implements Initializable {
 
-    private double x = 0, y = 0;
+    private double x = 0;
+    private double y = 0;
     private Stage stage;
     public static String urlName;
     @FXML
@@ -64,8 +67,10 @@ public class MainController implements Initializable {
     @FXML
     private Button btnTimeTable;
 
-    public MainController() {
+    public static final Logger log = Logger.getLogger(MainController.class.getName());
 
+    public MainController() {
+        //Constructor
     }
 
     @Override
@@ -76,7 +81,7 @@ public class MainController implements Initializable {
         try {
             root = FXMLLoader.load(getClass().getResource("/main/views/Dashboard/Dashboard.fxml"));
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         pnlMain.setCenter(root);
     }
@@ -145,7 +150,7 @@ public class MainController implements Initializable {
                 System.exit(0);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

@@ -11,6 +11,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -45,6 +47,8 @@ public class ProgrammeController implements Initializable {
     private ProgrammeService programmeService;
     private boolean updateStatus = false;
     private int programmeId;
+    public static final Logger log = Logger.getLogger(ProgrammeController.class.getName());
+
     public ProgrammeController() {
         programmeService = new ProgrammeServiceImpl();
 
@@ -114,7 +118,7 @@ public class ProgrammeController implements Initializable {
                     al.showAndWait();
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE,e.getMessage());
             }
 
         } else {
@@ -131,7 +135,7 @@ public class ProgrammeController implements Initializable {
             ArrayList<Programme> list = this.programmeService.getAllDetails();
             tblProgramme.setItems(FXCollections.observableArrayList(list));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -238,7 +242,7 @@ public class ProgrammeController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

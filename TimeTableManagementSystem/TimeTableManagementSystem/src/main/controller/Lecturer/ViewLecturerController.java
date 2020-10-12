@@ -1,7 +1,6 @@
 package main.controller.Lecturer;
 
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
@@ -16,7 +15,6 @@ import javafx.util.Callback;
 import main.model.Building;
 import main.model.Department;
 import main.model.Lecturer;
-import main.model.MainGroup;
 import main.service.BuildingService;
 import main.service.DepartmentService;
 import main.service.LecturerService;
@@ -30,6 +28,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ViewLecturerController implements Initializable {
 
@@ -64,24 +64,28 @@ public class ViewLecturerController implements Initializable {
 
     @FXML
     private TextField txtBuilding;
-    static int empId;
-    static int level;
-    static String center;
-    static String rank;
-    static int dId;
-    static int bId;
+    int empId=0;
+    int level=0;
+    String center ="";
+    String rank="";
+    int dId=0;
+    int bId=0;
+    int dCount=0;
+    int bCount=0;
     private ArrayList<Department> departmentsId = new ArrayList<>();
     private ArrayList<String> departmentName = new ArrayList<>();
     private ArrayList<Building> buildingsId = new ArrayList<>();
     private ArrayList<String> buildingName = new ArrayList<>();
     private ObservableList<String> designationList= FXCollections.observableArrayList("Professor","Assistant Professor","Senior Lecturer(HG)","Senior Lecturer","Lecturer","Assistant Lecturer","Instructors");
     private ObservableList<String> centerList= FXCollections.observableArrayList("Malabe","Metro","Kurunegala","Kandy","Matara","SLIIT Academy","Jaffna");
+    public static final Logger log = Logger.getLogger(MainGroupController.class.getName());
+
 
     @FXML
     void getDesignation(ActionEvent event) {
 
         String designation=txtDesignation.getValue();
-        System.out.println(designation);
+
         if(designation.equalsIgnoreCase("Professor")){
             level=1;
         }else if(designation.equalsIgnoreCase("Assistant Professor")){
@@ -96,8 +100,6 @@ public class ViewLecturerController implements Initializable {
             level=6;
         }else if(designation.equalsIgnoreCase("Instructors")){
             level=7;
-        }else{
-
         }
         rank=level+"."+empId;
     }
@@ -110,12 +112,11 @@ public class ViewLecturerController implements Initializable {
             String empName=txtName.getText();
             String faculty=txtFaculty.getText();
             String department=txtDepartment.getText();
-            String center=txtCenter.getValue();
+            String center1=txtCenter.getValue();
             String building=txtBuilding.getText();
             String designation=txtDesignation.getValue();
-            System.out.println(designation);
-            int dCount=0;
-            int bCount=0;
+
+
             for (Department department1 : this.departmentsId) {
                 if (department.equals(department1.getDepartmentName())) {
                     dId = department1.getDepartmentId();
@@ -128,7 +129,7 @@ public class ViewLecturerController implements Initializable {
                     bCount++;
                 }
             }
-            System.out.println(bId);
+
 
             if(!empName.equalsIgnoreCase("")){
                 if(!faculty.equalsIgnoreCase("")){
@@ -136,11 +137,11 @@ public class ViewLecturerController implements Initializable {
                         if(!center.equalsIgnoreCase("")){
                             if(!building.equalsIgnoreCase("")){
                                 if(!designation.equalsIgnoreCase("")){
-                                    Lecturer lecturer=new Lecturer(empId,empName,faculty,dId,center,designation,bId,level,rank);
+                                    Lecturer lecturer=new Lecturer(empId,empName,faculty,dId,center1,designation,bId,level,rank);
 
                                     LecturerService lecturerService=new LectureServiceImpl();
                                     boolean res =lecturerService.updateLecturer(lecturer);
-                                    if(res==true){
+                                    if(res){
                                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                         alert.setTitle(null);
                                         alert.setHeaderText(null);
@@ -211,7 +212,7 @@ public class ViewLecturerController implements Initializable {
                 al.showAndWait();
             }
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
 
     }
@@ -238,14 +239,10 @@ public class ViewLecturerController implements Initializable {
         try {
             LecturerService lecturerService=new LectureServiceImpl();
             ArrayList<Lecturer> list = lecturerService.getAllLecturerDetails();
-            for (Lecturer str : list)
-            {
-                System.out.println(str.getEmpId());
-                System.out.println(str.getEmpName());
-            }
+
             tblMainGroup.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     Callback<TableColumn<Lecturer, Boolean>, TableCell<Lecturer, Boolean>> cellFactoryBtnEdit =
@@ -284,9 +281,9 @@ public class ViewLecturerController implements Initializable {
                                 m.setDepartmentName(departmentService.searchDepartmentName(m.getDepartment()));
                                 BuildingService buildingService=new BuildingServiceImpl();
                                 m.setBuildingName(buildingService.searchBuildingName(m.getBuilding()));
-                                System.out.println(m.getDepartmentName());
+
                             }catch (SQLException ex){
-                                ex.printStackTrace();
+                                log.log(Level.SEVERE,ex.getMessage());
                             }
                             txtDepartment.setText(m.getDepartmentName());
                             txtCenter.setValue(m.getCenter());
@@ -323,8 +320,6 @@ public class ViewLecturerController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteLecturer(lecturer.getEmpId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -341,14 +336,14 @@ public class ViewLecturerController implements Initializable {
             };
 
     public void deleteLecturer(int id) {
-        System.out.println(id);
+
         try{
             LecturerService lecturerService=new LectureServiceImpl();
             lecturerService.deleteLecturerDetails(id);
             this.setTableProperties();
             getAllLecturers();
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
     public void setDesignation(){
@@ -367,7 +362,7 @@ public class ViewLecturerController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtDepartment, departmentName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     @FXML
@@ -375,7 +370,7 @@ public class ViewLecturerController implements Initializable {
         buildingName.clear();
         buildingsId.clear();
         String center1=txtCenter.getValue();
-        System.out.print(center1);
+
         try{
             BuildingService buildingService=new BuildingServiceImpl();
             ArrayList<Building> list =buildingService.searchBuildingDetailsByCenter(center1);
@@ -383,12 +378,12 @@ public class ViewLecturerController implements Initializable {
             ) {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
-                System.out.println("Hi"+building.getBuilding());
+
             }
             TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
 
     }

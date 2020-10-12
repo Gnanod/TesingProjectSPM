@@ -8,6 +8,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SessionMainController {
 
@@ -19,6 +21,8 @@ public class SessionMainController {
 
     @FXML
     private BorderPane pnlMain;
+
+    public static final Logger log = Logger.getLogger(SessionMainController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -39,7 +43,7 @@ public class SessionMainController {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

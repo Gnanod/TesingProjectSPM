@@ -10,7 +10,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import main.model.Building;
 import main.model.PrefReserved;
-import main.model.PrefTag;
 import main.model.Room;
 import main.service.BuildingService;
 import main.service.PrefReservedService;
@@ -30,6 +29,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefReservedController implements Initializable {
 
@@ -54,16 +55,17 @@ public class AddPrefReservedController implements Initializable {
     @FXML
     private Button btnReservedOptions;
 
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
-    private ArrayList<Room> roomsId = new ArrayList<>();
-    private ArrayList<String> roomName = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Room> roomsId = new ArrayList<>();
+    ArrayList<String> roomName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
-    private String curTime;
 
+    public static final Logger log = Logger.getLogger(AddPrefReservedController.class.getName());
     private PrefReservedService prefReservedService;
     private PrefTagService prefTagService;
+
 
     public AddPrefReservedController() {
         this.prefReservedService = new PrefReservedServiceImpl();
@@ -73,7 +75,7 @@ public class AddPrefReservedController implements Initializable {
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.println("ccccccccccccc:"+center);
+
         try {
             BuildingService buildingService = new BuildingServiceImpl();
 
@@ -87,17 +89,14 @@ public class AddPrefReservedController implements Initializable {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
             }
-            for (String building : buildingName
-            ) {
-                System.out.println(building);
-            }
+
             if(autoCompletionBinding!=null){
                 autoCompletionBinding.dispose();
             }
             autoCompletionBinding  = TextFields.bindAutoCompletion(txtBuildingOpt1, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -124,13 +123,13 @@ public class AddPrefReservedController implements Initializable {
             autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void saveReservedRoom(ActionEvent event) throws SQLException {
-        System.out.println("wwwww");
+
         String center = (String) cmbCenter.getValue();
         String building = txtBuildingOpt1.getText();
         String room = txtRoomOpt1.getText();
@@ -193,7 +192,7 @@ public class AddPrefReservedController implements Initializable {
                             al.setContentText("Added Successfully  !!");
                             al.setHeaderText(null);
                             al.showAndWait();
-//                            this.getAllDetails();
+
                         } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);
@@ -249,6 +248,7 @@ public class AddPrefReservedController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        String curTime;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         curTime = dtf.format(now);

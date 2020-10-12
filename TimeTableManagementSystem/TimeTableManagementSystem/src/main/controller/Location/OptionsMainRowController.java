@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class OptionsMainRowController implements Initializable {
 
@@ -35,6 +37,8 @@ public class OptionsMainRowController implements Initializable {
 
     @FXML
     private Button btnSessionOptions;
+
+    public static final Logger log = Logger.getLogger(OptionsMainRowController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -82,7 +86,7 @@ public class OptionsMainRowController implements Initializable {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -96,7 +100,7 @@ public class OptionsMainRowController implements Initializable {
             Parent root = loader.load();
             pnlMainOptions.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }

@@ -5,24 +5,21 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import com.jfoenix.controls.JFXTimePicker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import main.model.Department;
 import main.model.MainGroup;
 import main.model.NotAvailableGroup;
 import main.model.SubGroup;
@@ -68,8 +65,9 @@ public class NotAvailableGroupController implements Initializable {
     private List<String> groupNameList;
     private List<Object> groupList;
     private AutoCompletionBinding<String> autoCompletionBinding;
-    private MainGroupService groupService;
+    MainGroupService groupService;
     private String curTime;
+    public static final Logger log = Logger.getLogger(NotAvailableGroupController.class.getName());
 
     @FXML
     void loadGroupDetails() {
@@ -95,7 +93,7 @@ public class NotAvailableGroupController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroupId, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -104,8 +102,7 @@ public class NotAvailableGroupController implements Initializable {
         String day = (String) cmbDate.getValue();
         String getToTime = toTime.getValue().toString();
         String getFromTime = fromTime.getValue().toString();
-        System.out.println("ToTime"+getToTime);
-        System.out.println("FromTime"+getFromTime);
+
         String groupId = txtGroupId.getText();
         NotAvailableGroup nag = new NotAvailableGroup();
         String selectedBtn = "";
@@ -115,8 +112,7 @@ public class NotAvailableGroupController implements Initializable {
         if(btnRadioSub.isSelected()){
             selectedBtn="SubGroupId";
         }
-        System.out.println("GGGToTime"+getToTime);
-        System.out.println("GGGFromTime"+getFromTime);
+
         if (!day.isEmpty()) {
             if (!getToTime.isEmpty()) {
                 if (!getFromTime.isEmpty()) {
@@ -124,20 +120,18 @@ public class NotAvailableGroupController implements Initializable {
                         int count = 0;
                             for (Object m : this.groupList
                             ) {
-                                if (m instanceof MainGroup) {
-                                    if (groupId.equals(((MainGroup) m).getGroupid())) {
+                                if (m instanceof MainGroup && groupId.equals(((MainGroup) m).getGroupid())) {
                                         nag.setMainGroupId(((MainGroup) m).getId());
                                         nag.setSubGroupId(0);
                                         count++;
 
-                                    }
+
                                 }
-                                if (m instanceof SubGroup) {
-                                    if (groupId.equals(((SubGroup) m).getSubgroupid())) {
+                                if (m instanceof SubGroup && groupId.equals(((SubGroup) m).getSubgroupid())) {
                                         nag.setSubGroupId(((SubGroup) m).getId());
                                         nag.setMainGroupId(0);
                                         count++;
-                                    }
+
                                 }
                             }
                             if (count != 0) {
@@ -148,11 +142,10 @@ public class NotAvailableGroupController implements Initializable {
                                 boolean status = false;
                                 try {
                                     status = this.mainGroupservice.addNotAvailableGroup(nag);
-                                } catch (SQLException e) {
-                                    e.printStackTrace();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                                } catch (SQLException|ParseException e) {
+                                    log.log(Level.SEVERE,e.getMessage());
                                 }
+
                                 if(status){
                                     Alert al = new Alert(Alert.AlertType.INFORMATION);
                                     al.setTitle(null);
@@ -227,7 +220,7 @@ public class NotAvailableGroupController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroupId, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -255,7 +248,7 @@ public class NotAvailableGroupController implements Initializable {
             ArrayList<NotAvailableGroup> nvg = this.mainGroupservice.getAllNotAvailableGroupDetails(groupId);
             tblNotAvailable.setItems(FXCollections.observableArrayList(nvg));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -292,8 +285,6 @@ public class NotAvailableGroupController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteNotAvailableGroup(dept.getId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -328,7 +319,7 @@ public class NotAvailableGroupController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

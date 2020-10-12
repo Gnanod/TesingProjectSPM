@@ -8,27 +8,26 @@ import javafx.scene.control.CheckBox;
 
 public class WeekdaysController {
 
-    public WeekdaysController() {
-    }
 
     @FXML
-    public  CheckBox checkMON;
+    public CheckBox checkMON;
     @FXML
-    public  CheckBox checkTUE;
+    public CheckBox checkTUE;
     @FXML
-    public  CheckBox checkWED;
+    public CheckBox checkWED;
     @FXML
-    public  CheckBox checkTHU;
+    public CheckBox checkTHU;
     @FXML
-    public  CheckBox checkFRI;
+    public CheckBox checkFRI;
 
 
-    public static boolean monday = false;
-    public static boolean tuesday = false;
-    public static boolean wednesday = false;
-    public static boolean thursday = false;
-    public static boolean friday = false;
-    public static int count;
+    static boolean monday = false;
+    static boolean tuesday = false;
+    static boolean wednesday = false;
+    static boolean thursday = false;
+    static boolean friday = false;
+    static int count = 0;
+
 
     @FXML
     public void selectedDays(ActionEvent event) {
@@ -36,61 +35,34 @@ public class WeekdaysController {
         if (checkMON.isSelected()) {
             monday = true;
             count++;
-        }else{
-            monday=false;
+        } else {
+            monday = false;
         }
         if (checkTUE.isSelected()) {
-            System.out.println("tuesday is selected");
             tuesday = true;
             count++;
-        }else{
-            tuesday=false;
+        } else {
+            tuesday = false;
         }
         if (checkWED.isSelected()) {
-            System.out.println("wednesday is selected");
             wednesday = true;
             count++;
-        }else{
-            wednesday=false;
+        } else {
+            wednesday = false;
         }
         if (checkTHU.isSelected()) {
-            System.out.println("thursday is selected");
             thursday = true;
             count++;
-        }else{
-            thursday=false;
+        } else {
+            thursday = false;
         }
         if (checkFRI.isSelected()) {
-            System.out.println("friday is selected");
             friday = true;
             count++;
-        }else{
-            friday=false;
+        } else {
+            friday = false;
         }
     }
-
-//    public static void updateCheckStatus() {
-//        if (monday) {
-////            checkMON=new CheckBox();
-//            checkMON.setSelected(true);
-//        }
-//        if (tuesday) {
-////            checkTUE=new CheckBox();
-//            checkTUE.setSelected(true);
-//        }
-//        if (wednesday) {
-//            checkWED = new CheckBox();
-//            checkWED.setSelected(true);
-//        }
-//        if (thursday) {
-//            checkTHU = new CheckBox();
-//            checkTHU.setSelected(true);
-//        }
-//        if (friday) {
-//            checkFRI = new CheckBox();
-//            checkFRI.setSelected(true);
-//        }
-//    }
 
 }
 

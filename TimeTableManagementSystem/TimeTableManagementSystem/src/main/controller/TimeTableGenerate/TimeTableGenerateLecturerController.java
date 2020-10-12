@@ -1,4 +1,4 @@
-package main.controller.TimeTableGenerate;
+package main.controller.timetablegenerate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,39 +15,50 @@ import main.service.impl.TimeTableGenerateServiceImpl;
 import main.service.impl.WorkingDaysServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TimeTableGenerateLecturerController implements Initializable {
 
-    @FXML
-    private Button btnGenerate;
-
-    @FXML
-    private ComboBox<?> LecType;
 
     @FXML
     private TextField txtSubID;
 
-    @FXML
-    private TableView<?> tblTimeTable;
+    public static final String MONDAY ="Monday";
+    public static final String TUESDAY ="Tuesday";
+    public static final String WEDNESDAY ="Wednesday";
+    public static final String THURSDAY ="Thursday";
+    public static final String FRIDAY ="Friday";
+    public static final String SATURDAY ="Saturday";
+    public static final String SUNDAY ="Sunday";
 
     private LecturerService lectureService;
     private AutoCompletionBinding<String> autoCompletionBinding;
     private List<String> lecNameList;
-    private List<main.model.Lecturer> lecObj;
-    private String curTime;
     private TimeTableGenerateService timeTableGenerateService;
     private WorkingDaysService workingDaysService;
-    private static String timeSlot = "";
-    private static double workingHours = 0;
-    private static int workingDaysCount = 0;
-    private static double hourSize = 0;
-    private String[][] lectSession;
+    String timeSlot = "";
+    double workingHours = 0;
+    int workingDaysCount = 0;
+    double hourSize = 0;
+    public static final Logger log = Logger.getLogger(TimeTableGenerateLecturerController.class.getName());
+    String[][] lectSession;
 
+    public void assignSession(LecturerTimeTable lec,int dayNumber,String groupId,String [][]timeString){
+        for (int i = 0; i < hourSize; i++) {
+            if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
+                String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
+                        lec.getTagName() + ")\n" + lec.getRomm() + "\n" + groupId;
+                lectSession[dayNumber][i] = session;
+            }
+        }
+    }
 
     @FXML
     void generateTimeTable(ActionEvent event) {
@@ -60,74 +71,18 @@ public class TimeTableGenerateLecturerController implements Initializable {
             workingDaysCount = this.getCountOfWorkingDays();
             try {
                 ArrayList<LecturerTimeTable> lecturerTimeTables = timeTableGenerateService.getLectureTimeTableDetails(lecName);
-                if (lecturerTimeTables.size() != 0) {
+                if (!lecturerTimeTables.isEmpty()) {
                     lectSession = new String[workingDaysCount][(int) hourSize];
                     for (LecturerTimeTable lec : lecturerTimeTables
                     ) {
                         int dayNumber = getDayNumber(lec.getDay());
-                        String groupId="";
-                        if(lec.getSubGroupId()!=null){
+                        String groupId = "";
+                        if (lec.getSubGroupId() != null) {
                             groupId = this.timeTableGenerateService.getSubGroupId(Integer.parseInt(lec.getSubGroupId()));
-                        }else{
+                        } else {
                             groupId = this.timeTableGenerateService.getMainGroupId(Integer.parseInt(lec.getMainGroupId()));
                         }
-                        if (lec.getDay().equalsIgnoreCase("Monday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+ "\n" +groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Tuesday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Wednesday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Thursday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() +
-                                            "\n(" + lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Friday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Saturday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        } else if (lec.getDay().equalsIgnoreCase("Sunday")) {
-                            for (int i = 0; i < hourSize; i++) {
-                                if (lec.getTimeString().equalsIgnoreCase(timeString[dayNumber][i])) {
-                                    String session = lec.getSubCode() + "\n" + lec.getSubName() + "\n(" +
-                                            lec.getTagName() + ")\n" + lec.getRomm()+"\n"+groupId;
-                                    lectSession[dayNumber][i] = session;
-                                }
-                            }
-                        }
+                        assignSession(lec,dayNumber,groupId,timeString);
                     }
                     String[][] swapArray = new String[(int) hourSize][workingDaysCount];
                     String[][] swapArrayTime = new String[(int) hourSize][workingDaysCount];
@@ -144,7 +99,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
                     al.setContentText("Time Table Is Generated");
                     al.setHeaderText(null);
                     al.showAndWait();
-                }else{
+                } else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
                     al.setContentText("Any Time Table Not Found For This Lecturer");
@@ -154,7 +109,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
 
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE, e.getMessage());
             }
         } else {
             Alert al = new Alert(Alert.AlertType.ERROR);
@@ -172,7 +127,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
         try {
             countWorkingDays = workingDaysService.getCountOfWorkingDays();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return countWorkingDays;
     }
@@ -182,7 +137,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
         try {
             workingTime = workingDaysService.getWorkingTime();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return workingTime;
     }
@@ -192,7 +147,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
         try {
             type = workingDaysService.getWorkingTimeType();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return type;
     }
@@ -275,48 +230,44 @@ public class TimeTableGenerateLecturerController implements Initializable {
     private String getDay(int i) {
         String day = "";
         if (i == 0) {
-            day = "Monday";
+            day = MONDAY;
         } else if (i == 1) {
-            day = "Tuesday";
+            day = TUESDAY;
         } else if (i == 2) {
-            day = "Wednesday";
+            day = WEDNESDAY;
         } else if (i == 3) {
-            day = "Thursday";
+            day = THURSDAY;
         } else if (i == 4) {
-            day = "Friday";
+            day = FRIDAY;
         } else if (i == 5) {
-            day = "Staurday";
+            day = SATURDAY;
         } else if (i == 6) {
-            day = "Sunday";
+            day = SUNDAY;
         }
         return day;
     }
 
     public int getDayNumber(String day) {
         int number = 0;
-        if (day.equalsIgnoreCase("Monday")) {
+        if (day.equalsIgnoreCase(MONDAY)) {
             number = 0;
-        } else if (day.equalsIgnoreCase("Tuesday")) {
+        } else if (day.equalsIgnoreCase(TUESDAY)) {
             number = 1;
-        } else if (day.equalsIgnoreCase("Wednesday")) {
+        } else if (day.equalsIgnoreCase(WEDNESDAY)) {
             number = 2;
-        } else if (day.equalsIgnoreCase("Thursday")) {
+        } else if (day.equalsIgnoreCase(THURSDAY)) {
             number = 3;
-        } else if (day.equalsIgnoreCase("Friday")) {
+        } else if (day.equalsIgnoreCase(FRIDAY)) {
             number = 4;
-        } else if (day.equalsIgnoreCase("Saturday")) {
+        } else if (day.equalsIgnoreCase(SATURDAY)) {
             number = 5;
-        } else if (day.equalsIgnoreCase("Sunday")) {
+        } else if (day.equalsIgnoreCase(SUNDAY)) {
             number = 6;
         }
         return number;
     }
 
 
-    @FXML
-    void setText(ActionEvent event) {
-
-    }
 
 
     @Override
@@ -338,7 +289,7 @@ public class TimeTableGenerateLecturerController implements Initializable {
             autoCompletionBinding = TextFields.bindAutoCompletion(txtSubID, lecNameList);
             TextFields.bindAutoCompletion(txtSubID, lecNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
 
     }

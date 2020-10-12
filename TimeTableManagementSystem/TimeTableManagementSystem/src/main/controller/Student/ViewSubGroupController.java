@@ -11,15 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import main.model.MainGroup;
 import main.model.SubGroup;
-import main.model.SubGroupCount;
 import main.service.SubGroupService;
 import main.service.impl.SubGroupServiceImpl;
 
@@ -49,6 +49,7 @@ public class ViewSubGroupController implements Initializable {
 
     private SubGroupService subGroupService;
     private int id;
+    public static final Logger log = Logger.getLogger(ViewSubGroupController.class.getName());
 
     public ViewSubGroupController() {
         this.subGroupService = new SubGroupServiceImpl();
@@ -112,7 +113,7 @@ public class ViewSubGroupController implements Initializable {
                             al.showAndWait();
                         }
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.log(Level.SEVERE,e.getMessage());
                     }
                 }else{
                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -170,7 +171,7 @@ public class ViewSubGroupController implements Initializable {
             ArrayList<SubGroup> list = this.subGroupService.getAllSubGroupDetails(id);
             tblGroupNumber.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -243,8 +244,6 @@ public class ViewSubGroupController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteSubGroup(subGroup.getId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -281,7 +280,7 @@ public class ViewSubGroupController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

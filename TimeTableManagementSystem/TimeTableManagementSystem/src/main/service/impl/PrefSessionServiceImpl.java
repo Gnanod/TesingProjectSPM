@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+
 public class PrefSessionServiceImpl implements PrefSessionService {
 
     private Connection connection;
@@ -17,13 +18,17 @@ public class PrefSessionServiceImpl implements PrefSessionService {
 
     @Override
     public boolean savePrefSessionRoom(PrefSession prefSession) throws SQLException {
-        String SQL = "Insert into  PrefRoomSession Values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, prefSession.getSessionId());
-        stm.setObject(3, prefSession.getRoomId());
+        String sql = "Insert into  PrefRoomSession Values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, prefSession.getSessionId());
+            stm.setObject(3, prefSession.getRoomId());
 
-        int res = stm.executeUpdate();
-        return res > 0;
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 }

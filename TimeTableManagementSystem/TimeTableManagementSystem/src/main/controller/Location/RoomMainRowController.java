@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RoomMainRowController implements Initializable {
 
@@ -26,6 +28,8 @@ public class RoomMainRowController implements Initializable {
 
     @FXML
     private BorderPane pnlMainRoom;
+
+    public static final Logger log = Logger.getLogger(RoomMainRowController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -53,7 +57,7 @@ public class RoomMainRowController implements Initializable {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -67,7 +71,7 @@ public class RoomMainRowController implements Initializable {
             Parent root = loader.load();
             pnlMainRoom.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

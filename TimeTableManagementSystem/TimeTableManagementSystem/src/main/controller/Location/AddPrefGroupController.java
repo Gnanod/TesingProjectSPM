@@ -10,12 +10,13 @@ import main.service.impl.*;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefGroupController implements Initializable {
 
@@ -41,10 +42,10 @@ public class AddPrefGroupController implements Initializable {
     @FXML
     private Button btnGroupOptions;
 
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
-    private ArrayList<Room> roomsId = new ArrayList<>();
-    private ArrayList<String> roomName = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Room> roomsId = new ArrayList<>();
+    ArrayList<String> roomName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private MainGroupService mainGroupservice;
@@ -55,6 +56,7 @@ public class AddPrefGroupController implements Initializable {
     private PrefGroupService prefGroupService;
     private PrefTagService prefTagService;
     Boolean status;
+    public static final Logger log = Logger.getLogger(AddPrefGroupController.class.getName());
 
     public AddPrefGroupController() {
         this.prefGroupService = new PrefGroupServiceImpl();
@@ -69,11 +71,10 @@ public class AddPrefGroupController implements Initializable {
     void loadGroupDetails() {
         if (btnRadioMain.isSelected()) {
             status = true;
-            System.out.println("btnRadioMain");
             loadMainGroupDetails();
+
         } else if (btnRadioSub.isSelected()) {
             status = false;
-            System.out.println("btnRadioSub");
             loadSubGroupDetails();
         }
     }
@@ -93,14 +94,14 @@ public class AddPrefGroupController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(textGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
     private void loadSubGroupDetails() {
         try {
             ArrayList<SubGroup> subList = this.subGroupService.getAllSubGroupDetails(0);
-            ;
+
             groupNameList.clear();
             groupList.clear();
             if (autoCompletionBinding != null) {
@@ -113,21 +114,21 @@ public class AddPrefGroupController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(textGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.println("zzzzzzzzz:"+center);
+
         BuildingService buildingService = new BuildingServiceImpl();
 
         ArrayList<Building> list = null;
         try {
             list = buildingService.searchBuildingDetailsByUsingCenter(center);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         buildingsId = new ArrayList<>();
         buildingName = new ArrayList<>();
@@ -137,10 +138,7 @@ public class AddPrefGroupController implements Initializable {
             buildingsId.add(building);
             buildingName.add(building.getBuilding());
         }
-        for (String building : buildingName
-        ) {
-            System.out.println(building);
-        }
+
         if(autoCompletionBinding!=null){
             autoCompletionBinding.dispose();
         }
@@ -151,7 +149,7 @@ public class AddPrefGroupController implements Initializable {
     @FXML
     void getRoom(ActionEvent event) {
         String building = txtBuilding.getText();
-        System.out.println("ddddddddddd:"+building);
+
         try {
             RoomService roomService = new RoomServiceImpl();
 
@@ -171,13 +169,13 @@ public class AddPrefGroupController implements Initializable {
             autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoom, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void saveGroupRoom(ActionEvent event) throws SQLException {
-        System.out.println("wwwww");
+
         String center = (String) cmbCenter.getValue();
         String building = txtBuilding.getText();
         String room = txtRoom.getText();
@@ -189,7 +187,7 @@ public class AddPrefGroupController implements Initializable {
             if(center != null) {
                 if(room != null) {
                     roomId = prefTagService.getRoomId(center, building, room);
-                    System.out.println("wwwwwROOMID:" + roomId);
+
                 }else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
@@ -220,13 +218,11 @@ public class AddPrefGroupController implements Initializable {
         if(group != null) {
             if(status) {
                 groupId = prefGroupService.getGroupMainId(group);
-                System.out.println("wwwwwTAGID:" + groupId);
                 prefGroup.setGroupId(groupId);
                 prefGroup.setSubGroupId(0);
             }
             else{
                 groupId = prefGroupService.getGroupSubId(group);
-                System.out.println("ID:" + groupId);
                 prefGroup.setSubGroupId(groupId);
                 prefGroup.setGroupId(0);
             }
@@ -252,7 +248,7 @@ public class AddPrefGroupController implements Initializable {
                             al.setContentText("Added Successfully!");
                             al.setHeaderText(null);
                             al.showAndWait();
-//                            this.getAllDetails();
+
                         } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);

@@ -17,6 +17,9 @@ import org.controlsfx.control.textfield.TextFields;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
@@ -45,6 +48,7 @@ public class SearchMainGroupController implements Initializable {
     private ArrayList<YearAndSemester> yearSemIdList = new ArrayList<>();
     private ArrayList<String> yearSemesterNameList = new ArrayList<>();
     private MainGroupService mainGroupService;
+    public static final Logger log = Logger.getLogger(SearchMainGroupController.class.getName());
 
     public SearchMainGroupController() {
         this.programmeService = new ProgrammeServiceImpl();
@@ -70,7 +74,7 @@ public class SearchMainGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtProgramme, pNameList);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -84,7 +88,7 @@ public class SearchMainGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtyear, yearSemesterNameList);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -123,7 +127,7 @@ public class SearchMainGroupController implements Initializable {
             ArrayList<MainGroupCount> list = this.mainGroupService.getAllGroupCount(yearId,semId);
             tblGroupCount.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

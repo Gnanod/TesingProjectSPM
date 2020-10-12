@@ -1,6 +1,5 @@
 package main.controller.Lecturer;
 
-import com.gluonhq.charm.glisten.control.AutoCompleteTextField;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,17 +10,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.event.ActionEvent;
-import javafx.scene.input.InputMethodEvent;
 import main.model.Building;
 import main.model.Department;
 import main.model.Lecturer;
-import main.model.YearAndSemester;
 import main.service.BuildingService;
 import main.service.DepartmentService;
 import main.service.LecturerService;
@@ -57,9 +56,11 @@ public class AddLecturerController implements Initializable{
 
     @FXML
     private ComboBox<String> txtDesignation;
-    static int level;
-    static int dId;
-    static int bId;
+    int level=0;
+    int dId =0;
+    int bId =0;
+    int dCount=0;
+    int bCount=0;
     @FXML
     private TextField txtrank;
     private ArrayList<Department> departmentsId = new ArrayList<>();
@@ -69,23 +70,21 @@ public class AddLecturerController implements Initializable{
     private ObservableList<String> list= FXCollections.observableArrayList("Computing","Engineering","Business Management","Architecture","Quantity Surveying","Science","Hospitality");
     private ObservableList<String> centerList= FXCollections.observableArrayList("Malabe","Metro","Kurunegala","Kandy","Matara","SLIIT Academy","Jaffna");
     private ObservableList<String> designationList= FXCollections.observableArrayList("Professor","Assistant Professor","Senior Lecturer(HG)","Senior Lecturer","Lecturer","Assistant Lecturer","Instructors");
+    public static final Logger log = Logger.getLogger(AddLecturerController.class.getName());
 
     @FXML
     void saveDetails(ActionEvent event) {
         try {
             int empId=Integer.parseInt(txtEmpID.getText());
-            String Name=txtEmpName.getText();
-            String Faculty=txtFaculty.getValue();
+            String name=txtEmpName.getText();
+            String faculty=txtFaculty.getValue();
             String department=txtDepartment.getText();
             String center=txtCenter.getValue();
             String building=txtBuilding.getText();
             String designation=txtDesignation.getValue();
             txtrank.setText(level+"."+empId);
             String rank=level+"."+empId;
-        System.out.println(String.valueOf(empId).length());
 
-            int dCount=0;
-            int bCount=0;
             for (Department department1 : this.departmentsId) {
                 if (department.equals(department1.getDepartmentName())) {
                     dId = department1.getDepartmentId();
@@ -101,17 +100,17 @@ public class AddLecturerController implements Initializable{
 
 
             if (empId != 0 && String.valueOf(empId).length()==6) {
-            if(Name!=null){
-                if(Faculty!=null){
+            if(name!=null){
+                if(faculty!=null){
                     if(department!=null){
                         if(center!=null){
                             if(building!=null){
                                 if(designation!=null){
-                                    Lecturer lecturer = new Lecturer(empId, Name, Faculty, dId, center, designation, bId, level, rank);
+                                    Lecturer lecturer = new Lecturer(empId, name, faculty, dId, center, designation, bId, level, rank);
                                     LecturerService lecturerService = new LectureServiceImpl();
 
                                     boolean res = lecturerService.saveLecturer(lecturer);
-                                    if(res==true){
+                                    if(res){
                                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                         alert.setTitle(null);
                                         alert.setHeaderText(null);
@@ -191,28 +190,26 @@ public class AddLecturerController implements Initializable{
             al.showAndWait();
         }
         } catch (NumberFormatException exception) {
-            System.out.println(exception);
+            log.log(Level.SEVERE,exception.getMessage());
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
             al.setContentText("Enter Six digit Numeric Value for Employee ID!");
             al.setHeaderText(null);
             al.showAndWait();
         }catch (Exception ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void getFaculty(ActionEvent event) {
-        String Faculty=txtFaculty.getValue();
-        System.out.print(Faculty);
-
+        String faculty=txtFaculty.getValue();
+        log.log(Level.SEVERE,faculty);
     }
 
 
     public void setRank() {
         String empId=txtEmpID.getText();
-        System.out.println(level+"."+empId);
         txtrank.setText(level+"."+empId);
     }
     private void getAllDepartmentDetails() {
@@ -220,25 +217,18 @@ public class AddLecturerController implements Initializable{
         departmentsId.clear();
         try {
             DepartmentService departmentService=new DepartmentServiceImpl();
-            ArrayList<Department> list = departmentService.getAllDetails();
-            for (Department department : list
+            ArrayList<Department> listDept = departmentService.getAllDetails();
+            for (Department department : listDept
             ) {
                 departmentsId.add(department);
                 departmentName.add(department.getDepartmentName());
             }
             TextFields.bindAutoCompletion(txtDepartment, departmentName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
-    private void getAllBuildingDetails() {
-        try {
-            BuildingService departmentService=new BuildingServiceImpl();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setFaculty(){
 
@@ -269,10 +259,8 @@ public class AddLecturerController implements Initializable{
             level=5;
         }else if(designation.equalsIgnoreCase("Assistant Lecturer")){
             level=6;
-        }else if(designation.equalsIgnoreCase("Instructors")){
-            level=7;
-        }else{
-
+        }else if(designation.equalsIgnoreCase("Instructors")) {
+            level = 7;
         }
         setRank();
     }
@@ -282,15 +270,16 @@ public class AddLecturerController implements Initializable{
         buildingsId.clear();
         buildingName.clear();
         String center=txtCenter.getValue();
-        System.out.print(center);
+        log.log(Level.SEVERE,center);
+
         try{
             BuildingService buildingService=new BuildingServiceImpl();
-            ArrayList<Building> list =buildingService.searchBuildingDetailsByUsingCenter(center);
-            for (Building building : list
+            ArrayList<Building> listBuild =buildingService.searchBuildingDetailsByUsingCenter(center);
+            for (Building building : listBuild
             ) {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
-                System.out.println(building.getBuilding());
+                log.log(Level.SEVERE,building.getBuilding());
             }
             if(autoCompletionBinding!=null){
                 autoCompletionBinding.dispose();
@@ -298,7 +287,7 @@ public class AddLecturerController implements Initializable{
             autoCompletionBinding=TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
 
     }

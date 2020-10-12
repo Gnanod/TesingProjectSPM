@@ -1,7 +1,6 @@
 package main.service.impl;
 
 import main.dbconnection.DBConnection;
-import main.model.Tag;
 import main.model.WorkingDaysMain;
 import main.model.WorkingDaysSub;
 import main.service.WorkingDaysService;
@@ -12,182 +11,277 @@ import java.util.ArrayList;
 public class WorkingDaysServiceImpl implements WorkingDaysService {
 
     private Connection connection;
-
-    public WorkingDaysServiceImpl(){
+    private static final String WORKING_ID = "workingId";
+    public WorkingDaysServiceImpl() {
         connection = DBConnection.getInstance().getConnection();
     }
+
     @Override
     public int addWorkingDays(WorkingDaysMain workingDaysMain) throws SQLException {
-        String SQL = "Insert into WorkingDaysMain Values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, workingDaysMain.getType());
-        stm.setObject(3, workingDaysMain.getNoOfDays());
-        int res = stm.executeUpdate();
-        int lastId=0;
-        if(res>0){
-            String sql = "select workingId from WorkingDaysMain order by 1 desc limit 1";
-            Statement stm1 = connection.createStatement();
-            ResultSet rst = stm1.executeQuery(sql);
-            System.out.println("lastId"+lastId);
-            if (rst.next()) {
-                lastId = Integer.parseInt(rst.getString("workingId"));
+        String sql = "Insert into WorkingDaysMain Values(?,?,?)";
+        PreparedStatement stm = null;
+        Statement stm1 = null;
+        try {
+            stm = connection.prepareStatement(sql);
+            stm.setObject(1, 0);
+            stm.setObject(2, workingDaysMain.getType());
+            stm.setObject(3, workingDaysMain.getNoOfDays());
+            int res = stm.executeUpdate();
+            int lastId = 0;
+            if (res > 0){
+                try{
+                    String sql1 = "select workingId from WorkingDaysMain order by 1 desc limit 1";
+                    stm1 = connection.createStatement();
+                    try (ResultSet rst = stm1.executeQuery(sql1)) {
+                        if (rst.next()) {
+                            lastId = Integer.parseInt(rst.getString(WORKING_ID));
+                        }
+                    }
+                }finally {
+                    if (stm1 != null) {
+                        stm1.close();
+                    }
+                }
             }
+            return lastId;
+        } finally {
+            if(stm!=null){
+                stm.close();
+            }
+
         }
-        return lastId;
+
+
     }
 
     @Override
     public boolean addWorkingDaysSub(WorkingDaysSub workingDaysSub) throws SQLException {
-        String SQL = "Insert into WorkingDaysSub Values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, workingDaysSub.getWorkingId());
-        stm.setObject(3, workingDaysSub.getWorkingday());
-        int res = stm.executeUpdate();
-        return res>0;
+        String sql = "Insert into WorkingDaysSub Values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, workingDaysSub.getWorkingId());
+            stm.setObject(3, workingDaysSub.getWorkingday());
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public ArrayList<WorkingDaysMain> getAllNoOfWorkingDays() throws SQLException {
-        String SQL ="Select * from WorkingDaysMain";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<WorkingDaysMain> list = new ArrayList<>();
-        while(rst.next()){
-            WorkingDaysMain  m1 = new WorkingDaysMain(Integer.parseInt(rst.getString("workingId")),
-                    rst.getString("type"),Integer.parseInt(rst.getString("noOfDays")));
-            list.add(m1);
+        Statement stm = null;
+        try {
+            String sql = "Select * from WorkingDaysMain";
+            stm = connection.createStatement();
+            ArrayList<WorkingDaysMain> list = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    WorkingDaysMain m1 = new WorkingDaysMain(Integer.parseInt(rst.getString(WORKING_ID)),
+                            rst.getString("type"), Integer.parseInt(rst.getString("noOfDays")));
+                    list.add(m1);
+                }
+            }
+            return list;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return list;
     }
 
     @Override
     public ArrayList<String> getWorkingDaysAccordingId(int workingId) throws SQLException {
-        String SQL ="select workingday from WorkingDaysSub where workingId='"+workingId+"'";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<String> list = new ArrayList<>();
-        while(rst.next()){
-            String day = rst.getString("workingday");
-            list.add(day);
+        Statement stm = null;
+        try {
+            String sql = "select workingday from WorkingDaysSub where workingId='" + workingId + "'";
+            stm = connection.createStatement();
+            ArrayList<String> list = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    String day = rst.getString("workingday");
+                    list.add(day);
+                }
+            }
+            return list;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return list;
     }
 
     @Override
     public boolean deleteWorkingDay(int workingId) throws SQLException {
-        String SQL = "Delete From WorkingDaysMain where workingId = '"+workingId+"'";
+        String sql = "Delete From WorkingDaysMain where workingId = '" + workingId + "'";
         Statement stm = connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean deleteWorkingDaysfromSub(int updateId) throws SQLException {
-        String SQL = "Delete From WorkingDaysSub where workingId = '"+updateId+"'";
+        String sql = "Delete From WorkingDaysSub where workingId = '" + updateId + "'";
         Statement stm = connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean updateNoOfWorkingDays(WorkingDaysMain workingDaysMain) throws SQLException {
-        String SQL="Update WorkingDaysMain set type='"+workingDaysMain.getType()+"'," +
-                "noOfDays='"+workingDaysMain.getNoOfDays()+"' " +
-                "where workingId='"+workingDaysMain.getWorkingId()+"'";
-        Statement stm=connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        String sql = "Update WorkingDaysMain set type='" + workingDaysMain.getType() + "'," +
+                "noOfDays='" + workingDaysMain.getNoOfDays() + "' " +
+                "where workingId='" + workingDaysMain.getWorkingId() + "'";
+        Statement stm = connection.createStatement();
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public ArrayList<WorkingDaysSub> getAllSubDetails() throws SQLException {
-        String SQL ="Select * from WorkingDaysSub";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<WorkingDaysSub> list = new ArrayList<>();
-        while(rst.next()){
-            WorkingDaysSub  m1 = new WorkingDaysSub();
-            m1.setSubId(Integer.parseInt(rst.getString("subId")));
-            m1.setWorkingday(rst.getString("workingday"));
-            m1.setWorkingId(Integer.parseInt(rst.getString("workingId")));
-            list.add(m1);
+        Statement stm = null;
+        try {
+            String sql = "Select * from WorkingDaysSub";
+            stm = connection.createStatement();
+            ArrayList<WorkingDaysSub> list = new ArrayList<>();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    WorkingDaysSub m1 = new WorkingDaysSub();
+                    m1.setSubId(Integer.parseInt(rst.getString("subId")));
+                    m1.setWorkingday(rst.getString("workingday"));
+                    m1.setWorkingId(Integer.parseInt(rst.getString(WORKING_ID)));
+                    list.add(m1);
+                }
+            }
+            return list;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return list;
     }
 
     @Override
-    public boolean deleteWorkingDaysSub(int id,int workingId) throws SQLException {
-        String SQL = "Delete From WorkingDaysSub where subId = '"+id+"'";
+    public boolean deleteWorkingDaysSub(int id, int workingId) throws SQLException {
+        String sql = "Delete From WorkingDaysSub where subId = '" + id + "'";
         Statement stm = connection.createStatement();
-        int delete = stm.executeUpdate(SQL);
-        int count=0;
-        int update =0;
-        if(delete>0){
-            String sqlCount = "select count(workingday) from WorkingDaysSub where workingId ='"+workingId+"' ";
-            Statement stm1 = connection.createStatement();
-            ResultSet rst = stm1.executeQuery(sqlCount);
-            if (rst.next()) {
-                count = Integer.parseInt(rst.getString("count(workingday)"));
+        try {
+            int delete = stm.executeUpdate(sql);
+            int count = 0;
+            int update = 0;
+            if (delete > 0) {
+                String sqlCount = "select count(workingday) from WorkingDaysSub where workingId ='" + workingId + "' ";
+                try (ResultSet rst = stm.executeQuery(sqlCount)) {
+                    if (rst.next()) {
+                        count = Integer.parseInt(rst.getString("count(workingday)"));
+                    }
+                }
+                String sqlUpdate = "update WorkingDaysMain set noOfDays = '" + count + "' where workingId ='" + workingId + "'";
+                update = stm.executeUpdate(sqlUpdate);
             }
-            String sqlUpdate="update WorkingDaysMain set noOfDays = '"+count+"' where workingId ='"+workingId+"'";
-            update= stm1.executeUpdate(sqlUpdate);
+            return update > 0;
+        } finally {
+            stm.close();
         }
-        return update>0;
     }
 
     @Override
     public boolean checkWeekDayOrWeekEndIsAdded(String selectedType) throws SQLException {
-        String SQL = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";;
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("workingId") != null) {
-                result = true;
-            } else {
-                result = false;
+        Statement stm = null;
+        try {
+            String sql = "select workingId from WorkingDaysMain where type = '" + selectedType + "' ";
+            stm = connection.createStatement();
+            ArrayList<WorkingDaysSub> list = new ArrayList<>();
+            boolean result = false;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if (rst.next()) {
+                    if (rst.getString(WORKING_ID) != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public int getCountOfWorkingDays() throws SQLException {
-        String SQL = "select count(subId) from WorkingDaysSub ";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        int result = 0;
-        if (rst.next()) {
-            if (rst.getString("count(subId)") != null) {
-                result = Integer.parseInt(rst.getString("count(subId)"));
-            } else {
-                result = 0;
+        Statement stm = null;
+        try {
+            String sql = "select count(subId) from WorkingDaysSub ";
+            stm = connection.createStatement();
+            ArrayList<WorkingDaysSub> list = new ArrayList<>();
+            int result = 0;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                if (rst.next()) {
+                    if (rst.getString("count(subId)") != null) {
+                        result = Integer.parseInt(rst.getString("count(subId)"));
+                    } else {
+                        result = 0;
+                    }
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public double getWorkingTime() throws SQLException {
-        String SQL = "select workingTime from workingHoursPerDay";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        double result = 0;
-        while(rst.next()) {
-            result=Double.parseDouble(rst.getString("workingTime"));
+        Statement stm = null;
+        try {
+            String sql = "select workingTime from workingHoursPerDay";
+            stm = connection.createStatement();
+            double result = 0;
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = Double.parseDouble(rst.getString("workingTime"));
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 
     @Override
     public String getWorkingTimeType() throws SQLException {
-
-        String SQL = "select * from workingHoursPerDay";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        String result = " ";
-        while(rst.next()) {
-            result=rst.getString("timeSlot");
+        Statement stm = null;
+        try {
+            String sql = "select * from workingHoursPerDay";
+            stm = connection.createStatement();
+            String result = " ";
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                while (rst.next()) {
+                    result = rst.getString("timeSlot");
+                }
+            }
+            return result;
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return result;
     }
 }

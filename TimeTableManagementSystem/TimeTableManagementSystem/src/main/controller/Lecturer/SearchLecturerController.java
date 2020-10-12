@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.model.Lecturer;
-import main.model.MainGroupCount;
 import main.service.BuildingService;
 import main.service.DepartmentService;
 import main.service.LecturerService;
@@ -21,6 +20,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchLecturerController implements Initializable {
     @FXML
@@ -33,6 +34,7 @@ public class SearchLecturerController implements Initializable {
     private Button btnSave;
     static ArrayList<Lecturer> list1=new ArrayList<>();
     static ArrayList<Lecturer> list2=new ArrayList<>();
+    public static final Logger log = Logger.getLogger(SearchLecturerController.class.getName());
 
 
     @FXML
@@ -45,28 +47,25 @@ public class SearchLecturerController implements Initializable {
             try{
                 for (Lecturer str : list)
                 {
-                    System.out.println(str.getEmpId());
-                    System.out.println(str.getEmpName());
-
 
                     DepartmentService departmentService=new DepartmentServiceImpl();
                     str.setDepartmentName(departmentService.searchDepartmentName(str.getDepartment()));
 
                     BuildingService buildingService=new BuildingServiceImpl();
                     str.setBuildingName(buildingService.searchBuildingName(str.getBuilding()));
-                    System.out.println(str.getDepartmentName());
                     list2.add(str);
 
 
                 }
-            }catch (SQLException ex){
-                ex.printStackTrace();
-            }
+
             this.setTableProperties();
             tblGroupCount.setItems(FXCollections.observableArrayList(list2));
-        }catch(Exception exception){
-            exception.printStackTrace();
 
+            }catch (SQLException ex){
+                log.log(Level.SEVERE,ex.getMessage());
+            }
+        }catch(Exception exception){
+            log.log(Level.SEVERE,exception.getMessage());
         }
     }
 
@@ -93,28 +92,26 @@ public class SearchLecturerController implements Initializable {
             LecturerService lecturerService=new LectureServiceImpl();
             ArrayList<Lecturer> list = lecturerService.getAllLecturerDetails();
             try{
-            for (Lecturer str : list)
-            {
-//                System.out.println(str.getEmpId());
-//                System.out.println(str.getEmpName());
+                for (Lecturer str : list)
+                {
 
 
                     DepartmentService departmentService=new DepartmentServiceImpl();
                     str.setDepartmentName(departmentService.searchDepartmentName(str.getDepartment()));
 
-                BuildingService buildingService=new BuildingServiceImpl();
-                str.setBuildingName(buildingService.searchBuildingName(str.getBuilding()));
-                    System.out.println(str.getDepartmentName());
-                list1.add(str);
+                    BuildingService buildingService=new BuildingServiceImpl();
+                    str.setBuildingName(buildingService.searchBuildingName(str.getBuilding()));
+
+                    list1.add(str);
 
 
             }
             }catch (SQLException ex){
-                ex.printStackTrace();
+                log.log(Level.SEVERE,ex.getMessage());
             }
             tblGroupCount.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

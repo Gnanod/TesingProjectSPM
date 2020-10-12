@@ -19,18 +19,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PRintRoomTimeTable {
+
+    int count=0;
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
             Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-            Font.NORMAL, BaseColor.RED);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
-            Font.BOLD);
-    private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
+        private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
 
     private static WorkingDaysService workingDaysService;
+    public static final Logger log = Logger.getLogger(PRintRoomTimeTable.class.getName());
 
     public PRintRoomTimeTable() {
         this.workingDaysService = new WorkingDaysServiceImpl();
@@ -61,19 +62,19 @@ public class PRintRoomTimeTable {
     public void generateCustomerReportPdf(String[][] arr,String [][]timeString, int workingDaysCount, int hourSize,String RoomName) {
 
         String fileName = getCurrentDate() + "_" + getCurrentTime() +"-"+RoomName+ ".pdf";
-        String FILE = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
+        String file1 = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
 
         try {
 
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            PdfWriter.getInstance(document, new FileOutputStream(file1));
             document.open();
             addMetaData(document,RoomName);
             addTitlePage(document,RoomName);
             createTable(document, arr,timeString,workingDaysCount,hourSize);
             if (Desktop.isDesktopSupported()) {
                 try {
-                    File myFile = new File(FILE);
+                    File myFile = new File(file1);
                     Desktop.getDesktop().open(myFile);
                 } catch (IOException ex) {
                     // no application registered for PDFs
@@ -82,16 +83,16 @@ public class PRintRoomTimeTable {
             document.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
 
     }
 
 
-    private void addMetaData(Document document,String GroupId) {
+    private void addMetaData(Document document,String groupId) {
 
-        document.addTitle(GroupId);
+        document.addTitle(groupId);
 
     }
 
@@ -123,13 +124,13 @@ public class PRintRoomTimeTable {
             for (WorkingDaysSub s : list
             ) {
                 c1 = new PdfPCell(new Phrase(s.getWorkingday()));
-                ;
+
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table1.addCell(c1);
             }
             table1.setHeaderRows(1);
-            int count=0;
-            for (int i = 0; i <(int)hourSize; i++) {
+
+            for (int i = 0; i <hourSize; i++) {
                 table1.addCell(timeString[i][0]);
                 for (int j = 0; j < workingDaysCount; j++) {
                     if(arr[i][j]!=null){
@@ -145,25 +146,14 @@ public class PRintRoomTimeTable {
                 }
             }
             subCatPart.add(table1);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-        e.printStackTrace();
-    }
-
-
-
-
-
-
-
+        } catch (SQLException|DocumentException e) {
+            log.log(Level.SEVERE,e.getMessage());
+        }
 
 
     }
 
-    //
-//
-    private static void addEmptyLine(Paragraph paragraph, int number) {
+ private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }

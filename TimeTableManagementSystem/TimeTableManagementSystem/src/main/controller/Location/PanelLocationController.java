@@ -8,16 +8,16 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
-import main.controller.MainController;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PanelLocationController implements Initializable {
 
     public PanelLocationController() {
-
+     //Panel location controller Constructor
     }
 
     @FXML
@@ -31,6 +31,9 @@ public class PanelLocationController implements Initializable {
 
     @FXML
     private BorderPane pnlLocation;
+
+    public static final Logger log = Logger.getLogger(PanelLocationController.class.getName());
+
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -60,7 +63,7 @@ public class PanelLocationController implements Initializable {
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -74,7 +77,7 @@ public class PanelLocationController implements Initializable {
             pnlLocation.setCenter(root);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

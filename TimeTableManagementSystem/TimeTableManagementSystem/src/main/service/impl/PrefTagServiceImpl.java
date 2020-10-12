@@ -2,9 +2,11 @@ package main.service.impl;
 
 import main.dbconnection.DBConnection;
 import main.model.PrefTag;
+import main.model.Tag;
 import main.service.PrefTagService;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class PrefTagServiceImpl implements PrefTagService {
 
@@ -16,46 +18,61 @@ public class PrefTagServiceImpl implements PrefTagService {
 
     @Override
     public int getRoomId(String center, String building, String room) throws SQLException {
-        String SQL ="Select r.rid from building b ,room r where b.bid = r.buildingid and b.center LIKE '%" + center + "%' and b.building LIKE '%" + building + "%' and r.room LIKE '%" + room + "%'";
-        System.out.println("getroomid:"+SQL);
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-
-        int result=0;
-        if(rst.next()){
-            result = rst.getInt("r.rid");
+        Statement stm = null;
+        try {
+            String sql ="Select r.rid from building b ,room r where b.bid = r.buildingid and b.center LIKE '%" + center + "%' " +
+                    " and b.building LIKE '%" + building + "%' and r.room LIKE '%" + room + "%'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                ArrayList<Tag> tagList = new ArrayList<>();
+                int result=0;
+                if(rst.next()){
+                    result = rst.getInt("r.rid");
+                }
+                return result;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
 
-//        System.out.println(rst.getInt("r.rid"));
-        return result;
     }
 
     @Override
     public int getTagIdFromTags(String tag) throws SQLException {
-        String SQL ="Select tagid from tag where tagName LIKE '%" + tag + "'";
-        System.out.println("getTagIdFromTags:"+SQL);
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-
-        int result=0;
-        if(rst.next()){
-            result = rst.getInt("tagid");
+        Statement stm = null;
+        try {
+            String sql ="Select tagid from tag where tagName LIKE '%" + tag + "'";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                ArrayList<Tag> tagList = new ArrayList<>();
+                int result=0;
+                if(rst.next()){
+                    result = rst.getInt("tagid");
+                }
+                return result;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-
-        return result;
     }
 
     @Override
     public boolean savePrefTagRoom(PrefTag prefTag) throws SQLException {
-        String SQL = "Insert into PrefRoomTag Values(?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, prefTag.getTagId());
-        stm.setObject(3, prefTag.getRoomId());
-
-        int res = stm.executeUpdate();
-        return res > 0;
-
+        String sql = "Insert into PrefRoomTag Values(?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, prefTag.getTagId());
+            stm.setObject(3, prefTag.getRoomId());
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
 }

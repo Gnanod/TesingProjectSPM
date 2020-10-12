@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainSubjectController implements Initializable {
 
@@ -25,6 +27,8 @@ public class MainSubjectController implements Initializable {
 
     @FXML
     private BorderPane pnlMain;
+
+    public static final Logger log = Logger.getLogger(MainSubjectController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -49,7 +53,7 @@ public class MainSubjectController implements Initializable {
                 pnlMain.setCenter(root);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -61,7 +65,7 @@ public class MainSubjectController implements Initializable {
             Parent root = loader.load();
             pnlMain.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

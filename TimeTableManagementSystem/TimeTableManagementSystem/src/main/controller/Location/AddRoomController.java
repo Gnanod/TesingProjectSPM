@@ -13,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import main.model.Building;
 import main.model.Room;
-import main.model.RoomTable;
 import main.service.BuildingService;
 import main.service.RoomService;
 import main.service.impl.BuildingServiceImpl;
@@ -21,12 +20,13 @@ import main.service.impl.RoomServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
-import javax.xml.soap.Text;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddRoomController implements Initializable {
 
@@ -52,18 +52,21 @@ public class AddRoomController implements Initializable {
     @FXML
     private ComboBox<String> cmbCenter;
 
+
     @FXML
     private TextField txtBuilding;
 
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
     private ArrayList<Room> roomsList = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
+    public static final Logger log = Logger.getLogger(AddRoomController.class.getName());
+
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
         try {
-            BuildingService buildingService = new BuildingServiceImpl();;
+            BuildingService buildingService = new BuildingServiceImpl();
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
             buildingsId = new ArrayList<>();
             buildingName = new ArrayList<>();
@@ -72,17 +75,14 @@ public class AddRoomController implements Initializable {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
             }
-            for (String building : buildingName
-                 ) {
-                System.out.println(building);
-            }
+
             if(autoCompletionBinding!=null){
                 autoCompletionBinding.dispose();
             }
             autoCompletionBinding  =TextFields.bindAutoCompletion(txtBuilding, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class AddRoomController implements Initializable {
                             rooomObj.setBuildingid(buildid);
                             rooomObj.setBuilding(building);
                             int duplicateCount = 0;
-                            if (roomsList.size() != 0) {
+                            if (!roomsList.isEmpty()) {
                                 for (Room r1 : roomsList
                                 ) {
                                     if (r1.getBuilding().equals(building) && r1.getCenter().equals(center)
@@ -129,10 +129,10 @@ public class AddRoomController implements Initializable {
                                 }
                                 if (duplicateCount == 0) {
                                     roomsList.add(rooomObj);
-                                    ;
+
                                     tblRoomAdd.getSelectionModel().getTableView().getItems().clear();
                                     tblRoomAdd.setItems(FXCollections.observableArrayList(roomsList));
-                                    ;
+
                                     txtCapacities.setText("");
                                     txtRoomAdd.setText("");
                                 } else {
@@ -145,7 +145,7 @@ public class AddRoomController implements Initializable {
                                 }
                             } else {
                                 roomsList.add(rooomObj);
-                                ;
+
                                 tblRoomAdd.getSelectionModel().getTableView().getItems().clear();
                                 tblRoomAdd.setItems(FXCollections.observableArrayList(roomsList));
                                 txtCapacities.setText("");
@@ -194,7 +194,7 @@ public class AddRoomController implements Initializable {
 
     @FXML
     void saveRoomDetails(ActionEvent event) {
-        if (roomsList.size() != 0) {
+        if (!roomsList.isEmpty()) {
             boolean isAdded = false;
             int addedCount = 0;
             for (Room roomObj : roomsList
@@ -202,7 +202,7 @@ public class AddRoomController implements Initializable {
                 try {
                     isAdded = this.roomService.saveRooms(roomObj);
                 } catch (SQLException e) {
-                    e.printStackTrace();
+                    log.log(Level.SEVERE,e.getMessage());
                 }
                 addedCount++;
             }
@@ -263,8 +263,6 @@ public class AddRoomController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteRoom(room);
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");

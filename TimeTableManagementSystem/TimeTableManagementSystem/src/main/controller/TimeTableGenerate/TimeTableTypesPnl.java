@@ -1,4 +1,4 @@
-package main.controller.TimeTableGenerate;
+package main.controller.timetablegenerate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TimeTableTypesPnl implements Initializable {
 
@@ -26,6 +28,8 @@ public class TimeTableTypesPnl implements Initializable {
     @FXML
     private BorderPane pnlMain;
 
+    public static final Logger log = Logger.getLogger(TimeTableTypesPnl.class.getName());
+
     @FXML
     void handleEvents(ActionEvent event) {
         try {
@@ -37,11 +41,7 @@ public class TimeTableTypesPnl implements Initializable {
                 pnlMain.setCenter(root);
 
             } else if (event.getSource() == btnStudent) {
-                pnlMain.getChildren().removeAll();
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(getClass().getResource("/main/views/TimeTableGenerate/Student.fxml"));
-                Parent root = loader.load();
-                pnlMain.setCenter(root);
+                loadMainPanel();
 
             } else if (event.getSource() == btnRoom) {
                 pnlMain.getChildren().removeAll();
@@ -51,13 +51,17 @@ public class TimeTableTypesPnl implements Initializable {
                 pnlMain.setCenter(root);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+       loadMainPanel();
+    }
+
+    public void loadMainPanel(){
         try {
             pnlMain.getChildren().removeAll();
             FXMLLoader loader = new FXMLLoader();
@@ -65,7 +69,7 @@ public class TimeTableTypesPnl implements Initializable {
             Parent root = loader.load();
             pnlMain.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

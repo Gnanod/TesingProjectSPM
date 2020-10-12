@@ -2,7 +2,7 @@ package main.service;
 
 
 
-import main.model.Lecturer;
+
 import main.model.Subject;
 
 import java.sql.SQLException;

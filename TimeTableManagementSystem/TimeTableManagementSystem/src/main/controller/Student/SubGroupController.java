@@ -11,6 +11,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SubGroupController implements Initializable {
 
@@ -25,6 +27,8 @@ public class SubGroupController implements Initializable {
 
     @FXML
     private BorderPane pnlMain;
+
+    public static final Logger log = Logger.getLogger(SubGroupController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -54,7 +58,7 @@ public class SubGroupController implements Initializable {
 
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -68,7 +72,7 @@ public class SubGroupController implements Initializable {
             pnlMain.setCenter(root);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

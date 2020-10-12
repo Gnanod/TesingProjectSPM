@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -35,7 +34,8 @@ public class LoginController implements Initializable {
     @FXML
     private Label lblErrors;
 
-    private double x = 0, y = 0;
+    private double x = 0;
+    private double y = 0;
     private Stage stage;
 
 

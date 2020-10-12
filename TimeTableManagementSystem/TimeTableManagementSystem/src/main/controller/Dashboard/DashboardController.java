@@ -14,6 +14,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DashboardController implements Initializable {
 
@@ -28,7 +30,7 @@ public class DashboardController implements Initializable {
     private NumberAxis y;
 
     @FXML
-    private BarChart<String, Integer> EmployeeChart;
+    private BarChart<String, Integer> employeeChart;
 
     @FXML
     private CategoryAxis yEmp;
@@ -48,6 +50,8 @@ public class DashboardController implements Initializable {
     public DashboardController() {
         this.dashboardService = new DashboardServiceImpl();
     }
+
+    public static final Logger log = Logger.getLogger(DashboardController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -71,7 +75,7 @@ public class DashboardController implements Initializable {
             data1.add(series);
             subjectChart.setData(data1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -87,9 +91,9 @@ public class DashboardController implements Initializable {
                 series.getData().add(new XYChart.Data(d1.getFaculty(), d1.getNoOfEmployees()));
             }
             data.add(series);
-            EmployeeChart.setData(data);
+            employeeChart.setData(data);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -98,7 +102,7 @@ public class DashboardController implements Initializable {
         try {
             ArrayList<Dashboard> list = this.dashboardService.getBuildingCount();
             ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList();
-//            PieChart.Data pie = new XYChart.Series<>();
+
             for (Dashboard d1 : list
             ) {
                 piechartData.add(new PieChart.Data(d1.getCenter(), d1.getNoOfBuildings()));
@@ -106,7 +110,7 @@ public class DashboardController implements Initializable {
 
             buildingPiechart.setData(piechartData);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -115,7 +119,7 @@ public class DashboardController implements Initializable {
         try {
             ArrayList<Dashboard2> list = this.dashboardService.getDesignationCount();
             ObservableList<PieChart.Data> piechartData = FXCollections.observableArrayList();
-//            PieChart.Data pie = new XYChart.Series<>();
+
             for (Dashboard2 d1 : list
             ) {
                 piechartData.add(new PieChart.Data(d1.getDesignation(), d1.getNoOfDesig()));
@@ -123,7 +127,7 @@ public class DashboardController implements Initializable {
 
             desPiechart.setData(piechartData);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

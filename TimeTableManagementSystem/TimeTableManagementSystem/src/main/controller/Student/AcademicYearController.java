@@ -19,6 +19,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AcademicYearController implements Initializable {
 
@@ -44,6 +46,7 @@ public class AcademicYearController implements Initializable {
     private YearandSemesterService yearandSemesterService;
     private boolean updateStatus;
     private int academicYearId;
+    public static final Logger log = Logger.getLogger(AcademicYearController.class.getName());
 
     public AcademicYearController() {
         this.yearandSemesterService = new YearAndServiceImpl();
@@ -54,7 +57,7 @@ public class AcademicYearController implements Initializable {
             ArrayList<YearAndSemester> list = this.yearandSemesterService.getAllDetails();
             tblSemester.setItems(FXCollections.observableArrayList(list));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -219,7 +222,7 @@ public class AcademicYearController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -268,7 +271,7 @@ public class AcademicYearController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

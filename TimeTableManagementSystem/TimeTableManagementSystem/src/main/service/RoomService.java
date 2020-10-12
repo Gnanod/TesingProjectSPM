@@ -10,8 +10,6 @@ public interface RoomService {
 
     public boolean saveRooms(Room room) throws SQLException;
 
-//    public ArrayList<Building> getAllRoomDetails(String center) throws SQLException;
-
     ArrayList<Room> getAllDetails() throws SQLException;
 
     public boolean deleteRoom(int key) throws SQLException;

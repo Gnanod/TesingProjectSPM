@@ -15,9 +15,9 @@ import org.controlsfx.control.textfield.TextFields;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefSubjectController implements Initializable {
 
@@ -55,21 +55,21 @@ public class AddPrefSubjectController implements Initializable {
     private TextField txtTagOpt1;
 
 
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
-    private ArrayList<Room> roomsId = new ArrayList<>();
-    private ArrayList<String> roomName = new ArrayList<>();
-    private ArrayList<Tag> tagId = new ArrayList<>();
-    private ArrayList<String> tagName = new ArrayList<>();
-    private ArrayList<Subject> subjectId = new ArrayList<>();
-    private ArrayList<String> subjectName = new ArrayList<>();
-    private ArrayList<PrefSubject> prefSubject = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Room> roomsId = new ArrayList<>();
+    ArrayList<String> roomName = new ArrayList<>();
+    ArrayList<Tag> tagId = new ArrayList<>();
+    ArrayList<String> tagName = new ArrayList<>();
+    ArrayList<Subject> subjectId = new ArrayList<>();
+    ArrayList<String> subjectName = new ArrayList<>();
+    ArrayList<PrefSubject> prefSubject = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding3;
     private AutoCompletionBinding<String> autoCompletionBinding4;
 
-
+    public static final Logger log = Logger.getLogger(AddPrefSubjectController.class.getName());
     private PrefSubjectService prefSubjectService;
     private PrefTagService prefTagService;
 
@@ -101,7 +101,7 @@ public class AddPrefSubjectController implements Initializable {
             autoCompletionBinding = TextFields.bindAutoCompletion(txtBuildingOpt, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -125,14 +125,14 @@ public class AddPrefSubjectController implements Initializable {
             autoCompletionBinding3 = TextFields.bindAutoCompletion(txtTagOpt1, tagName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void getRoom(ActionEvent event) {
         String building = txtRoomOpt1.getText();
-        System.out.println("555555:" + building);
+
         try {
             RoomService roomService = new RoomServiceImpl();
 
@@ -153,7 +153,7 @@ public class AddPrefSubjectController implements Initializable {
             autoCompletionBinding2 = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -169,17 +169,14 @@ public class AddPrefSubjectController implements Initializable {
                 subjectId.add(subject);
                 subjectName.add(subject.getSubName());
             }
-            for (String subject : subjectName
-            ) {
-                System.out.println(subject);
-            }
+
             if (autoCompletionBinding4 != null) {
                 autoCompletionBinding4.dispose();
             }
             autoCompletionBinding4 = TextFields.bindAutoCompletion(txtSubTagOpt, subjectName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -192,7 +189,7 @@ public class AddPrefSubjectController implements Initializable {
             String tag = txtTagOpt1.getText();
             String subject = txtSubTagOpt.getText();
             int roomId = 0;
-            int tagId = 0;
+            int tagId1 = 0;
             String subId = "";
             if (building != null) {
                 if (center != null) {
@@ -222,7 +219,7 @@ public class AddPrefSubjectController implements Initializable {
                 al.showAndWait();
             }
             if (tag != null) {
-                tagId = prefTagService.getTagIdFromTags(tag);
+                tagId1 = prefTagService.getTagIdFromTags(tag);
             } else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
                 al.setTitle(null);
@@ -241,7 +238,7 @@ public class AddPrefSubjectController implements Initializable {
                 al.showAndWait();
             }
             PrefSubject prefSub = new PrefSubject();
-            prefSub.setTagId(tagId);
+            prefSub.setTagId(tagId1);
             prefSub.setRoomId(roomId);
             prefSub.setSubjectId(subId);
 
@@ -258,7 +255,7 @@ public class AddPrefSubjectController implements Initializable {
                             prefSub.setTagName(tag);
                             boolean status=false;
 
-                            if(prefSubject.size()==0){
+                            if(prefSubject.isEmpty()){
                                 prefSubject.add(prefSub);
                                 tblBuilding.setItems(FXCollections.observableArrayList(prefSubject));
                             }else{
@@ -311,7 +308,7 @@ public class AddPrefSubjectController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -326,7 +323,7 @@ public class AddPrefSubjectController implements Initializable {
 
     @FXML
     void saveTagRoom(ActionEvent event) throws SQLException {
-        if(prefSubject.size()!=0){
+        if(!prefSubject.isEmpty()){
             int count =0;
             for (PrefSubject pref:prefSubject
             ) {

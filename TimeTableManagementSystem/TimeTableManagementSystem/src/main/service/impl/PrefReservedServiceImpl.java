@@ -18,15 +18,19 @@ public class PrefReservedServiceImpl implements PrefReservedService {
 
     @Override
     public boolean savePrefReservedRoom(PrefReserved prefRes) throws SQLException {
-        String SQL = "Insert into PrefRoomReserved Values(?,?,?,?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, prefRes.getRoomId());
-        stm.setObject(3, prefRes.getDay());
-        stm.setObject(4, LocalTime.parse(prefRes.getToTime()));
-        stm.setObject(5, LocalTime.parse(prefRes.getFromTime()));
+        String sql = "Insert into PrefRoomReserved Values(?,?,?,?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, prefRes.getRoomId());
+            stm.setObject(3, prefRes.getDay());
+            stm.setObject(4, LocalTime.parse(prefRes.getToTime()));
+            stm.setObject(5, LocalTime.parse(prefRes.getFromTime()));
 
-        int res = stm.executeUpdate();
-        return res > 0;
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 }

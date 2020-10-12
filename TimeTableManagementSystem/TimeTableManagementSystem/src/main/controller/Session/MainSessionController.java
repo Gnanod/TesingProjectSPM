@@ -8,12 +8,10 @@ import javafx.fxml.Initializable;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.jfoenix.controls.JFXTimePicker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -59,7 +57,8 @@ public class MainSessionController implements Initializable{
     private TextField txtDuration;
     @FXML
     private TableColumn<Lecturer, Boolean> colDelete;
-
+    int subCount=0;
+    int lecCount = 0;
     private AutoCompletionBinding<String> autoCompletionBindings;
     private LecturerService lecturerServices;
     private SubjectService subjectServices;
@@ -70,26 +69,25 @@ public class MainSessionController implements Initializable{
     private List<Subject> subjectLists;
     private List<Tag> tagLists;
     private List<Object> mainGroupLists;
-    private List<SubGroup> subGroupLists;
     private List<String> lectureNameLists;
     private List<String> subNameLists;
     private List<String> tagNameLists;
     private List<String> maingroupNameLists;
-    private List<String> subGroupNameLists;
     private ArrayList<Lecturer> list1=new ArrayList<>();
     private String subId1;
     private int tagId;
     private int gId;
     private int subGroupId;
-    private  int empId;
+    public static final Logger log = Logger.getLogger(MainSessionController.class.getName());
 
     @FXML
     void loadGroupDetails(ActionEvent event) {
-
+        //Load group details method
     }
 
     @FXML
     void saveDetails(ActionEvent event) {
+        int empId;
         String subject=txtSubject.getText();
         String tag=txtTag.getText();
         String groupType;
@@ -102,11 +100,8 @@ public class MainSessionController implements Initializable{
         try{
             int stdCount=Integer.parseInt(txtCount.getText().trim());
             float duration=Float.parseFloat(txtDuration.getText().trim());
-            System.out.println(stdCount);
-            System.out.println(duration);
 
 
-            int subCount=0;
             for (Subject s1 : subjectLists) {
                 if (s1.getSubName().equals(subject.trim())) {
                     subId1 = s1.getSubId();
@@ -124,34 +119,26 @@ public class MainSessionController implements Initializable{
             subCount=0;
             for (Object m : this.mainGroupLists
             ) {
-                if (m instanceof MainGroup) {
-                    if (groupId.equals(((MainGroup) m).getGroupid())) {
+                if (m instanceof MainGroup && groupId.equals(((MainGroup) m).getGroupid())) {
                         gId = ((MainGroup) m).getId();
                         subCount++;
 
-                    }
+
                 }
-                if (m instanceof SubGroup) {
-                    if (groupId.equals(((SubGroup) m).getSubgroupid())) {
+                if (m instanceof SubGroup && groupId.equals(((SubGroup) m).getSubgroupid())) {
                         subGroupId = ((SubGroup) m).getId();
                         subCount++;
-                    }
+
                 }
             }
 
             String isConsecutive;
             if(subId1!=null){
-                System.out.println("Hi1");
                 if(tagId!=0){
-                    System.out.println("Hi2");
                     if(stdCount!=0){
-                        System.out.println("H3");
                         if(duration!=0){
-                            System.out.println("H4");
-                            System.out.println("JJJJ"+subId1);
                             SubjectService subjectService=new SubjectServiceImpl();
                             Subject sub=subjectService.getCategory(subId1);
-                            System.out.println("OOO"+sub.getSubName());
                             String isParallel;
                             String category;
                             if(sub.getSubType().equalsIgnoreCase("Optional")){
@@ -162,7 +149,6 @@ public class MainSessionController implements Initializable{
                                 category=null;
                             }
                             if(groupType.equalsIgnoreCase("Main")){
-                                System.out.println("Group"+gId);
                                 isConsecutive="Yes";
                                 Session session=new Session(subId1,tagId,Integer.toString(gId),null,stdCount,duration,isConsecutive,isParallel,category);
                                 SessionService sessionService=new SessionServiceImpl();
@@ -171,16 +157,15 @@ public class MainSessionController implements Initializable{
                                     boolean res=sessionService.addSession(session);
                                     int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
                                     Iterator<Lecturer> itr = list1.iterator();
-                                    System.out.println("hi"+sessionId);
+
                                     while (itr.hasNext()) {
                                         Lecturer lecture1 = itr.next();
                                         empId=lecture1.getEmpId();
-                                        System.out.println("Session Id"+sessionId+"Lec ID"+empId);
                                         res= sessionService.addLectureSession(empId,sessionId);
 
                                     }
 
-                                    if(res==true){
+                                    if(res){
                                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                         alert.setTitle(null);
                                         alert.setHeaderText(null);
@@ -202,9 +187,9 @@ public class MainSessionController implements Initializable{
                                         al.setHeaderText(null);
                                         al.showAndWait();
                                     }
-                                    System.out.print(res);
+
                                 } catch (SQLException e) {
-                                    e.printStackTrace();
+                                    log.log(Level.SEVERE,e.getMessage());
                                 }
                             }else{
                                 isConsecutive="No";
@@ -215,19 +200,18 @@ public class MainSessionController implements Initializable{
 
                                 try {
                                     boolean res=sessionService.addSession(session);
-                                    System.out.print(res);
+
                                     int sessionId=sessionService.searchSessionByDetails(subId1,tagId,subGroupId,gId);
                                     Iterator<Lecturer> itr = list1.iterator();
-                                    System.out.println("hi"+sessionId);
+
                                     while (itr.hasNext()) {
                                         Lecturer lecture1 = itr.next();
                                         empId=lecture1.getEmpId();
-                                        System.out.println("Session Id"+sessionId+"Lec ID"+empId);
                                         res= sessionService.addLectureSession(empId,sessionId);
 
                                     }
 
-                                    if(res==true){
+                                    if(res){
                                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                         alert.setTitle(null);
                                         alert.setHeaderText(null);
@@ -250,7 +234,7 @@ public class MainSessionController implements Initializable{
                                         al.showAndWait();
                                     }
                                 } catch (SQLException e) {
-                                    e.printStackTrace();
+                                    log.log(Level.SEVERE,e.getMessage());
                                 }
                             }
                         }else{
@@ -291,7 +275,7 @@ public class MainSessionController implements Initializable{
             als.setContentText("Enter Time & Duration in Correct Format");
             als.setHeaderText(null);
             als.showAndWait();
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
 
     }
@@ -302,11 +286,10 @@ public class MainSessionController implements Initializable{
 
         String lectureName1 = txtLecturer.getText();
         int lecId1 = 0;
-        int lecCount = 0;
+
         for (Lecturer l1 : lectureLists) {
             if (l1.getEmpName().equals(lectureName1.trim())) {
                 lecId1 = l1.getEmpId();
-                System.out.println(lecId1);
                 lecCount++;
             }
         }
@@ -341,7 +324,7 @@ public class MainSessionController implements Initializable{
     void SelectTag(ActionEvent event) {
         String tag=txtTag.getText();
         if((tag.equalsIgnoreCase("Lecture")||(tag.equalsIgnoreCase("Tute")))){
-            //System.out.print("Lect");
+
             btnRadioMain.setSelected(true);
             btnRadioSub.setSelected(false);
             this.loadAllMainGroupDetails();
@@ -369,7 +352,7 @@ public class MainSessionController implements Initializable{
             }
             autoCompletionBindings = TextFields.bindAutoCompletion(txtGroup, maingroupNameLists);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     private void loadAllSubGroupDetails() {
@@ -388,7 +371,7 @@ public class MainSessionController implements Initializable{
             }
             autoCompletionBindings = TextFields.bindAutoCompletion(txtGroup, maingroupNameLists);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     public void loadAllLectureDetails() {
@@ -401,7 +384,7 @@ public class MainSessionController implements Initializable{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtLecturer, lectureNameLists);
     }
@@ -415,7 +398,7 @@ public class MainSessionController implements Initializable{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtSubject, subNameLists);
     }
@@ -429,7 +412,7 @@ public class MainSessionController implements Initializable{
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtTag, tagNameLists);
     }
@@ -464,8 +447,6 @@ public class MainSessionController implements Initializable{
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteLecturer(lecturer.getEmpId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -504,13 +485,12 @@ public class MainSessionController implements Initializable{
         btnRadioSub.setDisable(true);
     }
 
-    public void deleteLecturer(int EmpId){
+    public void deleteLecturer(int empId1){
 
         Iterator<Lecturer> itr = list1.iterator();
         while (itr.hasNext()) {
             Lecturer lecture1 = itr.next();
-            if (lecture1.getEmpId()==EmpId) {
-                //System.out.println("Delete Lecturer");
+            if (lecture1.getEmpId()==empId1) {
                 itr.remove();
             }
         }

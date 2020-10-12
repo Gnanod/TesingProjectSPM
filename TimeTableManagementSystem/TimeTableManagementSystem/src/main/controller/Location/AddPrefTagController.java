@@ -26,6 +26,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefTagController implements Initializable {
 
@@ -45,16 +47,17 @@ public class AddPrefTagController implements Initializable {
     private TextField txtTagOpt11;
 
 
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
-    private ArrayList<Room> roomsId = new ArrayList<>();
-    private ArrayList<String> roomName = new ArrayList<>();
-    private ArrayList<Tag> tagId = new ArrayList<>();
-    private ArrayList<String> tagName = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Room> roomsId = new ArrayList<>();
+    ArrayList<String> roomName = new ArrayList<>();
+    ArrayList<Tag> tagId = new ArrayList<>();
+    ArrayList<String> tagName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private AutoCompletionBinding<String> autoCompletionBinding2;
     private AutoCompletionBinding<String> autoCompletionBinding3;
-    private String curTime;
+
+    public static final Logger log = Logger.getLogger(AddPrefTagController.class.getName());
 
     private PrefTagService prefTagService;
 
@@ -64,19 +67,19 @@ public class AddPrefTagController implements Initializable {
 
     @FXML
     void saveTagRoom(ActionEvent event) throws SQLException {
-        System.out.println("wwwww");
+
         String center = (String) cmbCenter.getValue();
         String building = txtBuildingOpt1.getText();
         String room = txtRoomOpt1.getText();
         String tag = txtTagOpt11.getText();
         int roomId=0;
-        int tagId=0;
+        int tagId1=0;
 
         if(building != null ){
             if(center != null) {
                 if(room != null) {
                     roomId = prefTagService.getRoomId(center, building, room);
-                    System.out.println("wwwwwROOMID:" + roomId);
+
                 }else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
@@ -102,8 +105,8 @@ public class AddPrefTagController implements Initializable {
 
 
         if(tag != null) {
-            tagId = prefTagService.getTagIdFromTags(tag);
-            System.out.println("wwwwwTAGID:" + tagId);
+            tagId1 = prefTagService.getTagIdFromTags(tag);
+
         }else {
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
@@ -114,7 +117,7 @@ public class AddPrefTagController implements Initializable {
 
         PrefTag prefTag = new PrefTag();
         prefTag.setRoomId(roomId);
-        prefTag.setTagId(tagId);
+        prefTag.setTagId(tagId1);
 
         boolean isAdded = false;
 
@@ -129,7 +132,7 @@ public class AddPrefTagController implements Initializable {
                             al.setContentText("Added Successfully!");
                             al.setHeaderText(null);
                             al.showAndWait();
-//                            this.getAllDetails();
+
                         } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);
@@ -180,27 +183,24 @@ public class AddPrefTagController implements Initializable {
                 tagId.add(tag);
                 tagName.add(tag.getTagName());
             }
-            for (String tag : tagName
-            ) {
-                System.out.println(tag);
-            }
+
             if(autoCompletionBinding3!=null){
                 autoCompletionBinding3.dispose();
             }
             autoCompletionBinding3  =TextFields.bindAutoCompletion(txtTagOpt11, tagName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.println("ccccccccccccc:"+center);
+
         try {
             BuildingService buildingService = new BuildingServiceImpl();
-            ;
+
 
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
             buildingsId = new ArrayList<>();
@@ -211,17 +211,14 @@ public class AddPrefTagController implements Initializable {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
             }
-            for (String building : buildingName
-            ) {
-                System.out.println(building);
-            }
+
             if(autoCompletionBinding!=null){
                 autoCompletionBinding.dispose();
             }
             autoCompletionBinding  = TextFields.bindAutoCompletion(txtBuildingOpt1, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -230,7 +227,7 @@ public class AddPrefTagController implements Initializable {
     @FXML
     void getRoom(ActionEvent event) {
         String building = txtBuildingOpt1.getText();
-        System.out.println("ddddddddddd:"+building);
+
         try {
             RoomService roomService = new RoomServiceImpl();
 
@@ -243,17 +240,14 @@ public class AddPrefTagController implements Initializable {
                 roomsId.add(room);
                 roomName.add(room.getRoom());
             }
-            for (String room : roomName
-            ) {
-                System.out.println(room);
-            }
+
             if(autoCompletionBinding2!=null){
                 autoCompletionBinding2.dispose();
             }
             autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 

@@ -21,6 +21,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddSubGroupController implements Initializable {
 
@@ -36,6 +38,7 @@ public class AddSubGroupController implements Initializable {
     private List<String> mainGroupNameList;
     private List<MainGroup> mainGroupList;
     private SubGroupService subGroupService;
+    public static final Logger log = Logger.getLogger(AddSubGroupController.class.getName());
 
     public AddSubGroupController() {
         mainGroupService = new MainGroupServiceImpl();
@@ -118,7 +121,7 @@ public class AddSubGroupController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         } catch (NumberFormatException e){
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
@@ -143,7 +146,7 @@ public class AddSubGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtMainGroupId, mainGroupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

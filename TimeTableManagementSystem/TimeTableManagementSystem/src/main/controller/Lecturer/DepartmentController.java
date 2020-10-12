@@ -11,13 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import main.model.Department;
-import main.model.Tag;
 import main.service.DepartmentService;
 import main.service.impl.DepartmentServiceImpl;
 
@@ -54,6 +56,8 @@ public class DepartmentController implements Initializable {
     private DepartmentService departmentService;
     private boolean updateStatus=false;
     private int deptId;
+    public static final Logger log = Logger.getLogger(DepartmentController.class.getName());
+
     @FXML
     void saveDetails(ActionEvent event) {
         String departmentName = txtDepartmentName.getText();
@@ -112,7 +116,7 @@ public class DepartmentController implements Initializable {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE,e.getMessage());
             }
         } else {
             Alert al = new Alert(Alert.AlertType.ERROR);
@@ -129,7 +133,7 @@ public class DepartmentController implements Initializable {
             tblDept.setItems(FXCollections.observableArrayList(departmentsList));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -201,8 +205,6 @@ public class DepartmentController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteDepartment(dept.getDepartmentId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -219,7 +221,7 @@ public class DepartmentController implements Initializable {
             };
 
     public void deleteDepartment(int id){
-
+        //Method for delete department
     }
 
 }

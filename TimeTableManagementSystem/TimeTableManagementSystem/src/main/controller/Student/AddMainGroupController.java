@@ -7,6 +7,8 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -45,6 +47,7 @@ public class AddMainGroupController implements Initializable {
     private ArrayList<YearAndSemester> yearSemId = new ArrayList<>();
     private ArrayList<String> yearSemesterName = new ArrayList<>();
     private MainGroupService mainGroupService;
+    public static final Logger log = Logger.getLogger(AddMainGroupController.class.getName());
 
     public AddMainGroupController() {
         this.programmeService = new ProgrammeServiceImpl();
@@ -68,7 +71,7 @@ public class AddMainGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtAYear, yearSemesterName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -82,7 +85,7 @@ public class AddMainGroupController implements Initializable {
             }
             TextFields.bindAutoCompletion(txtAProgramme, pName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -187,7 +190,7 @@ public class AddMainGroupController implements Initializable {
             al.setHeaderText(null);
             al.showAndWait();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }

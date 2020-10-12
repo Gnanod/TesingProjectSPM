@@ -9,22 +9,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import main.model.Building;
 import main.model.Subject;
 import main.model.YearAndSemester;
-import main.service.BuildingService;
 import main.service.SubjectService;
 import main.service.YearandSemesterService;
-import main.service.impl.BuildingServiceImpl;
 import main.service.impl.SubjectServiceImpl;
 import main.service.impl.YearAndServiceImpl;
 import org.controlsfx.control.textfield.TextFields;
 
-import javax.swing.*;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddSubjectController implements Initializable {
     @FXML
@@ -57,7 +55,10 @@ public class AddSubjectController implements Initializable {
     private ObservableList<String> subjectsLists= FXCollections.observableArrayList("Compulsory","Optional");
     private ArrayList<YearAndSemester> yearAndSemesters = new ArrayList<>();
     private ArrayList<String> yearSemName = new ArrayList<>();
-    static int yId;
+    int yId=0;
+    public static final Logger log = Logger.getLogger(AddSubjectController.class.getName());
+    int yearCount=0;
+
     @FXML
     void saveDetails(ActionEvent event) {
 
@@ -69,14 +70,14 @@ public class AddSubjectController implements Initializable {
         String categoryName=null;
         categoryName=txtCategory.getText();
 
-        int yearCount=0;
+
         for (YearAndSemester y : this.yearAndSemesters) {
             if (offeredYearSem.equals(y.getFullName())) {
                 yId = y.getId();
                 yearCount++;
             }
         }
-        System.out.print("hi"+yId);
+
         try{
             int noLecHrs = Integer.parseInt(txtLecHours.getText());
             try{
@@ -96,7 +97,7 @@ public class AddSubjectController implements Initializable {
                                             Subject subject = new Subject(subId, subName, yId, noLecHrs, noTutHrs, noEvalHrs,subjectType,categoryName);
                                             SubjectService subjectService = new SubjectServiceImpl();
                                             boolean res=subjectService.saveSubject(subject);
-                                            if(res==true){
+                                            if(res){
                                                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                                                 alert.setTitle(null);
                                                 alert.setHeaderText(null);
@@ -119,7 +120,7 @@ public class AddSubjectController implements Initializable {
                                                 al.showAndWait();
                                             }
                                         }catch (SQLException ex){
-                                            ex.printStackTrace();
+                                            log.log(Level.SEVERE,ex.getMessage());
                                         }
                                     }else{
                                         Alert al = new Alert(Alert.AlertType.ERROR);
@@ -201,18 +202,16 @@ public class AddSubjectController implements Initializable {
             ) {
                 yearAndSemesters.add(yearAndSemester);
                 yearSemName.add(yearAndSemester.getFullName());
-                System.out.println(yearAndSemester.getFullName());
             }
             TextFields.bindAutoCompletion(txtYear, yearSemName);
 
         }catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
     @FXML
     void setText(ActionEvent event) {
         String type=subType.getValue();
-        //System.out.println(type);
         if(type.equalsIgnoreCase("Compulsory")){
             txtCategory.setDisable(true);
         }else{

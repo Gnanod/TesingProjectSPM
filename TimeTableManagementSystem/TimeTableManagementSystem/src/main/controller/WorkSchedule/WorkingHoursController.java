@@ -1,11 +1,13 @@
 package main.controller.WorkSchedule;
 
-import java.io.PrintStream;
+
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -18,7 +20,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import main.model.WorkingHoursPerDay;
-import main.model.YearAndSemester;
 import main.service.WorkingHoursService;
 import main.service.impl.WorkingHoursImpl;
 
@@ -46,6 +47,7 @@ public class WorkingHoursController implements Initializable {
     private WorkingHoursService workingHoursService;
     private boolean updateStatus = false;
     private int perId=0;
+    public static final Logger log = Logger.getLogger(WorkingHoursController.class.getName());
 
     public WorkingHoursController() {
         svfH = new javafx.scene.control.SpinnerValueFactory.IntegerSpinnerValueFactory(0, 24, 0);
@@ -58,15 +60,13 @@ public class WorkingHoursController implements Initializable {
     @FXML
     void addWorkingHours(ActionEvent event) {
         if (checkbxThirtyMin.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
-            System.out.println(((Integer) spinnerHour.getValue()).intValue() );
-            System.out.println(((Integer) spinnerMinute.getValue()).intValue() );
-           // if (((Integer) spinnerHour.getValue()).intValue() < 1 && ((Integer) spinnerMinute.getValue()).intValue() < 30) {
+
                 Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
                 al.setTitle(null);
                 al.setContentText("Atleast 30min time is needed for Thirty minute time slot ");
                 al.setHeaderText(null);
                 al.showAndWait();
-           // }
+
 
         } else if (checkbxOneHour.isSelected() && ((Integer) spinnerHour.getValue()).intValue() < 1) {
             Alert al = new Alert(javafx.scene.control.Alert.AlertType.ERROR);
@@ -122,7 +122,7 @@ public class WorkingHoursController implements Initializable {
                 }
 
             } catch (SQLException e) {
-                e.printStackTrace();
+                log.log(Level.SEVERE,e.getMessage());
             }
         }
     }
@@ -175,7 +175,7 @@ public class WorkingHoursController implements Initializable {
                             spinnerMinute.getValueFactory().setValue(Integer.parseInt(workingHoursPerDay.getWorkingTime().substring(workingHoursPerDay.getWorkingTime().lastIndexOf(".") + 1)));
                             updateStatus = true;
                             perId = workingHoursPerDay.getWhpId();
-                            System.out.println("PPPP"+perId);
+
                             if(workingHoursPerDay.getTimeSlot().equals("One Hour")){
                                 checkbxOneHour.setSelected(true);
                             }else if(workingHoursPerDay.getTimeSlot().equals("Thirty minute")){
@@ -211,8 +211,6 @@ public class WorkingHoursController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteWorkingHoursPerDay(whp.getWhpId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -246,7 +244,7 @@ public class WorkingHoursController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     public void getAllDetails() {
@@ -255,7 +253,7 @@ public class WorkingHoursController implements Initializable {
             tblWorkingDays.setItems(FXCollections.observableArrayList(list));
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

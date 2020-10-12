@@ -17,55 +17,85 @@ public class ProgrammeServiceImpl implements ProgrammeService {
     }
     @Override
     public boolean saveProgramme(Programme programme) throws SQLException {
-        String SQL = "Insert into programme Values(?,?)";
-        PreparedStatement stm = connection.prepareStatement(SQL);
-        stm.setObject(1, 0);
-        stm.setObject(2, programme.getProgrammeName());
-        int res = stm.executeUpdate();
-        return res > 0;
+        String sql = "Insert into programme Values(?,?)";
+        PreparedStatement stm = connection.prepareStatement(sql);
+        try {
+            stm.setObject(1, 0);
+            stm.setObject(2, programme.getProgrammeName());
+            int res = stm.executeUpdate();
+            return res > 0;
+        } finally {
+            stm.close();
+        }
     }
 
     @Override
     public boolean searchProgramme(String name) throws SQLException {
-        String SQL = "select programmeid from programme where programmeName = '" + name + "' ";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        boolean result = false;
-        if (rst.next()) {
-            if (rst.getString("programmeid") != null) {
-                result = true;
-            } else {
-                result = false;
+        Statement stm = null;
+        try {
+            String sql = "select programmeid from programme where programmeName = '" + name + "' ";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                boolean result = false;
+                if (rst.next()) {
+                    if (rst.getString("programmeid") != null) {
+                        result = true;
+                    } else {
+                        result = false;
+                    }
+                }
+                return result;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
             }
         }
-        return result;
     }
 
     @Override
     public ArrayList<Programme> getAllDetails() throws SQLException {
-        String SQL ="Select * from programme";
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery(SQL);
-        ArrayList<Programme> programmes = new ArrayList<>();
-        while(rst.next()){
-            Programme pr = new Programme(Integer.parseInt(rst.getString("programmeid")),rst.getString("programmeName"));
-            programmes.add(pr);
+        Statement stm = null;
+        try {
+            String sql = "Select * from programme";
+            stm = connection.createStatement();
+            try (ResultSet rst = stm.executeQuery(sql)) {
+                ArrayList<Programme> programmes = new ArrayList<>();
+                while(rst.next()){
+                    Programme pr = new Programme(Integer.parseInt(rst.getString("programmeid")),rst.getString("programmeName"));
+                    programmes.add(pr);
+                }
+                return programmes;
+            }
+        } finally {
+            if (stm != null) {
+                stm.close();
+            }
         }
-        return programmes;
+
+
     }
 
     @Override
     public boolean updateProgramme(Programme programme) throws SQLException {
-        String SQL="Update programme set programmeName='"+programme.getProgrammeName()+"' where programmeid='"+programme.getProgrammeId()+"'";
-        Statement stm=connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        String sql="Update programme set programmeName='"+programme.getProgrammeName()+"' where programmeid='"+programme.getProgrammeId()+"'";
+        Statement stm = connection.createStatement();
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
+
     }
 
     @Override
     public boolean deleteProgramme(int key) throws SQLException {
-        String SQL = "Delete From programme where programmeid = '"+key+"'";
-
+        String sql = "Delete From programme where programmeid = '"+key+"'";
         Statement stm = connection.createStatement();
-        return stm.executeUpdate(SQL)>0;
+        try {
+            return stm.executeUpdate(sql) > 0;
+        } finally {
+            stm.close();
+        }
     }
 }

@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.jfoenix.controls.JFXTimePicker;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -23,14 +26,12 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 import main.model.Lecturer;
-import main.model.NotAvailableGroup;
 import main.model.NotAvailableLecturer;
 import main.service.LecturerService;
 import main.service.impl.LectureServiceImpl;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
-import javax.xml.soap.Text;
 
 
 public class NotAvailableLecturerController implements Initializable {
@@ -61,12 +62,12 @@ public class NotAvailableLecturerController implements Initializable {
 
     @FXML
     private TextField txtSearchLecturer;
-
+    AutoCompletionBinding<String> autoCompletionBinding;
     private LecturerService lectureService;
-    private AutoCompletionBinding<String> autoCompletionBinding;
     private List<String> lecNameList;
     private List<Lecturer> lecObj;
     private String curTime;
+    public static final Logger log = Logger.getLogger(MainGroupController.class.getName());
 
     @FXML
     void saveDetails(ActionEvent event) {
@@ -94,7 +95,7 @@ public class NotAvailableLecturerController implements Initializable {
                             isAdded = lectureService.addNotAvailableLectures(nal);
 
                         } catch (SQLException e) {
-                            e.printStackTrace();
+                            log.log(Level.SEVERE,e.getMessage());
                         }
                         if(isAdded){
                                 Alert al = new Alert(Alert.AlertType.INFORMATION);
@@ -151,6 +152,8 @@ public class NotAvailableLecturerController implements Initializable {
     }
 
     public void getAllLecturerDetails(){
+
+
         try {
             ArrayList<Lecturer> lec = lectureService.getAllLecturerDetails();
             lecNameList.clear();
@@ -162,7 +165,7 @@ public class NotAvailableLecturerController implements Initializable {
             autoCompletionBinding = TextFields.bindAutoCompletion(txtLecturer, lecNameList);
             TextFields.bindAutoCompletion(txtSearchLecturer,lecNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }
@@ -184,14 +187,10 @@ public class NotAvailableLecturerController implements Initializable {
     private void getNotAvailableLecturerDetails(String name) {
         try {
             List<NotAvailableLecturer> nal = lectureService.getAllNotAvailableLecturers(name);
-            System.out.println("LLLLLL");
-            for (NotAvailableLecturer n:nal
-                 ) {
-                System.out.println(n.getLectureName());
-            }
+
             tblNotAvailableLecturer.setItems(FXCollections.observableArrayList(nal));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -228,8 +227,6 @@ public class NotAvailableLecturerController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteNotAvailableLecturer(nalv.getId());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -264,7 +261,7 @@ public class NotAvailableLecturerController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

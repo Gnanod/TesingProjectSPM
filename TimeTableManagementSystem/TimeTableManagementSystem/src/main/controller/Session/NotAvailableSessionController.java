@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jfoenix.controls.JFXTimePicker;
 import javafx.fxml.FXML;
@@ -77,13 +79,15 @@ public class NotAvailableSessionController implements Initializable {
     private List<Subject> subList;
     private List<String> subNameList;
     private SessionService sessionService;
+    String groupType = "";
+    public static final Logger log = Logger.getLogger(NotAvailableSessionController.class.getName());
 
     @FXML
     void loadGroupDetails() {
-        System.out.println("loadGroupDetails");
+
         if (btnRadioMain.isSelected()) {
             loadMainGroupDetails();
-            System.out.println("preloadMainGroupDetails");
+
         } else if (btnRadioSub.isSelected()) {
             loadSubGroupDetails();
         }
@@ -99,7 +103,7 @@ public class NotAvailableSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtTag, tagNameList);
     }
@@ -114,7 +118,7 @@ public class NotAvailableSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtSubject, subNameList);
     }
@@ -129,14 +133,14 @@ public class NotAvailableSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtLecturer, lectureNameList);
     }
 
     private void loadMainGroupDetails() {
         try {
-            System.out.println("loadMainGroupDetails");
+
             ArrayList<MainGroup> mainList = this.mainGroupservice.getAllMainGroupDetails();
             groupNameList.clear();
 
@@ -151,28 +155,28 @@ public class NotAvailableSessionController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
     private void loadSubGroupDetails() {
         try {
-            System.out.println("loadSubGroupDetails");
-            ArrayList<SubGroup> subList = this.subGroupService.getAllSubGroupDetails(0);
+
+            ArrayList<SubGroup> subList1 = this.subGroupService.getAllSubGroupDetails(0);
 
             groupNameList.clear();
             groupList.clear();
             if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
             }
-            for (SubGroup s : subList
+            for (SubGroup s : subList1
             ) {
                 groupNameList.add(s.getSubgroupid());
                 groupList.add(s);
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -187,7 +191,7 @@ public class NotAvailableSessionController implements Initializable {
         String tagName = txtTag.getText();
         int tagId = 0;
         int tagCount = 0;
-        String groupType = "";
+
         int groupCount = 0;
         int subGroupId = 0;
         int mainGroupId = 0;
@@ -218,18 +222,16 @@ public class NotAvailableSessionController implements Initializable {
         }
         for (Object m : this.groupList
         ) {
-            if (m instanceof MainGroup) {
-                if (groupId.equals(((MainGroup) m).getGroupid())) {
+            if (m instanceof MainGroup && groupId.equals(((MainGroup) m).getGroupid())) {
                     mainGroupId = ((MainGroup) m).getId();
                     groupCount++;
 
-                }
+
             }
-            if (m instanceof SubGroup) {
-                if (groupId.equals(((SubGroup) m).getSubgroupid())) {
+            if (m instanceof SubGroup && groupId.equals(((SubGroup) m).getSubgroupid())) {
                     subGroupId = ((SubGroup) m).getId();
                     groupCount++;
-                }
+
             }
         }
 
@@ -253,7 +255,7 @@ public class NotAvailableSessionController implements Initializable {
                                                 al.showAndWait();
                                             }
                                         } catch (SQLException e) {
-                                            e.printStackTrace();
+                                            log.log(Level.SEVERE,e.getMessage());
                                         }
 
                                     } else {
@@ -382,12 +384,12 @@ public class NotAvailableSessionController implements Initializable {
                                 Alert al = new Alert(Alert.AlertType.ERROR);
                                 al.setTitle(null);
                                 al.setContentText("Added Fail");
-                                ;
+
                                 al.setHeaderText(null);
                                 al.showAndWait();
                             }
                         } catch (SQLException e) {
-                            e.printStackTrace();
+                            log.log(Level.SEVERE,e.getMessage());
                         }
 
 

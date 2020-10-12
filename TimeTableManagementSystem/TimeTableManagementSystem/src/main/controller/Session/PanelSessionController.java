@@ -7,6 +7,9 @@ import javafx.fxml.Initializable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -32,6 +35,8 @@ public class PanelSessionController implements Initializable {
 
     @FXML
     private Button btnParallelSession;
+
+    public static final Logger log = Logger.getLogger(PanelSessionController.class.getName());
 
     @FXML
     void handleEvents(ActionEvent event) {
@@ -78,7 +83,7 @@ public class PanelSessionController implements Initializable {
                 MainController.urlName = currentUrl + "/" + "ParallelSession";
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -91,7 +96,7 @@ public class PanelSessionController implements Initializable {
             Parent root = loader.load();
             pnlSession.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }

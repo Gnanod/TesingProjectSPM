@@ -1,4 +1,4 @@
-package main.controller.TimeTableGenerate;
+package main.controller.timetablegenerate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,17 +18,16 @@ import main.service.impl.MainGroupServiceImpl;
 import main.service.impl.SessionServiceImpl;
 import main.service.impl.TimeTableGenerateServiceImpl;
 import main.service.impl.WorkingDaysServiceImpl;
-import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.TextFields;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TimeTableGenerateGroupController implements Initializable {
     @FXML
@@ -37,18 +36,22 @@ public class TimeTableGenerateGroupController implements Initializable {
     @FXML
     private TextField txtGroupId;
 
+    static final String ONE_HOUR = "One Hour";
+    static final String YES = "Yes";
+    static final String TUTE = "Tute";
+    static final String LECTURER = "Lecturer";
+
     private ArrayList<String> groupName;
     private MainGroupService mainGroupService;
-    private AutoCompletionBinding<String> autoCompletionBinding;
     private WorkingDaysService workingDaysService;
     private SessionService sessionService;
     private TimeTableGenerateService timeTableGenerateService;
-    private static String timeSlot = "";
-    private static double workingHours = 0;
-    private static int workingDaysCount = 0;
-    private static double hourSize = 0;
-    private static ArrayList<String> parallelSessionRoomArray = new ArrayList<>();
-    private static ArrayList<String> parallelSessionConsective = new ArrayList<>();
+    private String timeSlot = "";
+
+    private int workingDaysCount = 0;
+    private double hourSize = 0;
+    private ArrayList<String> parallelSessionRoomArray = new ArrayList<>();
+    public final Logger log = Logger.getLogger(TimeTableGenerateGroupController.class.getName());
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -67,10 +70,9 @@ public class TimeTableGenerateGroupController implements Initializable {
             for (MainGroup m : mainGroup) {
                 groupName.add(m.getGroupid());
             }
-            autoCompletionBinding = TextFields.bindAutoCompletion(txtGroupId, groupName);
             TextFields.bindAutoCompletion(txtGroupId, groupName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
     }
 
@@ -79,7 +81,7 @@ public class TimeTableGenerateGroupController implements Initializable {
         try {
             countWorkingDays = workingDaysService.getCountOfWorkingDays();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return countWorkingDays;
     }
@@ -89,7 +91,7 @@ public class TimeTableGenerateGroupController implements Initializable {
         try {
             workingTime = workingDaysService.getWorkingTime();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return workingTime;
     }
@@ -99,17 +101,18 @@ public class TimeTableGenerateGroupController implements Initializable {
         try {
             type = workingDaysService.getWorkingTimeType();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return type;
     }
 
     public String[][] getStringArray() {
+        double workingHours = 0;
         timeSlot = this.getWorkingTimeType();
         workingHours = this.getWorkingTime();
         workingDaysCount = this.getCountOfWorkingDays();
         hourSize = 0;
-        if (timeSlot.equals("One Hour")) {
+        if (timeSlot.equals(ONE_HOUR)) {
             hourSize = workingHours;
         } else {
             hourSize = workingHours * 2;
@@ -120,7 +123,7 @@ public class TimeTableGenerateGroupController implements Initializable {
         for (int i = 0; i < workingDaysCount; i++) {
             for (int j = 0; j < hourSize; j++) {
                 String tempTime = "";
-                if (timeSlot.equals("One Hour")) {
+                if (timeSlot.equals(ONE_HOUR)) {
                     if (hoursCount < 10) {
                         tempTime = "0" + hoursCount + ":" + minutCount;
                     } else {
@@ -181,7 +184,7 @@ public class TimeTableGenerateGroupController implements Initializable {
         try {
             result = this.timeTableGenerateService.getRoomSize(roomId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE, e.getMessage());
         }
         return result;
     }
@@ -215,23 +218,14 @@ public class TimeTableGenerateGroupController implements Initializable {
     void generateTimeTable(ActionEvent event) {
         try {
             String groupId = txtGroupId.getText();
-            String FILE = this.timeTableGenerateService.getPdf(groupId);
+            String file = this.timeTableGenerateService.getPdf(groupId);
 
-            if (FILE != null) {
-//                String FILE = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + groupId+".pdf";
-                File someFile = new File(FILE);
-//                FileOutputStream fos = new FileOutputStream(someFile);
-//                fos.write(array);
+            if (file != null) {
                 if (Desktop.isDesktopSupported()) {
-                    try {
-                        File myFile = new File(FILE);
-                        Desktop.getDesktop().open(myFile);
-                    } catch (IOException ex) {
-                        // no application registered for PDFs
-                    }
+                    File myFile = new File(file);
+                    Desktop.getDesktop().open(myFile);
+
                 }
-//                fos.flush();
-//                fos.close();
             } else {
                 String[][] timeString = this.getStringArray();
                 String[][] session = new String[workingDaysCount][(int) hourSize];
@@ -242,479 +236,449 @@ public class TimeTableGenerateGroupController implements Initializable {
                 if (!groupId.isEmpty()) {
 
                     ArrayList<SessionTagGroup> sessionList = sessionService.getSessionsAccordingToMainGroupId(groupId.trim());
-                    if (sessionList.size() != 0) {
+                    if (!sessionList.isEmpty()) {
                         int tempConsectiveId = 0;
                         for (SessionTagGroup stg : sessionList) {
-                            if (stg.getConsectiveAdded().equalsIgnoreCase("Yes")) {
-                                if (stg.getTagName().equalsIgnoreCase("Tute") || stg.getTagName().equalsIgnoreCase("Lecture")) {
-                                    if (tempConsectiveId != stg.getSessionId()) {
-                                        double consectiveLecHour = this.timeTableGenerateService.getConsectiveSessionHourAccordingToSession(stg.getSessionId());
-                                        int consectiveLecId = this.timeTableGenerateService.getConsectiveSessionIdAccordingToSession(stg.getSessionId());
-                                        int tuteLecHourCount = 0;
-                                        int arraySpaces = 0;
-                                        double sessionHour = stg.getDuration();
-                                        if (timeSlot.equals("One Hour")) {
-                                            arraySpaces = (int) sessionHour;
-                                            tuteLecHourCount = (int) (stg.getDuration() + consectiveLecHour);
-                                            ;
-                                        } else {
-                                            arraySpaces = (int) sessionHour * 2;
-                                            tuteLecHourCount = (int) (stg.getDuration() + consectiveLecHour);
-                                        }
-                                        ArrayList<Integer> subjectPreferedRoom = timeTableGenerateService.getSubjectPreferedRoom(stg.getSubjectId().trim(), stg.getTagId());
-                                        ArrayList<Integer> lecturesList = timeTableGenerateService.getLecturersAccordingToSessionId(stg.getSessionId());
-                                        ArrayList<Integer> lecturerPreferedRoomList = new ArrayList<>();
-                                        for (int i : lecturesList
-                                        ) {
-                                            ArrayList<Integer> lectureRoomId = timeTableGenerateService.getLecturerPrefferedList(i);
-                                            for (Integer lri : lectureRoomId
-                                            ) {
-                                                lecturerPreferedRoomList.add(lri);
-                                            }
-                                        }
-                                        ArrayList<Integer> groupPreferedRooList = timeTableGenerateService.getPreferredRoomListForGroup(
-                                                Integer.parseInt(stg.getGroupId()));
-                                        ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
-                                        String day = "";
-                                        if (subjectPreferedRoom.size() != 0) {
-                                            subjectRoomList:
-                                            for (Integer spr : subjectPreferedRoom) {
-                                                int roomSize = getRoomSize(spr);
-                                                if (stg.getStudentCount() <= roomSize) {
-                                                    firstLoop:
-                                                    for (int i = 0; i < workingDaysCount; i++) {
-                                                        day = getDay(i);
-                                                        int count = 0;
-                                                        int tempJ = 0;
-                                                        int tempSum = 0;
-                                                        int tempSessionId = 0;
-                                                        secondforLoop:
-                                                        for (int j = 0; j < hourSize; j++) {
-                                                            if (session[i][j] == null) {
-                                                                String time = timeString[i][j];
-                                                                String[] arrTime = time.split("-");
-                                                                String toTime = arrTime[1];
-                                                                String fromTime = arrTime[0];
-                                                                boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
-                                                                boolean notAvailableLectureStatus = false;
-                                                                for (Integer lec : lecturesList
-                                                                ) {
-                                                                    boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
-                                                                    if (status) {
-                                                                        notAvailableLectureStatus = true;
-                                                                    }
-                                                                }
-                                                                boolean notAvailableGroupStatus = false;
-                                                                if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
-                                                                } else {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
-                                                                }
-                                                                boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
-                                                                if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
-                                                                    boolean completeIndexses = false;
-                                                                    if (count == 0) {
-                                                                        int k = j;
-                                                                        int sum = k + (tuteLecHourCount - 1);
-                                                                        if (sum <= hourSize) {
-                                                                            tempJ = j;
-                                                                            tempSum = sum;
-                                                                            tempSessionId = stg.getSessionId();
-                                                                            try {
-                                                                                for (int l = k; l <= sum; l++) {
-                                                                                    if (session[i][l] == null) {
-                                                                                        completeIndexses = true;
-                                                                                    } else {
-                                                                                        completeIndexses = false;
-                                                                                        break secondforLoop;
-                                                                                    }
-                                                                                }
-                                                                            } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                completeIndexses = false;
-                                                                                break secondforLoop;
-                                                                            }
-                                                                            if (!completeIndexses) {
-                                                                                break secondforLoop;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    count++;
-                                                                    if (count == tuteLecHourCount) {
-                                                                        for (int m = tempJ; m < tempSum; m++) {
-                                                                            session[i][m] = Integer.toString(tempSessionId);
-
-                                                                            roomSession[i][m] = Integer.toString(spr);
-                                                                        }
-                                                                        session[i][tempSum] = Integer.toString(consectiveLecId);
-                                                                        roomSession[i][tempSum] = Integer.toString(spr);
-                                                                        tempConsectiveId = consectiveLecId;
-                                                                        break subjectRoomList;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } else if (lecturerPreferedRoomList.size() != 0) {
-                                            lecturerRoomList:
-                                            for (Integer lpr : lecturerPreferedRoomList) {
-                                                int roomSize = getRoomSize(lpr);
-                                                if (stg.getStudentCount() <= roomSize) {
-                                                    firstLoop:
-                                                    for (int i = 0; i < workingDaysCount; i++) {
-                                                        day = getDay(i);
-                                                        day = getDay(i);
-                                                        int count = 0;
-                                                        int tempJ = 0;
-                                                        int tempSum = 0;
-                                                        int tempSessionId = 0;
-                                                        secondforLoop:
-                                                        for (int j = 0; j < hourSize; j++) {
-                                                            if (session[i][j] == null) {
-                                                                String time = timeString[i][j];
-                                                                String[] arrTime = time.split("-");
-                                                                String toTime = arrTime[1];
-                                                                String fromTime = arrTime[0];
-                                                                boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
-                                                                boolean notAvailableLectureStatus = false;
-                                                                for (Integer lec : lecturesList
-                                                                ) {
-                                                                    boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
-                                                                    if (status) {
-                                                                        notAvailableLectureStatus = true;
-                                                                    }
-                                                                }
-                                                                boolean notAvailableGroupStatus = false;
-                                                                if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
-                                                                } else {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
-                                                                }
-                                                                boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, lpr);
-                                                                if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
-                                                                    boolean completeIndexses = false;
-                                                                    if (count == 0) {
-                                                                        int k = j;
-                                                                        int sum = k + (tuteLecHourCount - 1);
-                                                                        if (sum <= hourSize) {
-                                                                            tempJ = j;
-                                                                            tempSum = sum;
-                                                                            tempSessionId = stg.getSessionId();
-                                                                            try {
-                                                                                for (int l = k; l <= sum; l++) {
-                                                                                    if (session[i][l] == null) {
-                                                                                        completeIndexses = true;
-                                                                                    } else {
-                                                                                        completeIndexses = false;
-                                                                                        break secondforLoop;
-                                                                                    }
-                                                                                }
-                                                                            } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                completeIndexses = false;
-                                                                                break secondforLoop;
-                                                                            }
-                                                                            if (!completeIndexses) {
-                                                                                break secondforLoop;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    count++;
-                                                                    if (count == tuteLecHourCount) {
-                                                                        for (int m = tempJ; m < tempSum; m++) {
-                                                                            session[i][m] = Integer.toString(tempSessionId);
-                                                                            roomSession[i][m] = Integer.toString(lpr);
-                                                                        }
-                                                                        session[i][tempSum] = Integer.toString(consectiveLecId);
-                                                                        roomSession[i][tempSum] = Integer.toString(lpr);
-                                                                        tempConsectiveId = consectiveLecId;
-                                                                        break lecturerRoomList;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } else if (groupPreferedRooList.size() != 0) {
-                                            groupRoomList:
-                                            for (Integer gpr : groupPreferedRooList) {
-                                                int roomSize = getRoomSize(gpr);
-                                                if (stg.getStudentCount() <= roomSize) {
-                                                    firstLoop:
-                                                    for (int i = 0; i < workingDaysCount; i++) {
-                                                        day = getDay(i);
-                                                        day = getDay(i);
-                                                        int count = 0;
-                                                        int tempJ = 0;
-                                                        int tempSum = 0;
-                                                        int tempSessionId = 0;
-                                                        secondforLoop:
-                                                        for (int j = 0; j < hourSize; j++) {
-                                                            if (session[i][j] == null) {
-                                                                String time = timeString[i][j];
-                                                                String[] arrTime = time.split("-");
-                                                                String toTime = arrTime[1];
-                                                                String fromTime = arrTime[0];
-                                                                boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
-                                                                boolean notAvailableLectureStatus = false;
-                                                                for (Integer lec : lecturesList
-                                                                ) {
-                                                                    boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
-                                                                    if (status) {
-                                                                        notAvailableLectureStatus = true;
-                                                                    }
-                                                                }
-                                                                boolean notAvailableGroupStatus = false;
-                                                                if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
-                                                                } else {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
-                                                                }
-                                                                boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, gpr);
-                                                                if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
-                                                                    boolean completeIndexses = false;
-                                                                    if (count == 0) {
-                                                                        int k = j;
-                                                                        int sum = k + (tuteLecHourCount - 1);
-                                                                        ;
-                                                                        if (sum <= hourSize) {
-                                                                            tempJ = j;
-                                                                            tempSum = sum;
-                                                                            tempSessionId = stg.getSessionId();
-                                                                            try {
-                                                                                for (int l = k; l <= sum; l++) {
-                                                                                    if (session[i][l] == null) {
-                                                                                        completeIndexses = true;
-                                                                                    } else {
-                                                                                        completeIndexses = false;
-                                                                                        break secondforLoop;
-                                                                                    }
-                                                                                }
-                                                                            } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                completeIndexses = false;
-                                                                                break secondforLoop;
-                                                                            }
-                                                                            if (!completeIndexses) {
-                                                                                break secondforLoop;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    count++;
-                                                                    if (count == tuteLecHourCount) {
-                                                                        for (int m = tempJ; m < tempSum; m++) {
-                                                                            session[i][m] = Integer.toString(tempSessionId);
-                                                                            roomSession[i][m] = Integer.toString(gpr);
-                                                                        }
-                                                                        session[i][tempSum] = Integer.toString(consectiveLecId);
-                                                                        roomSession[i][tempSum] = Integer.toString(gpr);
-                                                                        tempConsectiveId = consectiveLecId;
-                                                                        break groupRoomList;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-
-                                        } else if (sessionPreferredRoomList.size() != 0) {
-                                            sessionRoomList:
-                                            for (Integer spr : sessionPreferredRoomList) {
-                                                int roomSize = getRoomSize(spr);
-                                                if (stg.getStudentCount() <= roomSize) {
-                                                    firstLoop:
-                                                    for (int i = 0; i < workingDaysCount; i++) {
-                                                        day = getDay(i);
-                                                        day = getDay(i);
-                                                        int count = 0;
-                                                        int tempJ = 0;
-                                                        int tempSum = 0;
-                                                        int tempSessionId = 0;
-                                                        secondforLoop:
-                                                        for (int j = 0; j < hourSize; j++) {
-                                                            if (session[i][j] == null) {
-                                                                String time = timeString[i][j];
-                                                                String[] arrTime = time.split("-");
-                                                                String toTime = arrTime[1];
-                                                                String fromTime = arrTime[0];
-                                                                boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
-                                                                boolean notAvailableLectureStatus = false;
-                                                                for (Integer lec : lecturesList
-                                                                ) {
-                                                                    boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
-                                                                    if (status) {
-                                                                        notAvailableLectureStatus = true;
-                                                                    }
-                                                                }
-                                                                boolean notAvailableGroupStatus = false;
-                                                                if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
-                                                                } else {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
-                                                                }
-                                                                boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
-                                                                if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
-                                                                    boolean completeIndexses = false;
-                                                                    if (count == 0) {
-                                                                        int k = j;
-                                                                        int sum = k + (tuteLecHourCount - 1);
-                                                                        if (sum <= hourSize) {
-                                                                            tempJ = j;
-                                                                            tempSum = sum;
-                                                                            tempSessionId = stg.getSessionId();
-                                                                            try {
-                                                                                for (int l = k; l <= sum; l++) {
-                                                                                    if (session[i][l] == null) {
-                                                                                        completeIndexses = true;
-                                                                                    } else {
-                                                                                        completeIndexses = false;
-                                                                                        ;
-                                                                                        break secondforLoop;
-                                                                                    }
-                                                                                }
-                                                                            } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                completeIndexses = false;
-                                                                                break secondforLoop;
-                                                                            }
-                                                                            if (!completeIndexses) {
-                                                                                break secondforLoop;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    count++;
-                                                                    if (count == tuteLecHourCount) {
-                                                                        for (int m = tempJ; m < tempSum; m++) {
-                                                                            session[i][m] = Integer.toString(tempSessionId);
-                                                                            roomSession[i][m] = Integer.toString(spr);
-                                                                            ;
-                                                                        }
-                                                                        session[i][tempSum] = Integer.toString(consectiveLecId);
-                                                                        roomSession[i][tempSum] = Integer.toString(spr);
-                                                                        tempConsectiveId = consectiveLecId;
-                                                                        ;
-                                                                        break sessionRoomList;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            Set<Integer> buildingList = new HashSet<>();
-                                            Set<Integer> roomList = new HashSet<>();
-                                            for (Integer lec : lecturesList
-                                            ) {
-                                                Integer buidling = timeTableGenerateService.getBuilidingForLecturer(lec);
-                                                buildingList.add(buidling);
-                                            }
-                                            for (Integer i : buildingList
-                                            ) {
-                                                ArrayList<Integer> integers = timeTableGenerateService.getRoomsAccordingToBuilding(i);
-                                                for (Integer room : integers
-                                                ) {
-                                                    roomList.add(room);
-                                                }
-                                            }
-                                            otherRoomList:
-                                            for (Integer spr : roomList) {
-                                                int roomSize = getRoomSize(spr);
-                                                ;
-                                                if (stg.getStudentCount() <= roomSize) {
-                                                    firstLoop:
-                                                    for (int i = 0; i < workingDaysCount; i++) {
-                                                        day = getDay(i);
-                                                        int count = 0;
-                                                        int tempJ = 0;
-                                                        int tempSum = 0;
-                                                        int tempSessionId = 0;
-                                                        ;
-                                                        secondforLoop:
-                                                        for (int j = 0; j < hourSize; j++) {
-                                                            if (session[i][j] == null) {
-                                                                String time = timeString[i][j];
-                                                                String[] arrTime = time.split("-");
-                                                                String toTime = arrTime[1];
-                                                                String fromTime = arrTime[0];
-                                                                boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
-                                                                boolean notAvailableLectureStatus = false;
-                                                                ;
-                                                                for (Integer lec : lecturesList
-                                                                ) {
-                                                                    boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
-                                                                    if (status) {
-                                                                        notAvailableLectureStatus = true;
-                                                                    }
-                                                                }
-                                                                boolean notAvailableGroupStatus = false;
-                                                                if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
-                                                                } else {
-                                                                    notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
-                                                                }
-                                                                boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
-
-                                                                if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
-                                                                    boolean completeIndexses = false;
-                                                                    if (count == 0) {
-                                                                        int k = j;
-                                                                        int sum = k + (tuteLecHourCount - 1);
-                                                                        if (sum <= hourSize) {
-                                                                            tempJ = j;
-                                                                            tempSum = sum;
-                                                                            tempSessionId = stg.getSessionId();
-                                                                            try {
-                                                                                for (int l = k; l <= sum; l++) {
-                                                                                    if (session[i][l] == null) {
-                                                                                        completeIndexses = true;
-                                                                                        ;
-                                                                                    } else {
-                                                                                        completeIndexses = false;
-                                                                                        break secondforLoop;
-                                                                                    }
-                                                                                }
-                                                                            } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                completeIndexses = false;
-                                                                                break secondforLoop;
-                                                                            }
-                                                                            if (!completeIndexses) {
-                                                                                break secondforLoop;
-                                                                            }
-
-                                                                        }
-                                                                    }
-                                                                    count++;
-                                                                    if (count == tuteLecHourCount) {
-                                                                        for (int m = tempJ; m < tempSum; m++) {
-                                                                            session[i][m] = Integer.toString(tempSessionId);
-                                                                            roomSession[i][m] = Integer.toString(spr);
-                                                                        }
-                                                                        session[i][tempSum] = Integer.toString(consectiveLecId);
-                                                                        roomSession[i][tempSum] = Integer.toString(spr);
-                                                                        tempConsectiveId = consectiveLecId;
-                                                                        ;
-                                                                        break otherRoomList;
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-
+                            if ((stg.getConsectiveAdded().equalsIgnoreCase(YES)) && (stg.getTagName().equalsIgnoreCase(TUTE) || stg.getTagName().equalsIgnoreCase(LECTURER)) && tempConsectiveId != stg.getSessionId()) {
+                                double consectiveLecHour = this.timeTableGenerateService.getConsectiveSessionHourAccordingToSession(stg.getSessionId());
+                                int consectiveLecId = this.timeTableGenerateService.getConsectiveSessionIdAccordingToSession(stg.getSessionId());
+                                int tuteLecHourCount = 0;
+                                if (timeSlot.equals(ONE_HOUR)) {
+                                    tuteLecHourCount = (int) (stg.getDuration() + consectiveLecHour);
+                                } else {
+                                    tuteLecHourCount = (int) (stg.getDuration() + consectiveLecHour)*2;
+                                }
+                                ArrayList<Integer> subjectPreferedRoom = timeTableGenerateService.getSubjectPreferedRoom(stg.getSubjectId().trim(), stg.getTagId());
+                                ArrayList<Integer> lecturesList = timeTableGenerateService.getLecturersAccordingToSessionId(stg.getSessionId());
+                                ArrayList<Integer> lecturerPreferedRoomList = new ArrayList<>();
+                                for (int i : lecturesList
+                                ) {
+                                    ArrayList<Integer> lectureRoomId = timeTableGenerateService.getLecturerPrefferedList(i);
+                                    for (Integer lri : lectureRoomId
+                                    ) {
+                                        lecturerPreferedRoomList.add(lri);
                                     }
                                 }
+                                ArrayList<Integer> groupPreferedRooList = timeTableGenerateService.getPreferredRoomListForGroup(
+                                        Integer.parseInt(stg.getGroupId()));
+                                ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
+                                String day = "";
+                                if (!subjectPreferedRoom.isEmpty()) {
+                                    subjectRoomList:
+                                    for (Integer spr : subjectPreferedRoom) {
+                                        int roomSize = getRoomSize(spr);
+                                        if (stg.getStudentCount() <= roomSize) {
+                                            firstLoop:
+                                            for (int i = 0; i < workingDaysCount; i++) {
+                                                day = getDay(i);
+                                                int count = 0;
+                                                int tempJ = 0;
+                                                int tempSum = 0;
+                                                int tempSessionId = 0;
+                                                secondforLoop:
+                                                for (int j = 0; j < hourSize; j++) {
+                                                    if (session[i][j] == null) {
+                                                        String time = timeString[i][j];
+                                                        String[] arrTime = time.split("-");
+                                                        String toTime = arrTime[1];
+                                                        String fromTime = arrTime[0];
+                                                        boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
+                                                        boolean notAvailableLectureStatus = false;
+                                                        for (Integer lec : lecturesList
+                                                        ) {
+                                                            boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                            if (status) {
+                                                                notAvailableLectureStatus = true;
+                                                            }
+                                                        }
+                                                        boolean notAvailableGroupStatus = false;
+                                                        if (stg.getTagName().equals(LECTURER) || stg.getTagName().equals(TUTE)) {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+//
+                                                        } else {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                                        }
+                                                        boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
+                                                        if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
+                                                            boolean completeIndexses = false;
+                                                            if (count == 0) {
+                                                                int k = j;
+                                                                int sum = k + (tuteLecHourCount - 1);
+                                                                if (sum <= hourSize) {
+                                                                    tempJ = j;
+                                                                    tempSum = sum;
+                                                                    tempSessionId = stg.getSessionId();
+                                                                    try {
+                                                                        for (int l = k; l <= sum; l++) {
+                                                                            if (session[i][l] == null) {
+                                                                                completeIndexses = true;
+                                                                            } else {
+                                                                                break secondforLoop;
+                                                                            }
+                                                                        }
+                                                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                                                        break secondforLoop;
+                                                                    }
+                                                                    if (!completeIndexses) {
+                                                                        break secondforLoop;
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            count++;
+                                                            if (count == tuteLecHourCount) {
+                                                                for (int m = tempJ; m < tempSum; m++) {
+                                                                    session[i][m] = Integer.toString(tempSessionId);
+
+                                                                    roomSession[i][m] = Integer.toString(spr);
+                                                                }
+                                                                session[i][tempSum] = Integer.toString(consectiveLecId);
+                                                                roomSession[i][tempSum] = Integer.toString(spr);
+                                                                tempConsectiveId = consectiveLecId;
+                                                                break subjectRoomList;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (!lecturerPreferedRoomList.isEmpty()) {
+                                    lecturerRoomList:
+                                    for (Integer lpr : lecturerPreferedRoomList) {
+                                        int roomSize = getRoomSize(lpr);
+                                        if (stg.getStudentCount() <= roomSize) {
+                                            firstLoop:
+                                            for (int i = 0; i < workingDaysCount; i++) {
+                                                day = getDay(i);
+                                                int count = 0;
+                                                int tempJ = 0;
+                                                int tempSum = 0;
+                                                int tempSessionId = 0;
+                                                secondforLoop:
+                                                for (int j = 0; j < hourSize; j++) {
+                                                    if (session[i][j] == null) {
+                                                        String time = timeString[i][j];
+                                                        String[] arrTime = time.split("-");
+                                                        String toTime = arrTime[1];
+                                                        String fromTime = arrTime[0];
+                                                        boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
+                                                        boolean notAvailableLectureStatus = false;
+                                                        for (Integer lec : lecturesList
+                                                        ) {
+                                                            boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                            if (status) {
+                                                                notAvailableLectureStatus = true;
+                                                            }
+                                                        }
+                                                        boolean notAvailableGroupStatus = false;
+                                                        if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+//
+                                                        } else {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                                        }
+                                                        boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, lpr);
+                                                        if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
+                                                            boolean completeIndexses = false;
+                                                            if (count == 0) {
+                                                                int k = j;
+                                                                int sum = k + (tuteLecHourCount - 1);
+                                                                if (sum <= hourSize) {
+                                                                    tempJ = j;
+                                                                    tempSum = sum;
+                                                                    tempSessionId = stg.getSessionId();
+                                                                    try {
+                                                                        for (int l = k; l <= sum; l++) {
+                                                                            if (session[i][l] == null) {
+                                                                                completeIndexses = true;
+                                                                            } else {
+                                                                                break secondforLoop;
+                                                                            }
+                                                                        }
+                                                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                                                        break secondforLoop;
+                                                                    }
+                                                                    if (!completeIndexses) {
+                                                                        break secondforLoop;
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            count++;
+                                                            if (count == tuteLecHourCount) {
+                                                                for (int m = tempJ; m < tempSum; m++) {
+                                                                    session[i][m] = Integer.toString(tempSessionId);
+                                                                    roomSession[i][m] = Integer.toString(lpr);
+                                                                }
+                                                                session[i][tempSum] = Integer.toString(consectiveLecId);
+                                                                roomSession[i][tempSum] = Integer.toString(lpr);
+                                                                tempConsectiveId = consectiveLecId;
+                                                                break lecturerRoomList;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else if (!groupPreferedRooList.isEmpty()) {
+                                    groupRoomList:
+                                    for (Integer gpr : groupPreferedRooList) {
+                                        int roomSize = getRoomSize(gpr);
+                                        if (stg.getStudentCount() <= roomSize) {
+                                            firstLoop:
+                                            for (int i = 0; i < workingDaysCount; i++) {
+                                                day = getDay(i);
+                                                int count = 0;
+                                                int tempJ = 0;
+                                                int tempSum = 0;
+                                                int tempSessionId = 0;
+                                                secondforLoop:
+                                                for (int j = 0; j < hourSize; j++) {
+                                                    if (session[i][j] == null) {
+                                                        String time = timeString[i][j];
+                                                        String[] arrTime = time.split("-");
+                                                        String toTime = arrTime[1];
+                                                        String fromTime = arrTime[0];
+                                                        boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
+                                                        boolean notAvailableLectureStatus = false;
+                                                        for (Integer lec : lecturesList
+                                                        ) {
+                                                            boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                            if (status) {
+                                                                notAvailableLectureStatus = true;
+                                                            }
+                                                        }
+                                                        boolean notAvailableGroupStatus = false;
+                                                        if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+                                                        } else {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                                        }
+                                                        boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, gpr);
+                                                        if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
+                                                            boolean completeIndexses = false;
+                                                            if (count == 0) {
+                                                                int k = j;
+                                                                int sum = k + (tuteLecHourCount - 1);
+                                                                if (sum <= hourSize) {
+                                                                    tempJ = j;
+                                                                    tempSum = sum;
+                                                                    tempSessionId = stg.getSessionId();
+                                                                    try {
+                                                                        for (int l = k; l <= sum; l++) {
+                                                                            if (session[i][l] == null) {
+                                                                                completeIndexses = true;
+                                                                            } else {
+                                                                                break secondforLoop;
+                                                                            }
+                                                                        }
+                                                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                                                        break secondforLoop;
+                                                                    }
+                                                                    if (!completeIndexses) {
+                                                                        break secondforLoop;
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            count++;
+                                                            if (count == tuteLecHourCount) {
+                                                                for (int m = tempJ; m < tempSum; m++) {
+                                                                    session[i][m] = Integer.toString(tempSessionId);
+                                                                    roomSession[i][m] = Integer.toString(gpr);
+                                                                }
+                                                                session[i][tempSum] = Integer.toString(consectiveLecId);
+                                                                roomSession[i][tempSum] = Integer.toString(gpr);
+                                                                tempConsectiveId = consectiveLecId;
+                                                                break groupRoomList;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                } else if (!sessionPreferredRoomList.isEmpty()) {
+                                    sessionRoomList:
+                                    for (Integer spr : sessionPreferredRoomList) {
+                                        int roomSize = getRoomSize(spr);
+                                        if (stg.getStudentCount() <= roomSize) {
+                                            firstLoop:
+                                            for (int i = 0; i < workingDaysCount; i++) {
+                                                day = getDay(i);
+                                                int count = 0;
+                                                int tempJ = 0;
+                                                int tempSum = 0;
+                                                int tempSessionId = 0;
+                                                secondforLoop:
+                                                for (int j = 0; j < hourSize; j++) {
+                                                    if (session[i][j] == null) {
+                                                        String time = timeString[i][j];
+                                                        String[] arrTime = time.split("-");
+                                                        String toTime = arrTime[1];
+                                                        String fromTime = arrTime[0];
+                                                        boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
+                                                        boolean notAvailableLectureStatus = false;
+                                                        for (Integer lec : lecturesList
+                                                        ) {
+                                                            boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                            if (status) {
+                                                                notAvailableLectureStatus = true;
+                                                            }
+                                                        }
+                                                        boolean notAvailableGroupStatus = false;
+                                                        if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+//
+                                                        } else {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                                        }
+                                                        boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
+                                                        if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
+                                                            boolean completeIndexses = false;
+                                                            if (count == 0) {
+                                                                int k = j;
+                                                                int sum = k + (tuteLecHourCount - 1);
+                                                                if (sum <= hourSize) {
+                                                                    tempJ = j;
+                                                                    tempSum = sum;
+                                                                    tempSessionId = stg.getSessionId();
+                                                                    try {
+                                                                        for (int l = k; l <= sum; l++) {
+                                                                            if (session[i][l] == null) {
+                                                                                completeIndexses = true;
+                                                                            } else {
+
+                                                                                break secondforLoop;
+                                                                            }
+                                                                        }
+                                                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                                                        break secondforLoop;
+                                                                    }
+                                                                    if (!completeIndexses) {
+                                                                        break secondforLoop;
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            count++;
+                                                            if (count == tuteLecHourCount) {
+                                                                for (int m = tempJ; m < tempSum; m++) {
+                                                                    session[i][m] = Integer.toString(tempSessionId);
+                                                                    roomSession[i][m] = Integer.toString(spr);
+                                                                }
+                                                                session[i][tempSum] = Integer.toString(consectiveLecId);
+                                                                roomSession[i][tempSum] = Integer.toString(spr);
+                                                                tempConsectiveId = consectiveLecId;
+                                                                break sessionRoomList;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    Set<Integer> buildingList = new HashSet<>();
+                                    Set<Integer> roomList = new HashSet<>();
+                                    for (Integer lec : lecturesList
+                                    ) {
+                                        Integer buidling = timeTableGenerateService.getBuilidingForLecturer(lec);
+                                        buildingList.add(buidling);
+                                    }
+                                    for (Integer i : buildingList
+                                    ) {
+                                        ArrayList<Integer> integers = timeTableGenerateService.getRoomsAccordingToBuilding(i);
+                                        for (Integer room : integers
+                                        ) {
+                                            roomList.add(room);
+                                        }
+                                    }
+                                    otherRoomList:
+                                    for (Integer spr : roomList) {
+                                        int roomSize = getRoomSize(spr);
+                                        if (stg.getStudentCount() <= roomSize) {
+                                            firstLoop:
+                                            for (int i = 0; i < workingDaysCount; i++) {
+                                                day = getDay(i);
+                                                int count = 0;
+                                                int tempJ = 0;
+                                                int tempSum = 0;
+                                                int tempSessionId = 0;
+                                                secondforLoop:
+                                                for (int j = 0; j < hourSize; j++) {
+                                                    if (session[i][j] == null) {
+                                                        String time = timeString[i][j];
+                                                        String[] arrTime = time.split("-");
+                                                        String toTime = arrTime[1];
+                                                        String fromTime = arrTime[0];
+                                                        boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
+                                                        boolean notAvailableLectureStatus = false;
+                                                        for (Integer lec : lecturesList
+                                                        ) {
+                                                            boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
+                                                            if (status) {
+                                                                notAvailableLectureStatus = true;
+                                                            }
+                                                        }
+                                                        boolean notAvailableGroupStatus = false;
+                                                        if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
+//
+                                                        } else {
+                                                            notAvailableGroupStatus = timeTableGenerateService.getNotAvailableSubGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
+                                                        }
+                                                        boolean roomIsAvailable = timeTableGenerateService.getRoomIsAvailable(toTime, fromTime, day, spr);
+
+                                                        if (!sessionIsAvailable && !notAvailableLectureStatus && !notAvailableGroupStatus && !roomIsAvailable) {
+                                                            boolean completeIndexses = false;
+                                                            if (count == 0) {
+                                                                int k = j;
+                                                                int sum = k + (tuteLecHourCount - 1);
+                                                                if (sum <= hourSize) {
+                                                                    tempJ = j;
+                                                                    tempSum = sum;
+                                                                    tempSessionId = stg.getSessionId();
+                                                                    try {
+                                                                        for (int l = k; l <= sum; l++) {
+                                                                            if (session[i][l] == null) {
+                                                                                completeIndexses = true;
+                                                                            } else {
+                                                                                break secondforLoop;
+                                                                            }
+                                                                        }
+                                                                    } catch (ArrayIndexOutOfBoundsException e) {
+                                                                        break secondforLoop;
+                                                                    }
+                                                                    if (!completeIndexses) {
+                                                                        break secondforLoop;
+                                                                    }
+
+                                                                }
+                                                            }
+                                                            count++;
+                                                            if (count == tuteLecHourCount) {
+                                                                for (int m = tempJ; m < tempSum; m++) {
+                                                                    session[i][m] = Integer.toString(tempSessionId);
+                                                                    roomSession[i][m] = Integer.toString(spr);
+                                                                }
+                                                                session[i][tempSum] = Integer.toString(consectiveLecId);
+                                                                roomSession[i][tempSum] = Integer.toString(spr);
+                                                                tempConsectiveId = consectiveLecId;
+                                                                break otherRoomList;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+
                             } else if (stg.getTagName().equalsIgnoreCase("Lab") || (stg.getConsectiveAdded().equalsIgnoreCase("No") && stg.getIsConsecutive().equalsIgnoreCase("Yes"))) {
                                 int arraySpaces = 0;
                                 double sessionHour = stg.getDuration();
@@ -742,7 +706,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                 }
                                 ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
                                 String day = "";
-                                if (subjectPreferedRoom.size() != 0) {
+                                if (!subjectPreferedRoom.isEmpty()) {
                                     LabSubjectRoom:
                                     for (Integer spr : subjectPreferedRoom) {
                                         int roomSize = getRoomSize(spr);
@@ -793,12 +757,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (session[i][l] == null) {
                                                                                 completeIndexses = true;
                                                                             } else {
-                                                                                completeIndexses = false;
                                                                                 break secondforLoop;
                                                                             }
                                                                         }
                                                                     } catch (ArrayIndexOutOfBoundsException e) {
-                                                                        completeIndexses = false;
                                                                         break secondforLoop;
                                                                     }
                                                                     if (!completeIndexses) {
@@ -821,7 +783,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                             }
                                         }
                                     }
-                                } else if (lecturerPreferedRoomList.size() != 0) {
+                                } else if (!lecturerPreferedRoomList.isEmpty()) {
                                     lecturerRoomList:
                                     for (Integer lpr : lecturerPreferedRoomList) {
                                         int roomSize = getRoomSize(lpr);
@@ -872,12 +834,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (session[i][l] == null) {
                                                                                 completeIndexses = true;
                                                                             } else {
-                                                                                completeIndexses = false;
                                                                                 break secondforLoop;
                                                                             }
                                                                         }
                                                                     } catch (ArrayIndexOutOfBoundsException e) {
-                                                                        completeIndexses = false;
                                                                         break secondforLoop;
                                                                     }
                                                                     if (!completeIndexses) {
@@ -901,7 +861,7 @@ public class TimeTableGenerateGroupController implements Initializable {
 
                                         }
                                     }
-                                } else if (groupPreferedRooList.size() != 0) {
+                                } else if (!groupPreferedRooList.isEmpty()) {
                                     groupRoomList:
                                     for (Integer gpr : groupPreferedRooList) {
                                         int roomSize = getRoomSize(gpr);
@@ -952,12 +912,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (session[i][l] == null) {
                                                                                 completeIndexses = true;
                                                                             } else {
-                                                                                completeIndexses = false;
                                                                                 break secondforLoop;
                                                                             }
                                                                         }
                                                                     } catch (ArrayIndexOutOfBoundsException e) {
-                                                                        completeIndexses = false;
                                                                         break secondforLoop;
                                                                     }
                                                                     if (!completeIndexses) {
@@ -980,11 +938,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                             }
                                         }
                                     }
-                                } else if (sessionPreferredRoomList.size() != 0) {
+                                } else if (!sessionPreferredRoomList.isEmpty()) {
                                     sessionRoomList:
                                     for (Integer spr : sessionPreferredRoomList) {
                                         int roomSize = getRoomSize(spr);
-                                        ;
                                         if (stg.getStudentCount() <= roomSize) {
                                             firstLoop:
                                             for (int i = 0; i < workingDaysCount; i++) {
@@ -1032,12 +989,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (session[i][l] == null) {
                                                                                 completeIndexses = true;
                                                                             } else {
-                                                                                completeIndexses = false;
                                                                                 break secondforLoop;
                                                                             }
                                                                         }
                                                                     } catch (ArrayIndexOutOfBoundsException e) {
-                                                                        completeIndexses = false;
                                                                         break secondforLoop;
                                                                     }
                                                                     if (!completeIndexses) {
@@ -1079,7 +1034,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                     otherRoomList:
                                     for (Integer spr : roomList) {
                                         int roomSize = getRoomSize(spr);
-                                        ;
                                         if (stg.getStudentCount() <= roomSize) {
                                             firstLoop:
                                             for (int i = 0; i < workingDaysCount; i++) {
@@ -1088,7 +1042,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                 int tempJ = 0;
                                                 int tempSum = 0;
                                                 int tempSessionId = 0;
-                                                ;
                                                 secondforLoop:
                                                 for (int j = 0; j < hourSize; j++) {
                                                     if (session[i][j] == null) {
@@ -1098,7 +1051,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                         String fromTime = arrTime[0];
                                                         boolean sessionIsAvailable = sessionIsAvailable(stg.getSessionId(), day, toTime, fromTime);
                                                         boolean notAvailableLectureStatus = false;
-                                                        ;
                                                         for (Integer lec : lecturesList
                                                         ) {
                                                             boolean status = timeTableGenerateService.getNotAvailableLectureStatus(toTime, fromTime, day, lec);
@@ -1129,12 +1081,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (session[i][l] == null) {
                                                                                 completeIndexses = true;
                                                                             } else {
-                                                                                completeIndexses = false;
                                                                                 break secondforLoop;
                                                                             }
                                                                         }
                                                                     } catch (ArrayIndexOutOfBoundsException e) {
-                                                                        completeIndexses = false;
                                                                         break secondforLoop;
                                                                     }
                                                                     if (!completeIndexses) {
@@ -1169,15 +1119,13 @@ public class TimeTableGenerateGroupController implements Initializable {
                                 SessionTagGroup value = parallelIte.next();
                                 String orderId = this.timeTableGenerateService.getParallelSesionOrderNumberAccordingToId(value.getSessionId());
                                 ArrayList<SessionTagGroup> parrellSessionAccordingToOrderId = sessionService.getParallelSessionsAccordingOrderId(orderId);
-                                if (parrellSessionAccordingToOrderId.size() != 0) {
+                                if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                     int parallelSessionI = 0;
                                     int tempI = 0;
                                     int parallelSessionJ = 0;
                                     int temporyJ = 0;
-                                    int temporyJEnd = 0;
                                     int z = 0;
                                     int sessionCount = 0;
-                                    int paralleConsectiveId = 0;
                                     int parallelSessionCountForLoop = 0;
                                     for (; z < parrellSessionAccordingToOrderId.size(); z++) {
                                         SessionTagGroup stg = parrellSessionAccordingToOrderId.get(z);
@@ -1209,7 +1157,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                             ArrayList<Integer> sessionPreferredRoomList = timeTableGenerateService.getPreferredRoomListForSession(stg.getSessionId());
 
                                             String day = "";
-                                            if (subjectPreferedRoom.size() != 0) {
+                                            if (!subjectPreferedRoom.isEmpty()) {
                                                 LabSubjectRoom:
                                                 for (Integer spr : subjectPreferedRoom) {
                                                     int roomSize = getRoomSize(spr);
@@ -1258,12 +1206,10 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         if (session[i][l] == null) {
                                                                                             completeIndexses = true;
                                                                                         } else {
-                                                                                            completeIndexses = false;
                                                                                             break secondforLoop;
                                                                                         }
                                                                                     }
                                                                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                    completeIndexses = false;
                                                                                     break secondforLoop;
                                                                                 }
                                                                                 if (!completeIndexses) {
@@ -1275,7 +1221,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                         count++;
                                                                         if (count == arraySpaces) {
                                                                             parallelSessionCountForLoop++;
-                                                                            System.out.println(parallelSessionCountForLoop);
                                                                             tempI = i;
                                                                             temporyJ = tempJ;
                                                                             parallelSessionJ = temporyJ;
@@ -1284,7 +1229,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (parallelSessionCountForLoop == parrellSessionAccordingToOrderId.size()) {
                                                                                 for (int b = temporyJ; b < tempSum; b++) {
                                                                                     String result = "";
-                                                                                    if (parrellSessionAccordingToOrderId.size() > 0) {
+                                                                                    if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (SessionTagGroup s : parrellSessionAccordingToOrderId) {
                                                                                             sb.append(s.getSessionId()).append(",");
@@ -1292,7 +1237,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         result = sb.deleteCharAt(sb.length() - 1).toString();
                                                                                     }
                                                                                     String result1 = "";
-                                                                                    if (parallelSessionRoomArray.size() > 0) {
+                                                                                    if (!parallelSessionRoomArray.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (String s1 : parallelSessionRoomArray) {
                                                                                             sb.append(s1).append(",");
@@ -1303,7 +1248,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                     parallelRoomSession[tempI][b] = result1;
                                                                                 }
                                                                                 break parallelSessionLoop;
-//                                                                    }
                                                                             }
                                                                             break LabSubjectRoom;
                                                                         }
@@ -1320,7 +1264,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                         }
                                                     }
                                                 }
-                                            } else if (lecturerPreferedRoomList.size() != 0) {
+                                            } else if (!lecturerPreferedRoomList.isEmpty()) {
                                                 LabLecturerRoom:
                                                 for (Integer lpr : lecturerPreferedRoomList) {
                                                     int roomSize = getRoomSize(lpr);
@@ -1363,18 +1307,15 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (sum <= hourSize) {
                                                                                 tempJ = j;
                                                                                 tempSum = sum;
-//                                                                        tempSessionId = stg.getSessionId();
                                                                                 try {
                                                                                     for (int l = k; l < sum; l++) {
                                                                                         if (session[i][l] == null) {
                                                                                             completeIndexses = true;
                                                                                         } else {
-                                                                                            completeIndexses = false;
                                                                                             break secondforLoop;
                                                                                         }
                                                                                     }
                                                                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                    completeIndexses = false;
                                                                                     break secondforLoop;
                                                                                 }
                                                                                 if (!completeIndexses) {
@@ -1393,7 +1334,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (parallelSessionCountForLoop == parrellSessionAccordingToOrderId.size()) {
                                                                                 for (int b = temporyJ; b < tempSum; b++) {
                                                                                     String result = "";
-                                                                                    if (parrellSessionAccordingToOrderId.size() > 0) {
+                                                                                    if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (SessionTagGroup s : parrellSessionAccordingToOrderId) {
                                                                                             sb.append(s.getSessionId()).append(",");
@@ -1401,7 +1342,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         result = sb.deleteCharAt(sb.length() - 1).toString();
                                                                                     }
                                                                                     String result1 = "";
-                                                                                    if (parallelSessionRoomArray.size() > 0) {
+                                                                                    if (!parallelSessionRoomArray.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (String s1 : parallelSessionRoomArray) {
                                                                                             sb.append(s1).append(",");
@@ -1415,7 +1356,6 @@ public class TimeTableGenerateGroupController implements Initializable {
 
                                                                                 }
                                                                                 break parallelSessionLoop;
-//                                                                    }
                                                                             }
                                                                             break LabLecturerRoom;
                                                                         }
@@ -1432,7 +1372,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                         }
                                                     }
                                                 }
-                                            } else if (groupPreferedRooList.size() != 0) {
+                                            } else if (!groupPreferedRooList.isEmpty()) {
                                                 LabGroupRoom:
                                                 for (Integer lpr : groupPreferedRooList) {
                                                     int roomSize = getRoomSize(lpr);
@@ -1463,7 +1403,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                     boolean notAvailableGroupStatus = false;
                                                                     if (stg.getTagName().equals("Lecture") || stg.getTagName().equals("Tute")) {
                                                                         notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getGroupId()), day);
-//
                                                                     } else {
                                                                         notAvailableGroupStatus = timeTableGenerateService.getNotAvailableGroupStaus(toTime, fromTime, Integer.parseInt(stg.getSubGroupId()), day);
                                                                     }
@@ -1476,18 +1415,15 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (sum <= hourSize) {
                                                                                 tempJ = j;
                                                                                 tempSum = sum;
-//                                                                        tempSessionId = stg.getSessionId();
                                                                                 try {
                                                                                     for (int l = k; l < sum; l++) {
                                                                                         if (session[i][l] == null) {
                                                                                             completeIndexses = true;
                                                                                         } else {
-                                                                                            completeIndexses = false;
                                                                                             break secondforLoop;
                                                                                         }
                                                                                     }
                                                                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                    completeIndexses = false;
                                                                                     break secondforLoop;
                                                                                 }
                                                                                 if (!completeIndexses) {
@@ -1506,7 +1442,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (parallelSessionCountForLoop == parrellSessionAccordingToOrderId.size()) {
                                                                                 for (int b = temporyJ; b < tempSum; b++) {
                                                                                     String result = "";
-                                                                                    if (parrellSessionAccordingToOrderId.size() > 0) {
+                                                                                    if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (SessionTagGroup s : parrellSessionAccordingToOrderId) {
                                                                                             sb.append(s.getSessionId()).append(",");
@@ -1514,7 +1450,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         result = sb.deleteCharAt(sb.length() - 1).toString();
                                                                                     }
                                                                                     String result1 = "";
-                                                                                    if (parallelSessionRoomArray.size() > 0) {
+                                                                                    if (!parallelSessionRoomArray.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (String s1 : parallelSessionRoomArray) {
                                                                                             sb.append(s1).append(",");
@@ -1527,7 +1463,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                     parallelRoomSession[tempI][b] = result1;
                                                                                 }
                                                                                 break parallelSessionLoop;
-//                                                                    }
                                                                             }
                                                                             break LabGroupRoom;
                                                                         }
@@ -1544,7 +1479,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                         }
                                                     }
                                                 }
-                                            } else if (sessionPreferredRoomList.size() != 0) {
+                                            } else if (!sessionPreferredRoomList.isEmpty()) {
                                                 SessionPreRoom:
                                                 for (Integer lpr : sessionPreferredRoomList) {
                                                     int roomSize = getRoomSize(lpr);
@@ -1588,18 +1523,15 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (sum <= hourSize) {
                                                                                 tempJ = j;
                                                                                 tempSum = sum;
-//                                                                        tempSessionId = stg.getSessionId();
                                                                                 try {
                                                                                     for (int l = k; l < sum; l++) {
                                                                                         if (session[i][l] == null) {
                                                                                             completeIndexses = true;
                                                                                         } else {
-                                                                                            completeIndexses = false;
                                                                                             break secondforLoop;
                                                                                         }
                                                                                     }
                                                                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                    completeIndexses = false;
                                                                                     break secondforLoop;
                                                                                 }
                                                                                 if (!completeIndexses) {
@@ -1618,7 +1550,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (parallelSessionCountForLoop == parrellSessionAccordingToOrderId.size()) {
                                                                                 for (int b = temporyJ; b < tempSum; b++) {
                                                                                     String result = "";
-                                                                                    if (parrellSessionAccordingToOrderId.size() > 0) {
+                                                                                    if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (SessionTagGroup s : parrellSessionAccordingToOrderId) {
                                                                                             sb.append(s.getSessionId()).append(",");
@@ -1626,7 +1558,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         result = sb.deleteCharAt(sb.length() - 1).toString();
                                                                                     }
                                                                                     String result1 = "";
-                                                                                    if (parallelSessionRoomArray.size() > 0) {
+                                                                                    if (!parallelSessionRoomArray.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (String s1 : parallelSessionRoomArray) {
                                                                                             sb.append(s1).append(",");
@@ -1636,10 +1568,8 @@ public class TimeTableGenerateGroupController implements Initializable {
 
                                                                                     parallelSession[tempI][b] = result;
                                                                                     parallelRoomSession[tempI][b] = result1;
-//                                                                                parallelSessionRoomArray = new ArrayList<>();
                                                                                 }
                                                                                 break parallelSessionLoop;
-//                                                                    }
                                                                             }
                                                                             break SessionPreRoom;
                                                                         }
@@ -1715,18 +1645,15 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (sum <= hourSize) {
                                                                                 tempJ = j;
                                                                                 tempSum = sum;
-//                                                                        tempSessionId = stg.getSessionId();
                                                                                 try {
                                                                                     for (int l = k; l < sum; l++) {
                                                                                         if (session[i][l] == null) {
                                                                                             completeIndexses = true;
                                                                                         } else {
-                                                                                            completeIndexses = false;
                                                                                             break secondforLoop;
                                                                                         }
                                                                                     }
                                                                                 } catch (ArrayIndexOutOfBoundsException e) {
-                                                                                    completeIndexses = false;
                                                                                     break secondforLoop;
                                                                                 }
                                                                                 if (!completeIndexses) {
@@ -1745,7 +1672,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                             if (parallelSessionCountForLoop == parrellSessionAccordingToOrderId.size()) {
                                                                                 for (int b = temporyJ; b < tempSum; b++) {
                                                                                     String result = "";
-                                                                                    if (parrellSessionAccordingToOrderId.size() > 0) {
+                                                                                    if (!parrellSessionAccordingToOrderId.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (SessionTagGroup s : parrellSessionAccordingToOrderId) {
                                                                                             sb.append(s.getSessionId()).append(",");
@@ -1753,7 +1680,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                                                                         result = sb.deleteCharAt(sb.length() - 1).toString();
                                                                                     }
                                                                                     String result1 = "";
-                                                                                    if (parallelSessionRoomArray.size() > 0) {
+                                                                                    if (!parallelSessionRoomArray.isEmpty()) {
                                                                                         StringBuilder sb = new StringBuilder();
                                                                                         for (String s1 : parallelSessionRoomArray) {
                                                                                             sb.append(s1).append(",");
@@ -1763,10 +1690,8 @@ public class TimeTableGenerateGroupController implements Initializable {
 
                                                                                     parallelSession[tempI][b] = result;
                                                                                     parallelRoomSession[tempI][b] = result1;
-//                                                                                parallelSessionRoomArray = new ArrayList<>();
                                                                                 }
                                                                                 break parallelSessionLoop;
-//                                                                    }
                                                                             }
                                                                             break otherRoomList;
                                                                         }
@@ -1791,32 +1716,9 @@ public class TimeTableGenerateGroupController implements Initializable {
                             }
                         }
 
-                        ///////////////////////////////////////////
-                        System.out.println("Parrell Session");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(parallelSession[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("Parallel Sessiom");
-
-                        System.out.println("/////////////////////////////////////Parallel Session Room");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(parallelRoomSession[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("//////////////////////////////////////Parallel Session room");
-
 
                         //////////////////////////////Create Session String ///////////////////
-                        String arrNew[][] = new String[workingDaysCount][(int) hourSize];
+                        String[][] arrNew = new String[workingDaysCount][(int) hourSize];
                         for (int i = 0; i < workingDaysCount; i++) {
                             for (int j = 0; j < hourSize; j++) {
                                 if (session[i][j] != null) {
@@ -1877,9 +1779,9 @@ public class TimeTableGenerateGroupController implements Initializable {
                                             sessionString = sessionString + "\n" + roomNo + "\n" + subGroupId + "\n";
                                             arrNew[i][j] = sessionString;
                                         }
-//
+
                                     }
-//
+
                                 }
 
                             }
@@ -1897,50 +1799,6 @@ public class TimeTableGenerateGroupController implements Initializable {
                             }
                         }
 
-                        ///////////////////////////////////////////
-                        System.out.println("Parrell Session");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(parallelSession[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("Parallel Sessiom");
-
-                        System.out.println("/////////////////////////////////////Normal Session");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(session[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("//////////////////////////////////////Normal Session");
-
-                        System.out.println("/////////////////////////////////////Normal Session Room");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(roomSession[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("//////////////////////////////////////Normal Session room");
-
-                        System.out.println("/////////////////////////////////////Parallel Session Room");
-                        for (int i = 0; i < workingDaysCount; i++) {
-                            System.out.print("[");
-                            for (int j = 0; j < hourSize; j++) {
-                                System.out.print(parallelRoomSession[i][j] + " ");
-                            }
-                            System.out.print("]");
-                            System.out.println();
-                        }
-                        System.out.println("//////////////////////////////////////Parallel Session room");
 
                         ///////////////////////////////
                         PrintTimeTable printTimeTable = new PrintTimeTable();
@@ -1953,7 +1811,7 @@ public class TimeTableGenerateGroupController implements Initializable {
                                     String[] arrTime = time.split("-");
                                     String toTime = arrTime[1];
                                     String fromTime = arrTime[0];
-                                    boolean isAdded = this.timeTableGenerateService.SaveTimeTable(newday, toTime, fromTime, session[i][j], roomSession[i][j], timeString[i][j]);
+                                    this.timeTableGenerateService.SaveTimeTable(newday, toTime, fromTime, session[i][j], roomSession[i][j], timeString[i][j]);
                                 }
                             }
                         }
@@ -1981,14 +1839,8 @@ public class TimeTableGenerateGroupController implements Initializable {
                     al.showAndWait();
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
+        } catch (SQLException | IOException e) {
+            log.log(Level.SEVERE, e.getMessage());
         }
     }
 

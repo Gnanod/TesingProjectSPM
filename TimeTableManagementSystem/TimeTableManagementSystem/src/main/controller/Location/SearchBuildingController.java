@@ -8,7 +8,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import main.model.Building;
-import main.model.Room;
 import main.service.BuildingService;
 import main.service.impl.BuildingServiceImpl;
 import org.controlsfx.control.textfield.TextFields;
@@ -16,6 +15,8 @@ import org.controlsfx.control.textfield.TextFields;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchBuildingController implements Initializable {
 
@@ -32,6 +33,7 @@ public class SearchBuildingController implements Initializable {
     private ArrayList<String> buildingList = new ArrayList<>();
     private ArrayList<String> centerList = new ArrayList<>();
     private ArrayList<Building> bIdList = new ArrayList<>();
+    public static final Logger log = Logger.getLogger(SearchBuildingController.class.getName());
 
     public SearchBuildingController(){
         this.buildingService = new BuildingServiceImpl();
@@ -52,7 +54,7 @@ public class SearchBuildingController implements Initializable {
             ArrayList<Building> bList = this.buildingService.getAllAllRoomDetails();
             for (Building p1 : bList
             ) {
-                if(centerList.size()!=0){
+                if(!centerList.isEmpty()){
                     int duplicateCount=0;
                     for (String b1: centerList
                          ) {
@@ -73,7 +75,7 @@ public class SearchBuildingController implements Initializable {
             TextFields.bindAutoCompletion(txtBuildingSearch, buildingList);
             TextFields.bindAutoCompletion(txtCenterSearch, centerList);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -82,19 +84,7 @@ public class SearchBuildingController implements Initializable {
 
         String building = txtCenterSearch.getText();
         String center = txtBuildingSearch.getText();
-//        for (Building r : this.bIdList
-//        ) {
-//            if (building.equals(r.getBuilding())) {
-//                bbuilding = r.getBuilding();
-//                System.out.println("KKKK"+r.getBuilding());
-//
-//            }
-//            if (center.equals(r.getCenter())) {
-//                bcenter = r.getCenter();
-//                System.out.println("LLLL"+r.get);
-//
-//            }
-//        }
+
         getAllDetailsForSearch(building,center);
     }
 
@@ -103,7 +93,7 @@ public class SearchBuildingController implements Initializable {
             ArrayList<Building> list = this.buildingService.getAllDetailsForSearch(bcenter,bbuilding);
             tblBuildingSeach.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

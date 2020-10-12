@@ -12,12 +12,11 @@ import org.controlsfx.control.textfield.TextFields;
 
 import java.net.URL;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefSessionController implements Initializable {
 
@@ -73,13 +72,16 @@ public class AddPrefSessionController implements Initializable {
     private List<Subject> subList;
     private List<String> subNameList;
     private SessionService sessionService;
-    private ArrayList<Building> buildingsId = new ArrayList<>();
-    private ArrayList<String> buildingName = new ArrayList<>();
-    private ArrayList<Room> roomsId = new ArrayList<>();
-    private ArrayList<String> roomName = new ArrayList<>();
+    ArrayList<Building> buildingsId = new ArrayList<>();
+    ArrayList<String> buildingName = new ArrayList<>();
+    ArrayList<Room> roomsId = new ArrayList<>();
+    ArrayList<String> roomName = new ArrayList<>();
     private PrefLecturerService prefLecturerService;
-
+    public static final Logger log = Logger.getLogger(AddPrefSessionController.class.getName());
     private PrefSessionService prefSessionService;
+    private static final String MAINGROUP = "MainGroup";
+    private static final String SUBGROUP = "SubGroup";
+    String groupType = "";
 
     public AddPrefSessionController() {
         this.prefSessionService = new PrefSessionServiceImpl();
@@ -89,10 +91,10 @@ public class AddPrefSessionController implements Initializable {
     @FXML
     void getBuilding(ActionEvent event) {
         String center = cmbCenter.getValue();
-        System.out.println("ccccccccccccc:"+center);
+
         try {
             BuildingService buildingService = new BuildingServiceImpl();
-            ;
+
 
             ArrayList<Building> list = buildingService.searchBuildingDetailsByUsingCenter(center);
             buildingsId = new ArrayList<>();
@@ -103,24 +105,21 @@ public class AddPrefSessionController implements Initializable {
                 buildingsId.add(building);
                 buildingName.add(building.getBuilding());
             }
-            for (String building : buildingName
-            ) {
-                System.out.println(building);
-            }
+
             if(autoCompletionBinding!=null){
                 autoCompletionBinding.dispose();
             }
             autoCompletionBinding  = TextFields.bindAutoCompletion(txtBuildingOpt, buildingName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
     @FXML
     void getRoom(ActionEvent event) {
         String building = txtBuildingOpt.getText();
-        System.out.println("ddddddddddd:"+building);
+
         try {
             RoomService roomService = new RoomServiceImpl();
 
@@ -140,7 +139,7 @@ public class AddPrefSessionController implements Initializable {
             autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -157,7 +156,7 @@ public class AddPrefSessionController implements Initializable {
         try {
             ArrayList<MainGroup> mainList = this.mainGroupservice.getAllMainGroupDetails();
             groupNameList.clear();
-            ;
+
             groupList.clear();
             if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
@@ -169,27 +168,27 @@ public class AddPrefSessionController implements Initializable {
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
     private void loadSubGroupDetails() {
         try {
-            ArrayList<SubGroup> subList = this.subGroupService.getAllSubGroupDetails(0);
-            ;
+            ArrayList<SubGroup> subList1 = this.subGroupService.getAllSubGroupDetails(0);
+
             groupNameList.clear();
             groupList.clear();
             if (autoCompletionBinding != null) {
                 autoCompletionBinding.dispose();
             }
-            for (SubGroup s : subList
+            for (SubGroup s : subList1
             ) {
                 groupNameList.add(s.getSubgroupid());
                 groupList.add(s);
             }
             autoCompletionBinding = TextFields.bindAutoCompletion(txtGroup, groupNameList);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -203,7 +202,7 @@ public class AddPrefSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtTag, tagNameList);
     }
@@ -218,7 +217,7 @@ public class AddPrefSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtSubject, subNameList);
     }
@@ -233,14 +232,14 @@ public class AddPrefSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtLecturer, lectureNameList);
     }
 
     @FXML
     void saveSessionRoom(ActionEvent event) throws SQLException {
-        System.out.println("wwwww");
+
         int sessionId = Integer.parseInt(lblSessionId.getText());
         String room = txtRoomOpt1.getText();
         int roomId=0;
@@ -250,7 +249,7 @@ public class AddPrefSessionController implements Initializable {
             if(room != null) {
 
                     roomId = prefLecturerService.getRoomId(room);
-                    System.out.println("wwwwwROOMID:" + roomId);
+
                 }else {
                     Alert al = new Alert(Alert.AlertType.ERROR);
                     al.setTitle(null);
@@ -284,7 +283,7 @@ public class AddPrefSessionController implements Initializable {
                             al.setContentText("Added Successfully !!");
                             al.setHeaderText(null);
                             al.showAndWait();
-//                            this.getAllDetails();
+
                         } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);
@@ -322,14 +321,15 @@ public class AddPrefSessionController implements Initializable {
         String tagName = txtTag.getText();
         int tagId = 0;
         int tagCount = 0;
-        String groupType = "";
+
         int groupCount = 0;
         int subGroupId = 0;
         int mainGroupId = 0;
+
         if (btnRadioMain.isSelected()) {
-            groupType = "MainGroup";
+            groupType = MAINGROUP;
         } else if (btnRadioSub.isSelected()) {
-            groupType = "SubGroup";
+            groupType = SUBGROUP;
         }
         String groupId = txtGroup.getText();
 
@@ -353,18 +353,16 @@ public class AddPrefSessionController implements Initializable {
         }
         for (Object m : this.groupList
         ) {
-            if (m instanceof MainGroup) {
-                if (groupId.equals(((MainGroup) m).getGroupid())) {
+            if (m instanceof MainGroup && groupId.equals(((MainGroup) m).getGroupid())) {
                     mainGroupId = ((MainGroup) m).getId();
                     groupCount++;
 
-                }
+
             }
-            if (m instanceof SubGroup) {
-                if (groupId.equals(((SubGroup) m).getSubgroupid())) {
+            if (m instanceof SubGroup && groupId.equals(((SubGroup) m).getSubgroupid())) {
                     subGroupId = ((SubGroup) m).getId();
                     groupCount++;
-                }
+
             }
         }
 
@@ -388,7 +386,7 @@ public class AddPrefSessionController implements Initializable {
                                                 al.showAndWait();
                                             }
                                         } catch (SQLException e) {
-                                            e.printStackTrace();
+                                            log.log(Level.SEVERE,e.getMessage());
                                         }
 
                                     } else {

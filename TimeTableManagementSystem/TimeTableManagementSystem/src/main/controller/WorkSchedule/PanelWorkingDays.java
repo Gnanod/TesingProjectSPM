@@ -3,6 +3,8 @@ package main.controller.WorkSchedule;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,6 +22,8 @@ public class PanelWorkingDays implements Initializable {
     private Button btnWorkingHours;
     @FXML
     private BorderPane pnlShedule;
+
+    public static final Logger log = Logger.getLogger(PanelWorkingDays.class.getName());
 
     public PanelWorkingDays() {
     }
@@ -42,7 +46,7 @@ public class PanelWorkingDays implements Initializable {
            
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -55,7 +59,7 @@ public class PanelWorkingDays implements Initializable {
             root = loader.load();
             pnlShedule.setCenter(root);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         pnlShedule.setCenter(root);
     }

@@ -20,6 +20,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ViewBuildingController implements Initializable {
 
@@ -42,8 +44,8 @@ public class ViewBuildingController implements Initializable {
     private ComboBox<String> cmbCenterEdit;
 
     private BuildingService buildingService;
-    private boolean updateStatus;
     private int buildingId;
+    public static final Logger log = Logger.getLogger(ViewBuildingController.class.getName());
 
     public ViewBuildingController() {
         this.buildingService =new BuildingServiceImpl();
@@ -54,7 +56,7 @@ public class ViewBuildingController implements Initializable {
             ArrayList<Building> listB = this.buildingService.getAllDetails();
             tblBuildingView.setItems(FXCollections.observableArrayList(listB));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -63,12 +65,12 @@ public class ViewBuildingController implements Initializable {
     void updateBuildingDetails(ActionEvent event) {
 
         String updateCenter = cmbCenterEdit.getValue();
-        String UpdateBuilding = txtBuildingEdit.getText();
+        String updateBuilding = txtBuildingEdit.getText();
         if (updateCenter.length() != 0) {
-            if (UpdateBuilding.length() != 0) {
+            if (updateBuilding.length() != 0) {
                 if(buildingId!=0){
                     try {
-                        boolean status = this.buildingService.searchBuilding(updateCenter,UpdateBuilding);
+                        boolean status = this.buildingService.searchBuilding(updateCenter,updateBuilding);
                         if (!status) {
                             Building b1 = new Building();
                             b1.setCenter(cmbCenterEdit.getValue());
@@ -100,7 +102,7 @@ public class ViewBuildingController implements Initializable {
                             al.showAndWait();
                         }
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                        log.log(Level.SEVERE,e.getMessage());
                     }
                 }else{
                     Alert al = new Alert(Alert.AlertType.ERROR);
@@ -130,7 +132,6 @@ public class ViewBuildingController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.setTableProperties();
         this.getAllDetails();
-//        this.updateStatus = false;
     }
 
     private void setTableProperties() {
@@ -169,9 +170,8 @@ public class ViewBuildingController implements Initializable {
                         }
                         private void setBuildingDetailsToFiled(Building build2) {
                             cmbCenterEdit.setValue(build2.getCenter());
-                            System.out.println("ddddddddddddddddd"+cmbCenterEdit);
                             txtBuildingEdit.setText(build2.getBuilding());
-//                            updateStatus = true;
+//
                             buildingId = build2.getBid();
                         }
                     };
@@ -203,8 +203,6 @@ public class ViewBuildingController implements Initializable {
                                     Optional<ButtonType> result = a2.showAndWait();
                                     if (result.get() == ButtonType.OK) {
                                         deleteBuilding(build1.getBid());
-                                    } else {
-
                                     }
                                 });
                                 btnDelete.setStyle("-fx-background-color: transparent;");
@@ -238,7 +236,7 @@ public class ViewBuildingController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

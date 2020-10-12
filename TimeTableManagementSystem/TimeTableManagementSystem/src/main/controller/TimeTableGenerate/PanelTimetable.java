@@ -1,4 +1,4 @@
-package main.controller.TimeTableGenerate;
+package main.controller.timetablegenerate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PanelTimetable implements Initializable {
 
@@ -20,6 +22,8 @@ public class PanelTimetable implements Initializable {
 
     @FXML
     private BorderPane pnlShedule;
+
+    public static final Logger log = Logger.getLogger(PanelTimetable.class.getName());
 
     public void handleEvents(ActionEvent event) {
         try {
@@ -32,7 +36,7 @@ public class PanelTimetable implements Initializable {
                 pnlShedule.setCenter(root);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
@@ -48,7 +52,7 @@ public class PanelTimetable implements Initializable {
             pnlShedule.setCenter(root);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }

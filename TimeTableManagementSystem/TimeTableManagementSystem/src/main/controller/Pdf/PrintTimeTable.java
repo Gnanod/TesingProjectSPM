@@ -23,11 +23,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PrintTimeTable {
 
+
     private TimeTableGenerateService timeTableGenerateService;
     private static WorkingDaysService workingDaysService;
+    public static final Logger log = Logger.getLogger(PrintTimeTable.class.getName());
 
     public PrintTimeTable() {
         timeTableGenerateService = new TimeTableGenerateServiceImpl();
@@ -35,10 +39,6 @@ public class PrintTimeTable {
     }
 
     private static Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
-            Font.BOLD);
-    private static Font redFont = new Font(Font.FontFamily.TIMES_ROMAN, 12,
-            Font.NORMAL, BaseColor.RED);
-    private static Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16,
             Font.BOLD);
     private static Font smallBold = new Font(Font.FontFamily.TIMES_ROMAN, 10,
             Font.BOLD);
@@ -69,49 +69,49 @@ public class PrintTimeTable {
     public void generateCustomerReportPdf(String[][] arr, String[][] timeString, int workingDaysCount, int hourSize, String groupId) {
 
         String fileName = getCurrentDate() + "_" + getCurrentTime() + "-" + groupId + ".pdf";
-        String FILE = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
+        String file1 = "C:/Users/" + System.getProperty("user.name") + "/Documents/" + fileName;
 
         try {
 
             Document document = new Document();
-            PdfWriter.getInstance(document, new FileOutputStream(FILE));
+            PdfWriter.getInstance(document, new FileOutputStream(file1));
             document.open();
             addMetaData(document, groupId);
             addTitlePage(document, groupId);
             createTable(document, arr, timeString, workingDaysCount, hourSize);
             if (Desktop.isDesktopSupported()) {
                 try {
-                    File myFile = new File(FILE);
+                    File myFile = new File(file1);
                     Desktop.getDesktop().open(myFile);
                 } catch (IOException ex) {
                     // no application registered for PDFs
                 }
             }
-            File file = new File(FILE);
+            File file = new File(file1);
             byte[] fileBytes = Files.readAllBytes(file.toPath());
-            System.out.println("GGG" + groupId);
-            savePdf(FILE, groupId);
+
+            savePdf(file1, groupId);
             document.close();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
 
     }
 
-    private void savePdf(String File, String groupId) {
+    private void savePdf(String file, String groupId) {
         try {
-            timeTableGenerateService.saveGroupPdf(File, groupId);
+            timeTableGenerateService.saveGroupPdf(file, groupId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 
 
-    private void addMetaData(Document document, String GroupId) {
+    private void addMetaData(Document document, String groupId) {
 
-        document.addTitle(GroupId);
+        document.addTitle(groupId);
 
     }
 
@@ -144,13 +144,13 @@ public class PrintTimeTable {
             for (WorkingDaysSub s : list
             ) {
                 c1 = new PdfPCell(new Phrase(s.getWorkingday()));
-                ;
+
                 c1.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table1.addCell(c1);
             }
             table1.setHeaderRows(1);
-            int count = 0;
-            for (int i = 0; i < (int) hourSize; i++) {
+
+            for (int i = 0; i < hourSize; i++) {
                 table1.addCell(timeString[i][0]);
                 for (int j = 0; j < workingDaysCount; j++) {
                     PdfPCell c2 = new PdfPCell(new Phrase(arr[i][j], new Font(Font.FontFamily.TIMES_ROMAN, 9, Font.BOLD)));
@@ -159,16 +159,13 @@ public class PrintTimeTable {
             }
             subCatPart.add(table1);
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (DocumentException e) {
-        e.printStackTrace();
-    }
+        } catch (SQLException|DocumentException e) {
+            log.log(Level.SEVERE,e.getMessage());
+        }
 
     }
 
-    //
-//
+
     private static void addEmptyLine(Paragraph paragraph, int number) {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));

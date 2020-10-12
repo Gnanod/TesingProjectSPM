@@ -7,18 +7,17 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import javafx.scene.control.cell.PropertyValueFactory;
-import main.model.Lecturer;
 import main.model.Subject;
-import main.service.LecturerService;
 import main.service.SubjectService;
 import main.service.YearandSemesterService;
-import main.service.impl.LectureServiceImpl;
 import main.service.impl.SubjectServiceImpl;
 import main.service.impl.YearAndServiceImpl;
 
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchSubjectController implements Initializable {
     @FXML
@@ -30,6 +29,8 @@ public class SearchSubjectController implements Initializable {
     @FXML
     private Button btnSearch;
 
+    public static final Logger log = Logger.getLogger(SearchSubjectController.class.getName());
+
     @FXML
     void searchDetails(ActionEvent event) {
         try {
@@ -37,14 +38,13 @@ public class SearchSubjectController implements Initializable {
             ArrayList<Subject> list = subjectService.searchSubjectDetails(txtSubject.getText());
             for (Subject str : list)
             {
-                System.out.println(str.getSubId());
-                System.out.println(str.getSubName());
+
                 YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
                 str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
             }
             tblSubjectCount.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
     public void setTableProperties() {
@@ -63,14 +63,13 @@ public class SearchSubjectController implements Initializable {
             ArrayList<Subject> list = subjectService.getAllSubjectDetails();
             for (Subject str : list)
             {
-                System.out.println(str.getSubId());
-                System.out.println(str.getSubName());
+
                 YearandSemesterService yearandSemesterService=new YearAndServiceImpl();
                 str.setYearSem(yearandSemesterService.searchYearAndSemesterName(str.getOfferedYearSem()));
             }
             tblSubjectCount.setItems(FXCollections.observableArrayList(list));
         } catch (Exception e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 

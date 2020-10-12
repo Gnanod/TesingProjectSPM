@@ -19,6 +19,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AddPrefLecturerController implements Initializable {
 
@@ -33,13 +35,14 @@ public class AddPrefLecturerController implements Initializable {
 
 
 
-    private ArrayList<Lecturer> lecturerId = new ArrayList<>();
-    private ArrayList<String> lecturerName = new ArrayList<>();
+    ArrayList<Lecturer> lecturerId = new ArrayList<>();
+    ArrayList<String> lecturerName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding;
     private ArrayList<String> roomName = new ArrayList<>();
     private AutoCompletionBinding<String> autoCompletionBinding2;
 
     private PrefLecturerService prefLecturerService;
+    public static final Logger log = Logger.getLogger(AddPrefLecturerController.class.getName());
 
     public AddPrefLecturerController() {
         this.prefLecturerService = new PrefLecturerServiceImpl();
@@ -48,7 +51,7 @@ public class AddPrefLecturerController implements Initializable {
     @FXML
     void getBuildingId(ActionEvent event) {
         String lecturer = txtLecOpt.getText();
-        System.out.println("ccccccccccccc:"+lecturer);
+
         try {
             PrefLecturerService lecturerService = new PrefLecturerServiceImpl();
 
@@ -67,7 +70,7 @@ public class AddPrefLecturerController implements Initializable {
             autoCompletionBinding2  = TextFields.bindAutoCompletion(txtRoomOpt1, roomName);
 
         } catch (SQLException ex){
-            ex.printStackTrace();
+            log.log(Level.SEVERE,ex.getMessage());
         }
     }
 
@@ -78,7 +81,7 @@ public class AddPrefLecturerController implements Initializable {
         try {
             list = lecturerService.getAllLecturerDetails();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         lecturerId = new ArrayList<>();
         lecturerName = new ArrayList<>();
@@ -88,10 +91,7 @@ public class AddPrefLecturerController implements Initializable {
             lecturerId.add(lecturer);
             lecturerName.add(lecturer.getEmpName());
         }
-        for (String lecturer : lecturerName
-        ) {
-            System.out.println(lecturer);
-        }
+
         if(autoCompletionBinding!=null){
             autoCompletionBinding.dispose();
         }
@@ -102,16 +102,16 @@ public class AddPrefLecturerController implements Initializable {
     @FXML
     void saveRoomLecturer(ActionEvent event) throws SQLException {
 
-//        System.out.println("wwwww");
+
         String lecturer = txtLecOpt.getText();
         String room = txtRoomOpt1.getText();
 
-        int lecturerId=0;
+        int lecturerId1=0;
         int roomId=0;
 
             if(room != null) {
                     roomId = prefLecturerService.getRoomId(room);
-                    System.out.println("wwwwwROOMID:" + roomId);
+
 
             }else {
                 Alert al = new Alert(Alert.AlertType.ERROR);
@@ -123,8 +123,8 @@ public class AddPrefLecturerController implements Initializable {
 
 
         if(lecturer != null) {
-            lecturerId = prefLecturerService.getLecturerIdFromLecturers(lecturer);
-            System.out.println("wwwwwTAGID:" + lecturerId);
+            lecturerId1 = prefLecturerService.getLecturerIdFromLecturers(lecturer);
+
         }else {
             Alert al = new Alert(Alert.AlertType.ERROR);
             al.setTitle(null);
@@ -134,7 +134,7 @@ public class AddPrefLecturerController implements Initializable {
         }
 
         PrefLecturer prefLecturer = new PrefLecturer();
-        prefLecturer.setEmployeeId(lecturerId);
+        prefLecturer.setEmployeeId(lecturerId1);
         prefLecturer.setRoomId(roomId);
 
         boolean isAdded = false;
@@ -150,7 +150,7 @@ public class AddPrefLecturerController implements Initializable {
                             al.setContentText("Added Successfully!!!");
                             al.setHeaderText(null);
                             al.showAndWait();
-//                            this.getAllDetails();
+
                         } else {
                             Alert al = new Alert(Alert.AlertType.ERROR);
                             al.setTitle(null);

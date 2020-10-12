@@ -1,6 +1,6 @@
 package main.controller.Session;
 
-import com.mysql.cj.Session;
+
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
@@ -20,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 import main.model.ConsectiveSession;
 import main.model.Lecturer;
-import main.model.SubGroup;
 import main.model.Subject;
 import main.service.LecturerService;
 import main.service.SessionService;
@@ -52,6 +53,7 @@ public class ConsectiveSessionController implements Initializable {
     private SubjectService subjectService;
     private List<Subject> subList;
     private List<String> subNameList;
+    public static final Logger log = Logger.getLogger(ConsectiveSessionController.class.getName());
 
     @FXML
     void searchDetails(ActionEvent event) {
@@ -80,7 +82,7 @@ public class ConsectiveSessionController implements Initializable {
     public void loadLectureDetails() {
         try {
             ArrayList<Lecturer> lec = lecturerService.getAllLecturerDetails();
-            ;
+
             for (Lecturer l : lec
             ) {
                 lectureNameList.add(l.getEmpName());
@@ -88,7 +90,7 @@ public class ConsectiveSessionController implements Initializable {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtLecturer, lectureNameList);
     }
@@ -96,14 +98,14 @@ public class ConsectiveSessionController implements Initializable {
     public void loadSubjectDetails() {
         try {
             ArrayList<Subject> subjects = subjectService.getAllSubjectDetails();
-            ;
+
             for (Subject s : subjects
             ) {
                 subList.add(s);
                 subNameList.add(s.getSubId());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
         TextFields.bindAutoCompletion(txtSubject, subNameList);
     }
@@ -115,7 +117,7 @@ public class ConsectiveSessionController implements Initializable {
 
             tblConsectiveSession.setItems(FXCollections.observableArrayList(csList));
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
 
     }
@@ -218,7 +220,7 @@ public class ConsectiveSessionController implements Initializable {
                 al.showAndWait();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.log(Level.SEVERE,e.getMessage());
         }
     }
 }
